@@ -6,7 +6,13 @@ import 'package:ygo_collection_manager/styles/colors.dart';
 import 'package:ygo_collection_manager/ui/collection_view/widgets/set_tile_widget.dart';
 import 'package:ygo_collection_manager/ui/collection_view/widgets/total_completion_widget.dart';
 
-class CollectionView extends StatelessWidget {
+class CollectionView extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _CollectionViewState();
+}
+
+class _CollectionViewState extends State<CollectionView>
+    with AutomaticKeepAliveClientMixin {
   void _showFilterDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -18,6 +24,7 @@ class CollectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final _setsBloc = BlocProvider.of<SetsBloc>(context);
     return Scaffold(
       body: RefreshIndicator(
@@ -93,4 +100,7 @@ class CollectionView extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
