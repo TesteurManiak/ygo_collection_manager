@@ -10,7 +10,7 @@ class CollectionView extends StatelessWidget {
   Widget build(BuildContext context) {
     final _setsBloc = BlocProvider.of<SetsBloc>(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Browse')),
+      appBar: AppBar(title: const Text('Collection')),
       body: Container(
         decoration: BoxDecoration(
           color: DynamicThemedColors.scaffoldBackground(context),

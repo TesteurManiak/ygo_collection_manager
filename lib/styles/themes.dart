@@ -28,12 +28,16 @@ class MyThemes {
 
   static ThemeData get light {
     final _light = _baseLight.copyWith(
-      appBarTheme: _baseLight.appBarTheme.copyWith(elevation: 0),
+      appBarTheme: _baseLight.appBarTheme.copyWith(
+        elevation: 0,
+        backgroundColor: MyColors.appBarBackground,
+      ),
       bottomNavigationBarTheme: _baseLight.bottomNavigationBarTheme.copyWith(
         backgroundColor: MyColors.bottomNavBar,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white.withOpacity(0.4),
       ),
+      scaffoldBackgroundColor: MyColors.appBarBackground,
       dialogTheme: _baseLight.dialogTheme.copyWith(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
@@ -44,11 +48,10 @@ class MyThemes {
   static ThemeData fromBrightness(Brightness b) =>
       b == Brightness.dark ? dark : light;
 
-  static void changeBrightness(BuildContext context) {
-    DynamicTheme.of(context)?.setBrightness(
-      Theme.of(context).brightness == Brightness.dark
-          ? Brightness.light
-          : Brightness.dark,
-    );
+  static void changeBrightness(BuildContext context, {Brightness? brightness}) {
+    final newBrightness = Theme.of(context).brightness == Brightness.dark
+        ? Brightness.light
+        : Brightness.dark;
+    DynamicTheme.of(context)?.setBrightness(brightness ?? newBrightness);
   }
 }
