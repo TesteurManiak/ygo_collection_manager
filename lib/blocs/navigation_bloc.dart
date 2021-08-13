@@ -13,24 +13,12 @@ class NavigationBloc extends BlocBase {
 
   final pageController = PageController();
 
-  void _pageControllerListener() {
-    final _currentIndex = pageController.page?.round() ?? 0;
-    if (_currentIndex != currentBottomIndex.index) {
-      _bottomNavigationController.sink
-          .add(BottomBarIndex.values[_currentIndex]);
-    }
-  }
-
   @override
-  void initState() {
-    pageController.addListener(_pageControllerListener);
-  }
+  void initState() {}
 
   @override
   void dispose() {
     _bottomNavigationController.close();
-
-    pageController.removeListener(_pageControllerListener);
     pageController.dispose();
   }
 

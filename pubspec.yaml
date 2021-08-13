@@ -9,6 +9,10 @@ environment:
 dependencies:
   cupertino_icons: ^1.0.2
   dio: ^4.0.0
+  dynamic_theme:
+    git:
+      url: https://github.com/Norbert515/dynamic_theme.git
+      ref: master
   flutter:
     sdk: flutter
   hive: ^2.0.4
