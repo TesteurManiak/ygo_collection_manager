@@ -25,7 +25,6 @@ class CollectionView extends StatelessWidget {
         child: CustomScrollView(
           slivers: [
             SliverAppBar(
-              floating: true,
               title: const Text('Collection'),
               centerTitle: true,
               bottom: TotalCompletionWidget(),
