@@ -61,7 +61,10 @@ class _SettingsViewState extends State<SettingsView> {
       body: Container(
         decoration: BoxDecoration(
           color: DynamicThemedColors.scaffoldBackground(context),
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+          ),
         ),
         child: ListView(
           padding: const EdgeInsets.all(16),

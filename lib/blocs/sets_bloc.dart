@@ -23,4 +23,6 @@ class SetsBloc extends BlocBase {
       _setsController.addError(e);
     }
   }
+
+  Future<void> refreshSets() => fetchAllSets();
 }
