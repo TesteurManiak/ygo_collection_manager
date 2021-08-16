@@ -5,6 +5,7 @@ import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 import 'package:ygo_collection_manager/ui/collection_view/widgets/set_tile_widget.dart';
 import 'package:ygo_collection_manager/ui/collection_view/widgets/total_completion_widget.dart';
+import 'package:ygo_collection_manager/ui/common/sliver_spacer.dart';
 
 class CollectionView extends StatefulWidget {
   @override
@@ -59,6 +60,7 @@ class _CollectionViewState extends State<CollectionView>
               ),
             ),
             SliverAppBar(
+              toolbarHeight: kToolbarHeight + 4,
               backgroundColor: DynamicThemedColors.scaffoldBackground(context),
               pinned: true,
               title: TextField(
@@ -76,6 +78,7 @@ class _CollectionViewState extends State<CollectionView>
                 ),
               ),
             ),
+            const SliverSpacer(height: 16),
             StreamBuilder<List<SetModel>?>(
               stream: _setsBloc.onSetsChanged,
               builder: (context, snapshot) {

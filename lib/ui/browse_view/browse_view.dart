@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
+import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
+import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
+import 'package:ygo_collection_manager/ui/browse_view/widgets/card_widget.dart';
+import 'package:ygo_collection_manager/ui/common/sliver_spacer.dart';
 
-class BrowseView extends StatelessWidget {
+class BrowseView extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _BrowseViewState();
+}
+
+class _BrowseViewState extends State<BrowseView>
+    with AutomaticKeepAliveClientMixin {
   void _showFilterDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -13,11 +24,13 @@ class BrowseView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    final _cardsBloc = BlocProvider.of<CardsBloc>(context);
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           const SliverAppBar(
-            title: Text('Collection'),
+            title: Text('Browse'),
             centerTitle: true,
           ),
           SliverToBoxAdapter(
@@ -43,6 +56,7 @@ class BrowseView extends StatelessWidget {
             ),
           ),
           SliverAppBar(
+            toolbarHeight: kToolbarHeight + 4,
             backgroundColor: DynamicThemedColors.scaffoldBackground(context),
             pinned: true,
             title: TextField(
@@ -60,8 +74,25 @@ class BrowseView extends StatelessWidget {
               ),
             ),
           ),
+          const SliverSpacer(height: 16),
+          StreamBuilder<List<CardInfoModel>?>(
+              stream: _cardsBloc.onCardsChanged,
+              builder: (_, snapshot) {
+                return SliverGrid(
+                  delegate: SliverChildBuilderDelegate(
+                    (_, index) => CardWidget(snapshot.data![index]),
+                    childCount: snapshot.data?.length ?? 0,
+                  ),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                  ),
+                );
+              }),
         ],
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
@@ -16,23 +18,36 @@ class YgoProDeckProvider {
 
   YgoProDeckProvider(this._dio);
 
+  // TODO: Finish query params
   Future<List<CardInfoModel>> getCardInfo({
     List<String>? names,
     String? fname,
     List<int>? ids,
     List<String>? types,
+    int? atk,
+    int? def,
+    int? level,
+    List<String>? races,
+    List<String>? attributes,
+    int? link,
   }) async {
     final queryParameters = <String, dynamic>{};
     if (names != null) queryParameters['name'] = names.join('|');
     if (fname != null) queryParameters['fname'] = fname;
     if (ids != null) queryParameters['id'] = ids.join(',');
     if (types != null) queryParameters['type'] = types.join(',');
+    if (atk != null) queryParameters['atk'] = atk;
+    if (def != null) queryParameters['def'] = def;
+    if (level != null) queryParameters['level'] = level;
+    if (races != null) queryParameters['race'] = races.join(',');
+    if (attributes != null) queryParameters['attribute'] = attributes.join(',');
+    if (link != null) queryParameters['link'] = link;
 
-    final data = await getCall<Map<String, dynamic>>(
+    final response = await getCall<Map<String, dynamic>>(
       [cardInfoPath],
       queryParameters: queryParameters,
     );
-    return (data['data'] as Iterable)
+    return (response['data'] as Iterable)
         .map<CardInfoModel>(
             (e) => CardInfoModel.fromJson(e as Map<String, dynamic>))
         .toList();

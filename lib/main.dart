@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:ygo_collection_manager/blocs/bloc.dart';
 import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
+import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
 import 'package:ygo_collection_manager/blocs/navigation_bloc.dart';
 import 'package:ygo_collection_manager/blocs/sets_bloc.dart';
 import 'package:ygo_collection_manager/styles/themes.dart';
+import 'package:ygo_collection_manager/ui/loading_view/loading_view.dart';
 import 'package:ygo_collection_manager/ui/root_view/root_view.dart';
 
 void main() {
@@ -15,6 +17,7 @@ void main() {
       blocs: <BlocBase>[
         NavigationBloc(),
         SetsBloc(),
+        CardsBloc(),
       ],
       child: MyApp(),
     ),
@@ -37,7 +40,10 @@ class _MyAppState extends State<MyApp> {
       data: MyThemes.fromBrightness,
       themedWidgetBuilder: (_, theme) => MaterialApp(
         theme: theme,
-        home: RootView(),
+        home: LoadingView(),
+        routes: {
+          RootView.routeName: (_) => RootView(),
+        },
       ),
     );
   }

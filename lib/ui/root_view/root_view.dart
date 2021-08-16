@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
 import 'package:ygo_collection_manager/blocs/navigation_bloc.dart';
-import 'package:ygo_collection_manager/blocs/sets_bloc.dart';
 import 'package:ygo_collection_manager/ui/browse_view/browse_view.dart';
 import 'package:ygo_collection_manager/ui/collection_view/collection_view.dart';
 import 'package:ygo_collection_manager/ui/settings_view/settings_view.dart';
@@ -21,13 +20,6 @@ class _RootViewState extends State<RootView> {
   ];
 
   late final _navigationBloc = BlocProvider.of<NavigationBloc>(context);
-  late final _setsBloc = BlocProvider.of<SetsBloc>(context);
-
-  @override
-  void initState() {
-    super.initState();
-    _setsBloc.fetchAllSets();
-  }
 
   @override
   Widget build(BuildContext context) {
