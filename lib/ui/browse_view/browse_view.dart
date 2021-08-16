@@ -5,6 +5,7 @@ import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 import 'package:ygo_collection_manager/ui/browse_view/widgets/card_widget.dart';
 import 'package:ygo_collection_manager/ui/common/sliver_spacer.dart';
+import 'package:ygo_collection_manager/ui/common/top_rounded_sliver.dart';
 
 class BrowseView extends StatefulWidget {
   @override
@@ -33,28 +34,7 @@ class _BrowseViewState extends State<BrowseView>
             title: Text('Browse'),
             centerTitle: true,
           ),
-          SliverToBoxAdapter(
-            child: Container(
-              margin: const EdgeInsets.only(top: 16),
-              color: Theme.of(context).appBarTheme.backgroundColor,
-              height: 20,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Container(
-                    height: 20,
-                    decoration: BoxDecoration(
-                      color: DynamicThemedColors.scaffoldBackground(context),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(20.0),
-                        topRight: Radius.circular(20.0),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          TopRoundedSliver(),
           SliverAppBar(
             toolbarHeight: kToolbarHeight + 4,
             backgroundColor: DynamicThemedColors.scaffoldBackground(context),
