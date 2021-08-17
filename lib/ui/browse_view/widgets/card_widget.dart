@@ -16,7 +16,7 @@ class CardWidget extends StatelessWidget {
       child: CachedNetworkImage(
         imageUrl: card.cardImages.first.imageUrlSmall,
         placeholder: (_, __) => const CircularProgressIndicator(),
-        fit: BoxFit.fitHeight,
+        fit: BoxFit.fill,
       ),
     );
   }

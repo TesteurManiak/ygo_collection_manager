@@ -7,6 +7,8 @@ import 'package:ygo_collection_manager/ui/browse_view/widgets/card_widget.dart';
 import 'package:ygo_collection_manager/ui/common/sliver_spacer.dart';
 import 'package:ygo_collection_manager/ui/common/top_rounded_sliver.dart';
 
+const _crossAxisCount = 3;
+
 class BrowseView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _BrowseViewState();
@@ -26,6 +28,11 @@ class _BrowseViewState extends State<BrowseView>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
+    final size = MediaQuery.of(context).size;
+    final itemWidth = size.width / _crossAxisCount;
+    final itemHeight = itemWidth * 1.47;
+
     final _cardsBloc = BlocProvider.of<CardsBloc>(context);
     return Scaffold(
       body: CustomScrollView(
@@ -63,8 +70,9 @@ class _BrowseViewState extends State<BrowseView>
                     (_, index) => CardWidget(snapshot.data![index]),
                     childCount: snapshot.data?.length ?? 0,
                   ),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: _crossAxisCount,
+                    childAspectRatio: itemWidth / itemHeight,
                   ),
                 );
               }),
