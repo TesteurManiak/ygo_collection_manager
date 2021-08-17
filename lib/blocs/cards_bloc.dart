@@ -4,6 +4,7 @@ import 'dart:isolate';
 import 'package:rxdart/rxdart.dart';
 import 'package:ygo_collection_manager/api/api_repository.dart';
 import 'package:ygo_collection_manager/blocs/bloc.dart';
+import 'package:ygo_collection_manager/helper/hive_helper.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 
 class CardsBloc extends BlocBase {
@@ -34,6 +35,11 @@ class CardsBloc extends BlocBase {
     apiRepository.getCardInfo().then((value) => sendPort.send(value));
   }
 
+  void loadFromDb() {
+    final cards = HiveHelper.instance.cards;
+    _cardsController.sink.add(cards.toList());
+  }
+
   Future<void> fetchAllCards() async {
     _receivePort = ReceivePort();
     _isolate = await Isolate.spawn(_fetchCards, <Object>[
@@ -41,6 +47,7 @@ class CardsBloc extends BlocBase {
     ]);
     _isolateSubscription = _receivePort.listen((message) {
       _cardsController.sink.add(message as List<CardInfoModel>);
+      HiveHelper.instance.updateCards(message);
       _closeIsolate();
     });
   }
