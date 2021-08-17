@@ -11,9 +11,14 @@ class SliverSpacer extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Container(
+        decoration: BoxDecoration(
+          color: DynamicThemedColors.scaffoldBackground(context),
+          border: Border.all(
+            color: DynamicThemedColors.scaffoldBackground(context),
+          ),
+        ),
         height: height,
         width: width,
-        color: DynamicThemedColors.scaffoldBackground(context),
       ),
     );
   }

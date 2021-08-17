@@ -62,18 +62,23 @@ class _CollectionViewState extends State<CollectionView>
             StreamBuilder<List<SetModel>?>(
               stream: _setsBloc.onSetsChanged,
               builder: (context, snapshot) {
+                final data = snapshot.data;
+                if (!snapshot.hasData || data == null) {
+                  return const SliverToBoxAdapter(child: SizedBox());
+                }
                 return SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) => Container(
                       decoration: BoxDecoration(
                         color: DynamicThemedColors.scaffoldBackground(context),
-                        borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(1),
+                        border: Border.all(
+                          color:
+                              DynamicThemedColors.scaffoldBackground(context),
                         ),
                       ),
-                      child: SetTileWidget(snapshot.data![index]),
+                      child: SetTileWidget(data[index]),
                     ),
-                    childCount: snapshot.data?.length ?? 0,
+                    childCount: data.length,
                   ),
                 );
               },

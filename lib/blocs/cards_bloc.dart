@@ -34,7 +34,7 @@ class CardsBloc extends BlocBase {
     apiRepository.getCardInfo().then((value) => sendPort.send(value));
   }
 
-  Future<void> fetchCards() async {
+  Future<void> fetchAllCards() async {
     _receivePort = ReceivePort();
     _isolate = await Isolate.spawn(_fetchCards, <Object>[
       _receivePort.sendPort,

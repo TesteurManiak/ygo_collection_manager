@@ -24,7 +24,7 @@ class _ThemeChoice {
 const _themeItems = <_ThemeChoice>[
   _ThemeChoice(name: 'Light', mode: _ThemeMode.light),
   _ThemeChoice(name: 'Dark', mode: _ThemeMode.dark),
-  // _ThemeChoice(name: 'Set by System', mode: _ThemeMode.system),
+  _ThemeChoice(name: 'Set by System', mode: _ThemeMode.system),
 ];
 
 class SettingsView extends StatefulWidget {
@@ -40,13 +40,11 @@ class _SettingsViewState extends State<SettingsView> {
 
   void _changeBrightness(_ThemeChoice? themeChoice) {
     if (themeChoice == null) return;
-    setState(() {
-      _themeChoice = themeChoice;
-      MyThemes.changeBrightness(
-        context,
-        brightness: _themeChoice.brightness(context),
-      );
-    });
+    setState(() => _themeChoice = themeChoice);
+    MyThemes.changeBrightness(
+      context,
+      brightness: _themeChoice.brightness(context),
+    );
   }
 
   @override
@@ -69,17 +67,27 @@ class _SettingsViewState extends State<SettingsView> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            DropdownButton<_ThemeChoice>(
-              value: _themeChoice,
-              onChanged: _changeBrightness,
-              items: _themeItems
-                  .map<DropdownMenuItem<_ThemeChoice>>(
-                    (e) => DropdownMenuItem(
-                      value: e,
-                      child: Text(e.name),
-                    ),
-                  )
-                  .toList(),
+            Row(
+              children: [
+                const Icon(Icons.light_mode),
+                const SizedBox(width: 8),
+                const Text('Theme'),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: DropdownButton<_ThemeChoice>(
+                    value: _themeChoice,
+                    onChanged: _changeBrightness,
+                    items: _themeItems
+                        .map<DropdownMenuItem<_ThemeChoice>>(
+                          (e) => DropdownMenuItem(
+                            value: e,
+                            child: Text(e.name),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

@@ -18,7 +18,7 @@ class _LoadingViewState extends State<LoadingView> {
     super.initState();
     Future.wait([
       _setsBloc.fetchAllSets(),
-      _cardsBloc.fetchCards(),
+      _cardsBloc.fetchAllCards(),
     ]).then((_) => Navigator.pushReplacementNamed(context, RootView.routeName));
   }
 

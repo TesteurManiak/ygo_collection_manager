@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
-import 'package:ygo_collection_manager/blocs/navigation_bloc.dart';
 import 'package:ygo_collection_manager/ui/browse_view/browse_view.dart';
 import 'package:ygo_collection_manager/ui/collection_view/collection_view.dart';
 import 'package:ygo_collection_manager/ui/settings_view/settings_view.dart';
@@ -18,40 +16,52 @@ class _RootViewState extends State<RootView> {
     BrowseView(),
     SettingsView(),
   ];
+  final _pageController = PageController();
 
-  late final _navigationBloc = BlocProvider.of<NavigationBloc>(context);
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      _pageController.animateToPage(
+        index,
+        curve: Curves.easeInOutCubic,
+        duration: const Duration(milliseconds: 300),
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: StreamBuilder<BottomBarIndex>(
-          stream: _navigationBloc.onBottomNavigationIndexChanged,
-          initialData: _navigationBloc.currentBottomIndex,
-          builder: (context, snapshot) {
-            return BottomNavigationBar(
-              currentIndex: snapshot.data!.index,
-              showUnselectedLabels: false,
-              onTap: (index) => _navigationBloc
-                  .changeBottomIndex(BottomBarIndex.values[index]),
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.collections),
-                  label: 'Collection',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.search),
-                  label: 'Browse',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
-                  label: 'Settings',
-                ),
-              ],
-            );
-          }),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        showUnselectedLabels: false,
+        onTap: _onItemTapped,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.collections),
+            label: 'Collection',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Browse',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+      ),
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
-        controller: _navigationBloc.pageController,
+        controller: _pageController,
         children: _pages,
       ),
     );

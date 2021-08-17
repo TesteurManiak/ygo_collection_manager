@@ -65,10 +65,14 @@ class _BrowseViewState extends State<BrowseView>
           StreamBuilder<List<CardInfoModel>?>(
               stream: _cardsBloc.onCardsChanged,
               builder: (_, snapshot) {
+                final data = snapshot.data;
+                if (!snapshot.hasData || data == null) {
+                  return const SliverToBoxAdapter(child: SizedBox());
+                }
                 return SliverGrid(
                   delegate: SliverChildBuilderDelegate(
-                    (_, index) => CardWidget(snapshot.data![index]),
-                    childCount: snapshot.data?.length ?? 0,
+                    (_, index) => CardWidget(data[index]),
+                    childCount: data.length,
                   ),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: _crossAxisCount,

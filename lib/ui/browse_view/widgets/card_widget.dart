@@ -15,7 +15,10 @@ class CardWidget extends StatelessWidget {
       padding: const EdgeInsets.all(2),
       child: CachedNetworkImage(
         imageUrl: card.cardImages.first.imageUrlSmall,
-        placeholder: (_, __) => const CircularProgressIndicator(),
+        placeholder: (_, __) => Image.asset(
+          'assets/back_high.jpg',
+          fit: BoxFit.fill,
+        ),
         fit: BoxFit.fill,
       ),
     );
