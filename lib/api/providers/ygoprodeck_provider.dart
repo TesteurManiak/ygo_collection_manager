@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
+import 'package:ygo_collection_manager/models/db_version_model.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 
 class YgoProDeckProvider {
@@ -58,6 +59,11 @@ class YgoProDeckProvider {
     return data
         .map<SetModel>((e) => SetModel.fromJson(e as Map<String, dynamic>))
         .toList();
+  }
+
+  Future<DBVersionModel> checkDatabaseVersion() async {
+    final response = await getCall<Iterable>([checkDBVerPath]);
+    return DBVersionModel.fromJson(response.first as Map<String, dynamic>);
   }
 
   Future<T> getCall<T>(

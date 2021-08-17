@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ygo_collection_manager/helper/hive_helper.dart';
 import 'package:ygo_collection_manager/ui/browse_view/browse_view.dart';
 import 'package:ygo_collection_manager/ui/collection_view/collection_view.dart';
 import 'package:ygo_collection_manager/ui/settings_view/settings_view.dart';
@@ -34,6 +35,7 @@ class _RootViewState extends State<RootView> {
   @override
   void dispose() {
     _pageController.dispose();
+    HiveHelper.instance.dispose();
     super.dispose();
   }
 

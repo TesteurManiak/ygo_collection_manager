@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
 import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
+import 'package:ygo_collection_manager/blocs/db_version_bloc.dart';
 import 'package:ygo_collection_manager/blocs/sets_bloc.dart';
 import 'package:ygo_collection_manager/ui/root_view/root_view.dart';
 
@@ -12,14 +13,26 @@ class LoadingView extends StatefulWidget {
 class _LoadingViewState extends State<LoadingView> {
   late final _setsBloc = BlocProvider.of<SetsBloc>(context);
   late final _cardsBloc = BlocProvider.of<CardsBloc>(context);
+  late final _dbVersionBloc = BlocProvider.of<DBVersionBloc>(context);
+
+  Future<void> _loadAll() async {
+    final shouldReload = await _dbVersionBloc.shouldReloadDatabase();
+    if (shouldReload) {
+      await Future.wait([
+        _setsBloc.fetchAllSets(),
+        _cardsBloc.fetchAllCards(),
+      ]);
+    } else {
+      _cardsBloc.loadFromDb();
+      _setsBloc.loadFromDb();
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    Future.wait([
-      _setsBloc.fetchAllSets(),
-      _cardsBloc.fetchAllCards(),
-    ]).then((_) => Navigator.pushReplacementNamed(context, RootView.routeName));
+    _loadAll().then(
+        (_) => Navigator.pushReplacementNamed(context, RootView.routeName));
   }
 
   @override

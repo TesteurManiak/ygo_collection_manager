@@ -1,6 +1,16 @@
+import 'package:hive_flutter/adapters.dart';
+
+part 'card_info_model.g.dart';
+
+@HiveType(typeId: 2)
 class CardImages {
+  @HiveField(0)
   final int id;
+
+  @HiveField(1)
   final String imageUrl;
+
+  @HiveField(2)
   final String imageUrlSmall;
 
   CardImages({
@@ -16,26 +26,49 @@ class CardImages {
       );
 }
 
-class CardInfoModel {
+@HiveType(typeId: 1)
+class CardInfoModel extends HiveObject {
+  @HiveField(0)
   final int id;
+
+  @HiveField(1)
   final String name;
+
+  @HiveField(2)
   final String type;
+
+  @HiveField(3)
   final String desc;
+
+  @HiveField(4)
   final int? atk;
+
+  @HiveField(5)
   final int? def;
+
+  @HiveField(6)
   final int? level;
+
+  @HiveField(7)
   final String race;
+
+  @HiveField(8)
   final String? attribute;
+
+  @HiveField(9)
   final String? archetype;
+
+  @HiveField(10)
   final int? scale;
+
+  @HiveField(11)
   final int? linkval;
   // final List<String>? linkmarkers;
 
-  // TODO: add card_sets
-
+  @HiveField(12)
   final List<CardImages> cardImages;
 
-  // TODO: add card_prices, banlist_info, beta_name, views, viewsweek, upvotes, downvotes, formats, treated_as, tcg_date, ocg_date, has_ffect
+  // TODO: add card_sets, card_prices, banlist_info, beta_name, views, viewsweek, upvotes, downvotes, formats, treated_as, tcg_date, ocg_date, has_ffect
 
   CardInfoModel({
     required this.id,

@@ -4,6 +4,7 @@ import 'dart:isolate';
 import 'package:rxdart/rxdart.dart';
 import 'package:ygo_collection_manager/api/api_repository.dart';
 import 'package:ygo_collection_manager/blocs/bloc.dart';
+import 'package:ygo_collection_manager/helper/hive_helper.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 
 class SetsBloc extends BlocBase {
@@ -34,6 +35,11 @@ class SetsBloc extends BlocBase {
     apiRepository.getAllSets().then((value) => sendPort.send(value));
   }
 
+  void loadFromDb() {
+    final _sets = HiveHelper.instance.sets;
+    _setsController.sink.add(_sets.toList());
+  }
+
   Future<void> fetchAllSets() async {
     try {
       _receivePort = ReceivePort();
@@ -42,6 +48,7 @@ class SetsBloc extends BlocBase {
       ]);
       _isolateSubscription = _receivePort.listen((message) {
         _setsController.sink.add(message as List<SetModel>);
+        HiveHelper.instance.updateSets(message);
         _closeIsolate();
       });
     } catch (e) {

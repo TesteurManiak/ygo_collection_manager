@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:ygo_collection_manager/api/providers/ygoprodeck_provider.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
+import 'package:ygo_collection_manager/models/db_version_model.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 
 class _ApiRepository {
@@ -9,6 +10,7 @@ class _ApiRepository {
   late final _ygoProDeckProvider = YgoProDeckProvider(_dio);
 
   Future<List<SetModel>> getAllSets() => _ygoProDeckProvider.getSets();
+
   Future<List<CardInfoModel>> getCardInfo({
     List<String>? names,
     String? fname,
@@ -33,6 +35,9 @@ class _ApiRepository {
         attributes: attributes,
         link: link,
       );
+
+  Future<DBVersionModel> checkDatabaseVersion() =>
+      _ygoProDeckProvider.checkDatabaseVersion();
 }
 
 final apiRepository = _ApiRepository();
