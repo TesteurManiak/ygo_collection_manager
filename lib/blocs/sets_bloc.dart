@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:isolate';
 
+import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ygo_collection_manager/api/api_repository.dart';
 import 'package:ygo_collection_manager/blocs/bloc.dart';
@@ -11,18 +12,38 @@ class SetsBloc extends BlocBase {
   final _setsController = BehaviorSubject<List<SetModel>?>.seeded(null);
   Stream<List<SetModel>?> get onSetsChanged => _setsController.stream;
 
+  final _filteredSetsController = BehaviorSubject<List<SetModel>?>.seeded(null);
+  Stream<List<SetModel>?> get onFilteredSetsChanged =>
+      _filteredSetsController.stream;
+
+  final searchController = TextEditingController();
+
   late Isolate _isolate;
   late ReceivePort _receivePort;
   late StreamSubscription _isolateSubscription;
 
-  @override
-  void dispose() {
-    _closeIsolate();
-    _setsController.close();
+  late final StreamSubscription _setsControllerSubscription;
+
+  void _setsFilterListener(List<SetModel>? value) {
+    _filteredSetsController.sink.add(value);
+    searchController.clear();
   }
 
   @override
-  void initState() {}
+  void dispose() {
+    _closeIsolate();
+
+    searchController.dispose();
+    _setsControllerSubscription.cancel();
+
+    _setsController.close();
+    _filteredSetsController.close();
+  }
+
+  @override
+  void initState() {
+    _setsControllerSubscription = _setsController.listen(_setsFilterListener);
+  }
 
   void _closeIsolate() {
     _receivePort.close();
@@ -38,6 +59,18 @@ class SetsBloc extends BlocBase {
   void loadFromDb() {
     final _sets = HiveHelper.instance.sets;
     _setsController.sink.add(_sets.toList());
+  }
+
+  void filter(String search) {
+    if (search.isEmpty) {
+      _filteredSetsController.sink.add(_setsController.value);
+    } else {
+      _filteredSetsController.sink.add(_setsController.value!
+          .where((e) =>
+              e.setName.toLowerCase().contains(search.toLowerCase()) ||
+              e.setCode.toLowerCase().contains(search.toLowerCase()))
+          .toList());
+    }
   }
 
   Future<void> fetchAllSets() async {

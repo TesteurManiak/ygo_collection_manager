@@ -15,6 +15,8 @@ class CollectionView extends StatefulWidget {
 
 class _CollectionViewState extends State<CollectionView>
     with AutomaticKeepAliveClientMixin {
+  late final _setsBloc = BlocProvider.of<SetsBloc>(context);
+
   void _showFilterDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -27,7 +29,6 @@ class _CollectionViewState extends State<CollectionView>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final _setsBloc = BlocProvider.of<SetsBloc>(context);
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: _setsBloc.refreshSets,
@@ -44,6 +45,8 @@ class _CollectionViewState extends State<CollectionView>
               backgroundColor: DynamicThemedColors.scaffoldBackground(context),
               pinned: true,
               title: TextField(
+                controller: _setsBloc.searchController,
+                onChanged: _setsBloc.filter,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.search),
                   suffixIcon: IconButton(
@@ -60,7 +63,7 @@ class _CollectionViewState extends State<CollectionView>
             ),
             const SliverSpacer(height: 16),
             StreamBuilder<List<SetModel>?>(
-              stream: _setsBloc.onSetsChanged,
+              stream: _setsBloc.onFilteredSetsChanged,
               builder: (context, snapshot) {
                 final data = snapshot.data;
                 if (!snapshot.hasData || data == null) {
