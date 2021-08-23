@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
+import 'package:ygo_collection_manager/ui/expansion_view/expansion_view.dart';
 
 class SetTileWidget extends StatelessWidget {
-  final SetModel set;
+  final SetModel cardSet;
 
-  const SetTileWidget(this.set);
+  const SetTileWidget(this.cardSet);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,11 @@ class SetTileWidget extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
-          onTap: () {},
+          onTap: () => Navigator.pushNamed(
+            context,
+            ExpansionView.routeName,
+            arguments: cardSet,
+          ),
           child: Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -31,8 +36,8 @@ class SetTileWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(set.setName),
-                      Text('0 / ${set.numOfCards}'),
+                      Text(cardSet.setName),
+                      Text('0 / ${cardSet.numOfCards}'),
                     ],
                   ),
                 ),

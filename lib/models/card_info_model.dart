@@ -2,6 +2,40 @@ import 'package:hive_flutter/adapters.dart';
 
 part 'card_info_model.g.dart';
 
+@HiveType(typeId: 4)
+class CardModelSet {
+  @HiveField(0)
+  final String name;
+
+  @HiveField(1)
+  final String code;
+
+  @HiveField(2)
+  final String rarity;
+
+  @HiveField(3)
+  final String rarityCode;
+
+  @HiveField(4)
+  final String price;
+
+  CardModelSet({
+    required this.name,
+    required this.code,
+    required this.rarity,
+    required this.rarityCode,
+    required this.price,
+  });
+
+  factory CardModelSet.fromJson(Map<String, dynamic> json) => CardModelSet(
+        name: json['set_name'] as String,
+        code: json['set_code'] as String,
+        rarity: json['set_rarity'] as String,
+        rarityCode: json['set_rarity_code'] as String,
+        price: json['set_price'] as String,
+      );
+}
+
 @HiveType(typeId: 2)
 class CardImages {
   @HiveField(0)
@@ -63,12 +97,17 @@ class CardInfoModel extends HiveObject {
 
   @HiveField(11)
   final int? linkval;
-  // final List<String>? linkmarkers;
 
   @HiveField(12)
   final List<CardImages> cardImages;
 
-  // TODO: add card_sets, card_prices, banlist_info, beta_name, views, viewsweek, upvotes, downvotes, formats, treated_as, tcg_date, ocg_date, has_ffect
+  @HiveField(13)
+  final List<String>? linkmarkers;
+
+  @HiveField(14)
+  final List<CardModelSet>? cardset;
+
+  // TODO: add card_prices, banlist_info, beta_name, views, viewsweek, upvotes, downvotes, formats, treated_as, tcg_date, ocg_date, has_ffect
 
   CardInfoModel({
     required this.id,
@@ -83,8 +122,9 @@ class CardInfoModel extends HiveObject {
     required this.archetype,
     required this.scale,
     required this.linkval,
-    // required this.linkmarkers,
+    required this.linkmarkers,
     required this.cardImages,
+    required this.cardset,
   });
 
   factory CardInfoModel.fromJson(Map<String, dynamic> json) => CardInfoModel(
@@ -100,10 +140,16 @@ class CardInfoModel extends HiveObject {
         archetype: json['archetype'] as String?,
         scale: json['scale'] as int?,
         linkval: json['linkval'] as int?,
-        // linkmarkers: (json['linkmarkers'] as Iterable<String>?)?.toList(),
+        linkmarkers: json['linkmarkers'] != null
+            ? List<String>.from(json['linkmarkers'] as Iterable)
+            : null,
         cardImages: (json['card_images'] as Iterable)
             .map<CardImages>(
                 (e) => CardImages.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        cardset: (json['card_sets'] as Iterable?)
+            ?.map<CardModelSet>(
+                (e) => CardModelSet.fromJson(e as Map<String, dynamic>))
             .toList(),
       );
 }

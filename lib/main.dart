@@ -9,7 +9,7 @@ import 'package:ygo_collection_manager/blocs/sets_bloc.dart';
 import 'package:ygo_collection_manager/helper/hive_helper.dart';
 import 'package:ygo_collection_manager/styles/themes.dart';
 import 'package:ygo_collection_manager/ui/loading_view/loading_view.dart';
-import 'package:ygo_collection_manager/ui/root_view/root_view.dart';
+import 'package:ygo_collection_manager/utils/router.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,10 +43,8 @@ class _MyAppState extends State<MyApp> {
       data: MyThemes.fromBrightness,
       themedWidgetBuilder: (_, theme) => MaterialApp(
         theme: theme,
-        home: LoadingView(),
-        routes: {
-          RootView.routeName: (_) => RootView(),
-        },
+        initialRoute: LoadingView.routeName,
+        onGenerateRoute: generateRoute,
       ),
     );
   }

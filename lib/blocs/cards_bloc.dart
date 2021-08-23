@@ -10,6 +10,7 @@ import 'package:ygo_collection_manager/models/card_info_model.dart';
 class CardsBloc extends BlocBase {
   final _cardsController = BehaviorSubject<List<CardInfoModel>?>.seeded(null);
   Stream<List<CardInfoModel>?> get onCardsChanged => _cardsController.stream;
+  List<CardInfoModel>? get cards => _cardsController.value;
 
   late Isolate _isolate;
   late ReceivePort _receivePort;

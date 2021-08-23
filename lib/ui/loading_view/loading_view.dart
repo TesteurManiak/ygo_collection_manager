@@ -6,6 +6,8 @@ import 'package:ygo_collection_manager/blocs/sets_bloc.dart';
 import 'package:ygo_collection_manager/ui/root_view/root_view.dart';
 
 class LoadingView extends StatefulWidget {
+  static const routeName = '/';
+
   @override
   State<StatefulWidget> createState() => _LoadingViewState();
 }
