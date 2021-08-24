@@ -16,6 +16,8 @@ class BrowseView extends StatefulWidget {
 
 class _BrowseViewState extends State<BrowseView>
     with AutomaticKeepAliveClientMixin {
+  late final _cardsBloc = BlocProvider.of<CardsBloc>(context);
+
   void _showFilterDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -23,6 +25,20 @@ class _BrowseViewState extends State<BrowseView>
         title: Text('Sort by'),
       ),
     );
+  }
+
+  Future<bool> _onWillPop() async {
+    if (_cardsBloc.isOverlayOpen) {
+      _cardsBloc.closeOverlay();
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _cardsBloc.initOverlayState(context);
   }
 
   @override
@@ -34,53 +50,56 @@ class _BrowseViewState extends State<BrowseView>
     final itemHeight = itemWidth * 1.47;
 
     final _cardsBloc = BlocProvider.of<CardsBloc>(context);
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          const SliverAppBar(
-            title: Text('Browse'),
-            centerTitle: true,
-          ),
-          TopRoundedSliver(),
-          SliverAppBar(
-            toolbarHeight: kToolbarHeight + 4,
-            backgroundColor: DynamicThemedColors.scaffoldBackground(context),
-            pinned: true,
-            title: TextField(
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.search),
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.sort),
-                  onPressed: () => _showFilterDialog(context),
-                ),
-                hintText: 'Search for cards...',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(36),
-                  borderSide: const BorderSide(width: 2),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            const SliverAppBar(
+              title: Text('Browse'),
+              centerTitle: true,
+            ),
+            TopRoundedSliver(),
+            SliverAppBar(
+              toolbarHeight: kToolbarHeight + 4,
+              backgroundColor: DynamicThemedColors.scaffoldBackground(context),
+              pinned: true,
+              title: TextField(
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.search),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.sort),
+                    onPressed: () => _showFilterDialog(context),
+                  ),
+                  hintText: 'Search for cards...',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(36),
+                    borderSide: const BorderSide(width: 2),
+                  ),
                 ),
               ),
             ),
-          ),
-          const SliverSpacer(height: 16),
-          StreamBuilder<List<CardInfoModel>?>(
-              stream: _cardsBloc.onCardsChanged,
-              builder: (_, snapshot) {
-                final data = snapshot.data;
-                if (!snapshot.hasData || data == null) {
-                  return const SliverToBoxAdapter(child: SizedBox());
-                }
-                return SliverGrid(
-                  delegate: SliverChildBuilderDelegate(
-                    (_, index) => CardWidget(data[index]),
-                    childCount: data.length,
-                  ),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: _crossAxisCount,
-                    childAspectRatio: itemWidth / itemHeight,
-                  ),
-                );
-              }),
-        ],
+            const SliverSpacer(height: 16),
+            StreamBuilder<List<CardInfoModel>?>(
+                stream: _cardsBloc.onCardsChanged,
+                builder: (_, snapshot) {
+                  final data = snapshot.data;
+                  if (!snapshot.hasData || data == null) {
+                    return const SliverToBoxAdapter(child: SizedBox());
+                  }
+                  return SliverGrid(
+                    delegate: SliverChildBuilderDelegate(
+                      (_, index) => CardWidget(data[index]),
+                      childCount: data.length,
+                    ),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: _crossAxisCount,
+                      childAspectRatio: itemWidth / itemHeight,
+                    ),
+                  );
+                }),
+          ],
+        ),
       ),
     );
   }
