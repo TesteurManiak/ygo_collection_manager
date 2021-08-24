@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
 import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
+import 'package:ygo_collection_manager/ui/browse_view/widgets/card_bottom_sheet.dart';
 
 class CardsOverlay extends StatefulWidget {
   final int initialIndex;
@@ -17,8 +18,6 @@ class _CardsOverlayState extends State<CardsOverlay> {
   late final _cardsBloc = BlocProvider.of<CardsBloc>(context);
 
   late final _pageController = PageController(
-    keepPage: false,
-    viewportFraction: 0.8,
     initialPage: widget.initialIndex,
   );
 
@@ -58,7 +57,7 @@ class _CardOverlay extends StatefulWidget {
 }
 
 class _CardOverlayState extends State<_CardOverlay>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late final _animationController = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 500),
@@ -68,7 +67,9 @@ class _CardOverlayState extends State<_CardOverlay>
   void initState() {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      if (mounted) _animationController.forward();
+      if (mounted) {
+        _animationController.forward();
+      }
     });
   }
 
@@ -80,20 +81,34 @@ class _CardOverlayState extends State<_CardOverlay>
 
   @override
   Widget build(BuildContext context) {
-    return ScaleTransition(
-      scale: CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeIn,
-      ),
-      child: Container(
-        margin: const EdgeInsets.all(8.0),
-        child: CachedNetworkImage(
-          imageUrl: widget.card.cardImages.first.imageUrl,
-          placeholder: (_, __) => Image.asset(
-            'assets/back_high.jpg',
+    super.build(context);
+    return Stack(
+      children: [
+        ScaleTransition(
+          scale: CurvedAnimation(
+            parent: _animationController,
+            curve: Curves.easeIn,
+          ),
+          child: Container(
+            margin: const EdgeInsets.all(8.0),
+            child: CachedNetworkImage(
+              imageUrl: widget.card.cardImages.first.imageUrl,
+              placeholder: (_, __) => Image.asset(
+                'assets/back_high.jpg',
+              ),
+            ),
           ),
         ),
-      ),
+        DraggableScrollableSheet(
+          initialChildSize: 0.1,
+          minChildSize: 0.1,
+          builder: (_, scrollController) =>
+              CardBottomSheet(widget.card, scrollController),
+        ),
+      ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

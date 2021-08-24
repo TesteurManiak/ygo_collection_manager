@@ -19,33 +19,22 @@ class _CardWidgetState extends State<CardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: Container(
-            color: DynamicThemedColors.scaffoldBackground(context),
-            padding: const EdgeInsets.all(2),
-            child: CachedNetworkImage(
-              imageUrl: widget.card.cardImages.first.imageUrlSmall,
-              placeholder: (_, __) => Image.asset(
-                'assets/back_high.jpg',
-                fit: BoxFit.fill,
-              ),
-              fit: BoxFit.fill,
-            ),
+    return GestureDetector(
+      onTap: () => _cardsBloc.openOverlay(
+        initialIndex: _cardsBloc.cards!.indexOf(widget.card),
+      ),
+      child: Container(
+        color: DynamicThemedColors.scaffoldBackground(context),
+        padding: const EdgeInsets.all(2),
+        child: CachedNetworkImage(
+          imageUrl: widget.card.cardImages.first.imageUrlSmall,
+          placeholder: (_, __) => Image.asset(
+            'assets/back_high.jpg',
+            fit: BoxFit.fill,
           ),
+          fit: BoxFit.fill,
         ),
-        Positioned.fill(
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () => _cardsBloc.openOverlay(
-                initialIndex: _cardsBloc.cards!.indexOf(widget.card),
-              ),
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
