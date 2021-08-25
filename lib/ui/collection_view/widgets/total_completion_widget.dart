@@ -11,13 +11,15 @@ class TotalCompletionWidget extends StatefulWidget with PreferredSizeWidget {
 }
 
 class _TotalCompletionWidgetState extends State<TotalCompletionWidget> {
+  final _value = 25.0;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
-          const Text('0%'),
+          Text('${_value.toStringAsFixed(0)}%'),
           const SizedBox(width: 8),
           Expanded(
             child: ClipRRect(
@@ -25,15 +27,13 @@ class _TotalCompletionWidgetState extends State<TotalCompletionWidget> {
               child: SizedBox(
                 height: _kBottomHeight,
                 child: LinearProgressIndicator(
-                  value: 0.3,
+                  value: _value / 100,
                   valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
                   backgroundColor: Colors.white.withOpacity(0.2),
                 ),
               ),
             ),
           ),
-          const SizedBox(width: 8),
-          const Text('100%'),
         ],
       ),
     );

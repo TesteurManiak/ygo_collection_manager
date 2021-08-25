@@ -23,8 +23,8 @@ class _ExpansionViewState extends State<ExpansionView> {
   late final _cards = _cardsBloc.cards!
       .where(
         (e) =>
-            e.cardset != null &&
-            e.cardset!
+            e.cardSets != null &&
+            e.cardSets!
                 .map<String>((e) => e.name)
                 .toSet()
                 .contains(widget.cardSet.setName),

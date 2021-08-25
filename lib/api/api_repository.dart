@@ -22,6 +22,7 @@ class _ApiRepository {
     List<String>? races,
     List<String>? attributes,
     int? link,
+    bool misc = false,
   }) =>
       _ygoProDeckProvider.getCardInfo(
         names: names,
@@ -34,6 +35,7 @@ class _ApiRepository {
         races: races,
         attributes: attributes,
         link: link,
+        misc: misc,
       );
 
   Future<DBVersionModel> checkDatabaseVersion() =>

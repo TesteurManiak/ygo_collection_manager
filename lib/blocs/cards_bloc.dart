@@ -41,7 +41,7 @@ class CardsBloc extends BlocBase {
 
   static void _fetchCards(List<Object> args) {
     final sendPort = args[0] as SendPort;
-    apiRepository.getCardInfo().then((value) => sendPort.send(value));
+    apiRepository.getCardInfo(misc: true).then((value) => sendPort.send(value));
   }
 
   void loadFromDb() {

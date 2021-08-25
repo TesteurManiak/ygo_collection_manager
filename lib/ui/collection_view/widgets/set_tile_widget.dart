@@ -10,6 +10,7 @@ class SetTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const cardsOwned = 0;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Material(
@@ -37,11 +38,13 @@ class SetTileWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(cardSet.setName),
-                      Text('0 / ${cardSet.numOfCards}'),
+                      Text('$cardsOwned / ${cardSet.numOfCards}'),
                     ],
                   ),
                 ),
-                const Text('0%'),
+                Text(
+                  '${(cardsOwned / cardSet.numOfCards * 100).toStringAsFixed(0)}%',
+                ),
               ],
             ),
           ),

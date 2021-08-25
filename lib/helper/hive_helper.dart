@@ -22,6 +22,9 @@ class HiveHelper {
       Hive.registerAdapter(CardInfoModelAdapter());
       Hive.registerAdapter(SetModelAdapter());
       Hive.registerAdapter(CardModelSetAdapter());
+      Hive.registerAdapter(CardPriceModelAdapter());
+      Hive.registerAdapter(CardBanlistInfoAdapter());
+      Hive.registerAdapter(CardMiscInfoAdapter());
 
       await Hive.openBox<DBVersionModel>(Indexes.tableDB);
       await Hive.openBox<CardInfoModel>(Indexes.tableCards);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 import 'package:ygo_collection_manager/styles/text_styles.dart';
+import 'package:ygo_collection_manager/ui/browse_view/widgets/card_detail_widget.dart';
 
 class CardBottomSheet extends StatelessWidget {
   final CardInfoModel card;
@@ -41,7 +42,7 @@ class CardBottomSheet extends StatelessWidget {
                       ),
                       TextSpan(
                         text: card.id.toString(),
-                        style: TextStyles.white14,
+                        style: DynamicTextStyles.cardId(context),
                       ),
                     ],
                   ),
@@ -63,6 +64,52 @@ class CardBottomSheet extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             Text(card.desc, style: TextStyles.grey14),
+            const SizedBox(height: 28),
+            if (card.atk != null && card.def != null)
+              Row(
+                children: [
+                  CardDetailWidget(
+                    label: 'Atk',
+                    value: card.atk.toString(),
+                  ),
+                  const SizedBox(width: 32),
+                  CardDetailWidget(
+                    label: 'Def',
+                    value: card.def.toString(),
+                  ),
+                ],
+              ),
+            if (card.atk != null && card.def != null)
+              const SizedBox(height: 16),
+            Row(
+              children: [
+                CardDetailWidget(label: 'Race', value: card.race),
+                if (card.attribute != null) const SizedBox(width: 32),
+                if (card.attribute != null)
+                  CardDetailWidget(label: 'Attribute', value: card.attribute!),
+              ],
+            ),
+            const SizedBox(height: 16),
+            CardDetailWidget(
+              label: 'Formats',
+              value: card.miscInfo.first.formats.join(', '),
+            ),
+            const SizedBox(height: 28),
+            Row(
+              children: [
+                const Text('0 in Collection'),
+                Expanded(child: Container()),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  onPressed: () {},
+                  child: const Text('VIEW'),
+                ),
+              ],
+            ),
           ],
         ),
       ),
