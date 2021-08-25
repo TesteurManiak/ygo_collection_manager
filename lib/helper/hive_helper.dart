@@ -71,7 +71,7 @@ class HiveHelper {
     final box = Hive.box<SetModel>(Indexes.tableSets);
     final setsMap = <String, SetModel>{};
     for (final set in sets) {
-      setsMap[set.setCode] = set;
+      setsMap[set.setName] = set;
     }
     return box.putAll(setsMap);
   }
