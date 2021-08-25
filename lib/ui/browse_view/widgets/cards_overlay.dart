@@ -7,8 +7,9 @@ import 'package:ygo_collection_manager/ui/browse_view/widgets/card_bottom_sheet.
 
 class CardsOverlay extends StatefulWidget {
   final int initialIndex;
+  final List<CardInfoModel> cards;
 
-  const CardsOverlay({this.initialIndex = 0});
+  const CardsOverlay({this.initialIndex = 0, required this.cards});
 
   @override
   State<StatefulWidget> createState() => _CardsOverlayState();
@@ -40,8 +41,8 @@ class _CardsOverlayState extends State<CardsOverlay> {
       backgroundColor: Colors.black.withOpacity(0.5),
       body: PageView.builder(
         controller: _pageController,
-        itemBuilder: (_, index) => _CardOverlay(_cardsBloc.cards![index]),
-        itemCount: _cardsBloc.cards!.length,
+        itemBuilder: (_, index) => _CardOverlay(widget.cards[index]),
+        itemCount: widget.cards.length,
       ),
     );
   }

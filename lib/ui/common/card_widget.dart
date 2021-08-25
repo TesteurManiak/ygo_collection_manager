@@ -6,9 +6,13 @@ import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 
 class CardWidget extends StatefulWidget {
-  final CardInfoModel card;
+  final int index;
+  final List<CardInfoModel> cards;
 
-  const CardWidget(this.card);
+  const CardWidget({
+    required this.cards,
+    required this.index,
+  });
 
   @override
   State<StatefulWidget> createState() => _CardWidgetState();
@@ -21,13 +25,14 @@ class _CardWidgetState extends State<CardWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => _cardsBloc.openOverlay(
-        initialIndex: _cardsBloc.cards!.indexOf(widget.card),
+        initialIndex: widget.index,
+        cards: widget.cards,
       ),
       child: Container(
         color: DynamicThemedColors.scaffoldBackground(context),
         padding: const EdgeInsets.all(2),
         child: CachedNetworkImage(
-          imageUrl: widget.card.cardImages.first.imageUrlSmall,
+          imageUrl: widget.cards[widget.index].cardImages.first.imageUrlSmall,
           placeholder: (_, __) => Image.asset(
             'assets/back_high.jpg',
             fit: BoxFit.fill,

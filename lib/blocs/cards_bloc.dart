@@ -18,7 +18,7 @@ class CardsBloc extends BlocBase {
   late ReceivePort _receivePort;
   late StreamSubscription _isolateSubscription;
 
-  late final OverlayState? _overlayState;
+  late OverlayState? _overlayState;
   late OverlayEntry _overlayEntry;
   bool _isOverlayOpen = false;
   bool get isOverlayOpen => _isOverlayOpen;
@@ -45,8 +45,9 @@ class CardsBloc extends BlocBase {
   }
 
   void loadFromDb() {
-    final cards = HiveHelper.instance.cards;
-    _cardsController.sink.add(cards.toList());
+    final cards = HiveHelper.instance.cards.toList();
+    cards.sort((a, b) => a.name.compareTo(b.name));
+    _cardsController.sink.add(cards);
   }
 
   Future<void> fetchAllCards() async {
@@ -55,8 +56,10 @@ class CardsBloc extends BlocBase {
       _receivePort.sendPort,
     ]);
     _isolateSubscription = _receivePort.listen((message) {
-      _cardsController.sink.add(message as List<CardInfoModel>);
-      HiveHelper.instance.updateCards(message);
+      final newCards = message as List<CardInfoModel>
+        ..sort((a, b) => a.name.compareTo(b.name));
+      _cardsController.sink.add(newCards);
+      HiveHelper.instance.updateCards(newCards);
       _closeIsolate();
     });
   }
@@ -64,12 +67,13 @@ class CardsBloc extends BlocBase {
   void initOverlayState(BuildContext context) =>
       _overlayState = Overlay.of(context);
 
-  void openOverlay({int initialIndex = 0}) {
+  void openOverlay({int initialIndex = 0, required List<CardInfoModel> cards}) {
     if (_overlayState != null) {
       _overlayEntry = OverlayEntry(
         builder: (_) => Align(
           child: CardsOverlay(
             initialIndex: initialIndex,
+            cards: cards,
           ),
         ),
       );

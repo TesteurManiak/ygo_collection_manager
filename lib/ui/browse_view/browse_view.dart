@@ -3,7 +3,7 @@ import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
 import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
-import 'package:ygo_collection_manager/ui/browse_view/widgets/card_widget.dart';
+import 'package:ygo_collection_manager/ui/common/card_widget.dart';
 import 'package:ygo_collection_manager/ui/common/sliver_spacer.dart';
 import 'package:ygo_collection_manager/ui/common/top_rounded_sliver.dart';
 
@@ -89,7 +89,7 @@ class _BrowseViewState extends State<BrowseView>
                   }
                   return SliverGrid(
                     delegate: SliverChildBuilderDelegate(
-                      (_, index) => CardWidget(data[index]),
+                      (_, index) => CardWidget(cards: data, index: index),
                       childCount: data.length,
                     ),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

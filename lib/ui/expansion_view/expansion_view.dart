@@ -3,7 +3,7 @@ import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
 import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
-import 'package:ygo_collection_manager/ui/browse_view/widgets/card_widget.dart';
+import 'package:ygo_collection_manager/ui/common/card_widget.dart';
 
 const _crossAxisCount = 3;
 
@@ -32,6 +32,12 @@ class _ExpansionViewState extends State<ExpansionView> {
       .toList();
 
   @override
+  void initState() {
+    super.initState();
+    _cardsBloc.initOverlayState(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final itemWidth = size.width / _crossAxisCount;
@@ -53,7 +59,7 @@ class _ExpansionViewState extends State<ExpansionView> {
             crossAxisCount: _crossAxisCount,
             childAspectRatio: itemWidth / itemHeight,
           ),
-          itemBuilder: (_, index) => CardWidget(_cards[index]),
+          itemBuilder: (_, index) => CardWidget(cards: _cards, index: index),
         ),
       ),
     );
