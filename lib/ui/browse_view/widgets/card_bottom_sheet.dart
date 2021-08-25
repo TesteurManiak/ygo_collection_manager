@@ -92,7 +92,11 @@ class CardBottomSheet extends StatelessWidget {
             const SizedBox(height: 16),
             CardDetailWidget(
               label: 'Formats',
-              value: card.miscInfo.first.formats.join(', '),
+              value: card.miscInfo
+                  .map<List<String>>((e) => e.formats)
+                  .reduce((a, b) => [...a, ...b])
+                  .toSet()
+                  .join(', '),
             ),
             const SizedBox(height: 28),
             Row(
