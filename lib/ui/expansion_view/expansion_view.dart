@@ -59,7 +59,11 @@ class _ExpansionViewState extends State<ExpansionView> {
             crossAxisCount: _crossAxisCount,
             childAspectRatio: itemWidth / itemHeight,
           ),
-          itemBuilder: (_, index) => CardWidget(cards: _cards, index: index),
+          itemBuilder: (_, index) => CardWidget(
+            cards: _cards,
+            index: index,
+            enableLongPress: true,
+          ),
         ),
       ),
     );

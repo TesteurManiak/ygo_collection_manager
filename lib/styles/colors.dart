@@ -12,6 +12,9 @@ class MyColors {
   static const appBarBackgroundDark = Color(0xFF121212);
   static const scaffoldBackgroundDark = Color(0xFF282828);
   static const cardSetBorderDark = Color(0xFF4c4c4c);
+  static const cardBottomSheetDark = Color(0xFF222222);
+
+  static const grey = Color(0xFFa7a7a7);
 }
 
 class DynamicThemedColors {
@@ -34,5 +37,11 @@ class DynamicThemedColors {
         context: context,
         light: MyColors.cardSetBorder,
         dark: MyColors.cardSetBorderDark,
+      );
+
+  static Color bottomSheetBackground(BuildContext context) => _dynamicColor(
+        context: context,
+        light: Colors.white,
+        dark: MyColors.cardBottomSheetDark,
       );
 }

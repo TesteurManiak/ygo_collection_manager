@@ -107,7 +107,10 @@ class CardInfoModel extends HiveObject {
   @HiveField(14)
   final List<CardModelSet>? cardset;
 
-  // TODO: add card_prices, banlist_info, beta_name, views, viewsweek, upvotes, downvotes, formats, treated_as, tcg_date, ocg_date, has_ffect
+  // TODO: add card_prices, banlist_info, beta_name, views, viewsweek, upvotes, downvotes, formats, treated_as, tcg_date, ocg_date, has_effect
+
+  String get levelAsset =>
+      'assets/level/${type == "XYZ Monster" ? "rank.png" : "level.png"}';
 
   CardInfoModel({
     required this.id,

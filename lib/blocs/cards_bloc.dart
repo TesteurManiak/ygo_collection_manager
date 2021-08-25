@@ -45,8 +45,8 @@ class CardsBloc extends BlocBase {
   }
 
   void loadFromDb() {
-    final cards = HiveHelper.instance.cards.toList();
-    cards.sort((a, b) => a.name.compareTo(b.name));
+    final cards = HiveHelper.instance.cards.toList()
+      ..sort((a, b) => a.name.compareTo(b.name));
     _cardsController.sink.add(cards);
   }
 
