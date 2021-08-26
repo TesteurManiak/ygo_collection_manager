@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
 import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
+import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 import 'package:ygo_collection_manager/ui/common/card_widget.dart';
@@ -22,6 +23,8 @@ class ExpansionView extends StatefulWidget {
 
 class _ExpansionViewState extends State<ExpansionView>
     with TickerProviderStateMixin {
+  late final _expansionCollectionBloc =
+      BlocProvider.of<ExpansionCollectionBloc>(context);
   late final CardsBloc _cardsBloc = BlocProvider.of<CardsBloc>(context);
   late final _cards = _cardsBloc.getCardsInSet(widget.cardSet);
 
@@ -49,7 +52,15 @@ class _ExpansionViewState extends State<ExpansionView>
       onWillPop: _onWillPop,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.cardSet.setName),
+          title: StreamBuilder<String?>(
+            stream: _expansionCollectionBloc.onTitleChanged,
+            builder: (_, snapshot) {
+              final data = snapshot.data;
+              String title = widget.cardSet.setName;
+              if (snapshot.hasData && data != null) title = data;
+              return Text(title);
+            },
+          ),
           bottom: const TotalCompletionWidget(0.0),
         ),
         body: Container(

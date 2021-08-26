@@ -76,11 +76,12 @@ class HiveHelper {
 
   Future<void> dispose() => Hive.close();
 
-  /// Getter to return Iterable<int> corresponding to the ids of cards owned by
-  /// user.
+  /// Getter to return an Iterable<int> corresponding to the ids of cards owned
+  /// by user.
   Iterable<CardOwnedModel> get cardsOwned => _boxCardsOwned.values;
 
-  /// Add or update a card to the collection. Takes a [CardOwnedModel] as parameter.
+  /// Add or update a card to the collection. Takes a [CardOwnedModel] as
+  /// parameter.
   Future<void> updateCard(CardOwnedModel card) {
     final keyIndex = _boxCardsOwned.keys.toList().indexOf(card.key);
     if (keyIndex != -1) return _boxCardsOwned.putAt(keyIndex, card);

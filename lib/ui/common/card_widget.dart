@@ -49,8 +49,12 @@ class CardWidget extends StatelessWidget {
                 cards: cards,
                 tickerProvider: tickerProvider,
               ),
-              onLongPress:
-                  enableLongPress ? _expansionCollectionBloc.switchMode : null,
+              onLongPress: enableLongPress
+                  ? () => _expansionCollectionBloc.switchMode(
+                        cardIndex: index,
+                        cards: cards,
+                      )
+                  : null,
             ),
           ),
         ),
