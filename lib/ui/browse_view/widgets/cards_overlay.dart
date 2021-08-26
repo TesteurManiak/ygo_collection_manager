@@ -104,7 +104,7 @@ class _CardOverlayState extends State<_CardOverlay>
           initialChildSize: 0.1,
           minChildSize: 0.1,
           builder: (_, scrollController) =>
-              CardBottomSheet(widget.card, scrollController),
+              CardBottomSheet(card: widget.card, controller: scrollController),
         ),
       ],
     );

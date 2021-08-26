@@ -20,9 +20,10 @@ class CardDetailWidget extends StatelessWidget {
         Text(label, style: TextStyles.grey14),
         const SizedBox(height: 4),
         Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             if (leading != null) leading!,
-            Text(value),
+            Flexible(child: Text(value, maxLines: 2)),
           ],
         ),
       ],

@@ -15,6 +15,8 @@ class MyColors {
   static const cardBottomSheetDark = Color(0xFF222222);
 
   static const grey = Color(0xFFa7a7a7);
+  static const yellow = Color(0xFFcda95d);
+  static const yellow2 = Color(0xFFd1a954);
 }
 
 class DynamicThemedColors {
