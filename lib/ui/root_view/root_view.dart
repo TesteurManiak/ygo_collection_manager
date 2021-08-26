@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/helper/hive_helper.dart';
 import 'package:ygo_collection_manager/ui/browse_view/browse_view.dart';
 import 'package:ygo_collection_manager/ui/collection_view/collection_view.dart';
+import 'package:ygo_collection_manager/ui/common/fixed_bottom_navigation_bar.dart';
 import 'package:ygo_collection_manager/ui/settings_view/settings_view.dart';
 
 class RootView extends StatefulWidget {
@@ -42,7 +43,7 @@ class _RootViewState extends State<RootView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: FixedBottomNavigationBar(
         currentIndex: _selectedIndex,
         showUnselectedLabels: false,
         onTap: _onItemTapped,
