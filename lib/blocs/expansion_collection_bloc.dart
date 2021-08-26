@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:rxdart/rxdart.dart';
 import 'package:ygo_collection_manager/blocs/bloc.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
@@ -15,14 +17,27 @@ class ExpansionCollectionBloc extends BlocBase {
   Stream<int> get onSelectedCardIndexChanged =>
       _selectedCardIndexController.stream;
   int get selectedCardIndex => _selectedCardIndexController.value;
+  late final StreamSubscription<int> _selectedIndexSubscription;
 
-  late List<CardInfoModel> _cards;
+  List<CardInfoModel>? _cards;
+
+  void _cardIndexListener(int index) {
+    final currentCards = _cards;
+    if (currentCards != null) {
+      _titleController.sink.add(currentCards[index].name);
+    }
+  }
 
   @override
-  void initState() {}
+  void initState() {
+    _selectedIndexSubscription =
+        _selectedCardIndexController.listen(_cardIndexListener);
+  }
 
   @override
   void dispose() {
+    _selectedIndexSubscription.cancel();
+
     _editionStateController.close();
     _titleController.close();
     _selectedCardIndexController.close();
@@ -36,8 +51,11 @@ class ExpansionCollectionBloc extends BlocBase {
     if (!isEditing) {
       _cards = cards;
       _selectedCardIndexController.sink.add(cardIndex);
+    } else {
+      _titleController.sink.add(null);
     }
     _editionStateController.sink.add(!_editionStateController.value);
-    _titleController.sink.add(isEditing ? _cards[cardIndex].name : null);
   }
+
+  void selectCard(int index) => _selectedCardIndexController.sink.add(index);
 }

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
 import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
 import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
+import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 import 'package:ygo_collection_manager/ui/common/card_widget.dart';
 import 'package:ygo_collection_manager/ui/common/no_glow_scroll_behavior.dart';
 import 'package:ygo_collection_manager/ui/common/total_completion_widget.dart';
-
-const _crossAxisCount = 3;
+import 'package:ygo_collection_manager/ui/expansion_view/widgets/card_editing_widget.dart';
+import 'package:ygo_collection_manager/ui/expansion_view/widgets/cards_grid.dart';
 
 class ExpansionView extends StatefulWidget {
   static const routeName = '/expansion';
@@ -44,10 +45,6 @@ class _ExpansionViewState extends State<ExpansionView>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final itemWidth = size.width / _crossAxisCount;
-    final itemHeight = itemWidth * 1.47;
-
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -71,23 +68,74 @@ class _ExpansionViewState extends State<ExpansionView>
           ),
           child: ScrollConfiguration(
             behavior: NoGlowScrollBehavior(),
-            child: GridView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: _cards.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: _crossAxisCount,
-                childAspectRatio: itemWidth / itemHeight,
-              ),
-              itemBuilder: (_, index) => CardWidget(
-                cards: _cards,
-                index: index,
-                enableLongPress: true,
-                tickerProvider: this,
-              ),
+            child: StreamBuilder<bool>(
+              stream: _expansionCollectionBloc.onEditionStateChanged,
+              initialData: _expansionCollectionBloc.isEditing,
+              builder: (context, snapshot) {
+                final isEditing = snapshot.data!;
+                return isEditing
+                    ? _EditionLayout(_cards)
+                    : _CollectionLayout(_cards);
+              },
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _CollectionLayout extends StatefulWidget {
+  final List<CardInfoModel> cards;
+
+  const _CollectionLayout(this.cards);
+
+  @override
+  State<StatefulWidget> createState() => _CollectionLayoutState();
+}
+
+class _CollectionLayoutState extends State<_CollectionLayout>
+    with TickerProviderStateMixin {
+  @override
+  Widget build(BuildContext context) {
+    return CardsGrid(
+      cards: widget.cards,
+      cardBuilder: (_, index) => CardWidget(
+        cards: widget.cards,
+        index: index,
+        enableLongPress: true,
+        tickerProvider: this,
+      ),
+    );
+  }
+}
+
+class _EditionLayout extends StatefulWidget {
+  final List<CardInfoModel> cards;
+
+  const _EditionLayout(this.cards);
+
+  @override
+  State<StatefulWidget> createState() => _EditionLayoutState();
+}
+
+class _EditionLayoutState extends State<_EditionLayout> {
+  late final _expansionCollectionBloc =
+      BlocProvider.of<ExpansionCollectionBloc>(context);
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<int>(
+      stream: _expansionCollectionBloc.onSelectedCardIndexChanged,
+      builder: (_, snapshot) {
+        return CardsGrid(
+          cards: widget.cards,
+          cardBuilder: (_, index) => CardEditingWidget(
+            index: index,
+            cards: widget.cards,
+          ),
+        );
+      },
     );
   }
 }
