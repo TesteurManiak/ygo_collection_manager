@@ -4,6 +4,7 @@ import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 import 'package:ygo_collection_manager/ui/common/card_widget.dart';
+import 'package:ygo_collection_manager/ui/common/total_completion_widget.dart';
 
 const _crossAxisCount = 3;
 
@@ -57,8 +58,10 @@ class _ExpansionViewState extends State<ExpansionView>
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.cardSet.setName),
+          bottom: const TotalCompletionWidget(0.0),
         ),
         body: Container(
+          margin: const EdgeInsets.only(top: 16),
           decoration: BoxDecoration(
             color: DynamicThemedColors.scaffoldBackground(context),
             borderRadius: BorderRadius.circular(20),

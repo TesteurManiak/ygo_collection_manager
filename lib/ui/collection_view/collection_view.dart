@@ -4,7 +4,7 @@ import 'package:ygo_collection_manager/blocs/sets_bloc.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 import 'package:ygo_collection_manager/ui/collection_view/widgets/set_tile_widget.dart';
-import 'package:ygo_collection_manager/ui/collection_view/widgets/total_completion_widget.dart';
+import 'package:ygo_collection_manager/ui/common/total_completion_widget.dart';
 import 'package:ygo_collection_manager/ui/common/sliver_spacer.dart';
 import 'package:ygo_collection_manager/ui/common/top_rounded_sliver.dart';
 
@@ -34,10 +34,10 @@ class _CollectionViewState extends State<CollectionView>
         onRefresh: _setsBloc.refreshSets,
         child: CustomScrollView(
           slivers: [
-            SliverAppBar(
-              title: const Text('Collection'),
+            const SliverAppBar(
+              title: Text('Collection'),
               centerTitle: true,
-              bottom: TotalCompletionWidget(),
+              bottom: TotalCompletionWidget(0.0),
             ),
             TopRoundedSliver(),
             SliverAppBar(
