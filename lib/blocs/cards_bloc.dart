@@ -23,6 +23,13 @@ class CardsBloc extends BlocBase {
   bool _isOverlayOpen = false;
   bool get isOverlayOpen => _isOverlayOpen;
 
+  late AnimationController _overlayAnimationController;
+  AnimationController get overlayAnimationController =>
+      _overlayAnimationController;
+
+  late Animation<double> _overlayAnimation;
+  Animation<double> get overlayAnimation => _overlayAnimation;
+
   @override
   void initState() {}
 
@@ -67,8 +74,21 @@ class CardsBloc extends BlocBase {
   void initOverlayState(BuildContext context) =>
       _overlayState = Overlay.of(context);
 
-  void openOverlay({int initialIndex = 0, required List<CardInfoModel> cards}) {
+  void openOverlay({
+    int initialIndex = 0,
+    required List<CardInfoModel> cards,
+    required TickerProvider tickerProvider,
+  }) {
     if (_overlayState != null) {
+      _overlayAnimationController = AnimationController(
+        vsync: tickerProvider,
+        duration: const Duration(milliseconds: 500),
+        value: 1.0,
+      );
+      _overlayAnimation = CurvedAnimation(
+        parent: _overlayAnimationController,
+        curve: Curves.easeIn,
+      );
       _overlayEntry = OverlayEntry(
         builder: (_) => Align(
           child: CardsOverlay(
@@ -83,7 +103,9 @@ class CardsBloc extends BlocBase {
   }
 
   void closeOverlay() {
-    _overlayEntry.remove();
-    _isOverlayOpen = false;
+    _overlayAnimationController.reverse().then((_) {
+      _overlayEntry.remove();
+      _isOverlayOpen = false;
+    });
   }
 }

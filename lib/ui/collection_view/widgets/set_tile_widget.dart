@@ -17,11 +17,14 @@ class SetTileWidget extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
-          onTap: () => Navigator.pushNamed(
-            context,
-            ExpansionView.routeName,
-            arguments: cardSet,
-          ),
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            Navigator.pushNamed(
+              context,
+              ExpansionView.routeName,
+              arguments: cardSet,
+            );
+          },
           child: Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(

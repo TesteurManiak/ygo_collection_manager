@@ -10,11 +10,13 @@ class CardWidget extends StatelessWidget {
   final int index;
   final List<CardInfoModel> cards;
   final bool enableLongPress;
+  final TickerProvider tickerProvider;
 
   const CardWidget({
     required this.cards,
     required this.index,
     this.enableLongPress = false,
+    required this.tickerProvider,
   });
 
   @override
@@ -45,6 +47,7 @@ class CardWidget extends StatelessWidget {
               onTap: () => _cardsBloc.openOverlay(
                 initialIndex: index,
                 cards: cards,
+                tickerProvider: tickerProvider,
               ),
               onLongPress:
                   enableLongPress ? _expansionCollectionBloc.switchMode : null,
