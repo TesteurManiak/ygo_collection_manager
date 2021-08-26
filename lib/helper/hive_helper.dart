@@ -22,6 +22,9 @@ class HiveHelper {
       Hive.registerAdapter(CardInfoModelAdapter());
       Hive.registerAdapter(SetModelAdapter());
       Hive.registerAdapter(CardModelSetAdapter());
+      Hive.registerAdapter(CardPriceModelAdapter());
+      Hive.registerAdapter(CardBanlistInfoAdapter());
+      Hive.registerAdapter(CardMiscInfoAdapter());
 
       await Hive.openBox<DBVersionModel>(Indexes.tableDB);
       await Hive.openBox<CardInfoModel>(Indexes.tableCards);
@@ -68,7 +71,7 @@ class HiveHelper {
     final box = Hive.box<SetModel>(Indexes.tableSets);
     final setsMap = <String, SetModel>{};
     for (final set in sets) {
-      setsMap[set.setCode] = set;
+      setsMap[set.setName] = set;
     }
     return box.putAll(setsMap);
   }

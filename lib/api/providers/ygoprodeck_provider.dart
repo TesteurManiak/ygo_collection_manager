@@ -31,6 +31,7 @@ class YgoProDeckProvider {
     List<String>? races,
     List<String>? attributes,
     int? link,
+    bool misc = false,
   }) async {
     final queryParameters = <String, dynamic>{};
     if (names != null) queryParameters['name'] = names.join('|');
@@ -43,6 +44,7 @@ class YgoProDeckProvider {
     if (races != null) queryParameters['race'] = races.join(',');
     if (attributes != null) queryParameters['attribute'] = attributes.join(',');
     if (link != null) queryParameters['link'] = link;
+    if (misc) queryParameters['misc'] = 'yes';
 
     final response = await getCall<Map<String, dynamic>>(
       [cardInfoPath],

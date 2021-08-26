@@ -57,8 +57,9 @@ class SetsBloc extends BlocBase {
   }
 
   void loadFromDb() {
-    final _sets = HiveHelper.instance.sets;
-    _setsController.sink.add(_sets.toList());
+    final _sets = HiveHelper.instance.sets.toList()
+      ..sort((a, b) => a.setName.compareTo(b.setName));
+    _setsController.sink.add(_sets);
   }
 
   void filter(String search) {
@@ -80,8 +81,10 @@ class SetsBloc extends BlocBase {
         _receivePort.sendPort,
       ]);
       _isolateSubscription = _receivePort.listen((message) {
-        _setsController.sink.add(message as List<SetModel>);
-        HiveHelper.instance.updateSets(message);
+        final _sets = message as List<SetModel>
+          ..sort((a, b) => a.setName.compareTo(b.setName));
+        _setsController.sink.add(_sets);
+        HiveHelper.instance.updateSets(_sets);
         _closeIsolate();
       });
     } catch (e) {

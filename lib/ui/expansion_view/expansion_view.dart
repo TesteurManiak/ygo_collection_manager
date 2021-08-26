@@ -3,7 +3,7 @@ import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
 import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
-import 'package:ygo_collection_manager/ui/browse_view/widgets/card_widget.dart';
+import 'package:ygo_collection_manager/ui/common/card_widget.dart';
 
 const _crossAxisCount = 3;
 
@@ -23,13 +23,27 @@ class _ExpansionViewState extends State<ExpansionView> {
   late final _cards = _cardsBloc.cards!
       .where(
         (e) =>
-            e.cardset != null &&
-            e.cardset!
+            e.cardSets != null &&
+            e.cardSets!
                 .map<String>((e) => e.name)
                 .toSet()
                 .contains(widget.cardSet.setName),
       )
       .toList();
+
+  Future<bool> _onWillPop() async {
+    if (_cardsBloc.isOverlayOpen) {
+      _cardsBloc.closeOverlay();
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _cardsBloc.initOverlayState(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,23 +51,30 @@ class _ExpansionViewState extends State<ExpansionView> {
     final itemWidth = size.width / _crossAxisCount;
     final itemHeight = itemWidth * 1.47;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.cardSet.setName),
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          color: DynamicThemedColors.scaffoldBackground(context),
-          borderRadius: BorderRadius.circular(20),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.cardSet.setName),
         ),
-        child: GridView.builder(
-          padding: const EdgeInsets.all(16),
-          itemCount: _cards.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: _crossAxisCount,
-            childAspectRatio: itemWidth / itemHeight,
+        body: Container(
+          decoration: BoxDecoration(
+            color: DynamicThemedColors.scaffoldBackground(context),
+            borderRadius: BorderRadius.circular(20),
           ),
-          itemBuilder: (_, index) => CardWidget(_cards[index]),
+          child: GridView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: _cards.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: _crossAxisCount,
+              childAspectRatio: itemWidth / itemHeight,
+            ),
+            itemBuilder: (_, index) => CardWidget(
+              cards: _cards,
+              index: index,
+              enableLongPress: true,
+            ),
+          ),
         ),
       ),
     );
