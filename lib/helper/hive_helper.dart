@@ -1,5 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
+import 'package:ygo_collection_manager/models/card_owned_model.dart';
 import 'package:ygo_collection_manager/models/db_version_model.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/utils/indexes.dart';
@@ -10,6 +11,11 @@ class HiveHelper {
   HiveHelper._();
 
   static final instance = HiveHelper._();
+
+  late final Box<DBVersionModel> _boxDb;
+  late final Box<CardInfoModel> _boxCards;
+  late final Box<SetModel> _boxSets;
+  late final Box<CardOwnedModel> _boxCardsOwned;
 
   /// Initialize Hive instance and open its boxes.
   Future<void> initHive() async {
@@ -26,55 +32,63 @@ class HiveHelper {
       Hive.registerAdapter(CardBanlistInfoAdapter());
       Hive.registerAdapter(CardMiscInfoAdapter());
 
-      await Hive.openBox<DBVersionModel>(Indexes.tableDB);
-      await Hive.openBox<CardInfoModel>(Indexes.tableCards);
-      await Hive.openBox<SetModel>(Indexes.tableSets);
+      _boxDb = await Hive.openBox<DBVersionModel>(Indexes.tableDB);
+      _boxCards = await Hive.openBox<CardInfoModel>(Indexes.tableCards);
+      _boxSets = await Hive.openBox<SetModel>(Indexes.tableSets);
+      _boxCardsOwned =
+          await Hive.openBox<CardOwnedModel>(Indexes.tableCardsOwned);
       instance._isInitialized = true;
     }
   }
 
   DBVersionModel? get databaseVersion {
-    final box = Hive.box<DBVersionModel>(Indexes.tableDB);
-    if (box.values.isEmpty) return null;
-    return box.getAt(0);
+    if (_boxDb.values.isEmpty) return null;
+    return _boxDb.getAt(0);
   }
 
   Future<void> updateDatabaseVersion(DBVersionModel version) {
-    final box = Hive.box<DBVersionModel>(Indexes.tableDB);
     if (databaseVersion == null) {
-      return box.put(0, version);
+      return _boxDb.put(0, version);
     } else {
-      return box.putAt(0, version);
+      return _boxDb.putAt(0, version);
     }
   }
 
-  Iterable<CardInfoModel> get cards {
-    final box = Hive.box<CardInfoModel>(Indexes.tableCards);
-    return box.values;
-  }
+  Iterable<CardInfoModel> get cards => _boxCards.values;
 
   Future<void> updateCards(List<CardInfoModel> cards) {
-    final box = Hive.box<CardInfoModel>(Indexes.tableCards);
     final cardsMap = <int, CardInfoModel>{};
     for (final card in cards) {
       cardsMap[card.id] = card;
     }
-    return box.putAll(cardsMap);
+    return _boxCards.putAll(cardsMap);
   }
 
-  Iterable<SetModel> get sets {
-    final box = Hive.box<SetModel>(Indexes.tableSets);
-    return box.values;
-  }
+  Iterable<SetModel> get sets => _boxSets.values;
 
   Future<void> updateSets(List<SetModel> sets) {
-    final box = Hive.box<SetModel>(Indexes.tableSets);
     final setsMap = <String, SetModel>{};
     for (final set in sets) {
       setsMap[set.setName] = set;
     }
-    return box.putAll(setsMap);
+    return _boxSets.putAll(setsMap);
   }
 
   Future<void> dispose() => Hive.close();
+
+  /// Getter to return Iterable<int> corresponding to the ids of cards owned by
+  /// user.
+  Iterable<CardOwnedModel> get cardsOwned => _boxCardsOwned.values;
+
+  /// Add or update a card to the collection. Takes a [CardOwnedModel] as parameter.
+  Future<void> updateCard(CardOwnedModel card) {
+    final keyIndex = _boxCardsOwned.keys.toList().indexOf(card.key);
+    if (keyIndex != -1) return _boxCardsOwned.putAt(keyIndex, card);
+    return _boxCardsOwned.put(card.key, card);
+  }
+
+  /// Remove a card from the collection. Takes a [CardOwnedModel] as parameter.
+  Future<void> removeCard(CardOwnedModel card) {
+    return _boxCardsOwned.delete(card.key);
+  }
 }

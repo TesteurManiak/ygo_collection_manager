@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
+import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 import 'package:ygo_collection_manager/ui/expansion_view/expansion_view.dart';
@@ -11,6 +13,8 @@ class SetTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const cardsOwned = 0;
+    final numOfCards =
+        BlocProvider.of<CardsBloc>(context).getCardsInSet(cardSet).length;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Material(
@@ -41,12 +45,12 @@ class SetTileWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(cardSet.setName),
-                      Text('$cardsOwned / ${cardSet.numOfCards}'),
+                      Text('$cardsOwned / $numOfCards'),
                     ],
                   ),
                 ),
                 Text(
-                  '${(cardsOwned / cardSet.numOfCards * 100).toStringAsFixed(0)}%',
+                  '${(cardsOwned / numOfCards * 100).toStringAsFixed(0)}%',
                 ),
               ],
             ),

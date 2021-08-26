@@ -7,6 +7,7 @@ import 'package:ygo_collection_manager/api/api_repository.dart';
 import 'package:ygo_collection_manager/blocs/bloc.dart';
 import 'package:ygo_collection_manager/helper/hive_helper.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
+import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/ui/browse_view/widgets/cards_overlay.dart';
 
 class CardsBloc extends BlocBase {
@@ -29,6 +30,19 @@ class CardsBloc extends BlocBase {
 
   late Animation<double> _overlayAnimation;
   Animation<double> get overlayAnimation => _overlayAnimation;
+
+  /// Return a list of [CardInfoModel] that are in the set of cards.
+  /// Takes a [SetModel] as parameter.
+  List<CardInfoModel> getCardsInSet(SetModel cardSet) {
+    return cards!
+        .where((e) =>
+            e.cardSets != null &&
+            e.cardSets!
+                .map<String>((e) => e.name)
+                .toSet()
+                .contains(cardSet.setName))
+        .toList();
+  }
 
   @override
   void initState() {}
