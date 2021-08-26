@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:snapping_sheet/snapping_sheet.dart';
 import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
 import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
@@ -17,7 +18,6 @@ class CardsOverlay extends StatefulWidget {
 
 class _CardsOverlayState extends State<CardsOverlay> {
   late final _cardsBloc = BlocProvider.of<CardsBloc>(context);
-
   late final _pageController = PageController(
     initialPage: widget.initialIndex,
   );
@@ -30,19 +30,22 @@ class _CardsOverlayState extends State<CardsOverlay> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: _cardsBloc.closeOverlay,
+    return FadeTransition(
+      opacity: _cardsBloc.overlayAnimation,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          leading: IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: _cardsBloc.closeOverlay,
+          ),
         ),
-      ),
-      backgroundColor: Colors.black.withOpacity(0.5),
-      body: PageView.builder(
-        controller: _pageController,
-        itemBuilder: (_, index) => _CardOverlay(widget.cards[index]),
-        itemCount: widget.cards.length,
+        backgroundColor: Colors.black.withOpacity(0.5),
+        body: PageView.builder(
+          controller: _pageController,
+          itemBuilder: (_, index) => _CardOverlay(widget.cards[index]),
+          itemCount: widget.cards.length,
+        ),
       ),
     );
   }
@@ -59,6 +62,8 @@ class _CardOverlay extends StatefulWidget {
 
 class _CardOverlayState extends State<_CardOverlay>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+  final _scrollController = ScrollController();
+
   late final _animationController = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 500),
@@ -100,11 +105,24 @@ class _CardOverlayState extends State<_CardOverlay>
             ),
           ),
         ),
-        DraggableScrollableSheet(
-          initialChildSize: 0.1,
-          minChildSize: 0.1,
-          builder: (_, scrollController) =>
-              CardBottomSheet(card: widget.card, controller: scrollController),
+        SnappingSheet(
+          lockOverflowDrag: true,
+          snappingPositions: const [
+            SnappingPosition.factor(
+              positionFactor: 0.1,
+              grabbingContentOffset: GrabbingContentOffset.top,
+            ),
+            SnappingPosition.factor(positionFactor: 0.5),
+            SnappingPosition.factor(positionFactor: 1.0),
+          ],
+          sheetBelow: SnappingSheetContent(
+            childScrollController: _scrollController,
+            draggable: true,
+            child: CardBottomSheet(
+              card: widget.card,
+              controller: _scrollController,
+            ),
+          ),
         ),
       ],
     );

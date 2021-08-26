@@ -15,7 +15,7 @@ class BrowseView extends StatefulWidget {
 }
 
 class _BrowseViewState extends State<BrowseView>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   late final _cardsBloc = BlocProvider.of<CardsBloc>(context);
 
   void _showFilterDialog(BuildContext context) {
@@ -89,7 +89,11 @@ class _BrowseViewState extends State<BrowseView>
                   }
                   return SliverGrid(
                     delegate: SliverChildBuilderDelegate(
-                      (_, index) => CardWidget(cards: data, index: index),
+                      (_, index) => CardWidget(
+                        cards: data,
+                        index: index,
+                        tickerProvider: this,
+                      ),
                       childCount: data.length,
                     ),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

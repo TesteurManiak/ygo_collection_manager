@@ -18,7 +18,8 @@ class ExpansionView extends StatefulWidget {
   State<StatefulWidget> createState() => _ExpansionViewState();
 }
 
-class _ExpansionViewState extends State<ExpansionView> {
+class _ExpansionViewState extends State<ExpansionView>
+    with TickerProviderStateMixin {
   late final CardsBloc _cardsBloc = BlocProvider.of<CardsBloc>(context);
   late final _cards = _cardsBloc.cards!
       .where(
@@ -73,6 +74,7 @@ class _ExpansionViewState extends State<ExpansionView> {
               cards: _cards,
               index: index,
               enableLongPress: true,
+              tickerProvider: this,
             ),
           ),
         ),
