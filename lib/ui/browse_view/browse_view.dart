@@ -59,7 +59,7 @@ class _BrowseViewState extends State<BrowseView>
               title: Text('Browse'),
               centerTitle: true,
             ),
-            TopRoundedSliver(),
+            const TopRoundedSliver(),
             SliverAppBar(
               toolbarHeight: kToolbarHeight + 4,
               backgroundColor: DynamicThemedColors.scaffoldBackground(context),

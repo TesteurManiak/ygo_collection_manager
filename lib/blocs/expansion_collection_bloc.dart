@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/animation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ygo_collection_manager/blocs/bloc.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
@@ -46,15 +47,24 @@ class ExpansionCollectionBloc extends BlocBase {
   void switchMode({
     required int cardIndex,
     required List<CardInfoModel> cards,
+    AnimationController? controller,
   }) {
     // Will pass in editing state
     if (!isEditing) {
       _cards = cards;
       _selectedCardIndexController.sink.add(cardIndex);
+      controller?.forward();
     } else {
       _titleController.sink.add(null);
+      controller?.reverse();
     }
     _editionStateController.sink.add(!_editionStateController.value);
+  }
+
+  void disableEditing(AnimationController controller) {
+    _titleController.sink.add(null);
+    _editionStateController.sink.add(false);
+    controller.reverse();
   }
 
   void selectCard(int index) => _selectedCardIndexController.sink.add(index);

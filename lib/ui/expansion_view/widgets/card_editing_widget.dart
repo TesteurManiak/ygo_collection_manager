@@ -8,8 +8,13 @@ import 'package:ygo_collection_manager/styles/colors.dart';
 class CardEditingWidget extends StatelessWidget {
   final int index;
   final List<CardInfoModel> cards;
+  final AnimationController controller;
 
-  const CardEditingWidget({required this.index, required this.cards});
+  const CardEditingWidget({
+    required this.index,
+    required this.cards,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +29,7 @@ class CardEditingWidget extends StatelessWidget {
             ? expansionCollectionBloc.switchMode(
                 cardIndex: index,
                 cards: cards,
+                controller: controller,
               )
             : expansionCollectionBloc.selectCard(index),
         child: Container(

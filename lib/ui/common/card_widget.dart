@@ -11,12 +11,14 @@ class CardWidget extends StatelessWidget {
   final List<CardInfoModel> cards;
   final bool enableLongPress;
   final TickerProvider tickerProvider;
+  final AnimationController? controller;
 
   const CardWidget({
     required this.cards,
     required this.index,
     this.enableLongPress = false,
     required this.tickerProvider,
+    this.controller,
   });
 
   @override
@@ -53,6 +55,7 @@ class CardWidget extends StatelessWidget {
                   ? () => _expansionCollectionBloc.switchMode(
                         cardIndex: index,
                         cards: cards,
+                        controller: controller,
                       )
                   : null,
             ),

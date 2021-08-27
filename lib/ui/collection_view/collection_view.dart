@@ -39,9 +39,9 @@ class _CollectionViewState extends State<CollectionView>
             const SliverAppBar(
               title: Text('Collection'),
               centerTitle: true,
-              bottom: TotalCompletionWidget(0.0),
+              bottom: TotalCompletionBottomWidget(totalCompletion: 0.0),
             ),
-            TopRoundedSliver(),
+            const TopRoundedSliver(),
             SliverAppBar(
               toolbarHeight: kToolbarHeight + 4,
               backgroundColor: DynamicThemedColors.scaffoldBackground(context),

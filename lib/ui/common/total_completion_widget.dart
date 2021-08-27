@@ -2,16 +2,26 @@ import 'package:flutter/material.dart';
 
 const _kBottomHeight = 14.0;
 
-class TotalCompletionWidget extends StatefulWidget with PreferredSizeWidget {
+class TotalCompletionBottomWidget extends StatelessWidget
+    with PreferredSizeWidget {
+  final double totalCompletion;
+
+  const TotalCompletionBottomWidget({required this.totalCompletion});
+
+  @override
+  Widget build(BuildContext context) => TotalCompletionWidget(totalCompletion);
+
+  @override
+  Size get preferredSize => const Size.fromHeight(_kBottomHeight);
+}
+
+class TotalCompletionWidget extends StatefulWidget {
   final double totalCompletion;
 
   const TotalCompletionWidget(this.totalCompletion);
 
   @override
   State<StatefulWidget> createState() => _TotalCompletionWidgetState();
-
-  @override
-  Size get preferredSize => const Size.fromHeight(_kBottomHeight);
 }
 
 class _TotalCompletionWidgetState extends State<TotalCompletionWidget> {
