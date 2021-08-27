@@ -55,6 +55,7 @@ class _ExpansionViewState extends State<ExpansionView>
   void initState() {
     super.initState();
     _cardsBloc.initOverlayState(context);
+    _expansionCollectionBloc.setCardsetInUse(widget.cardSet);
   }
 
   @override
@@ -146,7 +147,6 @@ class _CollectionLayoutState extends State<_CollectionLayout>
                     tickerProvider: this,
                     onLongPress: () => _expansionCollectionBloc.switchMode(
                       cardIndex: index,
-                      cards: widget.cards,
                       controller: widget.controller,
                     ),
                   )

@@ -1,4 +1,5 @@
 import 'package:hive_flutter/adapters.dart';
+import 'package:ygo_collection_manager/models/set_model.dart';
 
 part 'card_info_model.g.dart';
 
@@ -252,6 +253,10 @@ class CardInfoModel extends HiveObject {
 
   @HiveField(17)
   final List<CardMiscInfo> miscInfo;
+
+  CardModelSet? getCardSetsFromSet(SetModel set) => cardSets?.firstWhere(
+        (e) => e.name == set.setName && e.code.contains(set.setCode),
+      );
 
   String get levelAsset =>
       'assets/level/${type == "XYZ Monster" ? "rank.png" : "level.png"}';
