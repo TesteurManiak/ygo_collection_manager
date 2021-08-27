@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 
-import 'animated_scaffold.dart';
-
-/// Usable only in [AnimatedScaffold.appBar] property.
 abstract class AnimatedAppBar {
   /// Refer to [AppBar.leading] documentation.
   final Widget? leading;

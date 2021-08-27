@@ -35,6 +35,10 @@ class _ExpansionViewState extends State<ExpansionView>
     vsync: this,
     duration: const Duration(milliseconds: 500),
   );
+  late final _animation = CurvedAnimation(
+    parent: _animationController,
+    curve: Curves.easeIn,
+  );
 
   Future<bool> _onWillPop() async {
     if (_cardsBloc.isOverlayOpen) {
@@ -63,8 +67,8 @@ class _ExpansionViewState extends State<ExpansionView>
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
-      child: AnimatedScaffold(
-        controller: _animationController,
+      child: AnimatedScaffoldBottom(
+        animation: _animation,
         appBar: AnimatedAppBarBottom(
           bottomExpandedHeight: 80,
           bottomHeight: 18,
