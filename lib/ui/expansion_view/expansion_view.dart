@@ -10,6 +10,7 @@ import 'package:ygo_collection_manager/ui/common/card_widget.dart';
 import 'package:ygo_collection_manager/ui/common/no_glow_scroll_behavior.dart';
 import 'package:ygo_collection_manager/ui/expansion_view/widgets/card_editing_widget.dart';
 import 'package:ygo_collection_manager/ui/expansion_view/widgets/cards_grid.dart';
+import 'package:ygo_collection_manager/ui/expansion_view/widgets/collection_app_bar_bottom.dart';
 
 class ExpansionView extends StatefulWidget {
   static const routeName = '/expansion';
@@ -64,6 +65,8 @@ class _ExpansionViewState extends State<ExpansionView>
       child: AnimatedScaffold(
         controller: _animationController,
         appBar: AnimatedAppBarBottom(
+          bottomExpandedHeight: 76,
+          bottomHeight: 14,
           title: StreamBuilder<String?>(
             stream: _expansionCollectionBloc.onTitleChanged,
             builder: (_, snapshot) {
@@ -73,7 +76,9 @@ class _ExpansionViewState extends State<ExpansionView>
               return Text(title);
             },
           ),
-          // bottom: const CollectionAppBarBottom(height: 86.0),
+          bottom: CollectionAppBarBottom(
+            animationDuration: _animationController.duration,
+          ),
         ),
         body: Container(
           margin: const EdgeInsets.only(top: 16),

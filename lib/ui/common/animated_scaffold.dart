@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-final _sizeTween = Tween<double>(begin: 0, end: 300);
-
 class AnimatedScaffold extends StatefulWidget {
   final AnimationController? controller;
   final Widget? body;
@@ -57,9 +55,6 @@ class _AnimatedScaffoldBottom extends AnimatedWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bottomSize = Size.fromHeight(
-      _sizeTween.evaluate(listenable as Animation<double>),
-    );
     return Scaffold(
       appBar: appBar != null
           ? AppBar(
@@ -68,10 +63,13 @@ class _AnimatedScaffoldBottom extends AnimatedWidget {
               title: appBar!.title,
               actions: appBar!.actions,
               flexibleSpace: appBar!.flexibleSpace,
-              bottom: PreferredSize(
-                preferredSize: bottomSize,
-                child: Container(color: Colors.red),
-              ),
+              bottom: appBar!.bottom != null
+                  ? PreferredSize(
+                      preferredSize: Size.fromHeight(appBar!.sizeTween
+                          .evaluate(listenable as Animation<double>)),
+                      child: appBar!.bottom!,
+                    )
+                  : null,
               elevation: appBar!.elevation,
             )
           : null,
@@ -81,39 +79,47 @@ class _AnimatedScaffoldBottom extends AnimatedWidget {
 }
 
 abstract class AnimatedAppBar {
-  Widget? get leading;
-  bool get automaticallyImplyLeading;
-  Widget? get title;
-  List<Widget>? get actions;
-  Widget? get flexibleSpace;
-  double? get elevation;
-}
-
-class AnimatedAppBarBottom implements AnimatedAppBar {
-  @override
   final Widget? leading;
-
-  @override
+  final Widget? title;
+  final List<Widget>? actions;
+  final Widget? flexibleSpace;
+  final Widget? bottom;
+  final double? elevation;
+  final Tween<double> sizeTween;
   final bool automaticallyImplyLeading;
 
-  @override
-  final Widget? title;
-
-  @override
-  final List<Widget>? actions;
-
-  @override
-  final Widget? flexibleSpace;
-
-  @override
-  final double? elevation;
-
-  AnimatedAppBarBottom({
-    this.leading,
+  AnimatedAppBar({
+    required this.sizeTween,
     this.automaticallyImplyLeading = true,
-    this.title,
+    this.leading,
     this.actions,
     this.flexibleSpace,
+    this.title,
+    this.bottom,
     this.elevation,
   });
+}
+
+class AnimatedAppBarBottom extends AnimatedAppBar {
+  AnimatedAppBarBottom({
+    Widget? leading,
+    bool automaticallyImplyLeading = true,
+    Widget? title,
+    List<Widget>? actions,
+    Widget? flexibleSpace,
+    Widget? bottom,
+    double? elevation,
+    double bottomHeight = 0,
+    double bottomExpandedHeight = 50,
+  }) : super(
+          sizeTween:
+              Tween<double>(begin: bottomHeight, end: bottomExpandedHeight),
+          automaticallyImplyLeading: automaticallyImplyLeading,
+          leading: leading,
+          title: title,
+          actions: actions,
+          flexibleSpace: flexibleSpace,
+          elevation: elevation,
+          bottom: bottom,
+        );
 }

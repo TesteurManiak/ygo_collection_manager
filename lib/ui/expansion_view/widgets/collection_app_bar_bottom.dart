@@ -5,17 +5,13 @@ import 'package:async/async.dart' show StreamGroup;
 import 'package:ygo_collection_manager/ui/common/total_completion_widget.dart';
 import 'package:ygo_collection_manager/ui/expansion_view/widgets/add_remove_card_widget.dart';
 
-class CollectionAppBarBottom extends StatefulWidget
-    implements PreferredSizeWidget {
-  final double height;
+class CollectionAppBarBottom extends StatefulWidget {
+  final Duration? animationDuration;
 
-  const CollectionAppBarBottom({required this.height});
+  const CollectionAppBarBottom({this.animationDuration});
 
   @override
   State<StatefulWidget> createState() => _CollectionAppBarBottomState();
-
-  @override
-  Size get preferredSize => Size.fromHeight(height);
 }
 
 class _CollectionAppBarBottomState extends State<CollectionAppBarBottom> {
@@ -26,6 +22,9 @@ class _CollectionAppBarBottomState extends State<CollectionAppBarBottom> {
     _expansionCollectionBloc.onEditionStateChanged,
     _expansionCollectionBloc.onSelectedCardIndexChanged,
   ]);
+
+  late final Duration _animationDuration =
+      widget.animationDuration ?? const Duration(milliseconds: 200);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +37,7 @@ class _CollectionAppBarBottomState extends State<CollectionAppBarBottom> {
           crossFadeState: _expansionCollectionBloc.isEditing
               ? CrossFadeState.showSecond
               : CrossFadeState.showFirst,
-          duration: const Duration(milliseconds: 200),
+          duration: _animationDuration,
         );
       },
     );
