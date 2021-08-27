@@ -14,7 +14,8 @@ class SetTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     const cardsOwned = 0;
     final numOfCards =
-        BlocProvider.of<CardsBloc>(context).getCardsInSet(cardSet).length;
+        BlocProvider.of<CardsBloc>(context).getCardsInSet(cardSet)?.length ??
+            cardSet.numOfCards;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Material(

@@ -33,9 +33,9 @@ class CardsBloc extends BlocBase {
 
   /// Return a list of [CardInfoModel] that are in the set of cards.
   /// Takes a [SetModel] as parameter.
-  List<CardInfoModel> getCardsInSet(SetModel cardSet) {
-    return cards!
-        .where((e) =>
+  List<CardInfoModel>? getCardsInSet(SetModel cardSet) {
+    return cards
+        ?.where((e) =>
             e.cardSets != null &&
             e.cardSets!
                 .map<String>((e) => e.name)

@@ -26,7 +26,7 @@ class _ExpansionViewState extends State<ExpansionView> {
   late final _expansionCollectionBloc =
       BlocProvider.of<ExpansionCollectionBloc>(context);
   late final CardsBloc _cardsBloc = BlocProvider.of<CardsBloc>(context);
-  late final _cards = _cardsBloc.getCardsInSet(widget.cardSet);
+  late final _cards = _cardsBloc.getCardsInSet(widget.cardSet)!;
 
   Future<bool> _onWillPop() async {
     if (_cardsBloc.isOverlayOpen) {
