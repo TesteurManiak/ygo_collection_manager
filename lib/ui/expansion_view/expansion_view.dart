@@ -5,6 +5,7 @@ import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
+import 'package:ygo_collection_manager/ui/common/animated_app_bar.dart';
 import 'package:ygo_collection_manager/ui/common/animated_scaffold.dart';
 import 'package:ygo_collection_manager/ui/common/card_widget.dart';
 import 'package:ygo_collection_manager/ui/common/no_glow_scroll_behavior.dart';
@@ -65,8 +66,8 @@ class _ExpansionViewState extends State<ExpansionView>
       child: AnimatedScaffold(
         controller: _animationController,
         appBar: AnimatedAppBarBottom(
-          bottomExpandedHeight: 76,
-          bottomHeight: 14,
+          bottomExpandedHeight: 80,
+          bottomHeight: 18,
           title: StreamBuilder<String?>(
             stream: _expansionCollectionBloc.onTitleChanged,
             builder: (_, snapshot) {
