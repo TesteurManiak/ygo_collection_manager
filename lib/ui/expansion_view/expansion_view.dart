@@ -35,7 +35,7 @@ class _ExpansionViewState extends State<ExpansionView>
     vsync: this,
     duration: const Duration(milliseconds: 500),
   );
-  late final _animation = CurvedAnimation(
+  late final Animation<double> _animation = CurvedAnimation(
     parent: _animationController,
     curve: Curves.easeIn,
   );
@@ -143,9 +143,12 @@ class _CollectionLayoutState extends State<_CollectionLayout>
                 ? CardWidget(
                     cards: widget.cards,
                     index: index,
-                    enableLongPress: true,
                     tickerProvider: this,
-                    controller: widget.controller,
+                    onLongPress: () => _expansionCollectionBloc.switchMode(
+                      cardIndex: index,
+                      cards: widget.cards,
+                      controller: widget.controller,
+                    ),
                   )
                 : CardEditingWidget(
                     index: index,
