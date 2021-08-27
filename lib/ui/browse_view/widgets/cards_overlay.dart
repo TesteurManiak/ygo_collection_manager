@@ -40,7 +40,7 @@ class _CardsOverlayState extends State<CardsOverlay> {
             onPressed: _cardsBloc.closeOverlay,
           ),
         ),
-        backgroundColor: Colors.black.withOpacity(0.5),
+        backgroundColor: Colors.black.withOpacity(0.8),
         body: PageView.builder(
           controller: _pageController,
           itemBuilder: (_, index) => _CardOverlay(widget.cards[index]),

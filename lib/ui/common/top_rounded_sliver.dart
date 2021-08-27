@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 
 class TopRoundedSliver extends StatelessWidget {
+  final double borderRadius;
+
+  const TopRoundedSliver({this.borderRadius = 20});
+
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
@@ -16,9 +20,9 @@ class TopRoundedSliver extends StatelessWidget {
               height: 20,
               decoration: BoxDecoration(
                 color: DynamicThemedColors.scaffoldBackground(context),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(borderRadius),
+                  topRight: Radius.circular(borderRadius),
                 ),
               ),
             ),

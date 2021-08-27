@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
+import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
 import 'package:ygo_collection_manager/blocs/sets_bloc.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
@@ -16,6 +17,7 @@ class CollectionView extends StatefulWidget {
 class _CollectionViewState extends State<CollectionView>
     with AutomaticKeepAliveClientMixin {
   late final _setsBloc = BlocProvider.of<SetsBloc>(context);
+  late final _cardsBloc = BlocProvider.of<CardsBloc>(context);
 
   void _showFilterDialog(BuildContext context) {
     showDialog(
@@ -37,9 +39,9 @@ class _CollectionViewState extends State<CollectionView>
             const SliverAppBar(
               title: Text('Collection'),
               centerTitle: true,
-              bottom: TotalCompletionWidget(0.0),
+              bottom: TotalCompletionBottomWidget(totalCompletion: 0.0),
             ),
-            TopRoundedSliver(),
+            const TopRoundedSliver(),
             SliverAppBar(
               toolbarHeight: kToolbarHeight + 4,
               backgroundColor: DynamicThemedColors.scaffoldBackground(context),
@@ -62,29 +64,33 @@ class _CollectionViewState extends State<CollectionView>
               ),
             ),
             const SliverSpacer(height: 16),
-            StreamBuilder<List<SetModel>?>(
-              stream: _setsBloc.onFilteredSetsChanged,
-              builder: (context, snapshot) {
-                final data = snapshot.data;
-                if (!snapshot.hasData || data == null) {
-                  return const SliverToBoxAdapter(child: SizedBox());
-                }
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) => Container(
-                      decoration: BoxDecoration(
-                        color: DynamicThemedColors.scaffoldBackground(context),
-                        border: Border.all(
+            StreamBuilder(
+              stream: _cardsBloc.onCardsChanged,
+              builder: (_, __) => StreamBuilder<List<SetModel>?>(
+                stream: _setsBloc.onFilteredSetsChanged,
+                builder: (_, snapshot) {
+                  final data = snapshot.data;
+                  if (!snapshot.hasData || data == null) {
+                    return const SliverToBoxAdapter(child: SizedBox());
+                  }
+                  return SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => Container(
+                        decoration: BoxDecoration(
                           color:
                               DynamicThemedColors.scaffoldBackground(context),
+                          border: Border.all(
+                            color:
+                                DynamicThemedColors.scaffoldBackground(context),
+                          ),
                         ),
+                        child: SetTileWidget(data[index]),
                       ),
-                      child: SetTileWidget(data[index]),
+                      childCount: data.length,
                     ),
-                    childCount: data.length,
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ],
         ),

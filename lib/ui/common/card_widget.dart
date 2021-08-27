@@ -2,28 +2,25 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
 import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
-import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 
 class CardWidget extends StatelessWidget {
   final int index;
   final List<CardInfoModel> cards;
-  final bool enableLongPress;
   final TickerProvider tickerProvider;
+  final void Function()? onLongPress;
 
   const CardWidget({
     required this.cards,
     required this.index,
-    this.enableLongPress = false,
     required this.tickerProvider,
+    this.onLongPress,
   });
 
   @override
   Widget build(BuildContext context) {
     final _cardsBloc = BlocProvider.of<CardsBloc>(context);
-    final _expansionCollectionBloc =
-        BlocProvider.of<ExpansionCollectionBloc>(context);
     return Stack(
       children: [
         Positioned.fill(
@@ -49,8 +46,7 @@ class CardWidget extends StatelessWidget {
                 cards: cards,
                 tickerProvider: tickerProvider,
               ),
-              onLongPress:
-                  enableLongPress ? _expansionCollectionBloc.switchMode : null,
+              onLongPress: onLongPress,
             ),
           ),
         ),
