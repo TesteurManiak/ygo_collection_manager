@@ -8,7 +8,7 @@ import 'package:ygo_collection_manager/blocs/bloc.dart';
 import 'package:ygo_collection_manager/helper/hive_helper.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
-import 'package:ygo_collection_manager/ui/browse_view/widgets/cards_overlay.dart';
+import 'package:ygo_collection_manager/ui/common/cards_overlay.dart';
 
 class CardsBloc extends BlocBase {
   final _cardsController = BehaviorSubject<List<CardInfoModel>?>.seeded(null);

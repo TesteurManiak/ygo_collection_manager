@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 import 'package:ygo_collection_manager/styles/text_styles.dart';
-import 'package:ygo_collection_manager/ui/browse_view/widgets/card_detail_widget.dart';
+import 'package:ygo_collection_manager/ui/common/card_detail_widget.dart';
 import 'package:ygo_collection_manager/ui/common/no_glow_scroll_behavior.dart';
 
 class CardBottomSheet extends StatelessWidget {

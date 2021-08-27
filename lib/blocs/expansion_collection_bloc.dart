@@ -20,6 +20,9 @@ class ExpansionCollectionBloc extends BlocBase {
   int get selectedCardIndex => _selectedCardIndexController.value;
   late final StreamSubscription<int> _selectedIndexSubscription;
 
+  CardInfoModel? get selectedCard =>
+      _cards?[_selectedCardIndexController.value];
+
   List<CardInfoModel>? _cards;
 
   void _cardIndexListener(int index) {
@@ -72,6 +75,7 @@ class ExpansionCollectionBloc extends BlocBase {
 
   void disableEditing(AnimationController controller) {
     if (isEditing) {
+      _cards = null;
       _titleController.sink.add(null);
       _editionStateController.sink.add(false);
       controller.reverse();
