@@ -18,7 +18,7 @@ class CardEditingWidget extends StatelessWidget {
     final isSelected = index == expansionCollectionBloc.selectedCardIndex;
 
     return Opacity(
-      opacity: isSelected ? 1 : 0.5,
+      opacity: isSelected ? 1 : 0.3,
       child: InkWell(
         onTap: () => isSelected
             ? expansionCollectionBloc.switchMode(
