@@ -33,7 +33,7 @@ class _ExpansionViewState extends State<ExpansionView>
 
   late final _animationController = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 500),
+    duration: const Duration(milliseconds: 300),
   );
   late final Animation<double> _animation = CurvedAnimation(
     parent: _animationController,
