@@ -22,8 +22,7 @@ class ExpansionView extends StatefulWidget {
   State<StatefulWidget> createState() => _ExpansionViewState();
 }
 
-class _ExpansionViewState extends State<ExpansionView>
-    with TickerProviderStateMixin {
+class _ExpansionViewState extends State<ExpansionView> {
   late final _expansionCollectionBloc =
       BlocProvider.of<ExpansionCollectionBloc>(context);
   late final CardsBloc _cardsBloc = BlocProvider.of<CardsBloc>(context);
@@ -73,9 +72,7 @@ class _ExpansionViewState extends State<ExpansionView>
               initialData: _expansionCollectionBloc.isEditing,
               builder: (context, snapshot) {
                 final isEditing = snapshot.data!;
-                return isEditing
-                    ? _EditionLayout(_cards)
-                    : _CollectionLayout(_cards);
+                return _CollectionLayout(cards: _cards, isEditing: isEditing);
               },
             ),
           ),
@@ -87,8 +84,12 @@ class _ExpansionViewState extends State<ExpansionView>
 
 class _CollectionLayout extends StatefulWidget {
   final List<CardInfoModel> cards;
+  final bool isEditing;
 
-  const _CollectionLayout(this.cards);
+  const _CollectionLayout({
+    required this.cards,
+    required this.isEditing,
+  });
 
   @override
   State<StatefulWidget> createState() => _CollectionLayoutState();
@@ -96,46 +97,28 @@ class _CollectionLayout extends StatefulWidget {
 
 class _CollectionLayoutState extends State<_CollectionLayout>
     with TickerProviderStateMixin {
-  @override
-  Widget build(BuildContext context) {
-    return CardsGrid(
-      cards: widget.cards,
-      cardBuilder: (_, index) => CardWidget(
-        cards: widget.cards,
-        index: index,
-        enableLongPress: true,
-        tickerProvider: this,
-      ),
-    );
-  }
-}
-
-class _EditionLayout extends StatefulWidget {
-  final List<CardInfoModel> cards;
-
-  const _EditionLayout(this.cards);
-
-  @override
-  State<StatefulWidget> createState() => _EditionLayoutState();
-}
-
-class _EditionLayoutState extends State<_EditionLayout> {
   late final _expansionCollectionBloc =
       BlocProvider.of<ExpansionCollectionBloc>(context);
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<int>(
-      stream: _expansionCollectionBloc.onSelectedCardIndexChanged,
-      builder: (_, snapshot) {
-        return CardsGrid(
-          cards: widget.cards,
-          cardBuilder: (_, index) => CardEditingWidget(
-            index: index,
+        stream: _expansionCollectionBloc.onSelectedCardIndexChanged,
+        builder: (_, __) {
+          return CardsGrid(
             cards: widget.cards,
-          ),
-        );
-      },
-    );
+            cardBuilder: (_, index) => !widget.isEditing
+                ? CardWidget(
+                    cards: widget.cards,
+                    index: index,
+                    enableLongPress: true,
+                    tickerProvider: this,
+                  )
+                : CardEditingWidget(
+                    index: index,
+                    cards: widget.cards,
+                  ),
+          );
+        });
   }
 }
