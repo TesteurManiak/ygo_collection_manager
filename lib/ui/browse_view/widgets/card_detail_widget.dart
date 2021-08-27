@@ -12,6 +12,20 @@ class CardDetailWidget extends StatelessWidget {
     this.leading,
   });
 
+  factory CardDetailWidget.assetImage({
+    required String label,
+    required String value,
+    required String asset,
+  }) =>
+      CardDetailWidget(
+        label: label,
+        value: value,
+        leading: Image.asset(
+          asset,
+          errorBuilder: (_, error, ___) => const SizedBox(),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -22,7 +36,11 @@ class CardDetailWidget extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (leading != null) leading!,
+            if (leading != null)
+              Padding(
+                padding: const EdgeInsets.only(right: 4),
+                child: leading,
+              ),
             Flexible(child: Text(value, maxLines: 2)),
           ],
         ),
