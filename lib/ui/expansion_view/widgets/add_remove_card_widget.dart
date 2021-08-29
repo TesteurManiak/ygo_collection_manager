@@ -2,16 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
 import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
 import 'package:ygo_collection_manager/models/card_edition_enum.dart';
+import 'package:ygo_collection_manager/models/set_model.dart';
 
 class AddRemoveCardWidget extends StatelessWidget {
+  final SetModel currentSet;
+
+  const AddRemoveCardWidget(this.currentSet);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
-        children: const [
-          _EditionLine(edition: CardEditionEnum.first),
-          _EditionLine(edition: CardEditionEnum.unlimited),
+        children: [
+          _EditionLine(
+            edition: CardEditionEnum.first,
+            currentSet: currentSet,
+          ),
+          _EditionLine(
+            edition: CardEditionEnum.unlimited,
+            currentSet: currentSet,
+          ),
         ],
       ),
     );
@@ -20,8 +31,9 @@ class AddRemoveCardWidget extends StatelessWidget {
 
 class _EditionLine extends StatefulWidget {
   final CardEditionEnum edition;
+  final SetModel currentSet;
 
-  const _EditionLine({required this.edition});
+  const _EditionLine({required this.edition, required this.currentSet});
 
   @override
   State<StatefulWidget> createState() => _EditionLineState();
@@ -31,14 +43,8 @@ class _EditionLineState extends State<_EditionLine> {
   late final _expansionCollectionBloc =
       BlocProvider.of<ExpansionCollectionBloc>(context);
 
-  late int _quantity = 0;
-
-  void _addCard() {
-    setState(() => _quantity++);
-  }
-
   void _removeCard() {
-    if (_quantity > 0) setState(() => _quantity--);
+    // if (_quantity > 0) setState(() => _quantity--);
   }
 
   @override
@@ -53,8 +59,18 @@ class _EditionLineState extends State<_EditionLine> {
               Expanded(child: Container()),
               IconButton(
                   onPressed: _removeCard, icon: const Icon(Icons.remove)),
-              Text('$_quantity'),
-              IconButton(onPressed: _addCard, icon: const Icon(Icons.add)),
+              StreamBuilder<int>(
+                stream: _expansionCollectionBloc.onCardQuantityChanged,
+                initialData: _expansionCollectionBloc.cardQuantity,
+                builder: (_, snapshot) {
+                  return Text('${snapshot.data!}');
+                },
+              ),
+              IconButton(
+                onPressed: () =>
+                    _expansionCollectionBloc.addCard(widget.edition),
+                icon: const Icon(Icons.add),
+              ),
             ],
           );
         });

@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
 import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
 import 'package:async/async.dart' show StreamGroup;
+import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/ui/common/total_completion_widget.dart';
 import 'package:ygo_collection_manager/ui/expansion_view/widgets/add_remove_card_widget.dart';
 
 class CollectionAppBarBottom extends StatefulWidget {
   final Duration? animationDuration;
+  final SetModel currentSet;
 
-  const CollectionAppBarBottom({this.animationDuration});
+  const CollectionAppBarBottom({
+    this.animationDuration,
+    required this.currentSet,
+  });
 
   @override
   State<StatefulWidget> createState() => _CollectionAppBarBottomState();
@@ -33,7 +38,7 @@ class _CollectionAppBarBottomState extends State<CollectionAppBarBottom> {
       builder: (_, __) {
         return AnimatedCrossFade(
           firstChild: const TotalCompletionWidget(0.0),
-          secondChild: AddRemoveCardWidget(),
+          secondChild: AddRemoveCardWidget(widget.currentSet),
           crossFadeState: _expansionCollectionBloc.isEditing
               ? CrossFadeState.showSecond
               : CrossFadeState.showFirst,

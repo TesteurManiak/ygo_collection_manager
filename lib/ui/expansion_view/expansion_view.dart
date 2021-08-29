@@ -27,8 +27,10 @@ class ExpansionView extends StatefulWidget {
 class _ExpansionViewState extends State<ExpansionView>
     with SingleTickerProviderStateMixin {
   late final _expansionCollectionBloc =
-      BlocProvider.of<ExpansionCollectionBloc>(context);
-  late final CardsBloc _cardsBloc = BlocProvider.of<CardsBloc>(context);
+      BlocProvider.of<ExpansionCollectionBloc>(context)
+        ..initializeSet(widget.cardSet);
+  late final CardsBloc _cardsBloc = BlocProvider.of<CardsBloc>(context)
+    ..initOverlayState(context);
   late final _cards = _cardsBloc.getCardsInSet(widget.cardSet)!;
 
   late final _animationController = AnimationController(
@@ -49,12 +51,6 @@ class _ExpansionViewState extends State<ExpansionView>
       return false;
     }
     return true;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _cardsBloc.initOverlayState(context);
   }
 
   @override
@@ -83,6 +79,7 @@ class _ExpansionViewState extends State<ExpansionView>
           ),
           bottom: CollectionAppBarBottom(
             animationDuration: _animationController.duration,
+            currentSet: widget.cardSet,
           ),
         ),
         body: Container(
@@ -147,7 +144,7 @@ class _CollectionLayoutState extends State<_CollectionLayout>
                   onLongPress: () => _expansionCollectionBloc.enableEditing(
                     cardIndex: index,
                     controller: widget.controller,
-                    card: widget.cards[index],
+                    cards: widget.cards,
                   ),
                 )
               : CardEditingWidget(

@@ -1,4 +1,5 @@
 import 'package:hive_flutter/adapters.dart';
+import 'package:ygo_collection_manager/models/card_edition_enum.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 
 part 'card_info_model.g.dart';
@@ -259,7 +260,12 @@ class CardInfoModel extends HiveObject {
       );
 
   String get levelAsset =>
-      'assets/level/${type == "XYZ Monster" ? "rank.png" : "level.png"}';
+      'assets/level/${type.contains("XYZ") ? "rank.png" : "level.png"}';
+
+  String getDbKey(SetModel set, CardEditionEnum edition) {
+    final cardSet = getCardSetsFromSet(set)!;
+    return '${cardSet.code}-${edition.string}';
+  }
 
   CardInfoModel({
     required this.id,
