@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
 import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
-import 'package:ygo_collection_manager/helper/hive_helper.dart';
 import 'package:ygo_collection_manager/models/card_edition_enum.dart';
-import 'package:ygo_collection_manager/models/card_owned_model.dart';
 
 class AddRemoveCardWidget extends StatelessWidget {
   @override
@@ -33,32 +31,10 @@ class _EditionLineState extends State<_EditionLine> {
   late final _expansionCollectionBloc =
       BlocProvider.of<ExpansionCollectionBloc>(context);
 
-  String get _cardOwnedKey =>
-      '${_expansionCollectionBloc.currentCard!.getCardSetsFromSet(_expansionCollectionBloc.currentCardSet)?.code}-${widget.edition.string}';
-
-  late int _quantity = _expansionCollectionBloc.currentCard != null
-      ? HiveHelper.instance.getCopiesOfCardOwned(_cardOwnedKey)
-      : 0;
+  late int _quantity = 0;
 
   void _addCard() {
-    HiveHelper.instance
-        .updateCardOwned(
-      CardOwnedModel(
-        quantity: _quantity + 1,
-        code: _expansionCollectionBloc.currentCard!
-            .getCardSetsFromSet(_expansionCollectionBloc.currentCardSet)!
-            .code,
-        edition: widget.edition,
-      ),
-    )
-        .then((_) {
-      if (mounted) {
-        setState(
-          () => _quantity =
-              HiveHelper.instance.getCopiesOfCardOwned(_cardOwnedKey),
-        );
-      }
-    });
+    setState(() => _quantity++);
   }
 
   void _removeCard() {

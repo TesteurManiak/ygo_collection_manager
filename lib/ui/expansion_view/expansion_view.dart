@@ -55,7 +55,6 @@ class _ExpansionViewState extends State<ExpansionView>
   void initState() {
     super.initState();
     _cardsBloc.initOverlayState(context);
-    _expansionCollectionBloc.setCardsetInUse(widget.cardSet);
   }
 
   @override
@@ -136,26 +135,28 @@ class _CollectionLayoutState extends State<_CollectionLayout>
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<int>(
-        stream: _expansionCollectionBloc.onSelectedCardIndexChanged,
-        builder: (_, __) {
-          return CardsGrid(
-            cards: widget.cards,
-            cardBuilder: (_, index) => !widget.isEditing
-                ? CardWidget(
-                    cards: widget.cards,
-                    index: index,
-                    tickerProvider: this,
-                    onLongPress: () => _expansionCollectionBloc.switchMode(
-                      cardIndex: index,
-                      controller: widget.controller,
-                    ),
-                  )
-                : CardEditingWidget(
-                    index: index,
-                    cards: widget.cards,
+      stream: _expansionCollectionBloc.onSelectedCardIndexChanged,
+      builder: (_, __) {
+        return CardsGrid(
+          cards: widget.cards,
+          cardBuilder: (_, index) => !widget.isEditing
+              ? CardWidget(
+                  cards: widget.cards,
+                  index: index,
+                  tickerProvider: this,
+                  onLongPress: () => _expansionCollectionBloc.enableEditing(
+                    cardIndex: index,
                     controller: widget.controller,
+                    card: widget.cards[index],
                   ),
-          );
-        });
+                )
+              : CardEditingWidget(
+                  index: index,
+                  cards: widget.cards,
+                  controller: widget.controller,
+                ),
+        );
+      },
+    );
   }
 }
