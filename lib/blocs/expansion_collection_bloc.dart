@@ -24,9 +24,13 @@ class ExpansionCollectionBloc extends BlocBase {
   int get selectedCardIndex => _selectedCardIndexController.value;
   late final StreamSubscription<int> _selectedIndexSubscription;
 
-  final _cardQuantityController = BehaviorSubject<int>.seeded(0);
-  Stream<int> get onCardQuantityChanged => _cardQuantityController.stream;
-  int get cardQuantity => _cardQuantityController.value;
+  final _firstEditionQtyController = BehaviorSubject<int>.seeded(0);
+  Stream<int> get onFirstEditionQtyChanged => _firstEditionQtyController.stream;
+  int get firstEditionQty => _firstEditionQtyController.value;
+
+  final _unlimitedQtyController = BehaviorSubject<int>.seeded(0);
+  Stream<int> get onUnlimitedQtyChanged => _unlimitedQtyController.stream;
+  int get unlimitedQty => _unlimitedQtyController.value;
 
   final _cardSetController = BehaviorSubject<SetModel?>.seeded(null);
   Stream<SetModel?> get onCardSetChanged => _cardSetController.stream;
@@ -40,9 +44,14 @@ class ExpansionCollectionBloc extends BlocBase {
     if (currentCards != null && currentSet != null) {
       final card = currentCards[index];
       _titleController.sink.add(card.name);
-      _cardQuantityController.sink.add(
+      _firstEditionQtyController.sink.add(
         HiveHelper.instance.getCopiesOfCardOwned(
           card.getDbKey(currentSet, CardEditionEnum.first),
+        ),
+      );
+      _unlimitedQtyController.sink.add(
+        HiveHelper.instance.getCopiesOfCardOwned(
+          card.getDbKey(currentSet, CardEditionEnum.unlimited),
         ),
       );
     }
@@ -61,7 +70,8 @@ class ExpansionCollectionBloc extends BlocBase {
     _editionStateController.close();
     _titleController.close();
     _selectedCardIndexController.close();
-    _cardQuantityController.close();
+    _firstEditionQtyController.close();
+    _unlimitedQtyController.close();
     _cardSetController.close();
   }
 
@@ -99,7 +109,9 @@ class ExpansionCollectionBloc extends BlocBase {
     final currentSet = cardSet;
     if (currentCards != null && currentSet != null) {
       final card = currentCards[selectedCardIndex];
-      final newQuantity = cardQuantity + 1;
+      final newQuantity =
+          (edition == CardEditionEnum.first ? firstEditionQty : unlimitedQty) +
+              1;
       HiveHelper.instance
           .updateCardOwned(
             CardOwnedModel(
@@ -108,11 +120,37 @@ class ExpansionCollectionBloc extends BlocBase {
               edition: edition,
             ),
           )
-          .then((_) => _cardQuantityController.sink.add(newQuantity));
+          .then(
+            (_) => edition == CardEditionEnum.first
+                ? _firstEditionQtyController.sink.add(newQuantity)
+                : _unlimitedQtyController.sink.add(newQuantity),
+          );
     }
   }
 
   void removeCard(CardEditionEnum edition) {
-    if (cardQuantity > 0) {}
+    final currentQty =
+        edition == CardEditionEnum.first ? firstEditionQty : unlimitedQty;
+    if (currentQty > 0) {
+      final currentCards = _cards;
+      final currentSet = cardSet;
+      if (currentCards != null && currentSet != null) {
+        final card = currentCards[selectedCardIndex];
+        final newQuantity = currentQty - 1;
+        HiveHelper.instance
+            .updateCardOwned(
+              CardOwnedModel(
+                quantity: newQuantity,
+                code: card.getCardSetsFromSet(currentSet)!.code,
+                edition: edition,
+              ),
+            )
+            .then(
+              (_) => edition == CardEditionEnum.first
+                  ? _firstEditionQtyController.sink.add(newQuantity)
+                  : _unlimitedQtyController.sink.add(newQuantity),
+            );
+      }
+    }
   }
 }

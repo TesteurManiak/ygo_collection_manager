@@ -11,6 +11,8 @@ class AddRemoveCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final expansionCollectionBloc =
+        BlocProvider.of<ExpansionCollectionBloc>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -18,10 +20,12 @@ class AddRemoveCardWidget extends StatelessWidget {
           _EditionLine(
             edition: CardEditionEnum.first,
             currentSet: currentSet,
+            onQuantityChanged: expansionCollectionBloc.onFirstEditionQtyChanged,
           ),
           _EditionLine(
             edition: CardEditionEnum.unlimited,
             currentSet: currentSet,
+            onQuantityChanged: expansionCollectionBloc.onUnlimitedQtyChanged,
           ),
         ],
       ),
@@ -32,8 +36,13 @@ class AddRemoveCardWidget extends StatelessWidget {
 class _EditionLine extends StatefulWidget {
   final CardEditionEnum edition;
   final SetModel currentSet;
+  final Stream<int> onQuantityChanged;
 
-  const _EditionLine({required this.edition, required this.currentSet});
+  const _EditionLine({
+    required this.edition,
+    required this.currentSet,
+    required this.onQuantityChanged,
+  });
 
   @override
   State<StatefulWidget> createState() => _EditionLineState();
@@ -43,36 +52,35 @@ class _EditionLineState extends State<_EditionLine> {
   late final _expansionCollectionBloc =
       BlocProvider.of<ExpansionCollectionBloc>(context);
 
-  void _removeCard() {
-    // if (_quantity > 0) setState(() => _quantity--);
-  }
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<int>(
-        stream: _expansionCollectionBloc.onSelectedCardIndexChanged,
-        initialData: _expansionCollectionBloc.selectedCardIndex,
-        builder: (_, snapshot) {
-          return Row(
-            children: [
-              Text(widget.edition.string),
-              Expanded(child: Container()),
-              IconButton(
-                  onPressed: _removeCard, icon: const Icon(Icons.remove)),
-              StreamBuilder<int>(
-                stream: _expansionCollectionBloc.onCardQuantityChanged,
-                initialData: _expansionCollectionBloc.cardQuantity,
-                builder: (_, snapshot) {
-                  return Text('${snapshot.data!}');
-                },
-              ),
-              IconButton(
-                onPressed: () =>
-                    _expansionCollectionBloc.addCard(widget.edition),
-                icon: const Icon(Icons.add),
-              ),
-            ],
-          );
-        });
+      stream: _expansionCollectionBloc.onSelectedCardIndexChanged,
+      initialData: _expansionCollectionBloc.selectedCardIndex,
+      builder: (_, snapshot) {
+        return Row(
+          children: [
+            Text(widget.edition.string),
+            Expanded(child: Container()),
+            IconButton(
+              onPressed: () =>
+                  _expansionCollectionBloc.removeCard(widget.edition),
+              icon: const Icon(Icons.remove),
+            ),
+            StreamBuilder<int>(
+              stream: widget.onQuantityChanged,
+              initialData: 0,
+              builder: (_, snapshot) {
+                return Text('${snapshot.data!}');
+              },
+            ),
+            IconButton(
+              onPressed: () => _expansionCollectionBloc.addCard(widget.edition),
+              icon: const Icon(Icons.add),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
