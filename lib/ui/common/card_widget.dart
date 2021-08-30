@@ -2,6 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
 import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
+import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
+import 'package:ygo_collection_manager/helper/hive_helper.dart';
+import 'package:ygo_collection_manager/models/card_edition_enum.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 
@@ -37,6 +40,26 @@ class CardWidget extends StatelessWidget {
             ),
           ),
         ),
+        if (onLongPress != null)
+          Positioned(
+            child: StreamBuilder<Object>(
+              stream: _cardsBloc.onFullCollectionCompletionChanged,
+              builder: (streamContext, __) {
+                final expansionCollectionBloc =
+                    BlocProvider.of<ExpansionCollectionBloc>(streamContext);
+                final firstEdQty = HiveHelper.instance.getCopiesOfCardOwned(
+                  cards[index].getDbKey(
+                      expansionCollectionBloc.cardSet!, CardEditionEnum.first),
+                );
+                final unlimitedQty = HiveHelper.instance.getCopiesOfCardOwned(
+                  cards[index].getDbKey(expansionCollectionBloc.cardSet!,
+                      CardEditionEnum.unlimited),
+                );
+                final quantity = firstEdQty + unlimitedQty;
+                return Text('$quantity');
+              },
+            ),
+          ),
         Positioned.fill(
           child: Material(
             color: Colors.transparent,

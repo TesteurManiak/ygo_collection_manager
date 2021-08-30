@@ -38,14 +38,16 @@ class _CollectionAppBarBottomState extends State<CollectionAppBarBottom> {
       stream: _onChanges,
       builder: (_, __) {
         return AnimatedCrossFade(
-          firstChild: TotalCompletionWidget(getTotalCompletion: () {
-            final cardsBloc = BlocProvider.of<CardsBloc>(context);
-            final numOfCards =
-                cardsBloc.getCardsInSet(widget.currentSet)?.length ??
-                    widget.currentSet.numOfCards;
-            final cardsOwned = cardsBloc.cardsOwnedInSet(widget.currentSet);
-            return cardsOwned / numOfCards * 100;
-          }),
+          firstChild: TotalCompletionWidget(
+            getTotalCompletion: () {
+              final cardsBloc = BlocProvider.of<CardsBloc>(context);
+              final numOfCards =
+                  cardsBloc.getCardsInSet(widget.currentSet)?.length ??
+                      widget.currentSet.numOfCards;
+              final cardsOwned = cardsBloc.cardsOwnedInSet(widget.currentSet);
+              return cardsOwned / numOfCards * 100;
+            },
+          ),
           secondChild: AddRemoveCardWidget(widget.currentSet),
           crossFadeState: _expansionCollectionBloc.isEditing
               ? CrossFadeState.showSecond

@@ -154,8 +154,10 @@ class CardsBloc extends BlocBase {
       }
       final _cardsOwned =
           HiveHelper.instance.cardsOwned.map<String>((e) => e.setCode).toSet();
-      _fullCollectionCompletionController.sink
-          .add(_cardsOwned.length / _differentCardsSet.length * 100);
+      if (_differentCardsSet.isNotEmpty) {
+        _fullCollectionCompletionController.sink
+            .add(_cardsOwned.length / _differentCardsSet.length * 100);
+      }
     }
   }
 
