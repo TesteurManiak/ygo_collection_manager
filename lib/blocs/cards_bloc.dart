@@ -45,7 +45,9 @@ class CardsBloc extends BlocBase {
   }
 
   @override
-  void initState() {}
+  void initState() {
+    loadFromDb();
+  }
 
   @override
   void dispose() {

@@ -24,9 +24,6 @@ class _LoadingViewState extends State<LoadingView> {
         _setsBloc.fetchAllSets(),
         _cardsBloc.fetchAllCards(),
       ]);
-    } else {
-      _cardsBloc.loadFromDb();
-      _setsBloc.loadFromDb();
     }
   }
 
