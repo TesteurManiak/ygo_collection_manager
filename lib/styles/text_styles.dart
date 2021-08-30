@@ -6,6 +6,7 @@ class TextStyles {
   static const grey14 = TextStyle(color: MyColors.grey, fontSize: 14);
 
   // default
+  static const font12b = TextStyle(fontSize: 12, fontWeight: FontWeight.bold);
   static const font20 = TextStyle(fontSize: 20);
 }
 
