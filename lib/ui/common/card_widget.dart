@@ -43,7 +43,8 @@ class CardWidget extends StatelessWidget {
         ),
         if (onLongPress != null)
           Positioned(
-            bottom: 0,
+            bottom: 2,
+            left: 2,
             child: StreamBuilder<Object>(
               stream: _cardsBloc.onFullCollectionCompletionChanged,
               builder: (streamContext, __) {
@@ -58,15 +59,19 @@ class CardWidget extends StatelessWidget {
                       CardEditionEnum.unlimited),
                 );
                 final quantity = firstEdQty + unlimitedQty;
-                return Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: DynamicThemedColors.scaffoldBackground(context),
-                    border: Border.all(color: Colors.red, width: 2),
-                  ),
-                  padding: const EdgeInsets.all(4),
-                  child: Text('$quantity', style: TextStyles.font12b),
-                );
+                return quantity > 0
+                    ? Container(
+                        decoration: const BoxDecoration(
+                          color: MyColors.yellow2,
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(6),
+                          ),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 4, horizontal: 6),
+                        child: Text('$quantity', style: TextStyles.black12b),
+                      )
+                    : const SizedBox();
               },
             ),
           ),
