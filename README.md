@@ -12,8 +12,6 @@ flutter packages pub run build_runner build
 
 * Completely manage persistent system theme
 * Search for a card in the browse view
-* Add/Remove a card to the collection
-* Display completion of a set
 * Add filters for expansions
 * Add filters for cards
 * Release on the Play Store
