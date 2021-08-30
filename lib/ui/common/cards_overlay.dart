@@ -4,7 +4,7 @@ import 'package:snapping_sheet/snapping_sheet.dart';
 import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
 import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
-import 'package:ygo_collection_manager/ui/browse_view/widgets/card_bottom_sheet.dart';
+import 'package:ygo_collection_manager/ui/common/card_bottom_sheet.dart';
 
 class CardsOverlay extends StatefulWidget {
   final int initialIndex;

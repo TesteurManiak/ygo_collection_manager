@@ -1,14 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
+import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
+import 'package:ygo_collection_manager/models/card_edition_enum.dart';
+import 'package:ygo_collection_manager/models/set_model.dart';
 
 class AddRemoveCardWidget extends StatelessWidget {
+  final SetModel currentSet;
+
+  const AddRemoveCardWidget(this.currentSet);
+
   @override
   Widget build(BuildContext context) {
+    final expansionCollectionBloc =
+        BlocProvider.of<ExpansionCollectionBloc>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
-        children: const [
-          _EditionLine(label: '1st Edition'),
-          _EditionLine(label: 'Unlimited'),
+        children: [
+          _EditionLine(
+            edition: CardEditionEnum.first,
+            currentSet: currentSet,
+            onQuantityChanged: expansionCollectionBloc.onFirstEditionQtyChanged,
+          ),
+          _EditionLine(
+            edition: CardEditionEnum.unlimited,
+            currentSet: currentSet,
+            onQuantityChanged: expansionCollectionBloc.onUnlimitedQtyChanged,
+          ),
         ],
       ),
     );
@@ -16,32 +34,53 @@ class AddRemoveCardWidget extends StatelessWidget {
 }
 
 class _EditionLine extends StatefulWidget {
-  final String label;
-  final int initialQuantity;
+  final CardEditionEnum edition;
+  final SetModel currentSet;
+  final Stream<int> onQuantityChanged;
 
-  const _EditionLine({required this.label, this.initialQuantity = 0});
+  const _EditionLine({
+    required this.edition,
+    required this.currentSet,
+    required this.onQuantityChanged,
+  });
 
   @override
   State<StatefulWidget> createState() => _EditionLineState();
 }
 
 class _EditionLineState extends State<_EditionLine> {
-  late int _quantity = widget.initialQuantity;
-
-  void _addCard() => setState(() => _quantity++);
-
-  void _removeCard() => setState(() => _quantity--);
+  late final _expansionCollectionBloc =
+      BlocProvider.of<ExpansionCollectionBloc>(context);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(widget.label),
-        Expanded(child: Container()),
-        IconButton(onPressed: _removeCard, icon: const Icon(Icons.remove)),
-        Text('$_quantity'),
-        IconButton(onPressed: _addCard, icon: const Icon(Icons.add)),
-      ],
+    return StreamBuilder<int>(
+      stream: _expansionCollectionBloc.onSelectedCardIndexChanged,
+      initialData: _expansionCollectionBloc.selectedCardIndex,
+      builder: (_, snapshot) {
+        return Row(
+          children: [
+            Text(widget.edition.string),
+            Expanded(child: Container()),
+            IconButton(
+              onPressed: () =>
+                  _expansionCollectionBloc.removeCard(widget.edition),
+              icon: const Icon(Icons.remove),
+            ),
+            StreamBuilder<int>(
+              stream: widget.onQuantityChanged,
+              initialData: 0,
+              builder: (_, snapshot) {
+                return Text('${snapshot.data!}');
+              },
+            ),
+            IconButton(
+              onPressed: () => _expansionCollectionBloc.addCard(widget.edition),
+              icon: const Icon(Icons.add),
+            ),
+          ],
+        );
+      },
     );
   }
 }

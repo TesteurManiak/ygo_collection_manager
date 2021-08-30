@@ -1,9 +1,11 @@
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ygo_collection_manager/models/card_edition_enum.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/models/card_owned_model.dart';
 import 'package:ygo_collection_manager/models/db_version_model.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/utils/indexes.dart';
+import 'package:ygo_collection_manager/extensions/extensions.dart';
 
 class HiveHelper {
   bool _isInitialized = false;
@@ -31,6 +33,8 @@ class HiveHelper {
       Hive.registerAdapter(CardPriceModelAdapter());
       Hive.registerAdapter(CardBanlistInfoAdapter());
       Hive.registerAdapter(CardMiscInfoAdapter());
+      Hive.registerAdapter(CardOwnedModelAdapter());
+      Hive.registerAdapter(CardEditionEnumAdapter());
 
       _boxDb = await Hive.openBox<DBVersionModel>(Indexes.tableDB);
       _boxCards = await Hive.openBox<CardInfoModel>(Indexes.tableCards);
@@ -76,13 +80,18 @@ class HiveHelper {
 
   Future<void> dispose() => Hive.close();
 
-  /// Getter to return an Iterable<int> corresponding to the ids of cards owned
-  /// by user.
-  Iterable<CardOwnedModel> get cardsOwned => _boxCardsOwned.values;
+  /// Getter to return a List<CardOwnedModel>.
+  List<CardOwnedModel> get cardsOwned => _boxCardsOwned.values
+      .toList()
+      .compactMap<CardOwnedModel>((e) => e.quantity > 0 ? e : null);
+
+  /// Getter to return the number of copy of a specific card.
+  int getCopiesOfCardOwned(String key) =>
+      _boxCardsOwned.get(key)?.quantity ?? 0;
 
   /// Add or update a card to the collection. Takes a [CardOwnedModel] as
   /// parameter.
-  Future<void> updateCard(CardOwnedModel card) {
+  Future<void> updateCardOwned(CardOwnedModel card) {
     final keyIndex = _boxCardsOwned.keys.toList().indexOf(card.key);
     if (keyIndex != -1) return _boxCardsOwned.putAt(keyIndex, card);
     return _boxCardsOwned.put(card.key, card);

@@ -36,10 +36,10 @@ class _CollectionViewState extends State<CollectionView>
         onRefresh: _setsBloc.refreshSets,
         child: CustomScrollView(
           slivers: [
-            const SliverAppBar(
-              title: Text('Collection'),
+            SliverAppBar(
+              title: const Text('Collection'),
               centerTitle: true,
-              bottom: TotalCompletionBottomWidget(totalCompletion: 0.0),
+              bottom: TotalCompletionBottomWidget(),
             ),
             const TopRoundedSliver(),
             SliverAppBar(
@@ -73,21 +73,26 @@ class _CollectionViewState extends State<CollectionView>
                   if (!snapshot.hasData || data == null) {
                     return const SliverToBoxAdapter(child: SizedBox());
                   }
-                  return SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) => Container(
-                        decoration: BoxDecoration(
-                          color:
-                              DynamicThemedColors.scaffoldBackground(context),
-                          border: Border.all(
-                            color:
-                                DynamicThemedColors.scaffoldBackground(context),
+                  return StreamBuilder<double>(
+                    stream: _cardsBloc.onFullCollectionCompletionChanged,
+                    builder: (_, __) {
+                      return SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) => Container(
+                            decoration: BoxDecoration(
+                              color: DynamicThemedColors.scaffoldBackground(
+                                  context),
+                              border: Border.all(
+                                color: DynamicThemedColors.scaffoldBackground(
+                                    context),
+                              ),
+                            ),
+                            child: SetTileWidget(data[index]),
                           ),
+                          childCount: data.length,
                         ),
-                        child: SetTileWidget(data[index]),
-                      ),
-                      childCount: data.length,
-                    ),
+                      );
+                    },
                   );
                 },
               ),

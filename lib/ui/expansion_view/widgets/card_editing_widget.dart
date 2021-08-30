@@ -26,11 +26,7 @@ class CardEditingWidget extends StatelessWidget {
       opacity: isSelected ? 1 : 0.3,
       child: InkWell(
         onTap: () => isSelected
-            ? expansionCollectionBloc.switchMode(
-                cardIndex: index,
-                cards: cards,
-                controller: controller,
-              )
+            ? expansionCollectionBloc.disableEditing(controller)
             : expansionCollectionBloc.selectCard(index),
         child: Container(
           color: DynamicThemedColors.scaffoldBackground(context),

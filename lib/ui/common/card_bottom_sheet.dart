@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 import 'package:ygo_collection_manager/styles/text_styles.dart';
-import 'package:ygo_collection_manager/ui/browse_view/widgets/card_detail_widget.dart';
+import 'package:ygo_collection_manager/ui/common/card_detail_widget.dart';
 import 'package:ygo_collection_manager/ui/common/no_glow_scroll_behavior.dart';
 
 class CardBottomSheet extends StatelessWidget {
@@ -27,12 +27,18 @@ class CardBottomSheet extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  Image.asset(
+                    'assets/type/${card.type}.jpg',
+                    height: 20,
+                    errorBuilder: (_, __, ___) => const SizedBox(),
+                  ),
+                  const SizedBox(width: 8),
                   Text(
                     card.type,
                     style: const TextStyle(fontSize: 16),
                   ),
+                  Expanded(child: Container()),
                   RichText(
                     text: TextSpan(
                       children: [
@@ -84,7 +90,11 @@ class CardBottomSheet extends StatelessWidget {
                 const SizedBox(height: 16),
               Row(
                 children: [
-                  CardDetailWidget(label: 'Race', value: card.race),
+                  CardDetailWidget.assetImage(
+                    label: 'Race',
+                    value: card.race,
+                    asset: 'assets/race/${card.race}.png',
+                  ),
                   if (card.attribute != null) const SizedBox(width: 32),
                   if (card.attribute != null)
                     CardDetailWidget(
