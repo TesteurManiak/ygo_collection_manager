@@ -7,13 +7,23 @@ import 'package:ygo_collection_manager/api/api_repository.dart';
 import 'package:ygo_collection_manager/blocs/bloc.dart';
 import 'package:ygo_collection_manager/helper/hive_helper.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
+import 'package:ygo_collection_manager/models/card_owned_model.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/ui/common/cards_overlay.dart';
+import 'package:ygo_collection_manager/extensions/extensions.dart';
 
 class CardsBloc extends BlocBase {
   final _cardsController = BehaviorSubject<List<CardInfoModel>?>.seeded(null);
   Stream<List<CardInfoModel>?> get onCardsChanged => _cardsController.stream;
   List<CardInfoModel>? get cards => _cardsController.value;
+  late final StreamSubscription<List<CardInfoModel>?> _cardsSubscription;
+
+  final _fullCollectionCompletionController =
+      BehaviorSubject<double>.seeded(0.0);
+  Stream<double> get onFullCollectionCompletionChanged =>
+      _fullCollectionCompletionController.stream;
+  double get fullCollectionCompletion =>
+      _fullCollectionCompletionController.value;
 
   late Isolate _isolate;
   late ReceivePort _receivePort;
@@ -34,24 +44,32 @@ class CardsBloc extends BlocBase {
   /// Return a list of [CardInfoModel] that are in the set of cards.
   /// Takes a [SetModel] as parameter.
   List<CardInfoModel>? getCardsInSet(SetModel cardSet) {
-    return cards
-        ?.where((e) =>
-            e.cardSets != null &&
-            e.cardSets!
-                .map<String>((e) => e.name)
-                .toSet()
-                .contains(cardSet.setName))
-        .toList();
+    return cards?.compactMap<CardInfoModel>(
+      (card) => card.cardSets != null &&
+              card.cardSets!
+                  .map<String>((e) => e.name)
+                  .toSet()
+                  .contains(cardSet.setName)
+          ? card
+          : null,
+    );
   }
+
+  void _cardsListener(List<CardInfoModel>? _cards) =>
+      updateCompletion(initialCards: _cards);
 
   @override
   void initState() {
+    _cardsSubscription = _cardsController.listen(_cardsListener);
     loadFromDb();
   }
 
   @override
   void dispose() {
     _closeIsolate();
+
+    _cardsSubscription.cancel();
+
     _cardsController.close();
     _overlayState?.dispose();
   }
@@ -123,5 +141,34 @@ class CardsBloc extends BlocBase {
       _overlayEntry.remove();
       _isOverlayOpen = false;
     });
+  }
+
+  void updateCompletion({List<CardInfoModel>? initialCards}) {
+    final _cards = initialCards ?? cards;
+    if (_cards != null) {
+      final _cardsList =
+          _cards.compactMap((e) => e.cardSets != null ? e : null);
+      final _differentCardsSet = <String>{};
+      for (final card in _cardsList) {
+        _differentCardsSet.addAll(card.cardSets!.map<String>((e) => e.code));
+      }
+      final _cardsOwned = HiveHelper.instance.cardsOwned
+          .toList()
+          .compactMap<CardOwnedModel>((e) => e.quantity > 0 ? e : null)
+          .map<String>((e) => e.code)
+          .toSet();
+      _fullCollectionCompletionController.sink
+          .add(_cardsOwned.length / _differentCardsSet.length * 100);
+    }
+  }
+
+  int cardsOwnedInSet(SetModel cardSet) {
+    return HiveHelper.instance.cardsOwned
+        .toList()
+        .compactMap<CardOwnedModel>((e) =>
+            e.quantity > 0 && e.code.contains(cardSet.setCode) ? e : null)
+        .map<String>((e) => e.code)
+        .toSet()
+        .length;
   }
 }

@@ -37,7 +37,7 @@ class _CollectionAppBarBottomState extends State<CollectionAppBarBottom> {
       stream: _onChanges,
       builder: (_, __) {
         return AnimatedCrossFade(
-          firstChild: const TotalCompletionWidget(0.0),
+          firstChild: TotalCompletionWidget(),
           secondChild: AddRemoveCardWidget(widget.currentSet),
           crossFadeState: _expansionCollectionBloc.isEditing
               ? CrossFadeState.showSecond

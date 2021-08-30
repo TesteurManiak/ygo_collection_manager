@@ -36,10 +36,10 @@ class _CollectionViewState extends State<CollectionView>
         onRefresh: _setsBloc.refreshSets,
         child: CustomScrollView(
           slivers: [
-            const SliverAppBar(
-              title: Text('Collection'),
+            SliverAppBar(
+              title: const Text('Collection'),
               centerTitle: true,
-              bottom: TotalCompletionBottomWidget(totalCompletion: 0.0),
+              bottom: TotalCompletionBottomWidget(),
             ),
             const TopRoundedSliver(),
             SliverAppBar(
