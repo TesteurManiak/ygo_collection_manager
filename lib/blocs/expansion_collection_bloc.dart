@@ -129,8 +129,9 @@ class ExpansionCollectionBloc extends BlocBase {
           .updateCardOwned(
         CardOwnedModel(
           quantity: newQuantity,
-          code: card.getCardSetsFromSet(currentSet)!.code,
+          setCode: card.getCardSetsFromSet(currentSet)!.code,
           edition: edition,
+          setName: currentSet.setName,
         ),
       )
           .then(
@@ -156,8 +157,9 @@ class ExpansionCollectionBloc extends BlocBase {
             .updateCardOwned(
           CardOwnedModel(
             quantity: newQuantity,
-            code: card.getCardSetsFromSet(currentSet)!.code,
+            setCode: card.getCardSetsFromSet(currentSet)!.code,
             edition: edition,
+            setName: currentSet.setName,
           ),
         )
             .then(

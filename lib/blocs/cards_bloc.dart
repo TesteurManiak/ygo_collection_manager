@@ -155,7 +155,7 @@ class CardsBloc extends BlocBase {
       final _cardsOwned = HiveHelper.instance.cardsOwned
           .toList()
           .compactMap<CardOwnedModel>((e) => e.quantity > 0 ? e : null)
-          .map<String>((e) => e.code)
+          .map<String>((e) => e.setCode)
           .toSet();
       _fullCollectionCompletionController.sink
           .add(_cardsOwned.length / _differentCardsSet.length * 100);
@@ -165,9 +165,12 @@ class CardsBloc extends BlocBase {
   int cardsOwnedInSet(SetModel cardSet) {
     return HiveHelper.instance.cardsOwned
         .toList()
-        .compactMap<CardOwnedModel>((e) =>
-            e.quantity > 0 && e.code.contains(cardSet.setCode) ? e : null)
-        .map<String>((e) => e.code)
+        .compactMap<CardOwnedModel>((e) => e.quantity > 0 &&
+                e.setCode.contains(cardSet.setCode) &&
+                e.setName == cardSet.setName
+            ? e
+            : null)
+        .map<String>((e) => e.setCode)
         .toSet()
         .length;
   }

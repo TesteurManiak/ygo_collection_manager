@@ -18,21 +18,24 @@ class CardOwnedModelAdapter extends TypeAdapter<CardOwnedModel> {
     };
     return CardOwnedModel(
       quantity: fields[1] as int,
-      code: fields[2] as String,
+      setCode: fields[2] as String,
       edition: fields[3] as CardEditionEnum,
+      setName: fields[4] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, CardOwnedModel obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(1)
       ..write(obj.quantity)
       ..writeByte(2)
-      ..write(obj.code)
+      ..write(obj.setCode)
       ..writeByte(3)
-      ..write(obj.edition);
+      ..write(obj.edition)
+      ..writeByte(4)
+      ..write(obj.setName);
   }
 
   @override

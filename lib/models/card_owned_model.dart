@@ -11,17 +11,21 @@ class CardOwnedModel {
 
   /// Code of the card in the set, ex: DB1-EN109.
   @HiveField(2)
-  final String code;
+  final String setCode;
 
   /// If the card is 1st edition or unlimited.
   @HiveField(3)
   final CardEditionEnum edition;
 
-  String get key => '$code-${edition.string}';
+  @HiveField(4)
+  final String setName;
+
+  String get key => '$setCode-${edition.string}';
 
   CardOwnedModel({
     required this.quantity,
-    required this.code,
+    required this.setCode,
     required this.edition,
+    required this.setName,
   });
 }
