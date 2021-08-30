@@ -18,6 +18,11 @@ class CardsBloc extends BlocBase {
   List<CardInfoModel>? get cards => _cardsController.value;
   late final StreamSubscription<List<CardInfoModel>?> _cardsSubscription;
 
+  final _filteredCardsController =
+      BehaviorSubject<List<CardInfoModel>?>.seeded(null);
+  Stream<List<CardInfoModel>?> get onFilteredCardsChanged =>
+      _filteredCardsController.stream;
+
   final _fullCollectionCompletionController =
       BehaviorSubject<double>.seeded(0.0);
   Stream<double> get onFullCollectionCompletionChanged =>
@@ -71,6 +76,8 @@ class CardsBloc extends BlocBase {
     _cardsSubscription.cancel();
 
     _cardsController.close();
+    _filteredCardsController.close();
+    _fullCollectionCompletionController.close();
     _overlayState?.dispose();
   }
 

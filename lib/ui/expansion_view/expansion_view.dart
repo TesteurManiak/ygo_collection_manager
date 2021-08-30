@@ -35,7 +35,7 @@ class _ExpansionViewState extends State<ExpansionView>
 
   late final _animationController = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 300),
+    duration: const Duration(milliseconds: 400),
   );
   late final Animation<double> _animation = CurvedAnimation(
     parent: _animationController,
@@ -77,9 +77,12 @@ class _ExpansionViewState extends State<ExpansionView>
               return Text(title);
             },
           ),
-          bottom: CollectionAppBarBottom(
-            animationDuration: _animationController.duration,
-            currentSet: widget.cardSet,
+          bottomBuilder: (sizeTween) => PreferredSize(
+            preferredSize: Size.fromHeight(sizeTween.evaluate(_animation)),
+            child: CollectionAppBarBottom(
+              animationDuration: _animationController.duration,
+              currentSet: widget.cardSet,
+            ),
           ),
         ),
         body: Container(

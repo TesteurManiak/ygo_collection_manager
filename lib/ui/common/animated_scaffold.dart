@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'animated_app_bar.dart';
 
+typedef AppBarBottomBuilder = PreferredSizeWidget? Function(Tween<double>);
+
 class AnimatedScaffoldBottom extends AnimatedWidget {
   final Widget? body;
   final AnimatedAppBar? appBar;
@@ -66,12 +68,8 @@ class AnimatedScaffoldBottom extends AnimatedWidget {
               title: appBar!.title,
               actions: appBar!.actions,
               flexibleSpace: appBar!.flexibleSpace,
-              bottom: appBar!.bottom != null
-                  ? PreferredSize(
-                      preferredSize: Size.fromHeight(appBar!.sizeTween
-                          .evaluate(listenable as Animation<double>)),
-                      child: appBar!.bottom!,
-                    )
+              bottom: appBar?.bottomBuilder != null
+                  ? appBar?.bottomBuilder!(appBar!.sizeTween)
                   : null,
               elevation: appBar!.elevation,
               shadowColor: appBar!.shadowColor,

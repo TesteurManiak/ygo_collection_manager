@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 
+import 'animated_scaffold.dart';
+
 abstract class AnimatedAppBar {
   /// Refer to [AppBar.leading] documentation.
   final Widget? leading;
@@ -14,13 +16,7 @@ abstract class AnimatedAppBar {
   /// Refer to [AppBar.bottom] documentation.
   final Widget? flexibleSpace;
 
-  /// Similar to [AppBar.bottom], this widget will appears accross the bottom of
-  /// the app bar.
-  ///
-  /// As it is a [Widget] without any size constraints by itself you will need
-  /// to set a height big enough to contain your widget in the
-  /// [AnimatedAppBar.sizeTween] property.
-  final Widget? bottom;
+  final AppBarBottomBuilder? bottomBuilder;
 
   /// Refer to [AppBar.elevation] documentation.
   final double? elevation;
@@ -97,7 +93,7 @@ abstract class AnimatedAppBar {
     this.actions,
     this.flexibleSpace,
     this.title,
-    this.bottom,
+    this.bottomBuilder,
     this.elevation,
     this.shadowColor,
     this.shape,
@@ -129,8 +125,8 @@ class AnimatedAppBarBottom extends AnimatedAppBar {
     Widget? title,
     List<Widget>? actions,
     Widget? flexibleSpace,
-    Widget? bottom,
     double? elevation,
+    AppBarBottomBuilder? bottomBuilder,
     double bottomHeight = 0,
     double bottomExpandedHeight = 50,
   }) : super(
@@ -142,6 +138,6 @@ class AnimatedAppBarBottom extends AnimatedAppBar {
           actions: actions,
           flexibleSpace: flexibleSpace,
           elevation: elevation,
-          bottom: bottom,
+          bottomBuilder: bottomBuilder,
         );
 }
