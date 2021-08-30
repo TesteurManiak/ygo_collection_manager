@@ -73,21 +73,26 @@ class _CollectionViewState extends State<CollectionView>
                   if (!snapshot.hasData || data == null) {
                     return const SliverToBoxAdapter(child: SizedBox());
                   }
-                  return SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) => Container(
-                        decoration: BoxDecoration(
-                          color:
-                              DynamicThemedColors.scaffoldBackground(context),
-                          border: Border.all(
-                            color:
-                                DynamicThemedColors.scaffoldBackground(context),
+                  return StreamBuilder<double>(
+                    stream: _cardsBloc.onFullCollectionCompletionChanged,
+                    builder: (_, __) {
+                      return SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) => Container(
+                            decoration: BoxDecoration(
+                              color: DynamicThemedColors.scaffoldBackground(
+                                  context),
+                              border: Border.all(
+                                color: DynamicThemedColors.scaffoldBackground(
+                                    context),
+                              ),
+                            ),
+                            child: SetTileWidget(data[index]),
                           ),
+                          childCount: data.length,
                         ),
-                        child: SetTileWidget(data[index]),
-                      ),
-                      childCount: data.length,
-                    ),
+                      );
+                    },
                   );
                 },
               ),
