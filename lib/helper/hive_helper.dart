@@ -5,6 +5,7 @@ import 'package:ygo_collection_manager/models/card_owned_model.dart';
 import 'package:ygo_collection_manager/models/db_version_model.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/utils/indexes.dart';
+import 'package:ygo_collection_manager/extensions/extensions.dart';
 
 class HiveHelper {
   bool _isInitialized = false;
@@ -79,9 +80,10 @@ class HiveHelper {
 
   Future<void> dispose() => Hive.close();
 
-  /// Getter to return an Iterable<int> corresponding to the ids of cards owned
-  /// by user.
-  Iterable<CardOwnedModel> get cardsOwned => _boxCardsOwned.values;
+  /// Getter to return a List<CardOwnedModel>.
+  List<CardOwnedModel> get cardsOwned => _boxCardsOwned.values
+      .toList()
+      .compactMap<CardOwnedModel>((e) => e.quantity > 0 ? e : null);
 
   /// Getter to return the number of copy of a specific card.
   int getCopiesOfCardOwned(String key) =>
