@@ -23,6 +23,7 @@ class CardDetailWidget extends StatelessWidget {
         leading: Image.asset(
           asset,
           errorBuilder: (_, error, ___) => const SizedBox(),
+          height: 20,
         ),
       );
 

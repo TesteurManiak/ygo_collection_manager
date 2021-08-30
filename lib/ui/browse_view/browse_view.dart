@@ -7,8 +7,6 @@ import 'package:ygo_collection_manager/ui/common/card_widget.dart';
 import 'package:ygo_collection_manager/ui/common/sliver_spacer.dart';
 import 'package:ygo_collection_manager/ui/common/top_rounded_sliver.dart';
 
-const _crossAxisCount = 3;
-
 class BrowseView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _BrowseViewState();
@@ -46,6 +44,7 @@ class _BrowseViewState extends State<BrowseView>
     super.build(context);
 
     final size = MediaQuery.of(context).size;
+    final _crossAxisCount = size.width < size.height ? 3 : 6;
     final itemWidth = size.width / _crossAxisCount;
     final itemHeight = itemWidth * 1.47;
 

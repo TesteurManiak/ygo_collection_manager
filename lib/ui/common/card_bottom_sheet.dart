@@ -97,8 +97,11 @@ class CardBottomSheet extends StatelessWidget {
                   ),
                   if (card.attribute != null) const SizedBox(width: 32),
                   if (card.attribute != null)
-                    CardDetailWidget(
-                        label: 'Attribute', value: card.attribute!),
+                    CardDetailWidget.assetImage(
+                      label: 'Attribute',
+                      value: card.attribute!,
+                      asset: 'assets/attribute/${card.attribute!}.png',
+                    ),
                 ],
               ),
               const SizedBox(height: 16),
