@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
+import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
 import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
 import 'package:async/async.dart' show StreamGroup;
 import 'package:ygo_collection_manager/models/set_model.dart';
@@ -37,7 +38,14 @@ class _CollectionAppBarBottomState extends State<CollectionAppBarBottom> {
       stream: _onChanges,
       builder: (_, __) {
         return AnimatedCrossFade(
-          firstChild: TotalCompletionWidget(),
+          firstChild: TotalCompletionWidget(getTotalCompletion: () {
+            final cardsBloc = BlocProvider.of<CardsBloc>(context);
+            final numOfCards =
+                cardsBloc.getCardsInSet(widget.currentSet)?.length ??
+                    widget.currentSet.numOfCards;
+            final cardsOwned = cardsBloc.cardsOwnedInSet(widget.currentSet);
+            return cardsOwned / numOfCards * 100;
+          }),
           secondChild: AddRemoveCardWidget(widget.currentSet),
           crossFadeState: _expansionCollectionBloc.isEditing
               ? CrossFadeState.showSecond

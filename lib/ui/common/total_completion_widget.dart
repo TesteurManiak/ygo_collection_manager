@@ -7,13 +7,17 @@ const _kBottomHeight = 14.0;
 class TotalCompletionBottomWidget extends StatelessWidget
     with PreferredSizeWidget {
   @override
-  Widget build(BuildContext context) => TotalCompletionWidget();
+  Widget build(BuildContext context) => const TotalCompletionWidget();
 
   @override
   Size get preferredSize => const Size.fromHeight(_kBottomHeight);
 }
 
 class TotalCompletionWidget extends StatelessWidget {
+  final double Function()? getTotalCompletion;
+
+  const TotalCompletionWidget({this.getTotalCompletion});
+
   @override
   Widget build(BuildContext context) {
     final _cardsBloc = BlocProvider.of<CardsBloc>(context);
@@ -23,6 +27,9 @@ class TotalCompletionWidget extends StatelessWidget {
         stream: _cardsBloc.onFullCollectionCompletionChanged,
         initialData: _cardsBloc.fullCollectionCompletion,
         builder: (context, snapshot) {
+          final completion = getTotalCompletion != null
+              ? getTotalCompletion!()
+              : snapshot.data!;
           return Row(
             children: [
               Expanded(
@@ -31,7 +38,7 @@ class TotalCompletionWidget extends StatelessWidget {
                   child: SizedBox(
                     height: _kBottomHeight,
                     child: LinearProgressIndicator(
-                      value: snapshot.data! / 100,
+                      value: completion / 100,
                       valueColor:
                           const AlwaysStoppedAnimation<Color>(Colors.green),
                       backgroundColor: Colors.white.withOpacity(0.2),
@@ -40,7 +47,7 @@ class TotalCompletionWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              Text('${snapshot.data!.toStringAsFixed(0)}%'),
+              Text('${completion.toStringAsFixed(0)}%'),
             ],
           );
         },
