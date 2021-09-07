@@ -109,7 +109,7 @@ class _CardOverlayState extends State<_CardOverlay>
           lockOverflowDrag: true,
           snappingPositions: const [
             SnappingPosition.factor(
-              positionFactor: 0.1,
+              positionFactor: 0.12,
               grabbingContentOffset: GrabbingContentOffset.top,
             ),
             SnappingPosition.factor(positionFactor: 0.5),
