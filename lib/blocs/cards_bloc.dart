@@ -23,6 +23,8 @@ class CardsBloc extends BlocBase {
   Stream<List<CardInfoModel>?> get onFilteredCardsChanged =>
       _filteredCardsController.stream;
 
+  final searchController = TextEditingController();
+
   final _fullCollectionCompletionController =
       BehaviorSubject<double>.seeded(0.0);
   Stream<double> get onFullCollectionCompletionChanged =>
@@ -60,8 +62,11 @@ class CardsBloc extends BlocBase {
     );
   }
 
-  void _cardsListener(List<CardInfoModel>? _cards) =>
-      updateCompletion(initialCards: _cards);
+  void _cardsListener(List<CardInfoModel>? _cards) {
+    updateCompletion(initialCards: _cards);
+    _filteredCardsController.sink.add(_cards);
+    searchController.clear();
+  }
 
   @override
   void initState() {
@@ -177,5 +182,17 @@ class CardsBloc extends BlocBase {
         .map<String>((e) => e.setCode)
         .toSet()
         .length;
+  }
+
+  void filter(String search) {
+    if (search.isEmpty) {
+      _filteredCardsController.sink.add(_cardsController.value);
+    } else {
+      _filteredCardsController.sink.add(
+        _cardsController.value!
+            .where((e) => e.name.toLowerCase().contains(search.toLowerCase()))
+            .toList(),
+      );
+    }
   }
 }

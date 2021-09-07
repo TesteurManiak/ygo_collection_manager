@@ -43,7 +43,6 @@ class SetsBloc extends BlocBase {
   @override
   void initState() {
     _setsControllerSubscription = _setsController.listen(_setsFilterListener);
-
     loadFromDb();
   }
 

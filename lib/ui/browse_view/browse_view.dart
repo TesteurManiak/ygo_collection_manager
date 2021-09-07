@@ -64,6 +64,7 @@ class _BrowseViewState extends State<BrowseView>
               backgroundColor: DynamicThemedColors.scaffoldBackground(context),
               pinned: true,
               title: TextField(
+                controller: _cardsBloc.searchController,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.search),
                   suffixIcon: IconButton(
@@ -76,11 +77,12 @@ class _BrowseViewState extends State<BrowseView>
                     borderSide: const BorderSide(width: 2),
                   ),
                 ),
+                onChanged: _cardsBloc.filter,
               ),
             ),
             const SliverSpacer(height: 16),
             StreamBuilder<List<CardInfoModel>?>(
-                stream: _cardsBloc.onCardsChanged,
+                stream: _cardsBloc.onFilteredCardsChanged,
                 builder: (_, snapshot) {
                   final data = snapshot.data;
                   if (!snapshot.hasData || data == null) {

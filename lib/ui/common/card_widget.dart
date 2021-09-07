@@ -79,11 +79,14 @@ class CardWidget extends StatelessWidget {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () => _cardsBloc.openOverlay(
-                initialIndex: index,
-                cards: cards,
-                tickerProvider: tickerProvider,
-              ),
+              onTap: () {
+                FocusScope.of(context).unfocus();
+                _cardsBloc.openOverlay(
+                  initialIndex: index,
+                  cards: cards,
+                  tickerProvider: tickerProvider,
+                );
+              },
               onLongPress: onLongPress,
             ),
           ),
