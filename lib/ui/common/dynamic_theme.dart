@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 typedef ThemedWidgetBuilder = Widget Function(
     BuildContext context, ThemeData data);
 
-typedef ThemeDataWithBrightnessBuilder = ThemeData Function(
-    ThemeMode themeMode);
+typedef ThemeDataWithThemeModeBuilder = ThemeData Function(ThemeMode themeMode);
 
 extension ThemeModeMofifier on ThemeMode {
   String get string => toString().split('.').last;
@@ -33,7 +32,7 @@ class DynamicTheme extends StatefulWidget {
     Key? key,
     required this.data,
     required this.themedWidgetBuilder,
-    this.defaultBrightness = ThemeMode.light,
+    this.defaultThemeMode = ThemeMode.light,
     this.loadBrightnessOnStart = true,
   }) : super(key: key);
 
@@ -41,12 +40,12 @@ class DynamicTheme extends StatefulWidget {
   final ThemedWidgetBuilder themedWidgetBuilder;
 
   /// Callback that returns the latest brightness
-  final ThemeDataWithBrightnessBuilder data;
+  final ThemeDataWithThemeModeBuilder data;
 
-  /// The default brightness on start
+  /// The default theme on start
   ///
   /// Defaults to `ThemeMode.light`
-  final ThemeMode defaultBrightness;
+  final ThemeMode defaultThemeMode;
 
   /// Whether or not to load the brightness on start
   ///
@@ -98,7 +97,7 @@ class DynamicThemeState extends State<DynamicTheme> {
 
   /// Initializes the variables
   void _initVariables() {
-    _themeMode = widget.defaultBrightness;
+    _themeMode = widget.defaultThemeMode;
     _themeData = widget.data(_themeMode);
     _shouldLoadBrightness = widget.loadBrightnessOnStart;
   }
@@ -162,7 +161,7 @@ class DynamicThemeState extends State<DynamicTheme> {
     // Gets the bool stored in prefs
     // Or returns whether or not the `defaultBrightness` is dark
     return prefs.getString(_sharedPreferencesKey)?.toThemeMode() ??
-        widget.defaultBrightness;
+        widget.defaultThemeMode;
   }
 
   @override
