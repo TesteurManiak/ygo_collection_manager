@@ -5,8 +5,8 @@ import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
-import 'package:ygo_collection_manager/ui/common/animated_app_bar.dart';
-import 'package:ygo_collection_manager/ui/common/animated_scaffold.dart';
+import 'package:ygo_collection_manager/animated_scaffold/animated_app_bar.dart';
+import 'package:ygo_collection_manager/animated_scaffold/animated_scaffold.dart';
 import 'package:ygo_collection_manager/ui/common/card_widget.dart';
 import 'package:ygo_collection_manager/ui/common/no_glow_scroll_behavior.dart';
 import 'package:ygo_collection_manager/ui/expansion_view/widgets/card_editing_widget.dart';
@@ -63,9 +63,9 @@ class _ExpansionViewState extends State<ExpansionView>
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
-      child: AnimatedScaffoldBottom(
+      child: AnimatedAppBarScaffold(
         animation: _animation,
-        appBar: AnimatedAppBarBottom(
+        appBar: ExpandingAppBarBottom(
           bottomExpandedHeight: 80,
           bottomHeight: 18,
           title: StreamBuilder<String?>(
@@ -77,8 +77,8 @@ class _ExpansionViewState extends State<ExpansionView>
               return Text(title);
             },
           ),
-          bottomBuilder: (sizeTween) => PreferredSize(
-            preferredSize: Size.fromHeight(sizeTween.evaluate(_animation)),
+          bottomBuilder: (value) => PreferredSize(
+            preferredSize: Size.fromHeight(value),
             child: CollectionAppBarBottom(
               animationDuration: _animationController.duration,
               currentSet: widget.cardSet,
