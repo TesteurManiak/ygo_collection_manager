@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 
-typedef AppBarBottomBuilder = PreferredSizeWidget? Function(
-    Animatable<double> animatable);
+typedef AppBarBottomBuilder = PreferredSizeWidget? Function(double value);
 
 abstract class AnimatedAppBar {
   /// Refer to [AppBar.leading] documentation.
@@ -17,6 +16,7 @@ abstract class AnimatedAppBar {
   /// Refer to [AppBar.bottom] documentation.
   final Widget? flexibleSpace;
 
+  /// `value` of this object for the given [Animation]
   final AppBarBottomBuilder? bottomBuilder;
 
   /// Refer to [AppBar.elevation] documentation.

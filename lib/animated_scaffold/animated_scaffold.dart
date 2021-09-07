@@ -67,7 +67,8 @@ class AnimatedAppBarScaffold extends AnimatedWidget {
               actions: appBar!.actions,
               flexibleSpace: appBar!.flexibleSpace,
               bottom: appBar?.bottomBuilder != null
-                  ? appBar?.bottomBuilder!(appBar!.animatable)
+                  ? appBar?.bottomBuilder!(appBar!.animatable
+                      .evaluate(listenable as Animation<double>))
                   : null,
               elevation: appBar!.elevation,
               shadowColor: appBar!.shadowColor,

@@ -77,8 +77,8 @@ class _ExpansionViewState extends State<ExpansionView>
               return Text(title);
             },
           ),
-          bottomBuilder: (animatable) => PreferredSize(
-            preferredSize: Size.fromHeight(animatable.evaluate(_animation)),
+          bottomBuilder: (value) => PreferredSize(
+            preferredSize: Size.fromHeight(value),
             child: CollectionAppBarBottom(
               animationDuration: _animationController.duration,
               currentSet: widget.cardSet,
