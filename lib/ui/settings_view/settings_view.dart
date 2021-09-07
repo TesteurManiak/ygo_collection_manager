@@ -2,18 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 import 'package:ygo_collection_manager/styles/themes.dart';
 
-enum _ThemeMode { light, dark, system }
-
 class _ThemeChoice {
   final String name;
-  final _ThemeMode mode;
-
-  Brightness brightness(BuildContext context) {
-    if (mode == _ThemeMode.system) {
-      return MediaQuery.of(context).platformBrightness;
-    }
-    return mode == _ThemeMode.light ? Brightness.light : Brightness.dark;
-  }
+  final ThemeMode mode;
 
   const _ThemeChoice({
     required this.name,
@@ -22,9 +13,9 @@ class _ThemeChoice {
 }
 
 const _themeItems = <_ThemeChoice>[
-  _ThemeChoice(name: 'Light', mode: _ThemeMode.light),
-  _ThemeChoice(name: 'Dark', mode: _ThemeMode.dark),
-  _ThemeChoice(name: 'Set by System', mode: _ThemeMode.system),
+  _ThemeChoice(name: 'Light', mode: ThemeMode.light),
+  _ThemeChoice(name: 'Dark', mode: ThemeMode.dark),
+  _ThemeChoice(name: 'Set by System', mode: ThemeMode.system),
 ];
 
 class SettingsView extends StatefulWidget {
@@ -43,7 +34,7 @@ class _SettingsViewState extends State<SettingsView> {
     setState(() => _themeChoice = themeChoice);
     MyThemes.changeBrightness(
       context,
-      brightness: _themeChoice.brightness(context),
+      themeMode: _themeChoice.mode,
     );
   }
 

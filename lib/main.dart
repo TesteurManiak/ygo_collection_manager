@@ -1,4 +1,3 @@
-import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:ygo_collection_manager/blocs/bloc.dart';
@@ -9,6 +8,7 @@ import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
 import 'package:ygo_collection_manager/blocs/sets_bloc.dart';
 import 'package:ygo_collection_manager/helper/hive_helper.dart';
 import 'package:ygo_collection_manager/styles/themes.dart';
+import 'package:ygo_collection_manager/ui/common/dynamic_theme.dart';
 import 'package:ygo_collection_manager/ui/loading_view/loading_view.dart';
 import 'package:ygo_collection_manager/utils/router.dart';
 
@@ -41,8 +41,11 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return DynamicTheme(
-      defaultBrightness: _systemBrightness ?? Brightness.light,
-      data: MyThemes.fromBrightness,
+      defaultBrightness: _systemBrightness == Brightness.dark
+          ? ThemeMode.dark
+          : ThemeMode.light,
+      data: (themeMode) =>
+          MyThemes.fromBrightness(themeMode, _systemBrightness),
       themedWidgetBuilder: (_, theme) => MaterialApp(
         theme: theme,
         initialRoute: LoadingView.routeName,

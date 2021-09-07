@@ -197,15 +197,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
-  dynamic_theme:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: master
-      resolved-ref: a57c7bd3f386531f094121344f63852c441359aa
-      url: "https://github.com/Norbert515/dynamic_theme.git"
-    source: git
-    version: "2.0.0-nullsafety"
   fake_async:
     dependency: transitive
     description:
@@ -495,12 +486,12 @@ packages:
     source: hosted
     version: "0.27.1"
   shared_preferences:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.6"
+    version: "2.0.7"
   shared_preferences_linux:
     dependency: transitive
     description:
@@ -528,7 +519,7 @@ packages:
       name: shared_preferences_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   shared_preferences_windows:
     dependency: transitive
     description:
