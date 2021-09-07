@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'animated_app_bar.dart';
 
-typedef AppBarBottomBuilder = PreferredSizeWidget? Function(Tween<double>);
-
-class AnimatedScaffoldBottom extends AnimatedWidget {
+class AnimatedAppBarScaffold extends AnimatedWidget {
   final Widget? body;
   final AnimatedAppBar? appBar;
   final Widget? floatingActionButton;
@@ -30,7 +28,7 @@ class AnimatedScaffoldBottom extends AnimatedWidget {
   final bool endDrawerEnableOpenDragGesture;
   final String? restorationId;
 
-  const AnimatedScaffoldBottom({
+  const AnimatedAppBarScaffold({
     Key? key,
     required Animation<double> animation,
     this.body,
@@ -69,7 +67,7 @@ class AnimatedScaffoldBottom extends AnimatedWidget {
               actions: appBar!.actions,
               flexibleSpace: appBar!.flexibleSpace,
               bottom: appBar?.bottomBuilder != null
-                  ? appBar?.bottomBuilder!(appBar!.sizeTween)
+                  ? appBar?.bottomBuilder!(appBar!.animatable)
                   : null,
               elevation: appBar!.elevation,
               shadowColor: appBar!.shadowColor,

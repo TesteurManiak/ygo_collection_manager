@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 
-import 'animated_scaffold.dart';
+typedef AppBarBottomBuilder = PreferredSizeWidget? Function(
+    Animatable<double> animatable);
 
 abstract class AnimatedAppBar {
   /// Refer to [AppBar.leading] documentation.
@@ -21,7 +22,7 @@ abstract class AnimatedAppBar {
   /// Refer to [AppBar.elevation] documentation.
   final double? elevation;
 
-  final Tween<double> sizeTween;
+  final Animatable<double> animatable;
 
   /// Refer to [AppBar.automaticallyImplyLeading] documentation.
   final bool automaticallyImplyLeading;
@@ -87,7 +88,7 @@ abstract class AnimatedAppBar {
   final SystemUiOverlayStyle? systemOverlayStyle;
 
   AnimatedAppBar({
-    required this.sizeTween,
+    required this.animatable,
     this.automaticallyImplyLeading = true,
     this.leading,
     this.actions,
@@ -118,8 +119,8 @@ abstract class AnimatedAppBar {
   }) : assert(elevation == null || elevation >= 0.0);
 }
 
-class AnimatedAppBarBottom extends AnimatedAppBar {
-  AnimatedAppBarBottom({
+class ExpandingAppBarBottom extends AnimatedAppBar {
+  ExpandingAppBarBottom({
     Widget? leading,
     bool automaticallyImplyLeading = true,
     Widget? title,
@@ -130,7 +131,7 @@ class AnimatedAppBarBottom extends AnimatedAppBar {
     double bottomHeight = 0,
     double bottomExpandedHeight = 50,
   }) : super(
-          sizeTween:
+          animatable:
               Tween<double>(begin: bottomHeight, end: bottomExpandedHeight),
           automaticallyImplyLeading: automaticallyImplyLeading,
           leading: leading,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
-import 'package:ygo_collection_manager/ui/common/dynamic_theme.dart';
+import 'package:ygo_collection_manager/dynamic_theme/dynamic_theme.dart';
 
 extension BrightnessModifier on Brightness {
   ThemeMode toThemeMode() {
