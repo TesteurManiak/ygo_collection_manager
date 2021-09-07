@@ -71,6 +71,6 @@ class MyThemes {
         ? Brightness.light
         : Brightness.dark;
     DynamicTheme.of(context)
-        ?.setBrightness(themeMode ?? newBrightness.toThemeMode());
+        .setBrightness(themeMode ?? newBrightness.toThemeMode());
   }
 }

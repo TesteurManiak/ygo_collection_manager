@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 import 'package:ygo_collection_manager/styles/themes.dart';
+import 'package:ygo_collection_manager/ui/common/dynamic_theme.dart';
 
 class _ThemeChoice {
   final String name;
   final ThemeMode mode;
 
-  const _ThemeChoice({
-    required this.name,
-    required this.mode,
-  });
+  const _ThemeChoice({required this.name, required this.mode});
 }
 
 const _themeItems = <_ThemeChoice>[
@@ -24,10 +22,8 @@ class SettingsView extends StatefulWidget {
 }
 
 class _SettingsViewState extends State<SettingsView> {
-  late _ThemeChoice _themeChoice =
-      Theme.of(context).brightness == Brightness.light
-          ? _themeItems[0]
-          : _themeItems[1];
+  late _ThemeChoice _themeChoice = _themeItems
+      .firstWhere((item) => item.mode == DynamicTheme.of(context).themeMode);
 
   void _changeBrightness(_ThemeChoice? themeChoice) {
     if (themeChoice == null) return;
