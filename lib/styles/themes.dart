@@ -1,6 +1,19 @@
-import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
+import 'package:ygo_collection_manager/ui/common/dynamic_theme.dart';
+
+extension BrightnessModifier on Brightness {
+  ThemeMode toThemeMode() {
+    switch (this) {
+      case Brightness.light:
+        return ThemeMode.light;
+      case Brightness.dark:
+        return ThemeMode.dark;
+      default:
+        return ThemeMode.system;
+    }
+  }
+}
 
 // ignore: avoid_classes_with_only_static_members
 class MyThemes {
@@ -45,13 +58,19 @@ class MyThemes {
     return _light;
   }
 
-  static ThemeData fromBrightness(Brightness b) =>
-      b == Brightness.dark ? dark : light;
+  static ThemeData fromBrightness(
+      ThemeMode themeMode, Brightness? systemBrightness) {
+    if (themeMode == ThemeMode.system) {
+      return systemBrightness == Brightness.dark ? dark : light;
+    }
+    return themeMode == ThemeMode.dark ? dark : light;
+  }
 
-  static void changeBrightness(BuildContext context, {Brightness? brightness}) {
+  static void changeBrightness(BuildContext context, {ThemeMode? themeMode}) {
     final newBrightness = Theme.of(context).brightness == Brightness.dark
         ? Brightness.light
         : Brightness.dark;
-    DynamicTheme.of(context)?.setBrightness(brightness ?? newBrightness);
+    DynamicTheme.of(context)
+        .setBrightness(themeMode ?? newBrightness.toThemeMode());
   }
 }

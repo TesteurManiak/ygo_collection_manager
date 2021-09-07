@@ -8,10 +8,17 @@ To generate or re-generate the database use:
 flutter packages pub run build_runner build
 ```
 
+## Features
+
+* Add card to collection
+* Search through all released card sets
+* Check your completion rate
+* View card details
+* Dark & Light themes
+
 ## TODO
 
-* Completely manage persistent system theme
-* Search for a card in the browse view
+* Check number of cards in collection
 * Add filters for expansions
 * Add filters for cards
 * Release on the Play Store
