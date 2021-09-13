@@ -39,17 +39,11 @@ abstract class AnimatedAppBar {
   /// Refer to [AppBar.foregroundColor] documentation.
   final Color? foregroundColor;
 
-  /// Refer to [AppBar.brightness] documentation.
-  final Brightness? brightness;
-
   /// Refer to [AppBar.iconTheme] documentation.
   final IconThemeData? iconTheme;
 
   /// Refer to [AppBar.actionsIconTheme] documentation.
   final IconThemeData? actionsIconTheme;
-
-  /// Refer to [AppBar.textTheme] documentation.
-  final TextTheme? textTheme;
 
   /// Refer to [AppBar.primary] documentation.
   final bool primary;
@@ -75,9 +69,6 @@ abstract class AnimatedAppBar {
   /// Refer to [AppBar.leadingWidth] documentation.
   final double? leadingWidth;
 
-  /// Refer to [AppBar.backwardsCompatibility] documentation.
-  final bool? backwardsCompatibility;
-
   /// Refer to [AppBar.toolbarTextStyle] documentation.
   final TextStyle? toolbarTextStyle;
 
@@ -100,10 +91,8 @@ abstract class AnimatedAppBar {
     this.shape,
     this.backgroundColor,
     this.foregroundColor,
-    this.brightness,
     this.iconTheme,
     this.actionsIconTheme,
-    this.textTheme,
     this.primary = true,
     this.centerTitle,
     this.excludeHeaderSemantics = false,
@@ -112,7 +101,6 @@ abstract class AnimatedAppBar {
     this.bottomOpacity = 1.0,
     this.toolbarHeight,
     this.leadingWidth,
-    this.backwardsCompatibility,
     this.toolbarTextStyle,
     this.titleTextStyle,
     this.systemOverlayStyle,

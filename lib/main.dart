@@ -6,9 +6,9 @@ import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
 import 'package:ygo_collection_manager/blocs/db_version_bloc.dart';
 import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
 import 'package:ygo_collection_manager/blocs/sets_bloc.dart';
+import 'package:ygo_collection_manager/dynamic_theme/dynamic_theme.dart';
 import 'package:ygo_collection_manager/helper/hive_helper.dart';
 import 'package:ygo_collection_manager/styles/themes.dart';
-import 'package:ygo_collection_manager/dynamic_theme/dynamic_theme.dart';
 import 'package:ygo_collection_manager/ui/loading_view/loading_view.dart';
 import 'package:ygo_collection_manager/utils/router.dart';
 

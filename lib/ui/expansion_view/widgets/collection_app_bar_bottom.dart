@@ -1,8 +1,8 @@
+import 'package:async/async.dart' show StreamGroup;
 import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
 import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
 import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
-import 'package:async/async.dart' show StreamGroup;
 import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/ui/common/total_completion_widget.dart';
 import 'package:ygo_collection_manager/ui/expansion_view/widgets/add_remove_card_widget.dart';

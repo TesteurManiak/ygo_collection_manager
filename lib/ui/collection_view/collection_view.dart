@@ -6,9 +6,9 @@ import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 import 'package:ygo_collection_manager/ui/collection_view/widgets/set_tile_widget.dart';
 import 'package:ygo_collection_manager/ui/common/no_glow_scroll_behavior.dart';
-import 'package:ygo_collection_manager/ui/common/total_completion_widget.dart';
 import 'package:ygo_collection_manager/ui/common/sliver_spacer.dart';
 import 'package:ygo_collection_manager/ui/common/top_rounded_sliver.dart';
+import 'package:ygo_collection_manager/ui/common/total_completion_widget.dart';
 
 class CollectionView extends StatefulWidget {
   @override

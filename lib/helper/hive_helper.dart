@@ -1,11 +1,11 @@
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ygo_collection_manager/extensions/extensions.dart';
 import 'package:ygo_collection_manager/models/card_edition_enum.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/models/card_owned_model.dart';
 import 'package:ygo_collection_manager/models/db_version_model.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/utils/indexes.dart';
-import 'package:ygo_collection_manager/extensions/extensions.dart';
 
 class HiveHelper {
   bool _isInitialized = false;

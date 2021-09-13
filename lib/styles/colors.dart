@@ -19,6 +19,7 @@ class MyColors {
   static const yellow2 = Color(0xFFd1a954);
 }
 
+// ignore: avoid_classes_with_only_static_members
 class DynamicThemedColors {
   static Color _dynamicColor({
     required BuildContext context,
