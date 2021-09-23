@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ygo_collection_manager/helper/hive_helper.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 import 'package:ygo_collection_manager/styles/text_styles.dart';
@@ -128,7 +129,9 @@ class CardBottomSheet extends StatelessWidget {
               const SizedBox(height: 28),
               Row(
                 children: [
-                  const Text('0 in Collection'),
+                  Text(
+                    '${HiveHelper.instance.getCopiesOfCardOwnedById(card.id)} in Collection',
+                  ),
                   Expanded(child: Container()),
                   TextButton(
                     style: TextButton.styleFrom(

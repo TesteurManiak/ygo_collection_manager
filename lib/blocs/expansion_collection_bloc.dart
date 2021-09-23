@@ -131,6 +131,7 @@ class ExpansionCollectionBloc extends BlocBase {
               setCode: card.getCardSetsFromSet(currentSet)!.code,
               edition: edition,
               setName: currentSet.setName,
+              id: card.id,
             ),
           )).then(
         (_) {
@@ -157,6 +158,7 @@ class ExpansionCollectionBloc extends BlocBase {
                 setCode: card.getCardSetsFromSet(currentSet)!.code,
                 edition: edition,
                 setName: currentSet.setName,
+                id: card.id,
               ),
             )).then(
           (_) {

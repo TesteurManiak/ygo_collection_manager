@@ -20,6 +20,9 @@ class CardOwnedModel {
   @HiveField(4)
   final String setName;
 
+  @HiveField(5)
+  final int id;
+
   String get key => '$setCode-${edition.string}';
 
   CardOwnedModel({
@@ -27,5 +30,6 @@ class CardOwnedModel {
     required this.setCode,
     required this.edition,
     required this.setName,
+    required this.id,
   });
 }

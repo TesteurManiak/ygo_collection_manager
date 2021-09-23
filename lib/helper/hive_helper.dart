@@ -85,9 +85,19 @@ class HiveHelper {
       .toList()
       .compactMap<CardOwnedModel>((e) => e.quantity > 0 ? e : null);
 
-  /// Getter to return the number of copy of a specific card.
+  /// Return the number of copy of a specific card.
   int getCopiesOfCardOwned(String key) =>
       _boxCardsOwned.get(key)?.quantity ?? 0;
+
+  /// Return the number of copy of a card by id.
+  int getCopiesOfCardOwnedById(int id) {
+    int _quantity = 0;
+    final _cards = cardsOwned.where((card) => card.id == id);
+    for (final card in _cards) {
+      _quantity += card.quantity;
+    }
+    return _quantity;
+  }
 
   /// Add or update a card to the collection. Takes a [CardOwnedModel] as
   /// parameter.
