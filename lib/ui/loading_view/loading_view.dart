@@ -3,6 +3,7 @@ import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
 import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
 import 'package:ygo_collection_manager/blocs/db_version_bloc.dart';
 import 'package:ygo_collection_manager/blocs/sets_bloc.dart';
+import 'package:ygo_collection_manager/ui/common/magic_circle_progress_indicator.dart';
 import 'package:ygo_collection_manager/ui/root_view/root_view.dart';
 
 class LoadingView extends StatefulWidget {
@@ -30,15 +31,22 @@ class _LoadingViewState extends State<LoadingView> {
   @override
   void initState() {
     super.initState();
-    _loadAll().then(
+    Future.microtask(_loadAll).then(
         (_) => Navigator.pushReplacementNamed(context, RootView.routeName));
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    final size = MediaQuery.of(context).size;
+    return Scaffold(
       body: Center(
-        child: CircularProgressIndicator(),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: size.width / 2,
+            maxHeight: size.width / 2,
+          ),
+          child: const MagicCircleProgressIndicator(),
+        ),
       ),
     );
   }

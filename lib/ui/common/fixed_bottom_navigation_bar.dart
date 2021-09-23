@@ -503,11 +503,10 @@ class _FixedBottomNavigationBarState extends State<FixedBottomNavigationBar>
   }
 
   static TextStyle _effectiveTextStyle(TextStyle? textStyle, double fontSize) {
-    // ignore: parameter_assignments
-    textStyle ??= const TextStyle();
-    return textStyle.fontSize == null
-        ? textStyle.copyWith(fontSize: fontSize)
-        : textStyle;
+    final _textStyle = textStyle ?? const TextStyle();
+    return _textStyle.fontSize == null
+        ? _textStyle.copyWith(fontSize: fontSize)
+        : _textStyle;
   }
 
   List<Widget> _createTiles() {

@@ -8,7 +8,6 @@ import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 import 'package:ygo_collection_manager/ui/common/card_widget.dart';
-import 'package:ygo_collection_manager/ui/common/no_glow_scroll_behavior.dart';
 import 'package:ygo_collection_manager/ui/expansion_view/widgets/card_editing_widget.dart';
 import 'package:ygo_collection_manager/ui/expansion_view/widgets/cards_grid.dart';
 import 'package:ygo_collection_manager/ui/expansion_view/widgets/collection_app_bar_bottom.dart';
@@ -91,20 +90,17 @@ class _ExpansionViewState extends State<ExpansionView>
             color: DynamicThemedColors.scaffoldBackground(context),
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
           ),
-          child: ScrollConfiguration(
-            behavior: NoGlowScrollBehavior(),
-            child: StreamBuilder<bool>(
-              stream: _expansionCollectionBloc.onEditionStateChanged,
-              initialData: _expansionCollectionBloc.isEditing,
-              builder: (context, snapshot) {
-                final isEditing = snapshot.data!;
-                return _CollectionLayout(
-                  cards: _cards,
-                  isEditing: isEditing,
-                  controller: _animationController,
-                );
-              },
-            ),
+          child: StreamBuilder<bool>(
+            stream: _expansionCollectionBloc.onEditionStateChanged,
+            initialData: _expansionCollectionBloc.isEditing,
+            builder: (_, snapshot) {
+              final isEditing = snapshot.data!;
+              return _CollectionLayout(
+                cards: _cards,
+                isEditing: isEditing,
+                controller: _animationController,
+              );
+            },
           ),
         ),
       ),

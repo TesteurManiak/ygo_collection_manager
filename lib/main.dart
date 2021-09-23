@@ -44,8 +44,7 @@ class _MyAppState extends State<MyApp> {
       defaultThemeMode: _systemBrightness == Brightness.dark
           ? ThemeMode.dark
           : ThemeMode.light,
-      data: (themeMode) =>
-          MyThemes.fromBrightness(themeMode, _systemBrightness),
+      data: (themeMode) => MyThemes.fromThemeMode(themeMode, _systemBrightness),
       themedWidgetBuilder: (_, theme) => MaterialApp(
         theme: theme,
         initialRoute: LoadingView.routeName,

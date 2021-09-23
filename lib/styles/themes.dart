@@ -15,7 +15,6 @@ extension BrightnessModifier on Brightness {
   }
 }
 
-// ignore: avoid_classes_with_only_static_members
 class MyThemes {
   static final _baseDark = ThemeData.dark();
   static final _baseLight = ThemeData.light();
@@ -25,6 +24,9 @@ class MyThemes {
       appBarTheme: _baseDark.appBarTheme.copyWith(
         backgroundColor: MyColors.appBarBackgroundDark,
         elevation: 0,
+      ),
+      colorScheme: _baseDark.colorScheme.copyWith(
+        secondary: MyColors.yellow,
       ),
       bottomNavigationBarTheme: _baseLight.bottomNavigationBarTheme.copyWith(
         backgroundColor: MyColors.bottomNavBarDark,
@@ -45,6 +47,9 @@ class MyThemes {
         elevation: 0,
         backgroundColor: MyColors.appBarBackground,
       ),
+      colorScheme: _baseDark.colorScheme.copyWith(
+        secondary: MyColors.yellow,
+      ),
       bottomNavigationBarTheme: _baseLight.bottomNavigationBarTheme.copyWith(
         backgroundColor: MyColors.bottomNavBar,
         selectedItemColor: Colors.white,
@@ -58,7 +63,7 @@ class MyThemes {
     return _light;
   }
 
-  static ThemeData fromBrightness(
+  static ThemeData fromThemeMode(
       ThemeMode themeMode, Brightness? systemBrightness) {
     if (themeMode == ThemeMode.system) {
       return systemBrightness == Brightness.dark ? dark : light;
