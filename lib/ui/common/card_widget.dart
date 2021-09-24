@@ -8,6 +8,7 @@ import 'package:ygo_collection_manager/models/card_edition_enum.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 import 'package:ygo_collection_manager/styles/text_styles.dart';
+import 'package:ygo_collection_manager/ui/common/cards_overlay.dart';
 
 class CardWidget extends StatelessWidget {
   final int index;
@@ -81,11 +82,21 @@ class CardWidget extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 FocusScope.of(context).unfocus();
-                _cardsBloc.openOverlay(
-                  initialIndex: index,
-                  cards: cards,
-                  tickerProvider: tickerProvider,
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => CardsOverlay(
+                      cards: cards,
+                      initialIndex: index,
+                    ),
+                    opaque: false,
+                  ),
                 );
+                // _cardsBloc.openOverlay(
+                //   initialIndex: index,
+                //   cards: cards,
+                //   tickerProvider: tickerProvider,
+                // );
               },
               onLongPress: onLongPress,
             ),

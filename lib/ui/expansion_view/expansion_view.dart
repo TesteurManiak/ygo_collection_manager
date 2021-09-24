@@ -28,8 +28,7 @@ class _ExpansionViewState extends State<ExpansionView>
   late final _expansionCollectionBloc =
       BlocProvider.of<ExpansionCollectionBloc>(context)
         ..initializeSet(widget.cardSet);
-  late final CardsBloc _cardsBloc = BlocProvider.of<CardsBloc>(context)
-    ..initOverlayState(context);
+  late final CardsBloc _cardsBloc = BlocProvider.of<CardsBloc>(context);
   late final _cards = _cardsBloc.getCardsInSet(widget.cardSet)!;
 
   late final _animationController = AnimationController(
@@ -42,10 +41,7 @@ class _ExpansionViewState extends State<ExpansionView>
   );
 
   Future<bool> _onWillPop() async {
-    if (_cardsBloc.isOverlayOpen) {
-      _cardsBloc.closeOverlay();
-      return false;
-    } else if (_expansionCollectionBloc.isEditing) {
+    if (_expansionCollectionBloc.isEditing) {
       _expansionCollectionBloc.disableEditing(_animationController);
       return false;
     }

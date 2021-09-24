@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
-import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
-import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/ui/common/card_bottom_sheet.dart';
 
@@ -16,10 +14,19 @@ class CardsOverlay extends StatefulWidget {
   State<StatefulWidget> createState() => _CardsOverlayState();
 }
 
-class _CardsOverlayState extends State<CardsOverlay> {
-  late final _cardsBloc = BlocProvider.of<CardsBloc>(context);
+class _CardsOverlayState extends State<CardsOverlay>
+    with SingleTickerProviderStateMixin {
   late final _pageController = PageController(
     initialPage: widget.initialIndex,
+  );
+  late final _overlayAnimationController = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 500),
+    value: 1.0,
+  );
+  late final _overlayAnimation = CurvedAnimation(
+    parent: _overlayAnimationController,
+    curve: Curves.easeIn,
   );
 
   @override
@@ -31,13 +38,15 @@ class _CardsOverlayState extends State<CardsOverlay> {
   @override
   Widget build(BuildContext context) {
     return FadeTransition(
-      opacity: _cardsBloc.overlayAnimation,
+      opacity: _overlayAnimation,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           leading: IconButton(
             icon: const Icon(Icons.close),
-            onPressed: _cardsBloc.closeOverlay,
+            onPressed: () => _overlayAnimationController
+                .reverse()
+                .then((_) => Navigator.pop(context)),
           ),
         ),
         backgroundColor: Colors.black.withOpacity(0.8),

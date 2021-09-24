@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
-import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
 import 'package:ygo_collection_manager/helper/hive_helper.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 import 'package:ygo_collection_manager/styles/text_styles.dart';
 import 'package:ygo_collection_manager/ui/common/card_detail_widget.dart';
+import 'package:ygo_collection_manager/ui/common/card_view_overlay.dart';
 import 'package:ygo_collection_manager/ui/common/no_glow_scroll_behavior.dart';
 
 class CardBottomSheet extends StatelessWidget {
@@ -16,7 +15,6 @@ class CardBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cardsBloc = BlocProvider.of<CardsBloc>(context);
     return Container(
       decoration: BoxDecoration(
         color: DynamicThemedColors.bottomSheetBackground(context),
@@ -142,7 +140,12 @@ class CardBottomSheet extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                    onPressed: () => cardsBloc.openCardView(card),
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => CardViewOverlay(card: card),
+                      ),
+                    ),
                     child: const Text(
                       'VIEW',
                       style: TextStyle(color: MyColors.yellow),

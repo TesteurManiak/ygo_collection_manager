@@ -11,8 +11,6 @@ import 'package:ygo_collection_manager/helper/hive_helper.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/models/card_owned_model.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
-import 'package:ygo_collection_manager/ui/common/card_view_overlay.dart';
-import 'package:ygo_collection_manager/ui/common/cards_overlay.dart';
 
 class CardsBloc extends BlocBase {
   final _cardsController = BehaviorSubject<List<CardInfoModel>?>.seeded(null);
@@ -37,19 +35,6 @@ class CardsBloc extends BlocBase {
   late Isolate _isolate;
   late ReceivePort _receivePort;
   late StreamSubscription _isolateSubscription;
-
-  OverlayState? _overlayState;
-  OverlayEntry? _overlayEntry;
-  OverlayEntry? _cardViewOverlay;
-
-  bool get isOverlayOpen => _overlayEntry != null || _cardViewOverlay != null;
-
-  late AnimationController _overlayAnimationController;
-  AnimationController get overlayAnimationController =>
-      _overlayAnimationController;
-
-  late Animation<double> _overlayAnimation;
-  Animation<double> get overlayAnimation => _overlayAnimation;
 
   /// Return a list of [CardInfoModel] that are in the set of cards.
   /// Takes a [SetModel] as parameter.
@@ -86,7 +71,6 @@ class CardsBloc extends BlocBase {
     _cardsController.close();
     _filteredCardsController.close();
     _fullCollectionCompletionController.close();
-    _overlayState?.dispose();
   }
 
   void _closeIsolate() {
@@ -118,47 +102,6 @@ class CardsBloc extends BlocBase {
       HiveHelper.instance.updateCards(newCards);
       _closeIsolate();
     });
-  }
-
-  void initOverlayState(BuildContext context) =>
-      _overlayState = Overlay.of(context);
-
-  void openOverlay({
-    int initialIndex = 0,
-    required List<CardInfoModel> cards,
-    required TickerProvider tickerProvider,
-  }) {
-    if (_overlayState != null) {
-      _overlayAnimationController = AnimationController(
-        vsync: tickerProvider,
-        duration: const Duration(milliseconds: 500),
-        value: 1.0,
-      );
-      _overlayAnimation = CurvedAnimation(
-        parent: _overlayAnimationController,
-        curve: Curves.easeIn,
-      );
-      _overlayEntry = OverlayEntry(
-        builder: (_) => Align(
-          child: CardsOverlay(
-            initialIndex: initialIndex,
-            cards: cards,
-          ),
-        ),
-      );
-      _overlayState?.insert(_overlayEntry!);
-    }
-  }
-
-  void closeOverlay() {
-    if (_cardViewOverlay != null) {
-      closeCardView();
-    } else if (_overlayEntry != null) {
-      _overlayAnimationController.reverse().then((_) {
-        _overlayEntry?.remove();
-        _overlayEntry = null;
-      });
-    }
   }
 
   void updateCompletion({List<CardInfoModel>? initialCards}) {
@@ -200,17 +143,5 @@ class CardsBloc extends BlocBase {
             .toList(),
       );
     }
-  }
-
-  void openCardView(CardInfoModel card) {
-    _cardViewOverlay = OverlayEntry(
-      builder: (_) => CardViewOverlay(card: card),
-    );
-    _overlayState?.insert(_cardViewOverlay!);
-  }
-
-  void closeCardView() {
-    _cardViewOverlay?.remove();
-    _cardViewOverlay = null;
   }
 }
