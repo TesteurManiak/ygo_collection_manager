@@ -82,21 +82,11 @@ class CardWidget extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 FocusScope.of(context).unfocus();
-                Navigator.push(
+                Navigator.pushNamed(
                   context,
-                  PageRouteBuilder(
-                    pageBuilder: (_, __, ___) => CardsOverlay(
-                      cards: cards,
-                      initialIndex: index,
-                    ),
-                    opaque: false,
-                  ),
+                  CardsOverlay.routeName,
+                  arguments: <Object>[cards, index],
                 );
-                // _cardsBloc.openOverlay(
-                //   initialIndex: index,
-                //   cards: cards,
-                //   tickerProvider: tickerProvider,
-                // );
               },
               onLongPress: onLongPress,
             ),

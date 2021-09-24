@@ -5,6 +5,8 @@ import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/ui/common/card_bottom_sheet.dart';
 
 class CardsOverlay extends StatefulWidget {
+  static const routeName = '/cards-overlay';
+
   final int initialIndex;
   final List<CardInfoModel> cards;
 
@@ -35,25 +37,33 @@ class _CardsOverlayState extends State<CardsOverlay>
     super.dispose();
   }
 
+  Future<bool> _onWillPop() async {
+    await _overlayAnimationController.reverse();
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _overlayAnimation,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          leading: IconButton(
-            icon: const Icon(Icons.close),
-            onPressed: () => _overlayAnimationController
-                .reverse()
-                .then((_) => Navigator.pop(context)),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: FadeTransition(
+        opacity: _overlayAnimation,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            leading: IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () => _overlayAnimationController
+                  .reverse()
+                  .then((_) => Navigator.pop(context)),
+            ),
           ),
-        ),
-        backgroundColor: Colors.black.withOpacity(0.8),
-        body: PageView.builder(
-          controller: _pageController,
-          itemBuilder: (_, index) => _CardOverlay(widget.cards[index]),
-          itemCount: widget.cards.length,
+          backgroundColor: Colors.black.withOpacity(0.8),
+          body: PageView.builder(
+            controller: _pageController,
+            itemBuilder: (_, index) => _CardOverlay(widget.cards[index]),
+            itemCount: widget.cards.length,
+          ),
         ),
       ),
     );

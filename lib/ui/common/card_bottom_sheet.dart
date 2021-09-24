@@ -140,11 +140,10 @@ class CardBottomSheet extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                    onPressed: () => Navigator.push(
+                    onPressed: () => Navigator.pushNamed<CardInfoModel>(
                       context,
-                      MaterialPageRoute(
-                        builder: (_) => CardViewOverlay(card: card),
-                      ),
+                      CardViewOverlay.routeName,
+                      arguments: card,
                     ),
                     child: const Text(
                       'VIEW',
