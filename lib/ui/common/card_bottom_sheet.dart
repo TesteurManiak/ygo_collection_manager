@@ -3,8 +3,8 @@ import 'package:ygo_collection_manager/helper/hive_helper.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 import 'package:ygo_collection_manager/styles/text_styles.dart';
+import 'package:ygo_collection_manager/ui/card_view/card_view.dart';
 import 'package:ygo_collection_manager/ui/common/card_detail_widget.dart';
-import 'package:ygo_collection_manager/ui/common/card_view_overlay.dart';
 import 'package:ygo_collection_manager/ui/common/no_glow_scroll_behavior.dart';
 
 class CardBottomSheet extends StatelessWidget {
@@ -142,7 +142,7 @@ class CardBottomSheet extends StatelessWidget {
                     ),
                     onPressed: () => Navigator.pushNamed<CardInfoModel>(
                       context,
-                      CardViewOverlay.routeName,
+                      CardView.routeName,
                       arguments: card,
                     ),
                     child: const Text(
