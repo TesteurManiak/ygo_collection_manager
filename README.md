@@ -18,7 +18,6 @@ flutter packages pub run build_runner build
 
 ## TODO
 
-* Check number of cards in collection
 * Add filters for expansions
 * Add filters for cards
 * Release on the Play Store
