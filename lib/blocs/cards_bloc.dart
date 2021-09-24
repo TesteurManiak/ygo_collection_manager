@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:isolate';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ygo_collection_manager/api/api_repository.dart';
 import 'package:ygo_collection_manager/blocs/bloc.dart';
@@ -10,6 +11,7 @@ import 'package:ygo_collection_manager/helper/hive_helper.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/models/card_owned_model.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
+import 'package:ygo_collection_manager/ui/common/card_view_overlay.dart';
 import 'package:ygo_collection_manager/ui/common/cards_overlay.dart';
 
 class CardsBloc extends BlocBase {
@@ -36,10 +38,11 @@ class CardsBloc extends BlocBase {
   late ReceivePort _receivePort;
   late StreamSubscription _isolateSubscription;
 
-  late OverlayState? _overlayState;
-  late OverlayEntry _overlayEntry;
-  bool _isOverlayOpen = false;
-  bool get isOverlayOpen => _isOverlayOpen;
+  OverlayState? _overlayState;
+  OverlayEntry? _overlayEntry;
+  OverlayEntry? _cardViewOverlay;
+
+  bool get isOverlayOpen => _overlayEntry != null || _cardViewOverlay != null;
 
   late AnimationController _overlayAnimationController;
   AnimationController get overlayAnimationController =>
@@ -143,16 +146,19 @@ class CardsBloc extends BlocBase {
           ),
         ),
       );
-      _overlayState?.insert(_overlayEntry);
-      _isOverlayOpen = true;
+      _overlayState?.insert(_overlayEntry!);
     }
   }
 
   void closeOverlay() {
-    _overlayAnimationController.reverse().then((_) {
-      _overlayEntry.remove();
-      _isOverlayOpen = false;
-    });
+    if (_cardViewOverlay != null) {
+      closeCardView();
+    } else if (_overlayEntry != null) {
+      _overlayAnimationController.reverse().then((_) {
+        _overlayEntry?.remove();
+        _overlayEntry = null;
+      });
+    }
   }
 
   void updateCompletion({List<CardInfoModel>? initialCards}) {
@@ -194,5 +200,17 @@ class CardsBloc extends BlocBase {
             .toList(),
       );
     }
+  }
+
+  void openCardView(CardInfoModel card) {
+    _cardViewOverlay = OverlayEntry(
+      builder: (_) => CardViewOverlay(card: card),
+    );
+    _overlayState?.insert(_cardViewOverlay!);
+  }
+
+  void closeCardView() {
+    _cardViewOverlay?.remove();
+    _cardViewOverlay = null;
   }
 }

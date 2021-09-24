@@ -24,7 +24,7 @@ class SetTileWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           onTap: () {
             FocusScope.of(context).unfocus();
-            Navigator.pushNamed(
+            Navigator.pushNamed<SetModel>(
               context,
               ExpansionView.routeName,
               arguments: cardSet,

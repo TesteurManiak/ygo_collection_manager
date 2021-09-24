@@ -11,7 +11,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case RootView.routeName:
       return MaterialPageRoute(builder: (_) => RootView());
     case ExpansionView.routeName:
-      return MaterialPageRoute(
+      return MaterialPageRoute<SetModel>(
         builder: (_) => ExpansionView(settings.arguments! as SetModel),
       );
     default:
