@@ -14,7 +14,7 @@ class BrowseView extends StatefulWidget {
 }
 
 class _BrowseViewState extends State<BrowseView>
-    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
+    with AutomaticKeepAliveClientMixin {
   late final _cardsBloc = BlocProvider.of<CardsBloc>(context);
 
   void _showFilterDialog(BuildContext context) {
@@ -79,7 +79,6 @@ class _BrowseViewState extends State<BrowseView>
                       (_, index) => CardWidget(
                         cards: data,
                         index: index,
-                        tickerProvider: this,
                       ),
                       childCount: data.length,
                     ),

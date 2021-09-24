@@ -13,13 +13,11 @@ import 'package:ygo_collection_manager/ui/common/cards_overlay.dart';
 class CardWidget extends StatelessWidget {
   final int index;
   final List<CardInfoModel> cards;
-  final TickerProvider tickerProvider;
   final void Function()? onLongPress;
 
   const CardWidget({
     required this.cards,
     required this.index,
-    required this.tickerProvider,
     this.onLongPress,
   });
 

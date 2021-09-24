@@ -119,8 +119,7 @@ class _CollectionLayout extends StatefulWidget {
   State<StatefulWidget> createState() => _CollectionLayoutState();
 }
 
-class _CollectionLayoutState extends State<_CollectionLayout>
-    with TickerProviderStateMixin {
+class _CollectionLayoutState extends State<_CollectionLayout> {
   late final _expansionCollectionBloc =
       BlocProvider.of<ExpansionCollectionBloc>(context);
 
@@ -135,7 +134,6 @@ class _CollectionLayoutState extends State<_CollectionLayout>
               ? CardWidget(
                   cards: widget.cards,
                   index: index,
-                  tickerProvider: this,
                   onLongPress: () => _expansionCollectionBloc.enableEditing(
                     cardIndex: index,
                     controller: widget.controller,
