@@ -23,7 +23,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   hive_generator: ^1.1.0
-  lint: ^1.5.3
+  flutter_lints: ^1.0.0
 
 flutter:
   uses-material-design: true

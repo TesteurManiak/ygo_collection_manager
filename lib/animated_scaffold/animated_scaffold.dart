@@ -58,35 +58,36 @@ class AnimatedAppBarScaffold extends AnimatedWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _appBar = appBar;
+    final _bottomBuilder = appBar?.bottomBuilder;
     return Scaffold(
-      appBar: appBar != null
+      appBar: _appBar != null
           ? AppBar(
-              leading: appBar!.leading,
-              automaticallyImplyLeading: appBar!.automaticallyImplyLeading,
-              title: appBar!.title,
-              actions: appBar!.actions,
-              flexibleSpace: appBar!.flexibleSpace,
-              bottom: appBar?.bottomBuilder != null
-                  ? appBar?.bottomBuilder!(appBar!.animatable
-                      .evaluate(listenable as Animation<double>))
-                  : null,
-              elevation: appBar!.elevation,
-              shadowColor: appBar!.shadowColor,
-              shape: appBar!.shape,
-              backgroundColor: appBar!.backgroundColor,
-              iconTheme: appBar!.iconTheme,
-              actionsIconTheme: appBar!.actionsIconTheme,
-              primary: appBar!.primary,
-              centerTitle: appBar!.centerTitle,
-              excludeHeaderSemantics: appBar!.excludeHeaderSemantics,
-              titleSpacing: appBar!.titleSpacing,
-              toolbarOpacity: appBar!.toolbarOpacity,
-              bottomOpacity: appBar!.bottomOpacity,
-              toolbarHeight: appBar!.toolbarHeight,
-              leadingWidth: appBar!.leadingWidth,
-              toolbarTextStyle: appBar!.toolbarTextStyle,
-              titleTextStyle: appBar!.titleTextStyle,
-              systemOverlayStyle: appBar!.systemOverlayStyle,
+              leading: _appBar.leading,
+              automaticallyImplyLeading: _appBar.automaticallyImplyLeading,
+              title: _appBar.title,
+              actions: _appBar.actions,
+              flexibleSpace: _appBar.flexibleSpace,
+              bottom: _bottomBuilder?.call(
+                _appBar.animatable.evaluate(listenable as Animation<double>),
+              ),
+              elevation: _appBar.elevation,
+              shadowColor: _appBar.shadowColor,
+              shape: _appBar.shape,
+              backgroundColor: _appBar.backgroundColor,
+              iconTheme: _appBar.iconTheme,
+              actionsIconTheme: _appBar.actionsIconTheme,
+              primary: _appBar.primary,
+              centerTitle: _appBar.centerTitle,
+              excludeHeaderSemantics: _appBar.excludeHeaderSemantics,
+              titleSpacing: _appBar.titleSpacing,
+              toolbarOpacity: _appBar.toolbarOpacity,
+              bottomOpacity: _appBar.bottomOpacity,
+              toolbarHeight: _appBar.toolbarHeight,
+              leadingWidth: _appBar.leadingWidth,
+              toolbarTextStyle: _appBar.toolbarTextStyle,
+              titleTextStyle: _appBar.titleTextStyle,
+              systemOverlayStyle: _appBar.systemOverlayStyle,
             )
           : null,
       body: body,

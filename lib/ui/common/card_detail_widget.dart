@@ -7,10 +7,11 @@ class CardDetailWidget extends StatelessWidget {
   final Widget? leading;
 
   const CardDetailWidget({
+    Key? key,
     required this.label,
     required this.value,
     this.leading,
-  });
+  }) : super(key: key);
 
   factory CardDetailWidget.assetImage({
     required String label,

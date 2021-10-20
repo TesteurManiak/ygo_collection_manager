@@ -7,11 +7,30 @@ import 'package:ygo_collection_manager/ui/card_view/card_view.dart';
 import 'package:ygo_collection_manager/ui/common/card_detail_widget.dart';
 import 'package:ygo_collection_manager/ui/common/no_glow_scroll_behavior.dart';
 
-class CardBottomSheet extends StatelessWidget {
+class CardBottomSheet extends StatefulWidget {
   final CardInfoModel card;
   final ScrollController controller;
 
-  const CardBottomSheet({required this.card, required this.controller});
+  const CardBottomSheet({
+    Key? key,
+    required this.card,
+    required this.controller,
+  }) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _CardBottomSheetState();
+}
+
+class _CardBottomSheetState extends State<CardBottomSheet> {
+  late final _totalOwnedCard = ValueNotifier<int>(
+    HiveHelper.instance.getCopiesOfCardOwnedById(widget.card.id),
+  );
+
+  @override
+  void dispose() {
+    _totalOwnedCard.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,20 +43,20 @@ class CardBottomSheet extends StatelessWidget {
         behavior: NoGlowScrollBehavior(),
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(25),
-          controller: controller,
+          controller: widget.controller,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
                   Image.asset(
-                    'assets/type/${card.type}.jpg',
+                    'assets/type/${widget.card.type}.jpg',
                     height: 20,
                     errorBuilder: (_, __, ___) => const SizedBox(),
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    card.type,
+                    widget.card.type,
                     style: const TextStyle(fontSize: 16),
                   ),
                   Expanded(child: Container()),
@@ -49,7 +68,7 @@ class CardBottomSheet extends StatelessWidget {
                           style: TextStyles.grey14,
                         ),
                         TextSpan(
-                          text: card.id.toString(),
+                          text: widget.card.id.toString(),
                           style: DynamicTextStyles.cardId(context),
                         ),
                       ],
@@ -60,65 +79,70 @@ class CardBottomSheet extends StatelessWidget {
               const SizedBox(height: 14),
               Row(
                 children: [
-                  Expanded(child: Text(card.name, style: TextStyles.font20)),
-                  if (card.level != null)
+                  Expanded(
+                    child: Text(widget.card.name, style: TextStyles.font20),
+                  ),
+                  if (widget.card.level != null)
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: Image.asset(card.levelAsset, height: 20),
+                      child: Image.asset(widget.card.levelAsset, height: 20),
                     ),
-                  if (card.level != null)
-                    Text(card.level.toString(), style: TextStyles.font20),
+                  if (widget.card.level != null)
+                    Text(
+                      widget.card.level.toString(),
+                      style: TextStyles.font20,
+                    ),
                 ],
               ),
               const SizedBox(height: 6),
-              Text(card.desc, style: TextStyles.grey14),
+              Text(widget.card.desc, style: TextStyles.grey14),
               const SizedBox(height: 28),
               Row(
                 children: [
-                  if (card.atk != null)
+                  if (widget.card.atk != null)
                     CardDetailWidget(
                       label: 'Atk',
-                      value: card.atk.toString(),
+                      value: widget.card.atk.toString(),
                     ),
-                  if (card.def != null) const SizedBox(width: 32),
-                  if (card.def != null)
+                  if (widget.card.def != null) const SizedBox(width: 32),
+                  if (widget.card.def != null)
                     CardDetailWidget(
                       label: 'Def',
-                      value: card.def.toString(),
+                      value: widget.card.def.toString(),
                     ),
                 ],
               ),
-              if (card.atk != null || card.def != null)
+              if (widget.card.atk != null || widget.card.def != null)
                 const SizedBox(height: 16),
               Row(
                 children: [
                   CardDetailWidget.assetImage(
                     label: 'Race',
-                    value: card.race,
-                    asset: 'assets/race/${card.race}.png',
+                    value: widget.card.race,
+                    asset: 'assets/race/${widget.card.race}.png',
                   ),
-                  if (card.attribute != null) const SizedBox(width: 32),
-                  if (card.attribute != null)
+                  if (widget.card.attribute != null) const SizedBox(width: 32),
+                  if (widget.card.attribute != null)
                     CardDetailWidget.assetImage(
                       label: 'Attribute',
-                      value: card.attribute!,
-                      asset: 'assets/attribute/${card.attribute!}.png',
+                      value: widget.card.attribute!,
+                      asset: 'assets/attribute/${widget.card.attribute!}.png',
                     ),
                 ],
               ),
               const SizedBox(height: 16),
               Row(
                 children: [
-                  if (card.archetype != null)
+                  if (widget.card.archetype != null)
                     CardDetailWidget(
                       label: 'Archetype',
-                      value: card.archetype!,
+                      value: widget.card.archetype!,
                     ),
-                  if (card.archetype != null) const SizedBox(width: 32),
+                  if (widget.card.archetype != null) const SizedBox(width: 32),
                   Expanded(
                     child: CardDetailWidget(
                       label: 'Formats',
-                      value: card.miscInfo
+                      value: widget.card.miscInfo
                           .map<List<String>>((e) => e.formats)
                           .reduce((a, b) => [...a, ...b])
                           .toSet()
@@ -130,8 +154,9 @@ class CardBottomSheet extends StatelessWidget {
               const SizedBox(height: 28),
               Row(
                 children: [
-                  Text(
-                    '${HiveHelper.instance.getCopiesOfCardOwnedById(card.id)} in Collection',
+                  ValueListenableBuilder<int>(
+                    valueListenable: _totalOwnedCard,
+                    builder: (_, value, __) => Text('$value in Collection'),
                   ),
                   Expanded(child: Container()),
                   TextButton(
@@ -140,10 +165,10 @@ class CardBottomSheet extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                    onPressed: () => Navigator.pushNamed<CardInfoModel>(
+                    onPressed: () => Navigator.pushNamed(
                       context,
                       CardView.routeName,
-                      arguments: card,
+                      arguments: [widget.card, _totalOwnedCard],
                     ),
                     child: const Text(
                       'VIEW',
@@ -153,7 +178,7 @@ class CardBottomSheet extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 28),
-              _PricesWidget(prices: card.cardPrices),
+              _PricesWidget(prices: widget.card.cardPrices),
             ],
           ),
         ),

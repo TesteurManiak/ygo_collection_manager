@@ -124,10 +124,12 @@ class CardsBloc extends BlocBase {
 
   int cardsOwnedInSet(SetModel cardSet) {
     return HiveHelper.instance.cardsOwned
-        .compactMap<CardOwnedModel>((e) =>
-            e.setCode.contains(cardSet.setCode) && e.setName == cardSet.setName
-                ? e
-                : null)
+        .compactMap<CardOwnedModel>(
+          (e) => e.setCode.contains(cardSet.setCode) &&
+                  e.setName == cardSet.setName
+              ? e
+              : null,
+        )
         .map<String>((e) => e.setCode)
         .toSet()
         .length;

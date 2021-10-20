@@ -18,8 +18,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         builder: (_) => ExpansionView(settings.arguments! as SetModel),
       );
     case CardView.routeName:
-      return MaterialPageRoute<CardInfoModel>(
-        builder: (_) => CardView(card: settings.arguments! as CardInfoModel),
+      final args = settings.arguments! as List<Object>;
+      return MaterialPageRoute(
+        builder: (_) => CardView(
+          card: args[0] as CardInfoModel,
+          totalOwnedCard: args[1] as ValueNotifier<int>,
+        ),
       );
     case CardsOverlay.routeName:
       final args = settings.arguments! as List<Object>;

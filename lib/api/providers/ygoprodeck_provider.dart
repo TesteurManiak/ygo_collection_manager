@@ -19,7 +19,7 @@ class YgoProDeckProvider {
 
   YgoProDeckProvider(this._dio);
 
-  // TODO: Finish query params
+  // TODO(maniak): Finish query params
   Future<List<CardInfoModel>> getCardInfo({
     List<String>? names,
     String? fname,
@@ -52,7 +52,8 @@ class YgoProDeckProvider {
     );
     return (response['data'] as Iterable)
         .map<CardInfoModel>(
-            (e) => CardInfoModel.fromJson(e as Map<String, dynamic>))
+          (e) => CardInfoModel.fromJson(e as Map<String, dynamic>),
+        )
         .toList();
   }
 
