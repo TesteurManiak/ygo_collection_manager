@@ -12,9 +12,10 @@ class CollectionAppBarBottom extends StatefulWidget {
   final SetModel currentSet;
 
   const CollectionAppBarBottom({
+    Key? key,
     this.animationDuration,
     required this.currentSet,
-  });
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _CollectionAppBarBottomState();

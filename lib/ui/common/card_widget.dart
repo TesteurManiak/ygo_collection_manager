@@ -16,10 +16,11 @@ class CardWidget extends StatelessWidget {
   final void Function()? onLongPress;
 
   const CardWidget({
+    Key? key,
     required this.cards,
     required this.index,
     this.onLongPress,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +52,15 @@ class CardWidget extends StatelessWidget {
                     BlocProvider.of<ExpansionCollectionBloc>(streamContext);
                 final firstEdQty = HiveHelper.instance.getCopiesOfCardOwned(
                   cards[index].getDbKey(
-                      expansionCollectionBloc.cardSet!, CardEditionEnum.first),
+                    expansionCollectionBloc.cardSet!,
+                    CardEditionEnum.first,
+                  ),
                 );
                 final unlimitedQty = HiveHelper.instance.getCopiesOfCardOwned(
-                  cards[index].getDbKey(expansionCollectionBloc.cardSet!,
-                      CardEditionEnum.unlimited),
+                  cards[index].getDbKey(
+                    expansionCollectionBloc.cardSet!,
+                    CardEditionEnum.unlimited,
+                  ),
                 );
                 final quantity = firstEdQty + unlimitedQty;
                 return quantity > 0
@@ -67,7 +72,9 @@ class CardWidget extends StatelessWidget {
                           ),
                         ),
                         padding: const EdgeInsets.symmetric(
-                            vertical: 4, horizontal: 6),
+                          vertical: 4,
+                          horizontal: 6,
+                        ),
                         child: Text('$quantity', style: TextStyles.black12b),
                       )
                     : const SizedBox();

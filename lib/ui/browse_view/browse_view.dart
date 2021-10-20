@@ -9,6 +9,8 @@ import 'package:ygo_collection_manager/ui/common/sliver_spacer.dart';
 import 'package:ygo_collection_manager/ui/common/top_rounded_sliver.dart';
 
 class BrowseView extends StatefulWidget {
+  const BrowseView({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _BrowseViewState();
 }
@@ -68,26 +70,27 @@ class _BrowseViewState extends State<BrowseView>
             ),
             const SliverSpacer(height: 16),
             StreamBuilder<List<CardInfoModel>?>(
-                stream: _cardsBloc.onFilteredCardsChanged,
-                builder: (_, snapshot) {
-                  final data = snapshot.data;
-                  if (!snapshot.hasData || data == null) {
-                    return const SliverToBoxAdapter(child: SizedBox());
-                  }
-                  return SliverGrid(
-                    delegate: SliverChildBuilderDelegate(
-                      (_, index) => CardWidget(
-                        cards: data,
-                        index: index,
-                      ),
-                      childCount: data.length,
+              stream: _cardsBloc.onFilteredCardsChanged,
+              builder: (_, snapshot) {
+                final data = snapshot.data;
+                if (!snapshot.hasData || data == null) {
+                  return const SliverToBoxAdapter(child: SizedBox());
+                }
+                return SliverGrid(
+                  delegate: SliverChildBuilderDelegate(
+                    (_, index) => CardWidget(
+                      cards: data,
+                      index: index,
                     ),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: _crossAxisCount,
-                      childAspectRatio: itemWidth / itemHeight,
-                    ),
-                  );
-                }),
+                    childCount: data.length,
+                  ),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: _crossAxisCount,
+                    childAspectRatio: itemWidth / itemHeight,
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),

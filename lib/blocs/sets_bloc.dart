@@ -67,11 +67,15 @@ class SetsBloc extends BlocBase {
     if (search.isEmpty) {
       _filteredSetsController.sink.add(_setsController.value);
     } else {
-      _filteredSetsController.sink.add(_setsController.value!
-          .where((e) =>
-              e.setName.toLowerCase().contains(search.toLowerCase()) ||
-              e.setCode.toLowerCase().contains(search.toLowerCase()))
-          .toList());
+      _filteredSetsController.sink.add(
+        _setsController.value!
+            .where(
+              (e) =>
+                  e.setName.toLowerCase().contains(search.toLowerCase()) ||
+                  e.setCode.toLowerCase().contains(search.toLowerCase()),
+            )
+            .toList(),
+      );
     }
   }
 

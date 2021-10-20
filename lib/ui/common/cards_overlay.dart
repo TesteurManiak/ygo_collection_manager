@@ -10,7 +10,8 @@ class CardsOverlay extends StatefulWidget {
   final int initialIndex;
   final List<CardInfoModel> cards;
 
-  const CardsOverlay({this.initialIndex = 0, required this.cards});
+  const CardsOverlay({Key? key, this.initialIndex = 0, required this.cards})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _CardsOverlayState();

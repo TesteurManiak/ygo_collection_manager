@@ -64,7 +64,9 @@ class MyThemes {
   }
 
   static ThemeData fromThemeMode(
-      ThemeMode themeMode, Brightness? systemBrightness) {
+    ThemeMode themeMode,
+    Brightness? systemBrightness,
+  ) {
     if (themeMode == ThemeMode.system) {
       return systemBrightness == Brightness.dark ? dark : light;
     }

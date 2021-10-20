@@ -9,6 +9,8 @@ import 'package:ygo_collection_manager/ui/root_view/root_view.dart';
 class LoadingView extends StatefulWidget {
   static const routeName = '/';
 
+  const LoadingView({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _LoadingViewState();
 }
@@ -32,7 +34,8 @@ class _LoadingViewState extends State<LoadingView> {
   void initState() {
     super.initState();
     Future.microtask(_loadAll).then(
-        (_) => Navigator.pushReplacementNamed(context, RootView.routeName));
+      (_) => Navigator.pushReplacementNamed(context, RootView.routeName),
+    );
   }
 
   @override

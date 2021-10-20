@@ -11,6 +11,8 @@ import 'package:ygo_collection_manager/ui/common/top_rounded_sliver.dart';
 import 'package:ygo_collection_manager/ui/common/total_completion_widget.dart';
 
 class CollectionView extends StatefulWidget {
+  const CollectionView({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _CollectionViewState();
 }
@@ -39,8 +41,8 @@ class _CollectionViewState extends State<CollectionView>
           behavior: NoGlowScrollBehavior(),
           child: CustomScrollView(
             slivers: [
-              SliverAppBar(
-                title: const Text('Collection'),
+              const SliverAppBar(
+                title: Text('Collection'),
                 centerTitle: true,
                 bottom: TotalCompletionBottomWidget(),
               ),
@@ -85,10 +87,12 @@ class _CollectionViewState extends State<CollectionView>
                             (context, index) => Container(
                               decoration: BoxDecoration(
                                 color: DynamicThemedColors.scaffoldBackground(
-                                    context),
+                                  context,
+                                ),
                                 border: Border.all(
                                   color: DynamicThemedColors.scaffoldBackground(
-                                      context),
+                                    context,
+                                  ),
                                 ),
                               ),
                               child: SetTileWidget(data[index]),

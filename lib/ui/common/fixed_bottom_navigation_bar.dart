@@ -565,34 +565,39 @@ class _FixedBottomNavigationBarState extends State<FixedBottomNavigationBar>
 
     final List<Widget> tiles = <Widget>[];
     for (int i = 0; i < widget.items.length; i++) {
-      tiles.add(_BottomNavigationTile(
-        _effectiveType,
-        widget.items[i],
-        _animations[i],
-        widget.iconSize,
-        selectedIconTheme:
-            widget.selectedIconTheme ?? bottomTheme.selectedIconTheme,
-        unselectedIconTheme:
-            widget.unselectedIconTheme ?? bottomTheme.unselectedIconTheme,
-        selectedLabelStyle: effectiveSelectedLabelStyle,
-        unselectedLabelStyle: effectiveUnselectedLabelStyle,
-        enableFeedback:
-            widget.enableFeedback ?? bottomTheme.enableFeedback ?? true,
-        onTap: () {
-          widget.onTap?.call(i);
-        },
-        colorTween: colorTween,
-        flex: _evaluateFlex(_animations[i]),
-        selected: i == widget.currentIndex,
-        showSelectedLabels:
-            widget.showSelectedLabels ?? bottomTheme.showSelectedLabels ?? true,
-        showUnselectedLabels: widget.showUnselectedLabels ??
-            bottomTheme.showUnselectedLabels ??
-            _defaultShowUnselected,
-        indexLabel: localizations.tabLabel(
-            tabIndex: i + 1, tabCount: widget.items.length),
-        mouseCursor: effectiveMouseCursor,
-      ));
+      tiles.add(
+        _BottomNavigationTile(
+          _effectiveType,
+          widget.items[i],
+          _animations[i],
+          widget.iconSize,
+          selectedIconTheme:
+              widget.selectedIconTheme ?? bottomTheme.selectedIconTheme,
+          unselectedIconTheme:
+              widget.unselectedIconTheme ?? bottomTheme.unselectedIconTheme,
+          selectedLabelStyle: effectiveSelectedLabelStyle,
+          unselectedLabelStyle: effectiveUnselectedLabelStyle,
+          enableFeedback:
+              widget.enableFeedback ?? bottomTheme.enableFeedback ?? true,
+          onTap: () {
+            widget.onTap?.call(i);
+          },
+          colorTween: colorTween,
+          flex: _evaluateFlex(_animations[i]),
+          selected: i == widget.currentIndex,
+          showSelectedLabels: widget.showSelectedLabels ??
+              bottomTheme.showSelectedLabels ??
+              true,
+          showUnselectedLabels: widget.showUnselectedLabels ??
+              bottomTheme.showUnselectedLabels ??
+              _defaultShowUnselected,
+          indexLabel: localizations.tabLabel(
+            tabIndex: i + 1,
+            tabCount: widget.items.length,
+          ),
+          mouseCursor: effectiveMouseCursor,
+        ),
+      );
     }
     return tiles;
   }
@@ -634,7 +639,8 @@ class _FixedBottomNavigationBarState extends State<FixedBottomNavigationBar>
         color: backgroundColor,
         child: ConstrainedBox(
           constraints: BoxConstraints(
-              minHeight: kBottomNavigationBarHeight + additionalBottomPadding),
+            minHeight: kBottomNavigationBarHeight + additionalBottomPadding,
+          ),
           child: CustomPaint(
             painter: _RadialPainter(
               circles: _circles.toList(),

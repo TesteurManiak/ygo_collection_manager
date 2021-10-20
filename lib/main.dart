@@ -24,12 +24,14 @@ Future<void> main() async {
         DBVersionBloc(),
         ExpansionCollectionBloc(),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _MyAppState();
 }

@@ -12,7 +12,8 @@ void main() {
       final json = jsonDecode(text) as Map<String, dynamic>;
       final cards = (json['data'] as Iterable)
           .map<CardInfoModel>(
-              (e) => CardInfoModel.fromJson(e as Map<String, dynamic>))
+            (e) => CardInfoModel.fromJson(e as Map<String, dynamic>),
+          )
           .toList();
       expect(cards.length, 126);
     });

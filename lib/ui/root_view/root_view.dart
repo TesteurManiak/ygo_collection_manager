@@ -8,16 +8,13 @@ import 'package:ygo_collection_manager/ui/settings_view/settings_view.dart';
 class RootView extends StatefulWidget {
   static const routeName = '/root';
 
+  const RootView({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _RootViewState();
 }
 
 class _RootViewState extends State<RootView> {
-  final _pages = <Widget>[
-    CollectionView(),
-    BrowseView(),
-    SettingsView(),
-  ];
   final _pageController = PageController();
 
   int _selectedIndex = 0;
@@ -65,7 +62,11 @@ class _RootViewState extends State<RootView> {
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: _pageController,
-        children: _pages,
+        children: const <Widget>[
+          CollectionView(),
+          BrowseView(),
+          SettingsView(),
+        ],
       ),
     );
   }

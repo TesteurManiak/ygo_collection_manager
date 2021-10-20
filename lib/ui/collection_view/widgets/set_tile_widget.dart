@@ -8,7 +8,7 @@ import 'package:ygo_collection_manager/ui/expansion_view/expansion_view.dart';
 class SetTileWidget extends StatelessWidget {
   final SetModel cardSet;
 
-  const SetTileWidget(this.cardSet);
+  const SetTileWidget(this.cardSet, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

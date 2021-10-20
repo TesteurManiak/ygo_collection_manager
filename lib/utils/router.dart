@@ -10,9 +10,9 @@ import 'package:ygo_collection_manager/ui/root_view/root_view.dart';
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case LoadingView.routeName:
-      return MaterialPageRoute(builder: (_) => LoadingView());
+      return MaterialPageRoute(builder: (_) => const LoadingView());
     case RootView.routeName:
-      return MaterialPageRoute(builder: (_) => RootView());
+      return MaterialPageRoute(builder: (_) => const RootView());
     case ExpansionView.routeName:
       return MaterialPageRoute<SetModel>(
         builder: (_) => ExpansionView(settings.arguments! as SetModel),

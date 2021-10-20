@@ -306,11 +306,13 @@ class CardInfoModel extends HiveObject {
             : null,
         cardImages: (json['card_images'] as Iterable)
             .map<CardImages>(
-                (e) => CardImages.fromJson(e as Map<String, dynamic>))
+              (e) => CardImages.fromJson(e as Map<String, dynamic>),
+            )
             .toList(),
         cardSets: (json['card_sets'] as Iterable?)
             ?.map<CardModelSet>(
-                (e) => CardModelSet.fromJson(e as Map<String, dynamic>))
+              (e) => CardModelSet.fromJson(e as Map<String, dynamic>),
+            )
             .toList(),
         cardPrices: (json['card_prices'] as Iterable)
             .map<CardPriceModel>(
@@ -319,7 +321,8 @@ class CardInfoModel extends HiveObject {
             .toList(),
         banlistInfo: json['banlist_info'] != null
             ? CardBanlistInfo.fromJson(
-                json['banlist_info'] as Map<String, dynamic>)
+                json['banlist_info'] as Map<String, dynamic>,
+              )
             : null,
         miscInfo: (json['misc_info'] as Iterable)
             .map<CardMiscInfo>(

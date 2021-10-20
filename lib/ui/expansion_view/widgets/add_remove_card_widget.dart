@@ -7,7 +7,7 @@ import 'package:ygo_collection_manager/models/set_model.dart';
 class AddRemoveCardWidget extends StatelessWidget {
   final SetModel currentSet;
 
-  const AddRemoveCardWidget(this.currentSet);
+  const AddRemoveCardWidget(this.currentSet, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

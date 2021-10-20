@@ -17,6 +17,8 @@ const _themeItems = <_ThemeChoice>[
 ];
 
 class SettingsView extends StatefulWidget {
+  const SettingsView({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _SettingsViewState();
 }

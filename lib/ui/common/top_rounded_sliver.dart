@@ -4,7 +4,7 @@ import 'package:ygo_collection_manager/styles/colors.dart';
 class TopRoundedSliver extends StatelessWidget {
   final double borderRadius;
 
-  const TopRoundedSliver({this.borderRadius = 20});
+  const TopRoundedSliver({Key? key, this.borderRadius = 20}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

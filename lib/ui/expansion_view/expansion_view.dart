@@ -17,7 +17,7 @@ class ExpansionView extends StatefulWidget {
 
   final SetModel cardSet;
 
-  const ExpansionView(this.cardSet);
+  const ExpansionView(this.cardSet, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ExpansionViewState();

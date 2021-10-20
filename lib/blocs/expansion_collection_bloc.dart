@@ -125,15 +125,17 @@ class ExpansionCollectionBloc extends BlocBase {
       final newQuantity =
           (edition == CardEditionEnum.first ? firstEditionQty : unlimitedQty) +
               1;
-      Future.microtask(() => HiveHelper.instance.updateCardOwned(
-            CardOwnedModel(
-              quantity: newQuantity,
-              setCode: card.getCardSetsFromSet(currentSet)!.code,
-              edition: edition,
-              setName: currentSet.setName,
-              id: card.id,
-            ),
-          )).then(
+      Future.microtask(
+        () => HiveHelper.instance.updateCardOwned(
+          CardOwnedModel(
+            quantity: newQuantity,
+            setCode: card.getCardSetsFromSet(currentSet)!.code,
+            edition: edition,
+            setName: currentSet.setName,
+            id: card.id,
+          ),
+        ),
+      ).then(
         (_) {
           edition == CardEditionEnum.first
               ? _firstEditionQtyController.sink.add(newQuantity)
@@ -152,15 +154,17 @@ class ExpansionCollectionBloc extends BlocBase {
       if (currentCards != null && currentSet != null) {
         final card = currentCards[selectedCardIndex];
         final newQuantity = currentQty - 1;
-        Future.microtask(() => HiveHelper.instance.updateCardOwned(
-              CardOwnedModel(
-                quantity: newQuantity,
-                setCode: card.getCardSetsFromSet(currentSet)!.code,
-                edition: edition,
-                setName: currentSet.setName,
-                id: card.id,
-              ),
-            )).then(
+        Future.microtask(
+          () => HiveHelper.instance.updateCardOwned(
+            CardOwnedModel(
+              quantity: newQuantity,
+              setCode: card.getCardSetsFromSet(currentSet)!.code,
+              edition: edition,
+              setName: currentSet.setName,
+              id: card.id,
+            ),
+          ),
+        ).then(
           (_) {
             edition == CardEditionEnum.first
                 ? _firstEditionQtyController.sink.add(newQuantity)

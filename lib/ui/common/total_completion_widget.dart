@@ -6,6 +6,8 @@ const _kBottomHeight = 14.0;
 
 class TotalCompletionBottomWidget extends StatelessWidget
     with PreferredSizeWidget {
+  const TotalCompletionBottomWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) => const TotalCompletionWidget();
 
@@ -16,7 +18,8 @@ class TotalCompletionBottomWidget extends StatelessWidget
 class TotalCompletionWidget extends StatelessWidget {
   final double Function()? getTotalCompletion;
 
-  const TotalCompletionWidget({this.getTotalCompletion});
+  const TotalCompletionWidget({Key? key, this.getTotalCompletion})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

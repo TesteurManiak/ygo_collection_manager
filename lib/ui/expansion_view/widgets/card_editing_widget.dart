@@ -11,10 +11,11 @@ class CardEditingWidget extends StatelessWidget {
   final AnimationController controller;
 
   const CardEditingWidget({
+    Key? key,
     required this.index,
     required this.cards,
     required this.controller,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

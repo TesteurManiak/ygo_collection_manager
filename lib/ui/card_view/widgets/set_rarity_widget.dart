@@ -13,7 +13,7 @@ class SetRarityWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: add widget to change quantity
+    // TODO(maniak): add widget to change quantity
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,

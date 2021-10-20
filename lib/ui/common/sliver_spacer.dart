@@ -5,7 +5,7 @@ class SliverSpacer extends StatelessWidget {
   final double? height;
   final double? width;
 
-  const SliverSpacer({this.height, this.width});
+  const SliverSpacer({Key? key, this.height, this.width}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
