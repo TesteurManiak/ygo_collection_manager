@@ -1,3 +1,7 @@
+import 'card_images.dart';
+import 'card_price.dart';
+import 'card_set.dart';
+
 class YgoCard {
   final int id;
   final String name;
@@ -11,10 +15,11 @@ class YgoCard {
   final String? archetype;
   final int? scale;
   final int? linkval;
-  // final List<CardImages> cardImages;
+  // TODO(Maniak): Implement commented entities
+  final List<CardImages> cardImages;
   final List<String>? linkmarkers;
-  // final List<CardModelSet>? cardSets;
-  // final List<CardPriceModel> cardPrices;
+  final List<CardSet>? cardSets;
+  final List<CardPrice> cardPrices;
   // final CardBanlistInfo? banlistInfo;
   // final List<CardMiscInfo> miscInfo;
 
@@ -31,10 +36,10 @@ class YgoCard {
     required this.archetype,
     required this.scale,
     required this.linkval,
-    // required this.cardImages,
+    required this.cardImages,
     required this.linkmarkers,
-    // required this.cardSets,
-    // required this.cardPrices,
+    required this.cardSets,
+    required this.cardPrices,
     // required this.banlistInfo,
     // required this.miscInfo,
   });

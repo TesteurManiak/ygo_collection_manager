@@ -1,4 +1,7 @@
 import '../../domain/entities/ygo_card.dart';
+import 'card_images_model.dart';
+import 'card_price_model.dart';
+import 'card_set_model.dart';
 
 class YgoCardModel extends YgoCard {
   YgoCardModel({
@@ -14,7 +17,10 @@ class YgoCardModel extends YgoCard {
     required String? archetype,
     required int? scale,
     required int? linkval,
+    required List<CardImagesModel> cardImages,
     required List<String>? linkmarkers,
+    required List<CardSetModel>? cardSets,
+    required List<CardPriceModel> cardPrices,
   }) : super(
           id: id,
           name: name,
@@ -28,6 +34,54 @@ class YgoCardModel extends YgoCard {
           archetype: archetype,
           scale: scale,
           linkval: linkval,
+          cardImages: cardImages,
           linkmarkers: linkmarkers,
+          cardSets: cardSets,
+          cardPrices: cardPrices,
         );
+
+  factory YgoCardModel.fromJson(Map<String, dynamic> json) {
+    return YgoCardModel(
+      id: json['id'] as int,
+      name: json['name'] as String,
+      type: json['type'] as String,
+      desc: json['desc'] as String,
+      atk: json['atk'] as int?,
+      def: json['def'] as int?,
+      level: json['level'] as int?,
+      race: json['race'] as String,
+      attribute: json['attribute'] as String?,
+      archetype: json['archetype'] as String?,
+      scale: json['scale'] as int?,
+      linkval: json['linkval'] as int?,
+      linkmarkers: json['linkmarkers'] != null
+          ? List<String>.from(json['linkmarkers'] as Iterable)
+          : null,
+      cardImages: (json['card_images'] as Iterable)
+          .map<CardImagesModel>(
+            (e) => CardImagesModel.fromJson(e as Map<String, dynamic>),
+          )
+          .toList(),
+      cardSets: (json['card_sets'] as Iterable?)
+          ?.map<CardSetModel>(
+            (e) => CardSetModel.fromJson(e as Map<String, dynamic>),
+          )
+          .toList(),
+      cardPrices: (json['card_prices'] as Iterable)
+          .map<CardPriceModel>(
+            (e) => CardPriceModel.fromJson(e as Map<String, dynamic>),
+          )
+          .toList(),
+      // banlistInfo: json['banlist_info'] != null
+      //     ? CardBanlistInfo.fromJson(
+      //         json['banlist_info'] as Map<String, dynamic>,
+      //       )
+      //     : null,
+      // miscInfo: (json['misc_info'] as Iterable)
+      //     .map<CardMiscInfo>(
+      //       (e) => CardMiscInfo.fromJson(e as Map<String, dynamic>),
+      //     )
+      //     .toList(),
+    );
+  }
 }
