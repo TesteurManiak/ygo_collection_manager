@@ -16,6 +16,27 @@ flutter packages pub run build_runner build
 * View card details
 * Dark & Light themes
 
+## Clean Architecture Structure
+
+```
+lib/
+├── features/
+│   └── feature_name/
+│       ├── data/
+│       │   ├── datasources/
+|       |   ├── models/
+|       |   └── repositories/
+│       ├── domain/
+|       |   ├── entities/
+|       |   ├── repositories/
+|       |   └── usecases/
+│       └── presentation/
+|           ├── bloc/
+|           ├── pages/
+|           └── widgets/
+└── core/
+```
+
 ## TODO
 
 * Add filters for expansions

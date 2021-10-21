@@ -33,7 +33,7 @@ class YgoProDeckProvider {
     int? link,
     bool misc = false,
   }) async {
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, Object>{};
     if (names != null) queryParameters['name'] = names.join('|');
     if (fname != null) queryParameters['fname'] = fname;
     if (ids != null) queryParameters['id'] = ids.join(',');
