@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
 
+import '../../../../core/entities/banlist.dart';
+import '../../../../core/entities/link_markers.dart';
 import '../../../../core/error/failures.dart';
 import '../entities/archetype.dart';
 import '../entities/card_set_info.dart';
@@ -21,6 +23,11 @@ abstract class YgoProRepository {
     List<String>? races,
     List<String>? attributes,
     int? link,
+    List<LinkMarkers>? linkMarkers,
+    int? scale,
+    String? cardSet,
+    String? archetype,
+    Banlist? banlist,
     bool misc = false,
   });
   Future<Either<Failure, CardSetInfo>> getCardSetInformation(String setCode);

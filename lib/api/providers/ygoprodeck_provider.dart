@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:ygo_collection_manager/core/entities/banlist.dart';
+import 'package:ygo_collection_manager/core/entities/link_markers.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/models/db_version_model.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
@@ -31,6 +33,11 @@ class YgoProDeckProvider {
     List<String>? races,
     List<String>? attributes,
     int? link,
+    List<LinkMarkers>? linkMarkers,
+    int? scale,
+    String? cardSet,
+    String? archetype,
+    Banlist? banlist,
     bool misc = false,
   }) async {
     final queryParameters = <String, Object>{};
@@ -44,6 +51,13 @@ class YgoProDeckProvider {
     if (races != null) queryParameters['race'] = races.join(',');
     if (attributes != null) queryParameters['attribute'] = attributes.join(',');
     if (link != null) queryParameters['link'] = link;
+    if (linkMarkers != null) {
+      queryParameters['linkmarker'] = linkMarkers.toStringIterable().join(',');
+    }
+    if (scale != null) queryParameters['scale'] = scale;
+    if (cardSet != null) queryParameters['cardset'] = cardSet;
+    if (archetype != null) queryParameters['archetype'] = archetype;
+    if (banlist != null) queryParameters['banlist'] = banlist.string;
     if (misc) queryParameters['misc'] = 'yes';
 
     final response = await getCall<Map<String, dynamic>>(
