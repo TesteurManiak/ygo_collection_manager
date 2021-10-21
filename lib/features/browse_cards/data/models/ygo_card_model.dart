@@ -1,5 +1,7 @@
 import '../../domain/entities/ygo_card.dart';
+import 'card_banlist_info_model.dart';
 import 'card_images_model.dart';
+import 'card_misc_info_model.dart';
 import 'card_price_model.dart';
 import 'card_set_model.dart';
 
@@ -21,6 +23,8 @@ class YgoCardModel extends YgoCard {
     required List<String>? linkmarkers,
     required List<CardSetModel>? cardSets,
     required List<CardPriceModel> cardPrices,
+    required CardBanlistInfoModel? banlistInfo,
+    required List<CardMiscInfoModel> miscInfo,
   }) : super(
           id: id,
           name: name,
@@ -38,6 +42,8 @@ class YgoCardModel extends YgoCard {
           linkmarkers: linkmarkers,
           cardSets: cardSets,
           cardPrices: cardPrices,
+          banlistInfo: banlistInfo,
+          miscInfo: miscInfo,
         );
 
   factory YgoCardModel.fromJson(Map<String, dynamic> json) {
@@ -72,16 +78,16 @@ class YgoCardModel extends YgoCard {
             (e) => CardPriceModel.fromJson(e as Map<String, dynamic>),
           )
           .toList(),
-      // banlistInfo: json['banlist_info'] != null
-      //     ? CardBanlistInfo.fromJson(
-      //         json['banlist_info'] as Map<String, dynamic>,
-      //       )
-      //     : null,
-      // miscInfo: (json['misc_info'] as Iterable)
-      //     .map<CardMiscInfo>(
-      //       (e) => CardMiscInfo.fromJson(e as Map<String, dynamic>),
-      //     )
-      //     .toList(),
+      banlistInfo: json['banlist_info'] != null
+          ? CardBanlistInfoModel.fromJson(
+              json['banlist_info'] as Map<String, dynamic>,
+            )
+          : null,
+      miscInfo: (json['misc_info'] as Iterable)
+          .map<CardMiscInfoModel>(
+            (e) => CardMiscInfoModel.fromJson(e as Map<String, dynamic>),
+          )
+          .toList(),
     );
   }
 }
