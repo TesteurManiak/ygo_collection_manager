@@ -1,5 +1,9 @@
 import 'package:dartz/dartz.dart';
 
+import '../../../../core/entities/banlist.dart';
+import '../../../../core/entities/format.dart';
+import '../../../../core/entities/link_markers.dart';
+import '../../../../core/entities/sort.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../entities/ygo_card.dart';
@@ -23,7 +27,18 @@ class GetCardInformation implements UseCase<List<YgoCard>, GetCardInfoParams> {
         races: params.races,
         attributes: params.attributes,
         link: params.link,
+        linkMarkers: params.linkMarkers,
+        scale: params.scale,
+        cardSet: params.cardSet,
+        archetype: params.archetype,
+        banlist: params.banlist,
+        sort: params.sort,
+        format: params.format,
         misc: params.misc,
+        staple: params.staple,
+        startDate: params.startDate,
+        endDate: params.endDate,
+        dateRegion: params.dateRegion,
       );
 }
 
@@ -38,7 +53,18 @@ class GetCardInfoParams {
   final List<String>? races;
   final List<String>? attributes;
   final int? link;
+  final List<LinkMarkers>? linkMarkers;
+  final int? scale;
+  final String? cardSet;
+  final String? archetype;
+  final Banlist? banlist;
+  final Sort? sort;
+  final Format? format;
   final bool misc;
+  final bool? staple;
+  final DateTime? startDate;
+  final DateTime? endDate;
+  final DateTime? dateRegion;
 
   GetCardInfoParams({
     this.names,
@@ -51,6 +77,17 @@ class GetCardInfoParams {
     this.races,
     this.attributes,
     this.link,
+    this.linkMarkers,
+    this.scale,
+    this.cardSet,
+    this.archetype,
+    this.banlist,
+    this.sort,
+    this.format,
     this.misc = false,
+    this.staple,
+    this.startDate,
+    this.endDate,
+    this.dateRegion,
   });
 }
