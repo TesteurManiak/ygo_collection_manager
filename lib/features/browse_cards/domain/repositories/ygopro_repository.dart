@@ -1,7 +1,9 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/entities/banlist.dart';
+import '../../../../core/entities/format.dart';
 import '../../../../core/entities/link_markers.dart';
+import '../../../../core/entities/sort.dart';
 import '../../../../core/error/failures.dart';
 import '../entities/archetype.dart';
 import '../entities/card_set_info.dart';
@@ -28,7 +30,13 @@ abstract class YgoProRepository {
     String? cardSet,
     String? archetype,
     Banlist? banlist,
+    Sort? sort,
+    Format? format,
     bool misc = false,
+    bool? staple,
+    DateTime? startDate,
+    DateTime? endDate,
+    DateTime? dateRegion,
   });
   Future<Either<Failure, CardSetInfo>> getCardSetInformation(String setCode);
   Future<Either<Failure, DbVersion>> checkDatabaseVersion();

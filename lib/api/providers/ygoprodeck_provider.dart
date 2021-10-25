@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:ygo_collection_manager/core/entities/banlist.dart';
+import 'package:ygo_collection_manager/core/entities/format.dart';
 import 'package:ygo_collection_manager/core/entities/link_markers.dart';
+import 'package:ygo_collection_manager/core/entities/sort.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
 import 'package:ygo_collection_manager/models/db_version_model.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
@@ -21,7 +23,6 @@ class YgoProDeckProvider {
 
   YgoProDeckProvider(this._dio);
 
-  // TODO(maniak): Finish query params
   Future<List<CardInfoModel>> getCardInfo({
     List<String>? names,
     String? fname,
@@ -38,7 +39,13 @@ class YgoProDeckProvider {
     String? cardSet,
     String? archetype,
     Banlist? banlist,
+    Sort? sort,
+    Format? format,
     bool misc = false,
+    bool? staple,
+    DateTime? startDate,
+    DateTime? endDate,
+    DateTime? dateRegion,
   }) async {
     final queryParameters = <String, Object>{};
     if (names != null) queryParameters['name'] = names.join('|');
@@ -58,7 +65,17 @@ class YgoProDeckProvider {
     if (cardSet != null) queryParameters['cardset'] = cardSet;
     if (archetype != null) queryParameters['archetype'] = archetype;
     if (banlist != null) queryParameters['banlist'] = banlist.string;
+    if (sort != null) queryParameters['sort'] = sort.string;
+    if (format != null) queryParameters['format'] = format.string;
     if (misc) queryParameters['misc'] = 'yes';
+    if (staple != null) queryParameters['staple'] = staple ? 'yes' : 'no';
+    if (startDate != null) {
+      queryParameters['startdate'] = startDate.toIso8601String();
+    }
+    if (endDate != null) queryParameters['enddate'] = endDate.toIso8601String();
+    if (dateRegion != null) {
+      queryParameters['dateregion'] = dateRegion.toIso8601String();
+    }
 
     final response = await getCall<Map<String, dynamic>>(
       [cardInfoPath],
