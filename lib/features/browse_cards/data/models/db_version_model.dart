@@ -1,7 +1,7 @@
 import 'package:ygo_collection_manager/features/browse_cards/domain/entities/db_version.dart';
 
 class DbVersionModel extends DbVersion {
-  DbVersionModel({
+  const DbVersionModel({
     required DateTime lastUpdate,
     required String version,
   }) : super(

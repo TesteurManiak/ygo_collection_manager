@@ -47,6 +47,11 @@ abstract class YgoProRemoteDataSource {
     DateTime? dateRegion,
   });
 
+  /// Calls the https://db.ygoprodeck.com/api/v7/cardinfo.php endpoint.
+  ///
+  /// Throws a [ServerException] for all error codes.
+  Future<List<YgoCardModel>> getAllCards() => getCardInfo(misc: true);
+
   /// Calls the
   /// https://db.ygoprodeck.com/api/v7/cardsetsinfo.php?setcode={setCode}
   /// endpoint.
@@ -57,7 +62,7 @@ abstract class YgoProRemoteDataSource {
   /// Calls the https://db.ygoprodeck.com/api/v7/checkDBVer.php endpoint.
   ///
   /// Throws a [ServerException] for all error codes.
-  Future<DbVersionModel> checkDatabaseVersion();
+  Future<DbVersionModel> getDatabaseVersion();
 
   /// Calls the https://db.ygoprodeck.com/api/v7/randomcard.php endpoint.
   ///

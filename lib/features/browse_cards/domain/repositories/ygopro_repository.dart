@@ -7,7 +7,6 @@ import '../../../../core/entities/sort.dart';
 import '../../../../core/error/failures.dart';
 import '../entities/archetype.dart';
 import '../entities/card_set_info.dart';
-import '../entities/db_version.dart';
 import '../entities/ygo_card.dart';
 import '../entities/ygo_set.dart';
 
@@ -38,7 +37,11 @@ abstract class YgoProRepository {
     DateTime? endDate,
     DateTime? dateRegion,
   });
+  Future<Either<Failure, List<YgoCard>>> getAllCards();
   Future<Either<Failure, CardSetInfo>> getCardSetInformation(String setCode);
-  Future<Either<Failure, DbVersion>> checkDatabaseVersion();
+
+  /// Compare database version on the device with the one on the server. If the
+  /// versions are different, the database will be updated.
+  Future<Either<Failure, void>> updateDatabase();
   Future<Either<Failure, YgoCard>> getRandomCard();
 }

@@ -12,6 +12,5 @@ class GetAllCards implements UseCase<List<YgoCard>, NoParams> {
   GetAllCards(this.repository);
 
   @override
-  Future<Either<Failure, List<YgoCard>>> call(_) =>
-      repository.getCardInfo(misc: true);
+  Future<Either<Failure, List<YgoCard>>> call(_) => repository.getAllCards();
 }
