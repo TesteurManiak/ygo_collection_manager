@@ -6,6 +6,8 @@ import '../../../../core/entities/link_markers.dart';
 import '../../../../core/entities/sort.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
+import '../../../../core/network/network_info.dart';
+import '../../../../core/success/success.dart';
 import '../../domain/entities/archetype.dart';
 import '../../domain/entities/card_set_info.dart';
 import '../../domain/entities/ygo_card.dart';
@@ -17,29 +19,34 @@ import '../datasources/ygopro_remote_data_source.dart';
 class YgoProRepositoryImpl implements YgoProRepository {
   final YgoProRemoteDataSource remoteDataSource;
   final YgoProLocalDataSource localDataSource;
+  final NetworkInfo networkInfo;
 
   YgoProRepositoryImpl({
     required this.remoteDataSource,
     required this.localDataSource,
+    required this.networkInfo,
   });
 
   @override
-  Future<Either<Failure, void>> updateDatabase() async {
+  Future<Either<Failure, Success>> updateDatabase() async {
     try {
-      final remoteDbVersion = await remoteDataSource.getDatabaseVersion();
-      final localDbVersion = await localDataSource.getDatabaseVersion();
+      final isConnected = await networkInfo.isConnected;
+      if (isConnected) {
+        final remoteDbVersion = await remoteDataSource.getDatabaseVersion();
+        final localDbVersion = await localDataSource.getDatabaseVersion();
 
-      if (remoteDbVersion != localDbVersion) {
-        // TODO: optimize operations
-        await localDataSource.updateDbVersion(remoteDbVersion);
+        if (remoteDbVersion != localDbVersion) {
+          // TODO: optimize operations with an isolate
+          await localDataSource.updateDbVersion(remoteDbVersion);
 
-        final remoteCards = await remoteDataSource.getAllCards();
-        await localDataSource.updateCards(remoteCards);
+          final remoteCards = await remoteDataSource.getAllCards();
+          await localDataSource.updateCards(remoteCards);
 
-        final remoteSets = await remoteDataSource.getAllSets();
-        await localDataSource.updateSets(remoteSets);
+          final remoteSets = await remoteDataSource.getAllSets();
+          await localDataSource.updateSets(remoteSets);
+        }
       }
-      return const Right(null);
+      return const Right(Success());
     } on ServerException {
       return Left(ServerFailure());
     } on CacheException {
@@ -48,15 +55,31 @@ class YgoProRepositoryImpl implements YgoProRepository {
   }
 
   @override
-  Future<Either<Failure, List<Archetype>>> getAllCardArchetypes() {
-    // TODO: implement getAllCardArchetypes
-    throw UnimplementedError();
+  Future<Either<Failure, List<Archetype>>> getAllCardArchetypes() async {
+    try {
+      final archetypes = await remoteDataSource.getAllCardArchetypes();
+      return Right(archetypes);
+    } on ServerException {
+      return Left(ServerFailure());
+    }
   }
 
   @override
-  Future<Either<Failure, List<YgoSet>>> getAllSets() {
-    // TODO: implement getAllSets
-    throw UnimplementedError();
+  Future<Either<Failure, List<YgoSet>>> getAllSets() async {
+    try {
+      final isConnected = await networkInfo.isConnected;
+      if (isConnected) {
+        final remoteSets = await remoteDataSource.getAllSets();
+        return Right(remoteSets);
+      } else {
+        final localSets = await localDataSource.getSets();
+        return Right(localSets);
+      }
+    } on ServerException {
+      return Left(ServerFailure());
+    } on CacheException {
+      return Left(CacheFailure());
+    }
   }
 
   @override
@@ -83,25 +106,75 @@ class YgoProRepositoryImpl implements YgoProRepository {
     DateTime? startDate,
     DateTime? endDate,
     DateTime? dateRegion,
-  }) {
-    // TODO: implement getCardInfo
-    throw UnimplementedError();
+  }) async {
+    try {
+      final remoteCards = await remoteDataSource.getCardInfo(
+        names: names,
+        fname: fname,
+        ids: ids,
+        types: types,
+        atk: atk,
+        def: def,
+        level: level,
+        races: races,
+        attributes: attributes,
+        link: link,
+        linkMarkers: linkMarkers,
+        scale: scale,
+        cardSet: cardSet,
+        archetype: archetype,
+        banlist: banlist,
+        sort: sort,
+        format: format,
+        misc: misc,
+        staple: staple,
+        startDate: startDate,
+        endDate: endDate,
+        dateRegion: dateRegion,
+      );
+      return Right(remoteCards);
+    } on ServerException {
+      return Left(ServerFailure());
+    }
   }
 
   @override
-  Future<Either<Failure, CardSetInfo>> getCardSetInformation(String setCode) {
-    // TODO: implement getCardSetInformation
-    throw UnimplementedError();
+  Future<Either<Failure, CardSetInfo>> getCardSetInformation(
+    String setCode,
+  ) async {
+    try {
+      final cardSetInfo = await remoteDataSource.getCardSetInformation(setCode);
+      return Right(cardSetInfo);
+    } on ServerException {
+      return Left(ServerFailure());
+    }
   }
 
   @override
-  Future<Either<Failure, YgoCard>> getRandomCard() {
-    // TODO: implement getRandomCard
-    throw UnimplementedError();
+  Future<Either<Failure, YgoCard>> getRandomCard() async {
+    try {
+      final remoteCard = await remoteDataSource.getRandomCard();
+      return Right(remoteCard);
+    } on ServerException {
+      return Left(ServerFailure());
+    }
   }
 
   @override
-  Future<Either<Failure, List<YgoCard>>> getAllCards() {
-    throw UnimplementedError();
+  Future<Either<Failure, List<YgoCard>>> getAllCards() async {
+    try {
+      final isConnected = await networkInfo.isConnected;
+      if (isConnected) {
+        final remoteCards = await remoteDataSource.getAllCards();
+        return Right(remoteCards);
+      } else {
+        final localCards = await localDataSource.getCards();
+        return Right(localCards);
+      }
+    } on ServerException {
+      return Left(ServerFailure());
+    } on CacheException {
+      return Left(CacheFailure());
+    }
   }
 }
