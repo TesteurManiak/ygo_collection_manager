@@ -47,39 +47,33 @@ class YgoProDeckProvider {
     DateTime? endDate,
     DateTime? dateRegion,
   }) async {
-    final queryParameters = <String, Object>{};
-    if (names != null) queryParameters['name'] = names.join('|');
-    if (fname != null) queryParameters['fname'] = fname;
-    if (ids != null) queryParameters['id'] = ids.join(',');
-    if (types != null) queryParameters['type'] = types.join(',');
-    if (atk != null) queryParameters['atk'] = atk;
-    if (def != null) queryParameters['def'] = def;
-    if (level != null) queryParameters['level'] = level;
-    if (races != null) queryParameters['race'] = races.join(',');
-    if (attributes != null) queryParameters['attribute'] = attributes.join(',');
-    if (link != null) queryParameters['link'] = link;
-    if (linkMarkers != null) {
-      queryParameters['linkmarker'] = linkMarkers.toStringIterable().join(',');
-    }
-    if (scale != null) queryParameters['scale'] = scale;
-    if (cardSet != null) queryParameters['cardset'] = cardSet;
-    if (archetype != null) queryParameters['archetype'] = archetype;
-    if (banlist != null) queryParameters['banlist'] = banlist.string;
-    if (sort != null) queryParameters['sort'] = sort.string;
-    if (format != null) queryParameters['format'] = format.string;
-    if (misc) queryParameters['misc'] = 'yes';
-    if (staple != null) queryParameters['staple'] = staple ? 'yes' : 'no';
-    if (startDate != null) {
-      queryParameters['startdate'] = startDate.toIso8601String();
-    }
-    if (endDate != null) queryParameters['enddate'] = endDate.toIso8601String();
-    if (dateRegion != null) {
-      queryParameters['dateregion'] = dateRegion.toIso8601String();
-    }
-
     final response = await getCall<Map<String, dynamic>>(
       [cardInfoPath],
-      queryParameters: queryParameters,
+      queryParameters: <String, Object>{
+        if (names != null) 'name': names.join('|'),
+        if (fname != null) 'fname': fname,
+        if (ids != null) 'id': ids.join(','),
+        if (types != null) 'type': types.join(','),
+        if (atk != null) 'atk': atk,
+        if (def != null) 'def': def,
+        if (level != null) 'level': level,
+        if (races != null) 'race': races.join(','),
+        if (attributes != null) 'attribute': attributes.join(','),
+        if (link != null) 'link': link,
+        if (linkMarkers != null)
+          'linkmarker': linkMarkers.toStringIterable().join(','),
+        if (scale != null) 'scale': scale,
+        if (cardSet != null) 'cardset': cardSet,
+        if (archetype != null) 'archetype': archetype,
+        if (banlist != null) 'banlist': banlist.string,
+        if (sort != null) 'sort': sort.string,
+        if (format != null) 'format': format.string,
+        'misc': (misc ? 'yes' : 'no'),
+        if (staple != null) 'staple': (staple ? 'yes' : 'no'),
+        if (startDate != null) 'startdate': startDate.toIso8601String(),
+        if (endDate != null) 'enddate': endDate.toIso8601String(),
+        if (dateRegion != null) 'dateregion': dateRegion.toIso8601String(),
+      },
     );
     return (response['data'] as Iterable)
         .map<CardInfoModel>(
@@ -102,7 +96,7 @@ class YgoProDeckProvider {
 
   Future<T> getCall<T>(
     Iterable<String> pathSegments, {
-    Map<String, dynamic> queryParameters = const {},
+    Map<String, Object> queryParameters = const {},
   }) async {
     final response = await _dio.getUri(
       baseUrl.replace(
