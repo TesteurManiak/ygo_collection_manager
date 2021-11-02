@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:ygo_collection_manager/models/card_edition_enum.dart';
+import 'package:ygo_collection_manager/core/entities/card_edition_enum.dart';
 
 part 'card_owned_model.g.dart';
 

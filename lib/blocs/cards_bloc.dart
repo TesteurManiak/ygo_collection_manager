@@ -4,23 +4,23 @@ import 'dart:isolate';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:ygo_collection_manager/api/api_repository.dart';
-import 'package:ygo_collection_manager/core/bloc/bloc.dart';
-import 'package:ygo_collection_manager/extensions/extensions.dart';
-import 'package:ygo_collection_manager/helper/hive_helper.dart';
-import 'package:ygo_collection_manager/models/card_info_model.dart';
-import 'package:ygo_collection_manager/models/card_owned_model.dart';
-import 'package:ygo_collection_manager/models/set_model.dart';
+
+import '../api/api_repository.dart';
+import '../core/bloc/bloc.dart';
+import '../extensions/extensions.dart';
+import '../features/browse_cards/domain/entities/ygo_card.dart';
+import '../helper/hive_helper.dart';
+import '../models/card_owned_model.dart';
+import '../models/set_model.dart';
 
 class CardsBloc extends BlocBase {
-  final _cardsController = BehaviorSubject<List<CardInfoModel>?>.seeded(null);
-  Stream<List<CardInfoModel>?> get onCardsChanged => _cardsController.stream;
-  List<CardInfoModel>? get cards => _cardsController.value;
-  late final StreamSubscription<List<CardInfoModel>?> _cardsSubscription;
+  final _cardsController = BehaviorSubject<List<YgoCard>?>.seeded(null);
+  Stream<List<YgoCard>?> get onCardsChanged => _cardsController.stream;
+  List<YgoCard>? get cards => _cardsController.value;
+  late final StreamSubscription<List<YgoCard>?> _cardsSubscription;
 
-  final _filteredCardsController =
-      BehaviorSubject<List<CardInfoModel>?>.seeded(null);
-  Stream<List<CardInfoModel>?> get onFilteredCardsChanged =>
+  final _filteredCardsController = BehaviorSubject<List<YgoCard>?>.seeded(null);
+  Stream<List<YgoCard>?> get onFilteredCardsChanged =>
       _filteredCardsController.stream;
 
   final searchController = TextEditingController();
@@ -36,10 +36,10 @@ class CardsBloc extends BlocBase {
   late ReceivePort _receivePort;
   late StreamSubscription _isolateSubscription;
 
-  /// Return a list of [CardInfoModel] that are in the set of cards.
+  /// Return a list of [YgoCard] that are in the set of cards.
   /// Takes a [SetModel] as parameter.
-  List<CardInfoModel>? getCardsInSet(SetModel cardSet) {
-    return cards?.compactMap<CardInfoModel>(
+  List<YgoCard>? getCardsInSet(SetModel cardSet) {
+    return cards?.compactMap<YgoCard>(
       (card) => card.cardSets != null &&
               card.cardSets!
                   .map<String>((e) => e.name)
@@ -50,7 +50,7 @@ class CardsBloc extends BlocBase {
     );
   }
 
-  void _cardsListener(List<CardInfoModel>? _cards) {
+  void _cardsListener(List<YgoCard>? _cards) {
     updateCompletion(initialCards: _cards);
     _filteredCardsController.sink.add(_cards);
     searchController.clear();
@@ -96,7 +96,7 @@ class CardsBloc extends BlocBase {
       _receivePort.sendPort,
     ]);
     _isolateSubscription = _receivePort.listen((message) {
-      final newCards = message as List<CardInfoModel>
+      final newCards = message as List<YgoCard>
         ..sort((a, b) => a.name.compareTo(b.name));
       _cardsController.sink.add(newCards);
       HiveHelper.instance.updateCards(newCards);
@@ -104,7 +104,7 @@ class CardsBloc extends BlocBase {
     });
   }
 
-  void updateCompletion({List<CardInfoModel>? initialCards}) {
+  void updateCompletion({List<YgoCard>? initialCards}) {
     final _cards = initialCards ?? cards;
     if (_cards != null) {
       final _cardsList =

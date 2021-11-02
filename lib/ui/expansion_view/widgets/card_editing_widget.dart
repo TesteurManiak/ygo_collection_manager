@@ -1,13 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/core/bloc/bloc_provider.dart';
-import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
-import 'package:ygo_collection_manager/models/card_info_model.dart';
-import 'package:ygo_collection_manager/styles/colors.dart';
+
+import '../../../blocs/expansion_collection_bloc.dart';
+import '../../../core/bloc/bloc_provider.dart';
+import '../../../features/browse_cards/domain/entities/ygo_card.dart';
+import '../../../styles/colors.dart';
 
 class CardEditingWidget extends StatelessWidget {
   final int index;
-  final List<CardInfoModel> cards;
+  final List<YgoCard> cards;
   final AnimationController controller;
 
   const CardEditingWidget({

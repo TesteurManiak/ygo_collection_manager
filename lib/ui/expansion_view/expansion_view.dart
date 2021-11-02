@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/animated_scaffold/animated_app_bar.dart';
-import 'package:ygo_collection_manager/animated_scaffold/animated_scaffold.dart';
-import 'package:ygo_collection_manager/core/bloc/bloc_provider.dart';
-import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
-import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
-import 'package:ygo_collection_manager/models/card_info_model.dart';
-import 'package:ygo_collection_manager/models/set_model.dart';
-import 'package:ygo_collection_manager/styles/colors.dart';
-import 'package:ygo_collection_manager/ui/common/card_widget.dart';
-import 'package:ygo_collection_manager/ui/expansion_view/widgets/card_editing_widget.dart';
-import 'package:ygo_collection_manager/ui/expansion_view/widgets/cards_grid.dart';
-import 'package:ygo_collection_manager/ui/expansion_view/widgets/collection_app_bar_bottom.dart';
+
+import '../../animated_scaffold/animated_app_bar.dart';
+import '../../animated_scaffold/animated_scaffold.dart';
+import '../../blocs/cards_bloc.dart';
+import '../../blocs/expansion_collection_bloc.dart';
+import '../../core/bloc/bloc_provider.dart';
+import '../../features/browse_cards/domain/entities/ygo_card.dart';
+import '../../models/set_model.dart';
+import '../../styles/colors.dart';
+import '../common/card_widget.dart';
+import 'widgets/card_editing_widget.dart';
+import 'widgets/cards_grid.dart';
+import 'widgets/collection_app_bar_bottom.dart';
 
 class ExpansionView extends StatefulWidget {
   static const routeName = '/expansion';
@@ -105,7 +106,7 @@ class _ExpansionViewState extends State<ExpansionView>
 }
 
 class _CollectionLayout extends StatefulWidget {
-  final List<CardInfoModel> cards;
+  final List<YgoCard> cards;
   final bool isEditing;
   final AnimationController controller;
 

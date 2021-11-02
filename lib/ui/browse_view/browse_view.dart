@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/core/bloc/bloc_provider.dart';
-import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
-import 'package:ygo_collection_manager/models/card_info_model.dart';
-import 'package:ygo_collection_manager/styles/colors.dart';
-import 'package:ygo_collection_manager/ui/common/card_widget.dart';
-import 'package:ygo_collection_manager/ui/common/no_glow_scroll_behavior.dart';
-import 'package:ygo_collection_manager/ui/common/sliver_spacer.dart';
-import 'package:ygo_collection_manager/ui/common/top_rounded_sliver.dart';
+
+import '../../blocs/cards_bloc.dart';
+import '../../core/bloc/bloc_provider.dart';
+import '../../features/browse_cards/domain/entities/ygo_card.dart';
+import '../../styles/colors.dart';
+import '../common/card_widget.dart';
+import '../common/no_glow_scroll_behavior.dart';
+import '../common/sliver_spacer.dart';
+import '../common/top_rounded_sliver.dart';
 
 class BrowseView extends StatefulWidget {
   const BrowseView({Key? key}) : super(key: key);
@@ -69,7 +70,7 @@ class _BrowseViewState extends State<BrowseView>
               ),
             ),
             const SliverSpacer(height: 16),
-            StreamBuilder<List<CardInfoModel>?>(
+            StreamBuilder<List<YgoCard>?>(
               stream: _cardsBloc.onFilteredCardsChanged,
               builder: (_, snapshot) {
                 final data = snapshot.data;

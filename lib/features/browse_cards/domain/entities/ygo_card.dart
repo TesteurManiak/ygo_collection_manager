@@ -1,27 +1,69 @@
+import 'package:hive_flutter/adapters.dart';
+
+import '../../../../core/entities/card_edition_enum.dart';
+import '../../../../models/set_model.dart';
 import 'card_banlist_info.dart';
 import 'card_images.dart';
 import 'card_misc_info.dart';
 import 'card_price.dart';
 import 'card_set.dart';
 
+part 'ygo_card.g.dart';
+
+@HiveType(typeId: 1)
 class YgoCard {
+  @HiveField(0)
   final int id;
+
+  @HiveField(1)
   final String name;
+
+  @HiveField(2)
   final String type;
+
+  @HiveField(3)
   final String desc;
+
+  @HiveField(4)
   final int? atk;
+
+  @HiveField(5)
   final int? def;
+
+  @HiveField(6)
   final int? level;
+
+  @HiveField(7)
   final String race;
+
+  @HiveField(8)
   final String? attribute;
+
+  @HiveField(9)
   final String? archetype;
+
+  @HiveField(10)
   final int? scale;
+
+  @HiveField(11)
   final int? linkval;
+
+  @HiveField(12)
   final List<CardImages> cardImages;
+
+  @HiveField(13)
   final List<String>? linkmarkers;
+
+  @HiveField(14)
   final List<CardSet>? cardSets;
+
+  @HiveField(15)
   final List<CardPrice> cardPrices;
+
+  @HiveField(16)
   final CardBanlistInfo? banlistInfo;
+
+  @HiveField(17)
   final List<CardMiscInfo> miscInfo;
 
   YgoCard({
@@ -44,4 +86,16 @@ class YgoCard {
     required this.banlistInfo,
     required this.miscInfo,
   });
+
+  CardSet? getCardSetsFromSet(SetModel set) => cardSets?.firstWhere(
+        (e) => e.name == set.setName && e.code.contains(set.setCode),
+      );
+
+  String get levelAsset =>
+      'assets/level/${type.contains("XYZ") ? "rank.png" : "level.png"}';
+
+  String getDbKey(SetModel set, CardEditionEnum edition) {
+    final cardSet = getCardSetsFromSet(set)!;
+    return '${cardSet.code}-${edition.string}';
+  }
 }

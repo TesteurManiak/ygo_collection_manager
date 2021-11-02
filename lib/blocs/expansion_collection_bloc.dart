@@ -2,14 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/animation.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:ygo_collection_manager/core/bloc/bloc.dart';
-import 'package:ygo_collection_manager/core/bloc/bloc_provider.dart';
-import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
-import 'package:ygo_collection_manager/helper/hive_helper.dart';
-import 'package:ygo_collection_manager/models/card_edition_enum.dart';
-import 'package:ygo_collection_manager/models/card_info_model.dart';
-import 'package:ygo_collection_manager/models/card_owned_model.dart';
-import 'package:ygo_collection_manager/models/set_model.dart';
+
+import '../core/bloc/bloc.dart';
+import '../core/bloc/bloc_provider.dart';
+import '../core/entities/card_edition_enum.dart';
+import '../features/browse_cards/domain/entities/ygo_card.dart';
+import '../helper/hive_helper.dart';
+import '../models/card_owned_model.dart';
+import '../models/set_model.dart';
+import 'cards_bloc.dart';
 
 class ExpansionCollectionBloc extends BlocBase {
   final _editionStateController = BehaviorSubject<bool>.seeded(false);
@@ -40,7 +41,7 @@ class ExpansionCollectionBloc extends BlocBase {
   Stream<SetModel?> get onCardSetChanged => _cardSetController.stream;
   SetModel? get cardSet => _cardSetController.value;
 
-  List<CardInfoModel>? _cards;
+  List<YgoCard>? _cards;
 
   void _cardIndexListener(int index) {
     final currentCards = _cards;
@@ -95,7 +96,7 @@ class ExpansionCollectionBloc extends BlocBase {
   void enableEditing({
     required AnimationController controller,
     required int cardIndex,
-    required List<CardInfoModel> cards,
+    required List<YgoCard> cards,
   }) {
     if (!isEditing) {
       _cards = cards;

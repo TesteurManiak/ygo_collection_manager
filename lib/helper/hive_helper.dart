@@ -1,11 +1,17 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:ygo_collection_manager/extensions/extensions.dart';
-import 'package:ygo_collection_manager/models/card_edition_enum.dart';
-import 'package:ygo_collection_manager/models/card_info_model.dart';
-import 'package:ygo_collection_manager/models/card_owned_model.dart';
-import 'package:ygo_collection_manager/models/db_version_model.dart';
-import 'package:ygo_collection_manager/models/set_model.dart';
-import 'package:ygo_collection_manager/utils/indexes.dart';
+import 'package:ygo_collection_manager/features/browse_cards/domain/entities/card_banlist_info.dart';
+import 'package:ygo_collection_manager/features/browse_cards/domain/entities/card_misc_info.dart';
+import 'package:ygo_collection_manager/features/browse_cards/domain/entities/card_price.dart';
+import 'package:ygo_collection_manager/features/browse_cards/domain/entities/card_set.dart';
+
+import '../core/entities/card_edition_enum.dart';
+import '../extensions/extensions.dart';
+import '../features/browse_cards/domain/entities/card_images.dart';
+import '../features/browse_cards/domain/entities/ygo_card.dart';
+import '../models/card_owned_model.dart';
+import '../models/db_version_model.dart';
+import '../models/set_model.dart';
+import '../utils/indexes.dart';
 
 class HiveHelper {
   bool _isInitialized = false;
@@ -15,7 +21,7 @@ class HiveHelper {
   static final instance = HiveHelper._();
 
   late final Box<DBVersionModel> _boxDb;
-  late final Box<CardInfoModel> _boxCards;
+  late final Box<YgoCard> _boxCards;
   late final Box<SetModel> _boxSets;
   late final Box<CardOwnedModel> _boxCardsOwned;
 
@@ -26,18 +32,20 @@ class HiveHelper {
 
       // Register Adapters.
       Hive.registerAdapter(DBVersionModelAdapter());
+
+      Hive.registerAdapter(YgoCardAdapter());
       Hive.registerAdapter(CardImagesAdapter());
-      Hive.registerAdapter(CardInfoModelAdapter());
-      Hive.registerAdapter(SetModelAdapter());
-      Hive.registerAdapter(CardModelSetAdapter());
-      Hive.registerAdapter(CardPriceModelAdapter());
+      Hive.registerAdapter(CardSetAdapter());
+      Hive.registerAdapter(CardPriceAdapter());
       Hive.registerAdapter(CardBanlistInfoAdapter());
       Hive.registerAdapter(CardMiscInfoAdapter());
+
+      Hive.registerAdapter(SetModelAdapter());
       Hive.registerAdapter(CardOwnedModelAdapter());
       Hive.registerAdapter(CardEditionEnumAdapter());
 
       _boxDb = await Hive.openBox<DBVersionModel>(Indexes.tableDB);
-      _boxCards = await Hive.openBox<CardInfoModel>(Indexes.tableCards);
+      _boxCards = await Hive.openBox<YgoCard>(Indexes.tableCards);
       _boxSets = await Hive.openBox<SetModel>(Indexes.tableSets);
       _boxCardsOwned =
           await Hive.openBox<CardOwnedModel>(Indexes.tableCardsOwned);
@@ -58,10 +66,10 @@ class HiveHelper {
     }
   }
 
-  Iterable<CardInfoModel> get cards => _boxCards.values;
+  Iterable<YgoCard> get cards => _boxCards.values;
 
-  Future<void> updateCards(List<CardInfoModel> cards) {
-    final cardsMap = <int, CardInfoModel>{};
+  Future<void> updateCards(List<YgoCard> cards) {
+    final cardsMap = <int, YgoCard>{};
     for (final card in cards) {
       cardsMap[card.id] = card;
     }

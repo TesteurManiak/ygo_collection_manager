@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/core/bloc/bloc_provider.dart';
 import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
-import 'package:ygo_collection_manager/models/card_edition_enum.dart';
+import 'package:ygo_collection_manager/core/entities/card_edition_enum.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 
 class AddRemoveCardWidget extends StatelessWidget {

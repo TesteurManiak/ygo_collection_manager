@@ -1,14 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
-import 'package:ygo_collection_manager/models/card_info_model.dart';
-import 'package:ygo_collection_manager/ui/common/card_bottom_sheet.dart';
+
+import '../../features/browse_cards/domain/entities/ygo_card.dart';
+import 'card_bottom_sheet.dart';
 
 class CardsOverlay extends StatefulWidget {
   static const routeName = '/cards-overlay';
 
   final int initialIndex;
-  final List<CardInfoModel> cards;
+  final List<YgoCard> cards;
 
   const CardsOverlay({Key? key, this.initialIndex = 0, required this.cards})
       : super(key: key);
@@ -72,7 +73,7 @@ class _CardsOverlayState extends State<CardsOverlay>
 }
 
 class _CardOverlay extends StatefulWidget {
-  final CardInfoModel card;
+  final YgoCard card;
 
   const _CardOverlay(this.card);
 

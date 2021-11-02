@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'package:ygo_collection_manager/models/card_info_model.dart';
-import 'package:ygo_collection_manager/styles/colors.dart';
-import 'package:ygo_collection_manager/ui/card_view/widgets/set_rarity_widget.dart';
+import '../../features/browse_cards/domain/entities/ygo_card.dart';
+import '../../styles/colors.dart';
+import 'widgets/set_rarity_widget.dart';
 
 class CardView extends StatelessWidget {
   static const routeName = '/card-view-overlay';
 
-  final CardInfoModel card;
+  final YgoCard card;
   final ValueNotifier<int> totalOwnedCard;
 
   const CardView({

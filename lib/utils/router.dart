@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/models/card_info_model.dart';
-import 'package:ygo_collection_manager/models/set_model.dart';
-import 'package:ygo_collection_manager/ui/card_view/card_view.dart';
-import 'package:ygo_collection_manager/ui/common/cards_overlay.dart';
-import 'package:ygo_collection_manager/ui/expansion_view/expansion_view.dart';
-import 'package:ygo_collection_manager/ui/loading_view/loading_view.dart';
-import 'package:ygo_collection_manager/ui/root_view/root_view.dart';
+
+import '../features/browse_cards/domain/entities/ygo_card.dart';
+import '../models/set_model.dart';
+import '../ui/card_view/card_view.dart';
+import '../ui/common/cards_overlay.dart';
+import '../ui/expansion_view/expansion_view.dart';
+import '../ui/loading_view/loading_view.dart';
+import '../ui/root_view/root_view.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -21,7 +22,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       final args = settings.arguments! as List<Object>;
       return MaterialPageRoute(
         builder: (_) => CardView(
-          card: args[0] as CardInfoModel,
+          card: args[0] as YgoCard,
           totalOwnedCard: args[1] as ValueNotifier<int>,
         ),
       );
@@ -29,7 +30,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       final args = settings.arguments! as List<Object>;
       return PageRouteBuilder(
         pageBuilder: (_, __, ___) => CardsOverlay(
-          cards: args[0] as List<CardInfoModel>,
+          cards: args[0] as List<YgoCard>,
           initialIndex: args[1] as int,
         ),
         opaque: false,

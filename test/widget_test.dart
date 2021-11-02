@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ygo_collection_manager/models/card_info_model.dart';
+import 'package:ygo_collection_manager/features/browse_cards/data/models/ygo_card_model.dart';
+import 'package:ygo_collection_manager/features/browse_cards/domain/entities/ygo_card.dart';
 
 void main() {
   group('Parsing', () {
@@ -11,8 +12,8 @@ void main() {
           await File('test/test_resources/lob_cards_list.json').readAsString();
       final json = jsonDecode(text) as Map<String, dynamic>;
       final cards = (json['data'] as Iterable)
-          .map<CardInfoModel>(
-            (e) => CardInfoModel.fromJson(e as Map<String, dynamic>),
+          .map<YgoCard>(
+            (e) => YgoCardModel.fromJson(e as Map<String, dynamic>),
           )
           .toList();
       expect(cards.length, 126);

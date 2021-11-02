@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/models/card_info_model.dart';
-import 'package:ygo_collection_manager/styles/colors.dart';
-import 'package:ygo_collection_manager/styles/text_styles.dart';
+
+import '../../../features/browse_cards/domain/entities/card_set.dart';
+import '../../../styles/colors.dart';
+import '../../../styles/text_styles.dart';
 
 class SetRarityWidget extends StatelessWidget {
-  final CardModelSet cardSet;
+  final CardSet cardSet;
 
   const SetRarityWidget({
     Key? key,

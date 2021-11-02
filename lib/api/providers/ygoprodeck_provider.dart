@@ -1,13 +1,15 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:ygo_collection_manager/core/entities/banlist.dart';
-import 'package:ygo_collection_manager/core/entities/format.dart';
-import 'package:ygo_collection_manager/core/entities/link_markers.dart';
-import 'package:ygo_collection_manager/core/entities/sort.dart';
-import 'package:ygo_collection_manager/models/card_info_model.dart';
-import 'package:ygo_collection_manager/models/db_version_model.dart';
-import 'package:ygo_collection_manager/models/set_model.dart';
+
+import '../../core/entities/banlist.dart';
+import '../../core/entities/format.dart';
+import '../../core/entities/link_markers.dart';
+import '../../core/entities/sort.dart';
+import '../../features/browse_cards/data/models/ygo_card_model.dart';
+import '../../features/browse_cards/domain/entities/ygo_card.dart';
+import '../../models/db_version_model.dart';
+import '../../models/set_model.dart';
 
 class YgoProDeckProvider {
   static final baseUrl = Uri(scheme: 'https', host: 'db.ygoprodeck.com');
@@ -23,7 +25,7 @@ class YgoProDeckProvider {
 
   YgoProDeckProvider(this._dio);
 
-  Future<List<CardInfoModel>> getCardInfo({
+  Future<List<YgoCard>> getCardInfo({
     List<String>? names,
     String? fname,
     List<int>? ids,
@@ -76,8 +78,8 @@ class YgoProDeckProvider {
       },
     );
     return (response['data'] as Iterable)
-        .map<CardInfoModel>(
-          (e) => CardInfoModel.fromJson(e as Map<String, dynamic>),
+        .map<YgoCard>(
+          (e) => YgoCardModel.fromJson(e as Map<String, dynamic>),
         )
         .toList();
   }

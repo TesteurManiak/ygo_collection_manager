@@ -1,18 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/core/bloc/bloc_provider.dart';
-import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
-import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
-import 'package:ygo_collection_manager/helper/hive_helper.dart';
-import 'package:ygo_collection_manager/models/card_edition_enum.dart';
-import 'package:ygo_collection_manager/models/card_info_model.dart';
-import 'package:ygo_collection_manager/styles/colors.dart';
-import 'package:ygo_collection_manager/styles/text_styles.dart';
-import 'package:ygo_collection_manager/ui/common/cards_overlay.dart';
+
+import '../../blocs/cards_bloc.dart';
+import '../../blocs/expansion_collection_bloc.dart';
+import '../../core/bloc/bloc_provider.dart';
+import '../../features/browse_cards/domain/entities/ygo_card.dart';
+import '../../helper/hive_helper.dart';
+import '../../core/entities/card_edition_enum.dart';
+import '../../styles/colors.dart';
+import '../../styles/text_styles.dart';
+import 'cards_overlay.dart';
 
 class CardWidget extends StatelessWidget {
   final int index;
-  final List<CardInfoModel> cards;
+  final List<YgoCard> cards;
   final void Function()? onLongPress;
 
   const CardWidget({

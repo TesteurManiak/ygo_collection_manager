@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/models/card_info_model.dart';
-import 'package:ygo_collection_manager/ui/common/no_glow_scroll_behavior.dart';
+
+import '../../../features/browse_cards/domain/entities/ygo_card.dart';
+import '../../common/no_glow_scroll_behavior.dart';
 
 const _kDefaultCrossAxisCount = 3;
 
 typedef CardBuilder = Widget Function(BuildContext, int);
 
 class CardsGrid extends StatelessWidget {
-  final List<CardInfoModel> cards;
+  final List<YgoCard> cards;
   final int crossAxisCount;
   final CardBuilder cardBuilder;
 
