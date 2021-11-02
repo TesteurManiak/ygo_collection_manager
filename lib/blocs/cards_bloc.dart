@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ygo_collection_manager/api/api_repository.dart';
-import 'package:ygo_collection_manager/blocs/bloc.dart';
+import 'package:ygo_collection_manager/core/bloc/bloc.dart';
 import 'package:ygo_collection_manager/extensions/extensions.dart';
 import 'package:ygo_collection_manager/helper/hive_helper.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
