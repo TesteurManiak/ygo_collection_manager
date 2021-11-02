@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:ygo_collection_manager/blocs/bloc.dart';
-import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
+import 'package:ygo_collection_manager/core/bloc/bloc.dart';
+import 'package:ygo_collection_manager/core/bloc/bloc_provider.dart';
 import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
 import 'package:ygo_collection_manager/blocs/db_version_bloc.dart';
 import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';

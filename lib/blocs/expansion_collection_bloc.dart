@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/animation.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:ygo_collection_manager/blocs/bloc.dart';
-import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
+import 'package:ygo_collection_manager/core/bloc/bloc.dart';
+import 'package:ygo_collection_manager/core/bloc/bloc_provider.dart';
 import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
 import 'package:ygo_collection_manager/helper/hive_helper.dart';
 import 'package:ygo_collection_manager/models/card_edition_enum.dart';

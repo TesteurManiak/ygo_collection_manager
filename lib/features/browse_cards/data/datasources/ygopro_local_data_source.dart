@@ -1,6 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:ygo_collection_manager/core/error/exceptions.dart';
 
+import '../../../../core/error/exceptions.dart';
 import '../../../../utils/indexes.dart';
 import '../models/db_version_model.dart';
 import '../models/ygo_card_model.dart';

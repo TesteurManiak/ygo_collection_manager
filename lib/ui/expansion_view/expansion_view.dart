@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ygo_collection_manager/animated_scaffold/animated_app_bar.dart';
 import 'package:ygo_collection_manager/animated_scaffold/animated_scaffold.dart';
-import 'package:ygo_collection_manager/blocs/bloc_provider.dart';
+import 'package:ygo_collection_manager/core/bloc/bloc_provider.dart';
 import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
 import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
 import 'package:ygo_collection_manager/models/card_info_model.dart';
