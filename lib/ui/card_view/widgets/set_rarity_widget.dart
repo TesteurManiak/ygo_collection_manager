@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../features/browse_cards/domain/entities/card_set.dart';
+import '../../../domain/entities/card_set.dart';
 import '../../../styles/colors.dart';
 import '../../../styles/text_styles.dart';
 

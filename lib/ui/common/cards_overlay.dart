@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
 
-import '../../features/browse_cards/domain/entities/ygo_card.dart';
+import '../../domain/entities/ygo_card.dart';
 import 'card_bottom_sheet.dart';
 
 class CardsOverlay extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../features/browse_cards/domain/entities/card_price.dart';
-import '../../features/browse_cards/domain/entities/ygo_card.dart';
+import '../../domain/entities/card_price.dart';
+import '../../domain/entities/ygo_card.dart';
 import '../../helper/hive_helper.dart';
 import '../../styles/colors.dart';
 import '../../styles/text_styles.dart';

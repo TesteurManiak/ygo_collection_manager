@@ -1,4 +1,4 @@
-import 'package:ygo_collection_manager/features/browse_cards/domain/entities/db_version.dart';
+import '../../../../domain/entities/db_version.dart';
 
 class DbVersionModel extends DbVersion {
   const DbVersionModel({

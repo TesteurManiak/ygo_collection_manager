@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:ygo_collection_manager/data/models/request/get_card_info_request.dart';
 
-import '../data/api/ygoprodeck_api.dart';
-import '../features/browse_cards/domain/entities/ygo_card.dart';
+import '../data/api/ygopro_remote_data_source.dart';
+import '../data/models/request/get_card_info_request.dart';
+import '../domain/entities/ygo_card.dart';
 import '../models/db_version_model.dart';
 import '../models/set_model.dart';
 

@@ -1,13 +1,13 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:ygo_collection_manager/features/browse_cards/domain/entities/card_banlist_info.dart';
-import 'package:ygo_collection_manager/features/browse_cards/domain/entities/card_misc_info.dart';
-import 'package:ygo_collection_manager/features/browse_cards/domain/entities/card_price.dart';
-import 'package:ygo_collection_manager/features/browse_cards/domain/entities/card_set.dart';
 
 import '../core/entities/card_edition_enum.dart';
+import '../domain/entities/card_banlist_info.dart';
+import '../domain/entities/card_images.dart';
+import '../domain/entities/card_misc_info.dart';
+import '../domain/entities/card_price.dart';
+import '../domain/entities/card_set.dart';
+import '../domain/entities/ygo_card.dart';
 import '../extensions/extensions.dart';
-import '../features/browse_cards/domain/entities/card_images.dart';
-import '../features/browse_cards/domain/entities/ygo_card.dart';
 import '../models/card_owned_model.dart';
 import '../models/db_version_model.dart';
 import '../models/set_model.dart';

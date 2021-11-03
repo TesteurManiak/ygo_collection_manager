@@ -1,4 +1,4 @@
-import '../../domain/entities/card_banlist_info.dart';
+import '../../../../domain/entities/card_banlist_info.dart';
 
 class CardBanlistInfoModel extends CardBanlistInfo {
   CardBanlistInfoModel({

@@ -1,4 +1,4 @@
-import 'package:ygo_collection_manager/features/browse_cards/domain/entities/archetype.dart';
+import '../../../../domain/entities/archetype.dart';
 
 class ArchetypeModel extends Archetype {
   ArchetypeModel({required String name}) : super(name: name);

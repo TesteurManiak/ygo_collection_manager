@@ -1,4 +1,4 @@
-import '../../domain/entities/card_set.dart';
+import '../../../../domain/entities/card_set.dart';
 
 class CardSetModel extends CardSet {
   CardSetModel({

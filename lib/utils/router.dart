@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../features/browse_cards/domain/entities/ygo_card.dart';
+import '../domain/entities/ygo_card.dart';
 import '../models/set_model.dart';
 import '../ui/card_view/card_view.dart';
 import '../ui/common/cards_overlay.dart';

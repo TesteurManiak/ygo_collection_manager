@@ -1,4 +1,4 @@
-import '../../domain/entities/card_misc_info.dart';
+import '../../../../domain/entities/card_misc_info.dart';
 
 class CardMiscInfoModel extends CardMiscInfo {
   CardMiscInfoModel({

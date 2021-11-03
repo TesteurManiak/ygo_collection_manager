@@ -6,7 +6,7 @@ import 'package:rxdart/rxdart.dart';
 import '../core/bloc/bloc.dart';
 import '../core/bloc/bloc_provider.dart';
 import '../core/entities/card_edition_enum.dart';
-import '../features/browse_cards/domain/entities/ygo_card.dart';
+import '../domain/entities/ygo_card.dart';
 import '../helper/hive_helper.dart';
 import '../models/card_owned_model.dart';
 import '../models/set_model.dart';

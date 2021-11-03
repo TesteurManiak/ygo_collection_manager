@@ -1,4 +1,4 @@
-import '../../domain/entities/card_set_info.dart';
+import '../../../../domain/entities/card_set_info.dart';
 
 class CardSetInfoModel extends CardSetInfo {
   CardSetInfoModel({

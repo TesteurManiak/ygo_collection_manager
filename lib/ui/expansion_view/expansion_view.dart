@@ -5,7 +5,7 @@ import '../../animated_scaffold/animated_scaffold.dart';
 import '../../blocs/cards_bloc.dart';
 import '../../blocs/expansion_collection_bloc.dart';
 import '../../core/bloc/bloc_provider.dart';
-import '../../features/browse_cards/domain/entities/ygo_card.dart';
+import '../../domain/entities/ygo_card.dart';
 import '../../models/set_model.dart';
 import '../../styles/colors.dart';
 import '../common/card_widget.dart';

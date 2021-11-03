@@ -1,4 +1,4 @@
-import '../../domain/entities/card_price.dart';
+import '../../../../domain/entities/card_price.dart';
 
 class CardPriceModel extends CardPrice {
   CardPriceModel({

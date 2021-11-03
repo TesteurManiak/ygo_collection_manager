@@ -4,14 +4,14 @@ import '../../core/entities/banlist.dart';
 import '../../core/entities/format.dart';
 import '../../core/entities/link_markers.dart';
 import '../../core/entities/sort.dart';
+import '../../domain/entities/archetype.dart';
+import '../../domain/entities/card_set_info.dart';
+import '../../domain/entities/ygo_card.dart';
+import '../../domain/entities/ygo_set.dart';
 import '../../domain/repository/ygopro_repository.dart';
-import '../api/ygopro_local_data_source.dart';
-import '../../features/browse_cards/domain/entities/archetype.dart';
-import '../../features/browse_cards/domain/entities/card_set_info.dart';
-import '../../features/browse_cards/domain/entities/ygo_card.dart';
-import '../../features/browse_cards/domain/entities/ygo_set.dart';
 import '../../models/db_version_model.dart';
-import '../api/ygoprodeck_api.dart';
+import '../api/ygopro_local_data_source.dart';
+import '../api/ygopro_remote_data_source.dart';
 import '../models/request/get_card_info_request.dart';
 
 final ygoProRepositoryProvider = Provider<YgoProRepository>(

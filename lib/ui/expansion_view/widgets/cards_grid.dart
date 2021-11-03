@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../features/browse_cards/domain/entities/ygo_card.dart';
+import '../../../domain/entities/ygo_card.dart';
 import '../../common/no_glow_scroll_behavior.dart';
 
 const _kDefaultCrossAxisCount = 3;

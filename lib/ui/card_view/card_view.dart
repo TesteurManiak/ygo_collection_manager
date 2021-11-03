@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../features/browse_cards/domain/entities/ygo_card.dart';
+import '../../domain/entities/ygo_card.dart';
 import '../../styles/colors.dart';
 import 'widgets/set_rarity_widget.dart';
 

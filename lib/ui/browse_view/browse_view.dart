@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../blocs/cards_bloc.dart';
 import '../../core/bloc/bloc_provider.dart';
-import '../../features/browse_cards/domain/entities/ygo_card.dart';
+import '../../domain/entities/ygo_card.dart';
 import '../../styles/colors.dart';
 import '../common/card_widget.dart';
 import '../common/no_glow_scroll_behavior.dart';

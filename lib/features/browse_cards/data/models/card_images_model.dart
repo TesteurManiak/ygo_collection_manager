@@ -1,4 +1,4 @@
-import '../../domain/entities/card_images.dart';
+import '../../../../domain/entities/card_images.dart';
 
 class CardImagesModel extends CardImages {
   CardImagesModel({

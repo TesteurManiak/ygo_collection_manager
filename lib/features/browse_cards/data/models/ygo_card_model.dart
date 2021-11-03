@@ -1,4 +1,4 @@
-import '../../domain/entities/ygo_card.dart';
+import '../../../../domain/entities/ygo_card.dart';
 import 'card_banlist_info_model.dart';
 import 'card_images_model.dart';
 import 'card_misc_info_model.dart';

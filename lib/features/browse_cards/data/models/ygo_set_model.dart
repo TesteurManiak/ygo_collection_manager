@@ -1,4 +1,4 @@
-import '../../domain/entities/ygo_set.dart';
+import '../../../../domain/entities/ygo_set.dart';
 
 class YgoSetModel extends YgoSet {
   YgoSetModel({
