@@ -1,10 +1,7 @@
-import 'package:dartz/dartz.dart';
-
 import '../../../../core/entities/banlist.dart';
 import '../../../../core/entities/format.dart';
 import '../../../../core/entities/link_markers.dart';
 import '../../../../core/entities/sort.dart';
-import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../entities/ygo_card.dart';
 import '../../../../domain/repositories/ygopro_repository.dart';
@@ -15,7 +12,7 @@ class GetCardInformation implements UseCase<List<YgoCard>, GetCardInfoParams> {
   GetCardInformation(this.repository);
 
   @override
-  Future<Either<Failure, List<YgoCard>>> call(GetCardInfoParams params) =>
+  Future<List<YgoCard>> call(GetCardInfoParams params) =>
       repository.getCardInfo(
         names: params.names,
         fname: params.fname,

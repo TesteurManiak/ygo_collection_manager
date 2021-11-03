@@ -1,6 +1,3 @@
-import 'package:dartz/dartz.dart';
-
-import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../entities/ygo_card.dart';
 import '../../../../domain/repositories/ygopro_repository.dart';
@@ -12,5 +9,5 @@ class GetAllCards implements UseCase<List<YgoCard>, NoParams> {
   GetAllCards(this.repository);
 
   @override
-  Future<Either<Failure, List<YgoCard>>> call(_) => repository.getAllCards();
+  Future<List<YgoCard>> call(_) => repository.getAllCards();
 }

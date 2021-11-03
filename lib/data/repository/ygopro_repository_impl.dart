@@ -1,5 +1,3 @@
-import 'package:dartz/dartz.dart';
-
 import '../../core/entities/banlist.dart';
 import '../../core/entities/format.dart';
 import '../../core/entities/link_markers.dart';
@@ -28,7 +26,7 @@ class YgoProRepositoryImpl implements YgoProRepository {
   });
 
   @override
-  Future<Either<Failure, Success>> updateDatabase() async {
+  Future<Success> updateDatabase() async {
     try {
       final isConnected = await networkInfo.isConnected;
       if (isConnected) {
@@ -46,44 +44,44 @@ class YgoProRepositoryImpl implements YgoProRepository {
           await localDataSource.updateSets(remoteSets);
         }
       }
-      return const Right(Success());
+      return const Success();
     } on ServerException {
-      return Left(ServerFailure());
+      throw ServerFailure();
     } on CacheException {
-      return Left(CacheFailure());
+      throw CacheFailure();
     }
   }
 
   @override
-  Future<Either<Failure, List<Archetype>>> getAllCardArchetypes() async {
+  Future<List<Archetype>> getAllCardArchetypes() async {
     try {
       final archetypes = await remoteDataSource.getAllCardArchetypes();
-      return Right(archetypes);
+      return archetypes;
     } on ServerException {
-      return Left(ServerFailure());
+      throw ServerFailure();
     }
   }
 
   @override
-  Future<Either<Failure, List<YgoSet>>> getAllSets() async {
+  Future<List<YgoSet>> getAllSets() async {
     try {
       final isConnected = await networkInfo.isConnected;
       if (isConnected) {
         final remoteSets = await remoteDataSource.getAllSets();
-        return Right(remoteSets);
+        return remoteSets;
       } else {
         final localSets = await localDataSource.getSets();
-        return Right(localSets);
+        return localSets;
       }
     } on ServerException {
-      return Left(ServerFailure());
+      throw ServerFailure();
     } on CacheException {
-      return Left(CacheFailure());
+      throw CacheFailure();
     }
   }
 
   @override
-  Future<Either<Failure, List<YgoCard>>> getCardInfo({
+  Future<List<YgoCard>> getCardInfo({
     List<String>? names,
     String? fname,
     List<int>? ids,
@@ -132,49 +130,49 @@ class YgoProRepositoryImpl implements YgoProRepository {
         endDate: endDate,
         dateRegion: dateRegion,
       );
-      return Right(remoteCards);
+      return remoteCards;
     } on ServerException {
-      return Left(ServerFailure());
+      throw ServerFailure();
     }
   }
 
   @override
-  Future<Either<Failure, CardSetInfo>> getCardSetInformation(
+  Future<CardSetInfo> getCardSetInformation(
     String setCode,
   ) async {
     try {
       final cardSetInfo = await remoteDataSource.getCardSetInformation(setCode);
-      return Right(cardSetInfo);
+      return cardSetInfo;
     } on ServerException {
-      return Left(ServerFailure());
+      throw ServerFailure();
     }
   }
 
   @override
-  Future<Either<Failure, YgoCard>> getRandomCard() async {
+  Future<YgoCard> getRandomCard() async {
     try {
       final remoteCard = await remoteDataSource.getRandomCard();
-      return Right(remoteCard);
+      return remoteCard;
     } on ServerException {
-      return Left(ServerFailure());
+      throw ServerFailure();
     }
   }
 
   @override
-  Future<Either<Failure, List<YgoCard>>> getAllCards() async {
+  Future<List<YgoCard>> getAllCards() async {
     try {
       final isConnected = await networkInfo.isConnected;
       if (isConnected) {
         final remoteCards = await remoteDataSource.getAllCards();
-        return Right(remoteCards);
+        return remoteCards;
       } else {
         final localCards = await localDataSource.getCards();
-        return Right(localCards);
+        return localCards;
       }
     } on ServerException {
-      return Left(ServerFailure());
+      throw ServerFailure();
     } on CacheException {
-      return Left(CacheFailure());
+      throw CacheFailure();
     }
   }
 }
