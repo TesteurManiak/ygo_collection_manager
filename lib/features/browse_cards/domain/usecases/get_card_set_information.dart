@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../entities/card_set_info.dart';
-import '../repositories/ygopro_repository.dart';
+import '../../../../domain/repositories/ygopro_repository.dart';
 
 class GetCardSetInformation
     implements UseCase<CardSetInfo, GetCardSetInformationParams> {

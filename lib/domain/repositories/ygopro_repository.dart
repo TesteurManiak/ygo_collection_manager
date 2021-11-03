@@ -1,15 +1,15 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/entities/banlist.dart';
-import '../../../../core/entities/format.dart';
-import '../../../../core/entities/link_markers.dart';
-import '../../../../core/entities/sort.dart';
-import '../../../../core/error/failures.dart';
-import '../../../../core/success/success.dart';
-import '../entities/archetype.dart';
-import '../entities/card_set_info.dart';
-import '../entities/ygo_card.dart';
-import '../entities/ygo_set.dart';
+import '../../core/entities/banlist.dart';
+import '../../core/entities/format.dart';
+import '../../core/entities/link_markers.dart';
+import '../../core/entities/sort.dart';
+import '../../core/error/failures.dart';
+import '../../core/success/success.dart';
+import '../../features/browse_cards/domain/entities/archetype.dart';
+import '../../features/browse_cards/domain/entities/card_set_info.dart';
+import '../../features/browse_cards/domain/entities/ygo_card.dart';
+import '../../features/browse_cards/domain/entities/ygo_set.dart';
 
 abstract class YgoProRepository {
   /// Returns all of the current Yu-Gi-Oh! Card Set Names.

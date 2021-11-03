@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../entities/archetype.dart';
-import '../repositories/ygopro_repository.dart';
+import '../../../../domain/repositories/ygopro_repository.dart';
 
 class GetAllCardArchetypes implements UseCase<List<Archetype>, NoParams> {
   final YgoProRepository repository;

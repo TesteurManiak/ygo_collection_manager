@@ -7,7 +7,7 @@ import '../../../../core/entities/sort.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../entities/ygo_card.dart';
-import '../repositories/ygopro_repository.dart';
+import '../../../../domain/repositories/ygopro_repository.dart';
 
 class GetCardInformation implements UseCase<List<YgoCard>, GetCardInfoParams> {
   final YgoProRepository repository;
