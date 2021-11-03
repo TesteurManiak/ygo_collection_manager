@@ -5,6 +5,7 @@ import '../../../../core/entities/format.dart';
 import '../../../../core/entities/link_markers.dart';
 import '../../../../core/entities/sort.dart';
 import '../../../../core/error/exceptions.dart';
+import '../../../../data/models/request/get_card_info_request.dart';
 import '../models/archetype_model.dart';
 import '../models/card_set_info_model.dart';
 import '../models/db_version_model.dart';

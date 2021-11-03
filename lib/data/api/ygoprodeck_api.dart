@@ -2,16 +2,13 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 
-import '../../core/entities/banlist.dart';
-import '../../core/entities/format.dart';
-import '../../core/entities/link_markers.dart';
-import '../../core/entities/sort.dart';
-import '../../features/browse_cards/data/models/ygo_card_model.dart';
-import '../../features/browse_cards/domain/entities/ygo_card.dart';
-import '../../models/db_version_model.dart';
-import '../../models/set_model.dart';
+import '../../../features/browse_cards/data/models/ygo_card_model.dart';
+import '../../../features/browse_cards/domain/entities/ygo_card.dart';
+import '../../../models/db_version_model.dart';
+import '../../../models/set_model.dart';
+import '../models/request/get_card_info_request.dart';
 
-class YgoProDeckProvider {
+class YgoProDeckApi {
   static final baseUrl = Uri(scheme: 'https', host: 'db.ygoprodeck.com');
   static const basePath = <String>['api', 'v7'];
   static const cardInfoPath = 'cardinfo.php';
@@ -23,32 +20,31 @@ class YgoProDeckProvider {
 
   final Dio _dio;
 
-  YgoProDeckProvider(this._dio);
+  YgoProDeckApi(this._dio);
 
-  Future<List<YgoCard>> getCardInfo({
-    List<String>? names,
-    String? fname,
-    List<int>? ids,
-    List<String>? types,
-    int? atk,
-    int? def,
-    int? level,
-    List<String>? races,
-    List<String>? attributes,
-    int? link,
-    List<LinkMarkers>? linkMarkers,
-    int? scale,
-    String? cardSet,
-    String? archetype,
-    Banlist? banlist,
-    Sort? sort,
-    Format? format,
-    bool misc = false,
-    bool? staple,
-    DateTime? startDate,
-    DateTime? endDate,
-    DateTime? dateRegion,
-  }) async {
+  Future<List<YgoCard>> getCardInfo(GetCardInfoRequest request) async {
+    final names = request.names;
+    final fname = request.fname;
+    final ids = request.ids;
+    final types = request.types;
+    final atk = request.atk;
+    final def = request.def;
+    final level = request.level;
+    final races = request.races;
+    final attributes = request.attributes;
+    final link = request.link;
+    final linkMarkers = request.linkMarkers;
+    final scale = request.scale;
+    final cardSet = request.cardSet;
+    final archetype = request.archetype;
+    final banlist = request.banlist;
+    final sort = request.sort;
+    final format = request.format;
+    final misc = request.misc;
+    final staple = request.staple;
+    final startDate = request.startDate;
+    final endDate = request.endDate;
+    final dateRegion = request.dateRegion;
     final response = await getCall<Map<String, dynamic>>(
       [cardInfoPath],
       queryParameters: <String, Object>{

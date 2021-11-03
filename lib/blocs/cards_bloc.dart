@@ -7,6 +7,7 @@ import 'package:rxdart/rxdart.dart';
 
 import '../api/api_repository.dart';
 import '../core/bloc/bloc.dart';
+import '../data/models/request/get_card_info_request.dart';
 import '../extensions/extensions.dart';
 import '../features/browse_cards/domain/entities/ygo_card.dart';
 import '../helper/hive_helper.dart';
@@ -81,7 +82,9 @@ class CardsBloc extends BlocBase {
 
   static void _fetchCards(List<Object> args) {
     final sendPort = args[0] as SendPort;
-    apiRepository.getCardInfo(misc: true).then((value) => sendPort.send(value));
+    apiRepository
+        .getCardInfo(GetCardInfoRequest(misc: true))
+        .then((value) => sendPort.send(value));
   }
 
   void loadFromDb() {
