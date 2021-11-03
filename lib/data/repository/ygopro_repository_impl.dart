@@ -16,13 +16,13 @@ import '../models/request/get_card_info_request.dart';
 
 final ygoProRepositoryProvider = Provider<YgoProRepository>(
   (ref) => YgoProRepositoryImpl(
-    remoteDataSource: ref.read(ygoProDeckRemoteDataSourceProvider),
+    remoteDataSource: ref.read(ygoProRemoteDataSourceProvider),
     localDataSource: ref.read(ygoProLocalDataSourceProvider),
   ),
 );
 
 class YgoProRepositoryImpl implements YgoProRepository {
-  final YgoProDeckRemoteDataSource remoteDataSource;
+  final YgoProRemoteDataSource remoteDataSource;
   final YgoProLocalDataSource localDataSource;
 
   YgoProRepositoryImpl({

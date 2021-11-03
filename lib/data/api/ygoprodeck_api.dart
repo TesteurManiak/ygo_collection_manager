@@ -14,11 +14,11 @@ import '../../features/browse_cards/data/models/card_set_info_model.dart';
 import '../../features/browse_cards/data/models/ygo_set_model.dart';
 import '../models/request/get_card_info_request.dart';
 
-final ygoProDeckRemoteDataSourceProvider = Provider<YgoProDeckRemoteDataSource>(
-  (ref) => YgoProDeckRemoteDataSource(Dio()),
+final ygoProRemoteDataSourceProvider = Provider<YgoProRemoteDataSource>(
+  (ref) => YgoProRemoteDataSource(Dio()),
 );
 
-class YgoProDeckRemoteDataSource {
+class YgoProRemoteDataSource {
   static final baseUrl = Uri(scheme: 'https', host: 'db.ygoprodeck.com');
   static const basePath = <String>['api', 'v7'];
   static const cardInfoPath = 'cardinfo.php';
@@ -30,7 +30,7 @@ class YgoProDeckRemoteDataSource {
 
   final Dio _dio;
 
-  YgoProDeckRemoteDataSource(this._dio);
+  YgoProRemoteDataSource(this._dio);
 
   Future<List<ArchetypeModel>> getAllCardArchetypes() async {
     final response = await _getCall<Iterable>([archetypesPath]);

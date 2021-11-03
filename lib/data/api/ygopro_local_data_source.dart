@@ -8,31 +8,11 @@ import '../../features/browse_cards/data/models/ygo_card_model.dart';
 import '../../features/browse_cards/data/models/ygo_set_model.dart';
 
 final ygoProLocalDataSourceProvider =
-    Provider<YgoProLocalDataSource>((_) => YgoProLocalDataSourceImpl());
-
-abstract class YgoProLocalDataSource {
-  /// Gets the latest cached array of [YgoCardModel] from the cache.
-  ///
-  /// Returns an empty list if no cache is available.
-  Future<List<YgoCardModel>> getCards();
-  Future<void> updateCards(List<YgoCardModel> cards);
-
-  /// Gets the latest cached array of [YgoSetModel] from the cache.
-  ///
-  /// Returns an empty list if no cache is available.
-  Future<List<YgoSetModel>> getSets();
-  Future<void> updateSets(List<YgoSetModel> sets);
-
-  /// Gets the latest cached [DbVersionModel] from the cache.
-  ///
-  /// Returns null if no data is cached.
-  Future<DbVersionModel?> getDatabaseVersion();
-  Future<void> updateDbVersion(DbVersionModel dbVersion);
-}
+    Provider<YgoProLocalDataSource>((_) => YgoProLocalDataSource());
 
 typedef _HiveCallback<T> = Future<T> Function();
 
-class YgoProLocalDataSourceImpl implements YgoProLocalDataSource {
+class YgoProLocalDataSource {
   bool _isInitialized = false;
 
   late final Box<YgoCardModel> _cardsBox;
@@ -52,14 +32,12 @@ class YgoProLocalDataSourceImpl implements YgoProLocalDataSource {
     }
   }
 
-  @override
   Future<List<YgoCardModel>> getCards() {
     return _checkIfInitialized<List<YgoCardModel>>(() {
       return Future.value(_cardsBox.values.toList());
     });
   }
 
-  @override
   Future<DbVersionModel?> getDatabaseVersion() {
     return _checkIfInitialized<DbVersionModel?>(() {
       if (_dbVersionBox.isEmpty) return Future.value(null);
@@ -67,14 +45,12 @@ class YgoProLocalDataSourceImpl implements YgoProLocalDataSource {
     });
   }
 
-  @override
   Future<List<YgoSetModel>> getSets() {
     return _checkIfInitialized<List<YgoSetModel>>(() {
       return Future.value(_setsBox.values.toList());
     });
   }
 
-  @override
   Future<void> updateCards(List<YgoCardModel> cards) {
     return _checkIfInitialized<void>(() {
       final cardsMap = <int, YgoCardModel>{};
@@ -85,7 +61,6 @@ class YgoProLocalDataSourceImpl implements YgoProLocalDataSource {
     });
   }
 
-  @override
   Future<void> updateDbVersion(DbVersionModel dbVersion) async {
     return _checkIfInitialized<void>(() async {
       final _currentVersion = await getDatabaseVersion();
@@ -97,7 +72,6 @@ class YgoProLocalDataSourceImpl implements YgoProLocalDataSource {
     });
   }
 
-  @override
   Future<void> updateSets(List<YgoSetModel> sets) {
     return _checkIfInitialized<void>(() {
       final setsMap = <String, YgoSetModel>{};
