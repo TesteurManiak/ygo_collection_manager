@@ -7,5 +7,5 @@ class UpdateDatabase implements UseCase<void, NoParams> {
   UpdateDatabase(this.repository);
 
   @override
-  Future<void> call(_) => repository.updateDatabase();
+  Future<void> call(_) => repository.checkDatabaseVersion();
 }

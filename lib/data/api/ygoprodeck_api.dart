@@ -10,6 +10,9 @@ import '../../../features/browse_cards/domain/entities/ygo_card.dart';
 import '../../../models/db_version_model.dart';
 import '../../../models/set_model.dart';
 import '../../core/error/exceptions.dart';
+import '../../features/browse_cards/data/models/archetype_model.dart';
+import '../../features/browse_cards/data/models/card_set_info_model.dart';
+import '../../features/browse_cards/data/models/ygo_set_model.dart';
 import '../models/request/get_card_info_request.dart';
 
 final ygoProDeckApiProvider =
@@ -29,7 +32,32 @@ class YgoProDeckApi {
 
   YgoProDeckApi(this._dio);
 
-  Future<List<YgoCard>> getCardInfo(GetCardInfoRequest request) async {
+  Future<List<ArchetypeModel>> getAllCardArchetypes() async {
+    final response = await _getCall<Iterable>([archetypesPath]);
+    return response
+        .map((e) => ArchetypeModel.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<List<YgoSetModel>> getAllSets() async {
+    final response = await _getCall<Iterable>([setsPath]);
+    return response
+        .map((e) => YgoSetModel.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<CardSetInfoModel> getCardSetInformation(String setCode) async {
+    final response = await _getCall<Map<String, dynamic>>([cardSetsInfoPath],
+        queryParameters: {'setcode': setCode});
+    return CardSetInfoModel.fromJson(response);
+  }
+
+  Future<YgoCardModel> getRandomCard() async {
+    final response = await _getCall<Map<String, dynamic>>([randomCardPath]);
+    return YgoCardModel.fromJson(response);
+  }
+
+  Future<List<YgoCardModel>> getCardInfo(GetCardInfoRequest request) async {
     final names = request.names;
     final fname = request.fname;
     final ids = request.ids;
@@ -81,7 +109,7 @@ class YgoProDeckApi {
       },
     );
     return (response['data'] as Iterable)
-        .map<YgoCard>(
+        .map<YgoCardModel>(
           (e) => YgoCardModel.fromJson(e as Map<String, dynamic>),
         )
         .toList();
