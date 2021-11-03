@@ -3,13 +3,13 @@ import '../../core/entities/format.dart';
 import '../../core/entities/link_markers.dart';
 import '../../core/entities/sort.dart';
 import '../../core/network/network_info.dart';
+import '../../domain/repository/ygopro_repository.dart';
+import '../../features/browse_cards/data/datasources/ygopro_local_data_source.dart';
+import '../../features/browse_cards/data/datasources/ygopro_remote_data_source.dart';
 import '../../features/browse_cards/domain/entities/archetype.dart';
 import '../../features/browse_cards/domain/entities/card_set_info.dart';
 import '../../features/browse_cards/domain/entities/ygo_card.dart';
 import '../../features/browse_cards/domain/entities/ygo_set.dart';
-import '../../domain/repositories/ygopro_repository.dart';
-import '../../features/browse_cards/data/datasources/ygopro_local_data_source.dart';
-import '../../features/browse_cards/data/datasources/ygopro_remote_data_source.dart';
 
 class YgoProRepositoryImpl implements YgoProRepository {
   final YgoProRemoteDataSource remoteDataSource;

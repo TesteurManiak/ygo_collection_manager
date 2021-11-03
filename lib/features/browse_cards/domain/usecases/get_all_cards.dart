@@ -1,6 +1,6 @@
 import '../../../../core/usecases/usecase.dart';
+import '../../../../domain/repository/ygopro_repository.dart';
 import '../entities/ygo_card.dart';
-import '../../../../domain/repositories/ygopro_repository.dart';
 
 /// This use case is used to get the all card details from the repository.
 class GetAllCards implements UseCase<List<YgoCard>, NoParams> {

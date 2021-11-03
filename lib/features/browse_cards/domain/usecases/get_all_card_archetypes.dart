@@ -1,6 +1,6 @@
 import '../../../../core/usecases/usecase.dart';
+import '../../../../domain/repository/ygopro_repository.dart';
 import '../entities/archetype.dart';
-import '../../../../domain/repositories/ygopro_repository.dart';
 
 class GetAllCardArchetypes implements UseCase<List<Archetype>, NoParams> {
   final YgoProRepository repository;

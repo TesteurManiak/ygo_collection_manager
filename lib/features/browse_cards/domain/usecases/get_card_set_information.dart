@@ -1,6 +1,6 @@
 import '../../../../core/usecases/usecase.dart';
+import '../../../../domain/repository/ygopro_repository.dart';
 import '../entities/card_set_info.dart';
-import '../../../../domain/repositories/ygopro_repository.dart';
 
 class GetCardSetInformation
     implements UseCase<CardSetInfo, GetCardSetInformationParams> {

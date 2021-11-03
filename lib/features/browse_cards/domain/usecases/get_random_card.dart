@@ -1,6 +1,6 @@
 import '../../../../core/usecases/usecase.dart';
+import '../../../../domain/repository/ygopro_repository.dart';
 import '../entities/ygo_card.dart';
-import '../../../../domain/repositories/ygopro_repository.dart';
 
 class GetRandomCard implements UseCase<YgoCard, NoParams> {
   final YgoProRepository repository;

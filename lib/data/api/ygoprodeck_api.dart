@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../features/browse_cards/data/models/ygo_card_model.dart';
 import '../../../features/browse_cards/domain/entities/ygo_card.dart';
@@ -10,6 +11,9 @@ import '../../../models/db_version_model.dart';
 import '../../../models/set_model.dart';
 import '../../core/error/exceptions.dart';
 import '../models/request/get_card_info_request.dart';
+
+final ygoProDeckApiProvider =
+    Provider<YgoProDeckApi>((ref) => YgoProDeckApi(Dio()));
 
 class YgoProDeckApi {
   static final baseUrl = Uri(scheme: 'https', host: 'db.ygoprodeck.com');

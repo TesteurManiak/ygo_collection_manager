@@ -3,8 +3,8 @@ import '../../../../core/entities/format.dart';
 import '../../../../core/entities/link_markers.dart';
 import '../../../../core/entities/sort.dart';
 import '../../../../core/usecases/usecase.dart';
+import '../../../../domain/repository/ygopro_repository.dart';
 import '../entities/ygo_card.dart';
-import '../../../../domain/repositories/ygopro_repository.dart';
 
 class GetCardInformation implements UseCase<List<YgoCard>, GetCardInfoParams> {
   final YgoProRepository repository;
