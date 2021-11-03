@@ -96,7 +96,7 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
           .map((json) => ArchetypeModel.fromJson(json as Map<String, dynamic>))
           .toList();
     } on DioError {
-      throw ServerException();
+      throw const ServerException();
     }
   }
 
@@ -113,7 +113,7 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
           )
           .toList();
     } on DioError {
-      throw ServerException();
+      throw const ServerException();
     }
   }
 
@@ -177,7 +177,7 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
           )
           .toList();
     } on DioError {
-      throw ServerException();
+      throw const ServerException();
     }
   }
 
@@ -190,7 +190,7 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
       );
       return CardSetInfoModel.fromJson(response);
     } on DioError {
-      throw ServerException();
+      throw const ServerException();
     }
   }
 
@@ -200,7 +200,7 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
       final response = await _getCall<Iterable>([checkDBVerPath]);
       return DbVersionModel.fromJson(response.first as Map<String, dynamic>);
     } on DioError {
-      throw ServerException();
+      throw const ServerException();
     }
   }
 
@@ -212,7 +212,7 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
       );
       return YgoCardModel.fromJson(response);
     } on DioError {
-      throw ServerException();
+      throw const ServerException();
     }
   }
 

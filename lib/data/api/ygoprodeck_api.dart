@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 import '../../../features/browse_cards/data/models/ygo_card_model.dart';
 import '../../../features/browse_cards/domain/entities/ygo_card.dart';
 import '../../../models/db_version_model.dart';
 import '../../../models/set_model.dart';
+import '../../core/error/exceptions.dart';
 import '../models/request/get_card_info_request.dart';
 
 class YgoProDeckApi {
@@ -45,7 +48,7 @@ class YgoProDeckApi {
     final startDate = request.startDate;
     final endDate = request.endDate;
     final dateRegion = request.dateRegion;
-    final response = await getCall<Map<String, dynamic>>(
+    final response = await _getCall<Map<String, dynamic>>(
       [cardInfoPath],
       queryParameters: <String, Object>{
         if (names != null) 'name': names.join('|'),
@@ -81,27 +84,35 @@ class YgoProDeckApi {
   }
 
   Future<List<SetModel>> getSets() async {
-    final data = await getCall<Iterable>([setsPath]);
+    final data = await _getCall<Iterable>([setsPath]);
     return data
         .map<SetModel>((e) => SetModel.fromJson(e as Map<String, dynamic>))
         .toList();
   }
 
   Future<DBVersionModel> checkDatabaseVersion() async {
-    final response = await getCall<Iterable>([checkDBVerPath]);
+    final response = await _getCall<Iterable>([checkDBVerPath]);
     return DBVersionModel.fromJson(response.first as Map<String, dynamic>);
   }
 
-  Future<T> getCall<T>(
+  Future<T> _getCall<T>(
     Iterable<String> pathSegments, {
     Map<String, Object> queryParameters = const {},
   }) async {
-    final response = await _dio.getUri(
-      baseUrl.replace(
-        pathSegments: <String>[...basePath, ...pathSegments],
-        queryParameters: queryParameters,
-      ),
-    );
-    return response.data as T;
+    try {
+      final response = await _dio.getUri(
+        baseUrl.replace(
+          pathSegments: <String>[...basePath, ...pathSegments],
+          queryParameters: queryParameters,
+        ),
+      );
+      return response.data as T;
+    } on DioError catch (e) {
+      debugPrint(e.toString());
+      throw ServerException(message: e.response?.statusMessage);
+    } on SocketException catch (e) {
+      debugPrint(e.toString());
+      throw const ServerException(message: 'Please check your connection.');
+    }
   }
 }

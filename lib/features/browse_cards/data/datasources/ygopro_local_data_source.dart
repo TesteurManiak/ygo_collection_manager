@@ -106,7 +106,7 @@ class YgoProLocalDataSourceImpl implements YgoProLocalDataSource {
 
   Future<T> _checkIfInitialized<T>(_HiveCallback<T> callback) async {
     if (!_isInitialized) {
-      throw CacheException(message: 'Hive is not initialized');
+      throw const CacheException(message: 'Hive is not initialized');
     }
     return callback();
   }
