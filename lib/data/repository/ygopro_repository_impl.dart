@@ -5,7 +5,6 @@ import '../../core/entities/sort.dart';
 import '../../core/error/exceptions.dart';
 import '../../core/error/failures.dart';
 import '../../core/network/network_info.dart';
-import '../../core/success/success.dart';
 import '../../features/browse_cards/domain/entities/archetype.dart';
 import '../../features/browse_cards/domain/entities/card_set_info.dart';
 import '../../features/browse_cards/domain/entities/ygo_card.dart';
@@ -26,7 +25,7 @@ class YgoProRepositoryImpl implements YgoProRepository {
   });
 
   @override
-  Future<Success> updateDatabase() async {
+  Future<void> updateDatabase() async {
     try {
       final isConnected = await networkInfo.isConnected;
       if (isConnected) {
@@ -44,7 +43,6 @@ class YgoProRepositoryImpl implements YgoProRepository {
           await localDataSource.updateSets(remoteSets);
         }
       }
-      return const Success();
     } on ServerException {
       throw ServerFailure();
     } on CacheException {
