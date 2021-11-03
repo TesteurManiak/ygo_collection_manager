@@ -9,7 +9,7 @@ import '../models/set_model.dart';
 class _ApiRepository {
   final _dio = Dio();
 
-  late final _ygoProDeckProvider = YgoProDeckApi(_dio);
+  late final _ygoProDeckProvider = YgoProDeckRemoteDataSource(_dio);
 
   Future<List<SetModel>> getAllSets() => _ygoProDeckProvider.getSets();
 

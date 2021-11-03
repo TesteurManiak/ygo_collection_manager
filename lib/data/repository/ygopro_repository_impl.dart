@@ -1,9 +1,11 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../core/entities/banlist.dart';
 import '../../core/entities/format.dart';
 import '../../core/entities/link_markers.dart';
 import '../../core/entities/sort.dart';
 import '../../domain/repository/ygopro_repository.dart';
-import '../../features/browse_cards/data/datasources/ygopro_local_data_source.dart';
+import '../api/ygopro_local_data_source.dart';
 import '../../features/browse_cards/domain/entities/archetype.dart';
 import '../../features/browse_cards/domain/entities/card_set_info.dart';
 import '../../features/browse_cards/domain/entities/ygo_card.dart';
@@ -12,8 +14,15 @@ import '../../models/db_version_model.dart';
 import '../api/ygoprodeck_api.dart';
 import '../models/request/get_card_info_request.dart';
 
+final ygoProRepositoryProvider = Provider<YgoProRepository>(
+  (ref) => YgoProRepositoryImpl(
+    remoteDataSource: ref.read(ygoProDeckRemoteDataSourceProvider),
+    localDataSource: ref.read(ygoProLocalDataSourceProvider),
+  ),
+);
+
 class YgoProRepositoryImpl implements YgoProRepository {
-  final YgoProDeckApi remoteDataSource;
+  final YgoProDeckRemoteDataSource remoteDataSource;
   final YgoProLocalDataSource localDataSource;
 
   YgoProRepositoryImpl({
@@ -88,10 +97,8 @@ class YgoProRepositoryImpl implements YgoProRepository {
   }
 
   @override
-  Future<CardSetInfo> getCardSetInformation(String setCode) async {
-    final cardSetInfo = await remoteDataSource.getCardSetInformation(setCode);
-    return cardSetInfo;
-  }
+  Future<CardSetInfo> getCardSetInformation(String setCode) =>
+      remoteDataSource.getCardSetInformation(setCode);
 
   @override
   Future<YgoCard> getRandomCard() => remoteDataSource.getRandomCard();
