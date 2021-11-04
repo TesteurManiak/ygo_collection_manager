@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../extensions/list_extensions.dart';
@@ -7,10 +6,6 @@ import '../../features/browse_cards/data/models/ygo_card_model.dart';
 import '../../features/browse_cards/data/models/ygo_set_model.dart';
 import '../../models/card_owned_model.dart';
 import '../../utils/indexes.dart';
-
-final ygoProLocalDataSourceProvider = FutureProvider<YgoProLocalDataSource>(
-  (_) => YgoProLocalDataSource.create(),
-);
 
 class YgoProLocalDataSource {
   YgoProLocalDataSource._();
