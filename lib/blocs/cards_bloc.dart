@@ -1,12 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:ygo_collection_manager/core/isolate/isolate_wrapper.dart';
 
 import '../api/api_repository.dart';
 import '../core/bloc/bloc.dart';
+import '../core/isolate/isolate_wrapper.dart';
 import '../data/models/request/get_card_info_request.dart';
 import '../domain/entities/ygo_card.dart';
 import '../extensions/extensions.dart';
