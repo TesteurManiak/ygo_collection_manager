@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'dart:isolate';
 
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ygo_collection_manager/api/api_repository.dart';
 import 'package:ygo_collection_manager/core/bloc/bloc.dart';
+import 'package:ygo_collection_manager/core/isolate/isolate_wrapper.dart';
 import 'package:ygo_collection_manager/helper/hive_helper.dart';
 import 'package:ygo_collection_manager/models/set_model.dart';
 
@@ -18,10 +18,6 @@ class SetsBloc extends BlocBase {
 
   final searchController = TextEditingController();
 
-  late Isolate _isolate;
-  late ReceivePort _receivePort;
-  late StreamSubscription _isolateSubscription;
-
   late final StreamSubscription _setsControllerSubscription;
 
   void _setsFilterListener(List<SetModel>? value) {
@@ -31,8 +27,6 @@ class SetsBloc extends BlocBase {
 
   @override
   void dispose() {
-    _closeIsolate();
-
     searchController.dispose();
     _setsControllerSubscription.cancel();
 
@@ -44,17 +38,6 @@ class SetsBloc extends BlocBase {
   void initState() {
     _setsControllerSubscription = _setsController.listen(_setsFilterListener);
     loadFromDb();
-  }
-
-  void _closeIsolate() {
-    _receivePort.close();
-    _isolate.kill(priority: Isolate.immediate);
-    _isolateSubscription.cancel();
-  }
-
-  static void _fetchSets(List<Object> args) {
-    final sendPort = args[0] as SendPort;
-    apiRepository.getAllSets().then((value) => sendPort.send(value));
   }
 
   void loadFromDb() {
@@ -81,17 +64,15 @@ class SetsBloc extends BlocBase {
 
   Future<void> fetchAllSets() async {
     try {
-      _receivePort = ReceivePort();
-      _isolate = await Isolate.spawn(_fetchSets, <Object>[
-        _receivePort.sendPort,
-      ]);
-      _isolateSubscription = _receivePort.listen((message) {
-        final _sets = message as List<SetModel>
-          ..sort((a, b) => a.setName.compareTo(b.setName));
-        _setsController.sink.add(_sets);
-        HiveHelper.instance.updateSets(_sets);
-        _closeIsolate();
-      });
+      await IsolateWrapper().spawn<List<SetModel>>(
+        () => apiRepository.getAllSets(),
+        workerName: "ww.dart2.js",
+        callback: (_sets) {
+          _sets.sort((a, b) => a.setName.compareTo(b.setName));
+          _setsController.sink.add(_sets);
+          HiveHelper.instance.updateSets(_sets);
+        },
+      );
     } catch (e) {
       _setsController.addError(e);
     }

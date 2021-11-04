@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:isolate';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:ygo_collection_manager/core/isolate/isolate_wrapper.dart';
 
 import '../api/api_repository.dart';
 import '../core/bloc/bloc.dart';
@@ -33,10 +33,6 @@ class CardsBloc extends BlocBase {
   double get fullCollectionCompletion =>
       _fullCollectionCompletionController.value;
 
-  late Isolate _isolate;
-  late ReceivePort _receivePort;
-  late StreamSubscription _isolateSubscription;
-
   /// Return a list of [YgoCard] that are in the set of cards.
   /// Takes a [SetModel] as parameter.
   List<YgoCard>? getCardsInSet(SetModel cardSet) {
@@ -65,26 +61,11 @@ class CardsBloc extends BlocBase {
 
   @override
   void dispose() {
-    _closeIsolate();
-
     _cardsSubscription.cancel();
 
     _cardsController.close();
     _filteredCardsController.close();
     _fullCollectionCompletionController.close();
-  }
-
-  void _closeIsolate() {
-    _receivePort.close();
-    _isolate.kill(priority: Isolate.immediate);
-    _isolateSubscription.cancel();
-  }
-
-  static void _fetchCards(List<Object> args) {
-    final sendPort = args[0] as SendPort;
-    apiRepository
-        .getCardInfo(GetCardInfoRequest(misc: true))
-        .then((value) => sendPort.send(value));
   }
 
   void loadFromDb() {
@@ -94,17 +75,15 @@ class CardsBloc extends BlocBase {
   }
 
   Future<void> fetchAllCards() async {
-    _receivePort = ReceivePort();
-    _isolate = await Isolate.spawn(_fetchCards, <Object>[
-      _receivePort.sendPort,
-    ]);
-    _isolateSubscription = _receivePort.listen((message) {
-      final newCards = message as List<YgoCard>
-        ..sort((a, b) => a.name.compareTo(b.name));
-      _cardsController.sink.add(newCards);
-      HiveHelper.instance.updateCards(newCards);
-      _closeIsolate();
-    });
+    await IsolateWrapper().spawn<List<YgoCard>>(
+      () => apiRepository.getCardInfo(GetCardInfoRequest(misc: true)),
+      workerName: "ww.dart1.js",
+      callback: (newCards) {
+        newCards.sort((a, b) => a.name.compareTo(b.name));
+        _cardsController.sink.add(newCards);
+        HiveHelper.instance.updateCards(newCards);
+      },
+    );
   }
 
   void updateCompletion({List<YgoCard>? initialCards}) {
