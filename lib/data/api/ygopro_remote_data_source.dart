@@ -40,10 +40,12 @@ class YgoProRemoteDataSource {
   }
 
   Future<List<YgoSetModel>> getAllSets() async {
-    final response = await _getCall<Iterable>([setsPath]);
-    return response
-        .map((e) => YgoSetModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+    final data = await _getCall<Iterable>([setsPath]);
+    final sets = <YgoSetModel>[];
+    for (final set in data) {
+      sets.add(YgoSetModel.fromJson(set as Map<String, dynamic>));
+    }
+    return sets;
   }
 
   Future<CardSetInfoModel> getCardSetInformation(String setCode) async {
@@ -112,18 +114,21 @@ class YgoProRemoteDataSource {
         if (dateRegion != null) 'dateregion': dateRegion.toIso8601String(),
       },
     );
-    return (response['data'] as Iterable)
-        .map<YgoCardModel>(
-          (e) => YgoCardModel.fromJson(e as Map<String, dynamic>),
-        )
-        .toList();
+    final data = response['data'] as Iterable;
+    final cards = <YgoCardModel>[];
+    for (final card in data) {
+      cards.add(YgoCardModel.fromJson(card as Map<String, dynamic>));
+    }
+    return cards;
   }
 
   Future<List<SetModel>> getSets() async {
     final data = await _getCall<Iterable>([setsPath]);
-    return data
-        .map<SetModel>((e) => SetModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+    final sets = <SetModel>[];
+    for (final set in data) {
+      sets.add(SetModel.fromJson(set as Map<String, dynamic>));
+    }
+    return sets;
   }
 
   Future<DBVersionModel> checkDatabaseVersion() async {

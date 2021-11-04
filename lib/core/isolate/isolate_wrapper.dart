@@ -16,7 +16,6 @@ class IsolateWrapper {
 
   Future<void> spawn<T>(
     Future<T> Function() asyncMethod, {
-    required String workerName,
     void Function(T data)? callback,
   }) async {
     if (kIsWeb) {

@@ -77,7 +77,6 @@ class CardsBloc extends BlocBase {
   Future<void> fetchAllCards() async {
     await IsolateWrapper().spawn<List<YgoCard>>(
       () => apiRepository.getCardInfo(GetCardInfoRequest(misc: true)),
-      workerName: "ww.dart1.js",
       callback: (newCards) {
         newCards.sort((a, b) => a.name.compareTo(b.name));
         _cardsController.sink.add(newCards);

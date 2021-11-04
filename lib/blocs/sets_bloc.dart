@@ -66,7 +66,6 @@ class SetsBloc extends BlocBase {
     try {
       await IsolateWrapper().spawn<List<SetModel>>(
         () => apiRepository.getAllSets(),
-        workerName: "ww.dart2.js",
         callback: (_sets) {
           _sets.sort((a, b) => a.setName.compareTo(b.setName));
           _setsController.sink.add(_sets);
