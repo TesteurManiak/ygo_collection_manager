@@ -86,8 +86,6 @@ class HiveHelper {
     return _boxSets.putAll(setsMap);
   }
 
-  Future<void> dispose() => Hive.close();
-
   /// Getter to return a List<CardOwnedModel>.
   List<CardOwnedModel> get cardsOwned => _boxCardsOwned.values
       .toList()
