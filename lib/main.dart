@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:ygo_collection_manager/core/bloc/bloc.dart';
-import 'package:ygo_collection_manager/core/bloc/bloc_provider.dart';
-import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
-import 'package:ygo_collection_manager/blocs/db_version_bloc.dart';
-import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
-import 'package:ygo_collection_manager/blocs/sets_bloc.dart';
-import 'package:ygo_collection_manager/dynamic_theme/dynamic_theme.dart';
-import 'package:ygo_collection_manager/helper/hive_helper.dart';
-import 'package:ygo_collection_manager/styles/themes.dart';
-import 'package:ygo_collection_manager/ui/loading_view/loading_view.dart';
-import 'package:ygo_collection_manager/utils/router.dart';
+
+import 'blocs/cards_bloc.dart';
+import 'blocs/db_version_bloc.dart';
+import 'blocs/expansion_collection_bloc.dart';
+import 'blocs/sets_bloc.dart';
+import 'core/bloc/bloc.dart';
+import 'core/bloc/bloc_provider.dart';
+import 'dynamic_theme/dynamic_theme.dart';
+import 'helper/hive_helper.dart';
+import 'service_locator.dart';
+import 'styles/themes.dart';
+import 'ui/loading_view/loading_view.dart';
+import 'utils/router.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  setupLocator();
   await HiveHelper.instance.initHive();
   runApp(
     BlocProvider(

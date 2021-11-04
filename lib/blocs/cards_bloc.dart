@@ -3,15 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../api/api_repository.dart';
 import '../core/bloc/bloc.dart';
 import '../core/isolate/isolate_wrapper.dart';
+import '../data/api/ygopro_remote_data_source.dart';
 import '../data/models/request/get_card_info_request.dart';
 import '../domain/entities/ygo_card.dart';
 import '../extensions/extensions.dart';
 import '../helper/hive_helper.dart';
 import '../models/card_owned_model.dart';
 import '../models/set_model.dart';
+import '../service_locator.dart';
 
 class CardsBloc extends BlocBase {
   final _cardsController = BehaviorSubject<List<YgoCard>?>.seeded(null);
@@ -74,8 +75,9 @@ class CardsBloc extends BlocBase {
   }
 
   Future<void> fetchAllCards() async {
+    final remoteRepo = locator<YgoProRemoteDataSource>();
     await IsolateWrapper().spawn<List<YgoCard>>(
-      () => apiRepository.getCardInfo(GetCardInfoRequest(misc: true)),
+      () => remoteRepo.getCardInfo(GetCardInfoRequest(misc: true)),
       callback: (newCards) {
         newCards.sort((a, b) => a.name.compareTo(b.name));
         _cardsController.sink.add(newCards);

@@ -5,9 +5,9 @@ import '../../core/entities/sort.dart';
 import '../../domain/entities/archetype.dart';
 import '../../domain/entities/card_set_info.dart';
 import '../../domain/entities/ygo_card.dart';
-import '../../domain/entities/ygo_set.dart';
 import '../../domain/repository/ygopro_repository.dart';
 import '../../models/db_version_model.dart';
+import '../../models/set_model.dart';
 import '../api/ygopro_local_data_source.dart';
 import '../api/ygopro_remote_data_source.dart';
 import '../models/request/get_card_info_request.dart';
@@ -28,7 +28,7 @@ class YgoProRepositoryImpl implements YgoProRepository {
   }
 
   @override
-  Future<List<YgoSet>> getAllSets() async {
+  Future<List<SetModel>> getAllSets() async {
     final remoteSets = await remoteDataSource.getAllSets();
     return remoteSets;
   }

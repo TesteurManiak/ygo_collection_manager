@@ -3,14 +3,14 @@ import '../../core/entities/format.dart';
 import '../../core/entities/link_markers.dart';
 import '../../core/entities/sort.dart';
 import '../../models/db_version_model.dart';
+import '../../models/set_model.dart';
 import '../entities/archetype.dart';
 import '../entities/card_set_info.dart';
 import '../entities/ygo_card.dart';
-import '../entities/ygo_set.dart';
 
 abstract class YgoProRepository {
   /// Returns all of the current Yu-Gi-Oh! Card Set Names.
-  Future<List<YgoSet>> getAllSets();
+  Future<List<SetModel>> getAllSets();
   Future<List<Archetype>> getAllCardArchetypes();
 
   /// Fetch a filtered [List<YgoCard>] from the API.

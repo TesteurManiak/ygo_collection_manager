@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:ygo_collection_manager/api/api_repository.dart';
-import 'package:ygo_collection_manager/core/bloc/bloc.dart';
-import 'package:ygo_collection_manager/core/isolate/isolate_wrapper.dart';
-import 'package:ygo_collection_manager/helper/hive_helper.dart';
-import 'package:ygo_collection_manager/models/set_model.dart';
+
+import '../core/bloc/bloc.dart';
+import '../core/isolate/isolate_wrapper.dart';
+import '../data/api/ygopro_remote_data_source.dart';
+import '../helper/hive_helper.dart';
+import '../models/set_model.dart';
+import '../service_locator.dart';
 
 class SetsBloc extends BlocBase {
   final _setsController = BehaviorSubject<List<SetModel>?>.seeded(null);
@@ -64,8 +66,9 @@ class SetsBloc extends BlocBase {
 
   Future<void> fetchAllSets() async {
     try {
+      final remoteRepo = locator<YgoProRemoteDataSource>();
       await IsolateWrapper().spawn<List<SetModel>>(
-        () => apiRepository.getAllSets(),
+        () => remoteRepo.getAllSets(),
         callback: (_sets) {
           _sets.sort((a, b) => a.setName.compareTo(b.setName));
           _setsController.sink.add(_sets);

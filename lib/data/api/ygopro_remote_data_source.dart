@@ -10,7 +10,6 @@ import '../../../models/set_model.dart';
 import '../../core/error/exceptions.dart';
 import '../../features/browse_cards/data/models/archetype_model.dart';
 import '../../features/browse_cards/data/models/card_set_info_model.dart';
-import '../../features/browse_cards/data/models/ygo_set_model.dart';
 import '../models/request/get_card_info_request.dart';
 
 class YgoProRemoteDataSource {
@@ -34,11 +33,11 @@ class YgoProRemoteDataSource {
         .toList();
   }
 
-  Future<List<YgoSetModel>> getAllSets() async {
+  Future<List<SetModel>> getAllSets() async {
     final data = await _getCall<Iterable>([setsPath]);
-    final sets = <YgoSetModel>[];
+    final sets = <SetModel>[];
     for (final set in data) {
-      sets.add(YgoSetModel.fromJson(set as Map<String, dynamic>));
+      sets.add(SetModel.fromJson(set as Map<String, dynamic>));
     }
     return sets;
   }
