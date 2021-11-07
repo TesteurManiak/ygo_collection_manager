@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'dart:io';
+import 'dart:io' show SocketException;
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../features/browse_cards/data/models/ygo_card_model.dart';
@@ -10,6 +9,7 @@ import '../../../features/browse_cards/data/models/archetype_model.dart';
 import '../../../features/browse_cards/data/models/card_set_info_model.dart';
 import '../../../features/browse_cards/data/models/db_version_model.dart';
 import '../../../features/browse_cards/data/models/ygo_set_model.dart';
+import '../../api/api.dart';
 import '../../models/request/get_card_info_request.dart';
 
 class YgoProRemoteDataSource {
@@ -22,9 +22,9 @@ class YgoProRemoteDataSource {
   static const archetypesPath = 'archetypes.php';
   static const checkDBVerPath = 'checkDBVer.php';
 
-  final Dio _dio;
+  final RemoteClient httpClient;
 
-  YgoProRemoteDataSource(this._dio);
+  YgoProRemoteDataSource(this.httpClient);
 
   Future<List<ArchetypeModel>> getAllCardArchetypes() async {
     final response = await _getCall<Iterable>([archetypesPath]);
@@ -135,16 +135,13 @@ class YgoProRemoteDataSource {
     Map<String, Object> queryParameters = const {},
   }) async {
     try {
-      final response = await _dio.getUri(
+      final response = await httpClient.getUri<T>(
         baseUrl.replace(
           pathSegments: <String>[...basePath, ...pathSegments],
           queryParameters: queryParameters,
         ),
       );
-      return response.data as T;
-    } on DioError catch (e) {
-      debugPrint(e.toString());
-      throw ServerException(message: e.response?.statusMessage);
+      return response;
     } on SocketException catch (e) {
       debugPrint(e.toString());
       throw const ServerException(message: 'Please check your connection.');
