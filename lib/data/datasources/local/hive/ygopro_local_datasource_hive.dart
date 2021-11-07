@@ -1,6 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../../core/entities/card_edition_enum.dart';
+import '../../../../core/extensions/extensions.dart';
 import '../../../../domain/entities/card_banlist_info.dart';
 import '../../../../domain/entities/card_images.dart';
 import '../../../../domain/entities/card_misc_info.dart';
@@ -9,7 +10,6 @@ import '../../../../domain/entities/card_set.dart';
 import '../../../../domain/entities/db_version.dart';
 import '../../../../domain/entities/ygo_card.dart';
 import '../../../../domain/entities/ygo_set.dart';
-import '../../../../extensions/list_extensions.dart';
 import '../../../../models/card_owned_model.dart';
 import '../ygopro_local_datasource.dart';
 
