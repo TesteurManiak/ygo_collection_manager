@@ -5,11 +5,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../../../features/browse_cards/data/models/ygo_card_model.dart';
-import '../../../models/db_version_model.dart';
 import '../../../models/set_model.dart';
 import '../../core/error/exceptions.dart';
 import '../../features/browse_cards/data/models/archetype_model.dart';
 import '../../features/browse_cards/data/models/card_set_info_model.dart';
+import '../../features/browse_cards/data/models/db_version_model.dart';
 import '../models/request/get_card_info_request.dart';
 
 class YgoProRemoteDataSource {
@@ -125,9 +125,9 @@ class YgoProRemoteDataSource {
     return sets;
   }
 
-  Future<DBVersionModel> checkDatabaseVersion() async {
+  Future<DbVersionModel> checkDatabaseVersion() async {
     final response = await _getCall<Iterable>([checkDBVerPath]);
-    return DBVersionModel.fromJson(response.first as Map<String, dynamic>);
+    return DbVersionModel.fromJson(response.first as Map<String, dynamic>);
   }
 
   Future<T> _getCall<T>(

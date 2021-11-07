@@ -1,3 +1,5 @@
+import 'package:ygo_collection_manager/domain/entities/db_version.dart';
+
 import '../../core/entities/banlist.dart';
 import '../../core/entities/format.dart';
 import '../../core/entities/link_markers.dart';
@@ -6,7 +8,6 @@ import '../../domain/entities/archetype.dart';
 import '../../domain/entities/card_set_info.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/repository/ygopro_repository.dart';
-import '../../models/db_version_model.dart';
 import '../../models/set_model.dart';
 import '../api/ygopro_local_data_source.dart';
 import '../api/ygopro_remote_data_source.dart';
@@ -99,6 +100,6 @@ class YgoProRepositoryImpl implements YgoProRepository {
       remoteDataSource.getCardInfo(GetCardInfoRequest(misc: true));
 
   @override
-  Future<DBVersionModel> checkDatabaseVersion() =>
+  Future<DbVersion> checkDatabaseVersion() =>
       remoteDataSource.checkDatabaseVersion();
 }

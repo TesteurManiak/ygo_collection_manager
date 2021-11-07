@@ -6,10 +6,10 @@ import '../domain/entities/card_images.dart';
 import '../domain/entities/card_misc_info.dart';
 import '../domain/entities/card_price.dart';
 import '../domain/entities/card_set.dart';
+import '../domain/entities/db_version.dart';
 import '../domain/entities/ygo_card.dart';
 import '../extensions/extensions.dart';
 import '../models/card_owned_model.dart';
-import '../models/db_version_model.dart';
 import '../models/set_model.dart';
 import '../utils/indexes.dart';
 
@@ -20,7 +20,7 @@ class HiveHelper {
 
   static final instance = HiveHelper._();
 
-  late final Box<DBVersionModel> _boxDb;
+  late final Box<DbVersion> _boxDb;
   late final Box<YgoCard> _boxCards;
   late final Box<SetModel> _boxSets;
   late final Box<CardOwnedModel> _boxCardsOwned;
@@ -31,7 +31,7 @@ class HiveHelper {
       await Hive.initFlutter();
 
       // Register Adapters.
-      Hive.registerAdapter(DBVersionModelAdapter());
+      Hive.registerAdapter(DbVersionAdapter());
 
       Hive.registerAdapter(YgoCardAdapter());
       Hive.registerAdapter(CardImagesAdapter());
@@ -44,7 +44,7 @@ class HiveHelper {
       Hive.registerAdapter(CardOwnedModelAdapter());
       Hive.registerAdapter(CardEditionEnumAdapter());
 
-      _boxDb = await Hive.openBox<DBVersionModel>(Indexes.tableDB);
+      _boxDb = await Hive.openBox<DbVersion>(Indexes.tableDB);
       _boxCards = await Hive.openBox<YgoCard>(Indexes.tableCards);
       _boxSets = await Hive.openBox<SetModel>(Indexes.tableSets);
       _boxCardsOwned =
@@ -53,12 +53,12 @@ class HiveHelper {
     }
   }
 
-  DBVersionModel? get databaseVersion {
+  DbVersion? get databaseVersion {
     if (_boxDb.values.isEmpty) return null;
     return _boxDb.getAt(0);
   }
 
-  Future<void> updateDatabaseVersion(DBVersionModel version) {
+  Future<void> updateDatabaseVersion(DbVersion version) {
     if (databaseVersion == null) {
       return _boxDb.put(0, version);
     } else {

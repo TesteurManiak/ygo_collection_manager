@@ -2,10 +2,10 @@ import '../../core/entities/banlist.dart';
 import '../../core/entities/format.dart';
 import '../../core/entities/link_markers.dart';
 import '../../core/entities/sort.dart';
-import '../../models/db_version_model.dart';
 import '../../models/set_model.dart';
 import '../entities/archetype.dart';
 import '../entities/card_set_info.dart';
+import '../entities/db_version.dart';
 import '../entities/ygo_card.dart';
 
 abstract class YgoProRepository {
@@ -47,7 +47,7 @@ abstract class YgoProRepository {
   /// Returns a [CardSetInfo] for the given [setCode] from the API.
   Future<CardSetInfo> getCardSetInformation(String setCode);
 
-  Future<DBVersionModel> checkDatabaseVersion();
+  Future<DbVersion> checkDatabaseVersion();
 
   /// Fetch a random [YgoCard] from the API.
   Future<YgoCard> getRandomCard();

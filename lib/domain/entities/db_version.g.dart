@@ -1,29 +1,29 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'db_version_model.dart';
+part of 'db_version.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class DBVersionModelAdapter extends TypeAdapter<DBVersionModel> {
+class DbVersionAdapter extends TypeAdapter<DbVersion> {
   @override
   final int typeId = 0;
 
   @override
-  DBVersionModel read(BinaryReader reader) {
+  DbVersion read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return DBVersionModel(
+    return DbVersion(
       lastUpdate: fields[0] as DateTime,
       version: fields[1] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, DBVersionModel obj) {
+  void write(BinaryWriter writer, DbVersion obj) {
     writer
       ..writeByte(2)
       ..writeByte(0)
@@ -38,7 +38,7 @@ class DBVersionModelAdapter extends TypeAdapter<DBVersionModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is DBVersionModelAdapter &&
+      other is DbVersionAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
