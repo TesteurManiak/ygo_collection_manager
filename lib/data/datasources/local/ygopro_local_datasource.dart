@@ -4,7 +4,8 @@ import '../../../domain/entities/ygo_set.dart';
 import '../../../models/card_owned_model.dart';
 
 abstract class YgoProLocalDataSource {
-  Future<void> init();
+  Future<void> initDb();
+  Future<void> closeDb();
   Future<List<YgoCard>> getCards();
   Future<DbVersion?> getDatabaseVersion();
   Future<List<YgoSet>> getSets();

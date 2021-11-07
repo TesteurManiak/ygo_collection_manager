@@ -25,7 +25,7 @@ class YgoProLocalDataSourceHive implements YgoProLocalDataSource {
   late final Box<CardOwnedModel> _cardsOwnedBox;
 
   @override
-  Future<void> init() async {
+  Future<void> initDb() async {
     await Hive.initFlutter();
 
     // Register Adapters.
@@ -127,5 +127,10 @@ class YgoProLocalDataSourceHive implements YgoProLocalDataSource {
   @override
   Future<void> removeCard(CardOwnedModel card) {
     return _cardsOwnedBox.delete(card.key);
+  }
+
+  @override
+  Future<void> closeDb() {
+    return Hive.close();
   }
 }
