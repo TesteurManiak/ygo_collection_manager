@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:ygo_collection_manager/data/api/ygopro_local_data_source.dart';
+import 'package:ygo_collection_manager/data/datasources/local/ygopro_local_datasource.dart';
 
 import '../core/bloc/bloc.dart';
 import '../core/isolate/isolate_wrapper.dart';
-import '../data/api/ygopro_remote_data_source.dart';
+import '../data/datasources/remote/ygopro_remote_data_source.dart';
 import '../domain/entities/ygo_set.dart';
 import '../service_locator.dart';
 

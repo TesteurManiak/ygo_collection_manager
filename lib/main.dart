@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:ygo_collection_manager/data/api/ygopro_local_data_source.dart';
+import 'package:ygo_collection_manager/data/datasources/local/ygopro_local_datasource.dart';
 
 import 'blocs/cards_bloc.dart';
 import 'blocs/db_version_bloc.dart';

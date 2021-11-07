@@ -6,7 +6,7 @@ import 'package:rxdart/rxdart.dart';
 import '../core/bloc/bloc.dart';
 import '../core/bloc/bloc_provider.dart';
 import '../core/entities/card_edition_enum.dart';
-import '../data/api/ygopro_local_data_source.dart';
+import '../data/datasources/local/ygopro_local_datasource.dart';
 import '../domain/entities/ygo_card.dart';
 import '../domain/entities/ygo_set.dart';
 import '../models/card_owned_model.dart';

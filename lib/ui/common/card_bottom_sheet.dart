@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../data/api/ygopro_local_data_source.dart';
+import '../../data/datasources/local/ygopro_local_datasource.dart';
 import '../../domain/entities/card_price.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../service_locator.dart';
