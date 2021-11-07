@@ -50,7 +50,7 @@ class CardWidget extends StatelessWidget {
             child: StreamBuilder<Object>(
               stream: _cardsBloc.onFullCollectionCompletionChanged,
               builder: (streamContext, __) {
-                final localRepo = locator<YgoProLocalDataSource>();
+                final localRepo = sl<YgoProLocalDataSource>();
                 final expansionCollectionBloc =
                     BlocProvider.of<ExpansionCollectionBloc>(streamContext);
 

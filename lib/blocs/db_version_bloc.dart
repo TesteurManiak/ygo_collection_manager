@@ -11,8 +11,8 @@ class DBVersionBloc extends BlocBase {
   void dispose() {}
 
   Future<bool> shouldReloadDatabase() async {
-    final remoteRepo = locator<YgoProRemoteDataSource>();
-    final localRepo = locator<YgoProLocalDataSource>();
+    final remoteRepo = sl<YgoProRemoteDataSource>();
+    final localRepo = sl<YgoProLocalDataSource>();
     final savedDbVersion = await localRepo.getDatabaseVersion();
     final fetchedDbVersion = await remoteRepo.checkDatabaseVersion();
 

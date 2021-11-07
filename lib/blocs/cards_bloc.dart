@@ -69,19 +69,19 @@ class CardsBloc extends BlocBase {
   }
 
   Future<void> loadFromDb() async {
-    final cards = await locator<YgoProLocalDataSource>().getCards();
+    final cards = await sl<YgoProLocalDataSource>().getCards();
     cards.sort((a, b) => a.name.compareTo(b.name));
     _cardsController.sink.add(cards);
   }
 
   Future<void> fetchAllCards() async {
-    final remoteRepo = locator<YgoProRemoteDataSource>();
+    final remoteRepo = sl<YgoProRemoteDataSource>();
     await IsolateWrapper().spawn<List<YgoCard>>(
       () => remoteRepo.getCardInfo(GetCardInfoRequest(misc: true)),
       callback: (newCards) {
         newCards.sort((a, b) => a.name.compareTo(b.name));
         _cardsController.sink.add(newCards);
-        locator<YgoProLocalDataSource>().updateCards(newCards);
+        sl<YgoProLocalDataSource>().updateCards(newCards);
       },
     );
   }
@@ -95,10 +95,9 @@ class CardsBloc extends BlocBase {
       for (final card in _cardsList) {
         _differentCardsSet.addAll(card.cardSets!.map<String>((e) => e.code));
       }
-      final _cardsOwned =
-          (await locator<YgoProLocalDataSource>().getCardsOwned())
-              .map<String>((e) => e.setCode)
-              .toSet();
+      final _cardsOwned = (await sl<YgoProLocalDataSource>().getCardsOwned())
+          .map<String>((e) => e.setCode)
+          .toSet();
       if (_differentCardsSet.isNotEmpty) {
         _fullCollectionCompletionController.sink
             .add(_cardsOwned.length / _differentCardsSet.length * 100);
@@ -107,7 +106,7 @@ class CardsBloc extends BlocBase {
   }
 
   Future<int> cardsOwnedInSet(YgoSet cardSet) async {
-    return (await locator<YgoProLocalDataSource>().getCardsOwned())
+    return (await sl<YgoProLocalDataSource>().getCardsOwned())
         .compactMap<CardOwnedModel>(
           (e) => e.setCode.contains(cardSet.setCode) &&
                   e.setName == cardSet.setName

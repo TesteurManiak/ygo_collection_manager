@@ -43,7 +43,7 @@ class SetsBloc extends BlocBase {
   }
 
   Future<void> loadFromDb() async {
-    final _sets = (await locator<YgoProLocalDataSource>().getSets());
+    final _sets = (await sl<YgoProLocalDataSource>().getSets());
     _sets.sort((a, b) => a.setName.compareTo(b.setName));
     _setsController.sink.add(_sets);
   }
@@ -66,13 +66,13 @@ class SetsBloc extends BlocBase {
 
   Future<void> fetchAllSets() async {
     try {
-      final remoteRepo = locator<YgoProRemoteDataSource>();
+      final remoteRepo = sl<YgoProRemoteDataSource>();
       await IsolateWrapper().spawn<List<YgoSet>>(
         () => remoteRepo.getAllSets(),
         callback: (_sets) {
           _sets.sort((a, b) => a.setName.compareTo(b.setName));
           _setsController.sink.add(_sets);
-          locator<YgoProLocalDataSource>().updateSets(_sets);
+          sl<YgoProLocalDataSource>().updateSets(_sets);
         },
       );
     } catch (e) {

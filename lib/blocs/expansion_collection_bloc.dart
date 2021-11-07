@@ -51,7 +51,7 @@ class ExpansionCollectionBloc extends BlocBase {
       final card = currentCards[index];
       _titleController.sink.add(card.name);
 
-      final localRepo = locator<YgoProLocalDataSource>();
+      final localRepo = sl<YgoProLocalDataSource>();
       localRepo
           .getCopiesOfCardOwned(
         card.getDbKey(currentSet, CardEditionEnum.first),
@@ -135,7 +135,7 @@ class ExpansionCollectionBloc extends BlocBase {
           (edition == CardEditionEnum.first ? firstEditionQty : unlimitedQty) +
               1;
       Future.microtask(
-        () => locator<YgoProLocalDataSource>().updateCardOwned(
+        () => sl<YgoProLocalDataSource>().updateCardOwned(
           CardOwnedModel(
             quantity: newQuantity,
             setCode: card.getCardSetsFromSet(currentSet)!.code,
@@ -164,7 +164,7 @@ class ExpansionCollectionBloc extends BlocBase {
         final card = currentCards[selectedCardIndex];
         final newQuantity = currentQty - 1;
         Future.microtask(
-          () => locator<YgoProLocalDataSource>().updateCardOwned(
+          () => sl<YgoProLocalDataSource>().updateCardOwned(
             CardOwnedModel(
               quantity: newQuantity,
               setCode: card.getCardSetsFromSet(currentSet)!.code,

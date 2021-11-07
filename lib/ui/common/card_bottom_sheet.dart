@@ -30,7 +30,7 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
   @override
   void initState() {
     super.initState();
-    locator<YgoProLocalDataSource>()
+    sl<YgoProLocalDataSource>()
         .getCopiesOfCardOwnedById(widget.card.id)
         .then((value) {
       _totalOwnedCard.value = value;

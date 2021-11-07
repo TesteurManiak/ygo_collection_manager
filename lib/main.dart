@@ -17,7 +17,7 @@ import 'utils/router.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
-  await locator<YgoProLocalDataSource>().initDb();
+  await sl<YgoProLocalDataSource>().initDb();
   runApp(
     BlocProvider(
       key: GlobalKey(),

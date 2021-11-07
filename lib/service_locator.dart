@@ -5,11 +5,11 @@ import 'data/datasources/local/hive/ygopro_local_datasource_hive.dart';
 import 'data/datasources/local/ygopro_local_datasource.dart';
 import 'data/datasources/remote/ygopro_remote_data_source.dart';
 
-final locator = GetIt.instance;
+final sl = GetIt.instance;
 
 void setupLocator() {
-  locator.registerSingleton<RemoteClient>(DioClient());
+  sl.registerSingleton<RemoteClient>(DioClient());
 
-  locator.registerSingleton(YgoProRemoteDataSource(locator()));
-  locator.registerSingleton<YgoProLocalDataSource>(YgoProLocalDataSourceHive());
+  sl.registerSingleton(YgoProRemoteDataSource(sl()));
+  sl.registerSingleton<YgoProLocalDataSource>(YgoProLocalDataSourceHive());
 }
