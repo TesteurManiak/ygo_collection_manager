@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/core/bloc/bloc_provider.dart';
-import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
-import 'package:ygo_collection_manager/models/set_model.dart';
-import 'package:ygo_collection_manager/styles/colors.dart';
-import 'package:ygo_collection_manager/ui/expansion_view/expansion_view.dart';
+
+import '../../../blocs/cards_bloc.dart';
+import '../../../core/bloc/bloc_provider.dart';
+import '../../../domain/entities/ygo_set.dart';
+import '../../../styles/colors.dart';
+import '../../expansion_view/expansion_view.dart';
 
 class SetTileWidget extends StatelessWidget {
-  final SetModel cardSet;
+  final YgoSet cardSet;
 
   const SetTileWidget(this.cardSet, {Key? key}) : super(key: key);
 
@@ -24,7 +25,7 @@ class SetTileWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           onTap: () {
             FocusScope.of(context).unfocus();
-            Navigator.pushNamed<SetModel>(
+            Navigator.pushNamed<YgoSet>(
               context,
               ExpansionView.routeName,
               arguments: cardSet,

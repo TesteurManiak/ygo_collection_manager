@@ -6,7 +6,7 @@ import '../../blocs/cards_bloc.dart';
 import '../../blocs/expansion_collection_bloc.dart';
 import '../../core/bloc/bloc_provider.dart';
 import '../../domain/entities/ygo_card.dart';
-import '../../models/set_model.dart';
+import '../../domain/entities/ygo_set.dart';
 import '../../styles/colors.dart';
 import '../common/card_widget.dart';
 import 'widgets/card_editing_widget.dart';
@@ -16,7 +16,7 @@ import 'widgets/collection_app_bar_bottom.dart';
 class ExpansionView extends StatefulWidget {
   static const routeName = '/expansion';
 
-  final SetModel cardSet;
+  final YgoSet cardSet;
 
   const ExpansionView(this.cardSet, {Key? key}) : super(key: key);
 

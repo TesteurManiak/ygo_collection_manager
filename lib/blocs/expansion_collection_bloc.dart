@@ -7,9 +7,9 @@ import '../core/bloc/bloc.dart';
 import '../core/bloc/bloc_provider.dart';
 import '../core/entities/card_edition_enum.dart';
 import '../domain/entities/ygo_card.dart';
+import '../domain/entities/ygo_set.dart';
 import '../helper/hive_helper.dart';
 import '../models/card_owned_model.dart';
-import '../models/set_model.dart';
 import 'cards_bloc.dart';
 
 class ExpansionCollectionBloc extends BlocBase {
@@ -37,9 +37,9 @@ class ExpansionCollectionBloc extends BlocBase {
   int get unlimitedQty => _unlimitedQtyController.value;
   late final StreamSubscription<int> _unlimitedQtySubscription;
 
-  final _cardSetController = BehaviorSubject<SetModel?>.seeded(null);
-  Stream<SetModel?> get onCardSetChanged => _cardSetController.stream;
-  SetModel? get cardSet => _cardSetController.value;
+  final _cardSetController = BehaviorSubject<YgoSet?>.seeded(null);
+  Stream<YgoSet?> get onCardSetChanged => _cardSetController.stream;
+  YgoSet? get cardSet => _cardSetController.value;
 
   List<YgoCard>? _cards;
 
@@ -89,7 +89,7 @@ class ExpansionCollectionBloc extends BlocBase {
     _cardSetController.close();
   }
 
-  void initializeSet(SetModel set) {
+  void initializeSet(YgoSet set) {
     _cardSetController.sink.add(set);
   }
 

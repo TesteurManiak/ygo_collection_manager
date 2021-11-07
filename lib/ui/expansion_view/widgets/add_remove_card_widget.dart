@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/core/bloc/bloc_provider.dart';
-import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
-import 'package:ygo_collection_manager/core/entities/card_edition_enum.dart';
-import 'package:ygo_collection_manager/models/set_model.dart';
+
+import '../../../blocs/expansion_collection_bloc.dart';
+import '../../../core/bloc/bloc_provider.dart';
+import '../../../core/entities/card_edition_enum.dart';
+import '../../../domain/entities/ygo_set.dart';
 
 class AddRemoveCardWidget extends StatelessWidget {
-  final SetModel currentSet;
+  final YgoSet currentSet;
 
   const AddRemoveCardWidget(this.currentSet, {Key? key}) : super(key: key);
 
@@ -35,7 +36,7 @@ class AddRemoveCardWidget extends StatelessWidget {
 
 class _EditionLine extends StatefulWidget {
   final CardEditionEnum edition;
-  final SetModel currentSet;
+  final YgoSet currentSet;
   final Stream<int> onQuantityChanged;
 
   const _EditionLine({

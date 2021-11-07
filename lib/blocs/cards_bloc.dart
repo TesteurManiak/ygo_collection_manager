@@ -8,10 +8,10 @@ import '../core/isolate/isolate_wrapper.dart';
 import '../data/api/ygopro_remote_data_source.dart';
 import '../data/models/request/get_card_info_request.dart';
 import '../domain/entities/ygo_card.dart';
+import '../domain/entities/ygo_set.dart';
 import '../extensions/extensions.dart';
 import '../helper/hive_helper.dart';
 import '../models/card_owned_model.dart';
-import '../models/set_model.dart';
 import '../service_locator.dart';
 
 class CardsBloc extends BlocBase {
@@ -35,7 +35,7 @@ class CardsBloc extends BlocBase {
 
   /// Return a list of [YgoCard] that are in the set of cards.
   /// Takes a [SetModel] as parameter.
-  List<YgoCard>? getCardsInSet(SetModel cardSet) {
+  List<YgoCard>? getCardsInSet(YgoSet cardSet) {
     return cards?.compactMap<YgoCard>(
       (card) => card.cardSets != null &&
               card.cardSets!
@@ -104,7 +104,7 @@ class CardsBloc extends BlocBase {
     }
   }
 
-  int cardsOwnedInSet(SetModel cardSet) {
+  int cardsOwnedInSet(YgoSet cardSet) {
     return HiveHelper.instance.cardsOwned
         .compactMap<CardOwnedModel>(
           (e) => e.setCode.contains(cardSet.setCode) &&

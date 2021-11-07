@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../domain/entities/ygo_card.dart';
-import '../models/set_model.dart';
+import '../domain/entities/ygo_set.dart';
 import '../ui/card_view/card_view.dart';
 import '../ui/common/cards_overlay.dart';
 import '../ui/expansion_view/expansion_view.dart';
@@ -15,8 +15,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case RootView.routeName:
       return MaterialPageRoute(builder: (_) => const RootView());
     case ExpansionView.routeName:
-      return MaterialPageRoute<SetModel>(
-        builder: (_) => ExpansionView(settings.arguments! as SetModel),
+      return MaterialPageRoute<YgoSet>(
+        builder: (_) => ExpansionView(settings.arguments! as YgoSet),
       );
     case CardView.routeName:
       final args = settings.arguments! as List<Object>;

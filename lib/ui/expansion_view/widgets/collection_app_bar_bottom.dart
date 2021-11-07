@@ -1,15 +1,16 @@
 import 'package:async/async.dart' show StreamGroup;
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/core/bloc/bloc_provider.dart';
-import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
-import 'package:ygo_collection_manager/blocs/expansion_collection_bloc.dart';
-import 'package:ygo_collection_manager/models/set_model.dart';
-import 'package:ygo_collection_manager/ui/common/total_completion_widget.dart';
-import 'package:ygo_collection_manager/ui/expansion_view/widgets/add_remove_card_widget.dart';
+
+import '../../../blocs/cards_bloc.dart';
+import '../../../blocs/expansion_collection_bloc.dart';
+import '../../../core/bloc/bloc_provider.dart';
+import '../../../domain/entities/ygo_set.dart';
+import '../../common/total_completion_widget.dart';
+import 'add_remove_card_widget.dart';
 
 class CollectionAppBarBottom extends StatefulWidget {
   final Duration? animationDuration;
-  final SetModel currentSet;
+  final YgoSet currentSet;
 
   const CollectionAppBarBottom({
     Key? key,

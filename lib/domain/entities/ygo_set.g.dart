@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'set_model.dart';
+part of 'ygo_set.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class SetModelAdapter extends TypeAdapter<SetModel> {
+class YgoSetAdapter extends TypeAdapter<YgoSet> {
   @override
   final int typeId = 3;
 
   @override
-  SetModel read(BinaryReader reader) {
+  YgoSet read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return SetModel(
+    return YgoSet(
       setName: fields[0] as String,
       setCode: fields[1] as String,
       numOfCards: fields[2] as int,
@@ -25,7 +25,7 @@ class SetModelAdapter extends TypeAdapter<SetModel> {
   }
 
   @override
-  void write(BinaryWriter writer, SetModel obj) {
+  void write(BinaryWriter writer, YgoSet obj) {
     writer
       ..writeByte(4)
       ..writeByte(0)
@@ -44,7 +44,7 @@ class SetModelAdapter extends TypeAdapter<SetModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SetModelAdapter &&
+      other is YgoSetAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

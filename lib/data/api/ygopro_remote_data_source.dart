@@ -5,11 +5,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../../../features/browse_cards/data/models/ygo_card_model.dart';
-import '../../../models/set_model.dart';
 import '../../core/error/exceptions.dart';
 import '../../features/browse_cards/data/models/archetype_model.dart';
 import '../../features/browse_cards/data/models/card_set_info_model.dart';
 import '../../features/browse_cards/data/models/db_version_model.dart';
+import '../../features/browse_cards/data/models/ygo_set_model.dart';
 import '../models/request/get_card_info_request.dart';
 
 class YgoProRemoteDataSource {
@@ -33,11 +33,11 @@ class YgoProRemoteDataSource {
         .toList();
   }
 
-  Future<List<SetModel>> getAllSets() async {
+  Future<List<YgoSetModel>> getAllSets() async {
     final data = await _getCall<Iterable>([setsPath]);
-    final sets = <SetModel>[];
+    final sets = <YgoSetModel>[];
     for (final set in data) {
-      sets.add(SetModel.fromJson(set as Map<String, dynamic>));
+      sets.add(YgoSetModel.fromJson(set as Map<String, dynamic>));
     }
     return sets;
   }
@@ -116,11 +116,11 @@ class YgoProRemoteDataSource {
     return cards;
   }
 
-  Future<List<SetModel>> getSets() async {
+  Future<List<YgoSetModel>> getSets() async {
     final data = await _getCall<Iterable>([setsPath]);
-    final sets = <SetModel>[];
+    final sets = <YgoSetModel>[];
     for (final set in data) {
-      sets.add(SetModel.fromJson(set as Map<String, dynamic>));
+      sets.add(YgoSetModel.fromJson(set as Map<String, dynamic>));
     }
     return sets;
   }

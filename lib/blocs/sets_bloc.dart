@@ -6,23 +6,23 @@ import 'package:rxdart/rxdart.dart';
 import '../core/bloc/bloc.dart';
 import '../core/isolate/isolate_wrapper.dart';
 import '../data/api/ygopro_remote_data_source.dart';
+import '../domain/entities/ygo_set.dart';
 import '../helper/hive_helper.dart';
-import '../models/set_model.dart';
 import '../service_locator.dart';
 
 class SetsBloc extends BlocBase {
-  final _setsController = BehaviorSubject<List<SetModel>?>.seeded(null);
-  Stream<List<SetModel>?> get onSetsChanged => _setsController.stream;
+  final _setsController = BehaviorSubject<List<YgoSet>?>.seeded(null);
+  Stream<List<YgoSet>?> get onSetsChanged => _setsController.stream;
 
-  final _filteredSetsController = BehaviorSubject<List<SetModel>?>.seeded(null);
-  Stream<List<SetModel>?> get onFilteredSetsChanged =>
+  final _filteredSetsController = BehaviorSubject<List<YgoSet>?>.seeded(null);
+  Stream<List<YgoSet>?> get onFilteredSetsChanged =>
       _filteredSetsController.stream;
 
   final searchController = TextEditingController();
 
   late final StreamSubscription _setsControllerSubscription;
 
-  void _setsFilterListener(List<SetModel>? value) {
+  void _setsFilterListener(List<YgoSet>? value) {
     _filteredSetsController.sink.add(value);
     searchController.clear();
   }
@@ -67,7 +67,7 @@ class SetsBloc extends BlocBase {
   Future<void> fetchAllSets() async {
     try {
       final remoteRepo = locator<YgoProRemoteDataSource>();
-      await IsolateWrapper().spawn<List<SetModel>>(
+      await IsolateWrapper().spawn<List<YgoSet>>(
         () => remoteRepo.getAllSets(),
         callback: (_sets) {
           _sets.sort((a, b) => a.setName.compareTo(b.setName));

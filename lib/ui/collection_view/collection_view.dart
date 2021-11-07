@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/core/bloc/bloc_provider.dart';
-import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
-import 'package:ygo_collection_manager/blocs/sets_bloc.dart';
-import 'package:ygo_collection_manager/models/set_model.dart';
-import 'package:ygo_collection_manager/styles/colors.dart';
-import 'package:ygo_collection_manager/ui/collection_view/widgets/set_tile_widget.dart';
-import 'package:ygo_collection_manager/ui/common/no_glow_scroll_behavior.dart';
-import 'package:ygo_collection_manager/ui/common/sliver_spacer.dart';
-import 'package:ygo_collection_manager/ui/common/top_rounded_sliver.dart';
-import 'package:ygo_collection_manager/ui/common/total_completion_widget.dart';
+
+import '../../blocs/cards_bloc.dart';
+import '../../blocs/sets_bloc.dart';
+import '../../core/bloc/bloc_provider.dart';
+import '../../domain/entities/ygo_set.dart';
+import '../../styles/colors.dart';
+import '../common/no_glow_scroll_behavior.dart';
+import '../common/sliver_spacer.dart';
+import '../common/top_rounded_sliver.dart';
+import '../common/total_completion_widget.dart';
+import 'widgets/set_tile_widget.dart';
 
 class CollectionView extends StatefulWidget {
   const CollectionView({Key? key}) : super(key: key);
@@ -72,7 +73,7 @@ class _CollectionViewState extends State<CollectionView>
               const SliverSpacer(height: 16),
               StreamBuilder(
                 stream: _cardsBloc.onCardsChanged,
-                builder: (_, __) => StreamBuilder<List<SetModel>?>(
+                builder: (_, __) => StreamBuilder<List<YgoSet>?>(
                   stream: _setsBloc.onFilteredSetsChanged,
                   builder: (_, snapshot) {
                     final data = snapshot.data;

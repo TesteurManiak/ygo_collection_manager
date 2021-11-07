@@ -1,12 +1,12 @@
 import 'package:hive_flutter/adapters.dart';
 
 import '../../../../core/entities/card_edition_enum.dart';
-import '../../../../models/set_model.dart';
 import 'card_banlist_info.dart';
 import 'card_images.dart';
 import 'card_misc_info.dart';
 import 'card_price.dart';
 import 'card_set.dart';
+import 'ygo_set.dart';
 
 part 'ygo_card.g.dart';
 
@@ -87,14 +87,14 @@ class YgoCard {
     required this.miscInfo,
   });
 
-  CardSet? getCardSetsFromSet(SetModel set) => cardSets?.firstWhere(
+  CardSet? getCardSetsFromSet(YgoSet set) => cardSets?.firstWhere(
         (e) => e.name == set.setName && e.code.contains(set.setCode),
       );
 
   String get levelAsset =>
       'assets/level/${type.contains("XYZ") ? "rank.png" : "level.png"}';
 
-  String getDbKey(SetModel set, CardEditionEnum edition) {
+  String getDbKey(YgoSet set, CardEditionEnum edition) {
     final cardSet = getCardSetsFromSet(set)!;
     return '${cardSet.code}-${edition.string}';
   }

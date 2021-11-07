@@ -8,9 +8,9 @@ import '../domain/entities/card_price.dart';
 import '../domain/entities/card_set.dart';
 import '../domain/entities/db_version.dart';
 import '../domain/entities/ygo_card.dart';
+import '../domain/entities/ygo_set.dart';
 import '../extensions/extensions.dart';
 import '../models/card_owned_model.dart';
-import '../models/set_model.dart';
 import '../utils/indexes.dart';
 
 class HiveHelper {
@@ -22,7 +22,7 @@ class HiveHelper {
 
   late final Box<DbVersion> _boxDb;
   late final Box<YgoCard> _boxCards;
-  late final Box<SetModel> _boxSets;
+  late final Box<YgoSet> _boxSets;
   late final Box<CardOwnedModel> _boxCardsOwned;
 
   /// Initialize Hive instance and open its boxes.
@@ -40,13 +40,13 @@ class HiveHelper {
       Hive.registerAdapter(CardBanlistInfoAdapter());
       Hive.registerAdapter(CardMiscInfoAdapter());
 
-      Hive.registerAdapter(SetModelAdapter());
+      Hive.registerAdapter(YgoSetAdapter());
       Hive.registerAdapter(CardOwnedModelAdapter());
       Hive.registerAdapter(CardEditionEnumAdapter());
 
       _boxDb = await Hive.openBox<DbVersion>(Indexes.tableDB);
       _boxCards = await Hive.openBox<YgoCard>(Indexes.tableCards);
-      _boxSets = await Hive.openBox<SetModel>(Indexes.tableSets);
+      _boxSets = await Hive.openBox<YgoSet>(Indexes.tableSets);
       _boxCardsOwned =
           await Hive.openBox<CardOwnedModel>(Indexes.tableCardsOwned);
       instance._isInitialized = true;
@@ -76,10 +76,10 @@ class HiveHelper {
     return _boxCards.putAll(cardsMap);
   }
 
-  Iterable<SetModel> get sets => _boxSets.values;
+  Iterable<YgoSet> get sets => _boxSets.values;
 
-  Future<void> updateSets(List<SetModel> sets) {
-    final setsMap = <String, SetModel>{};
+  Future<void> updateSets(List<YgoSet> sets) {
+    final setsMap = <String, YgoSet>{};
     for (final set in sets) {
       setsMap[set.setName] = set;
     }
