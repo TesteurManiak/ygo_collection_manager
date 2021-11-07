@@ -40,21 +40,31 @@ class SetTileWidget extends StatelessWidget {
                 width: 2,
               ),
             ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(cardSet.setName),
-                      Text('$cardsOwned / $numOfCards'),
-                    ],
-                  ),
-                ),
-                Text(
-                  '${(cardsOwned / numOfCards * 100).toStringAsFixed(0)}%',
-                ),
-              ],
+            child: FutureBuilder<int>(
+              future: cardsOwned,
+              builder: (_, snapshot) {
+                final _cardsOwned = snapshot.hasData ? snapshot.data! : 0;
+                final percentage = (_cardsOwned / numOfCards * 100);
+                return Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(cardSet.setName),
+                          Text('$_cardsOwned / $numOfCards'),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      '${percentage.toStringAsFixed(0)}%',
+                      style: TextStyle(
+                        color: DynamicThemedColors.cardSetBorder(context),
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ),

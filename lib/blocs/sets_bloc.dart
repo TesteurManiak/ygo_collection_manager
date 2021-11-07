@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:ygo_collection_manager/data/api/ygopro_local_data_source.dart';
 
 import '../core/bloc/bloc.dart';
 import '../core/isolate/isolate_wrapper.dart';
 import '../data/api/ygopro_remote_data_source.dart';
 import '../domain/entities/ygo_set.dart';
-import '../helper/hive_helper.dart';
 import '../service_locator.dart';
 
 class SetsBloc extends BlocBase {
@@ -42,9 +42,9 @@ class SetsBloc extends BlocBase {
     loadFromDb();
   }
 
-  void loadFromDb() {
-    final _sets = HiveHelper.instance.sets.toList()
-      ..sort((a, b) => a.setName.compareTo(b.setName));
+  Future<void> loadFromDb() async {
+    final _sets = (await locator<YgoProLocalDataSource>().getSets());
+    _sets.sort((a, b) => a.setName.compareTo(b.setName));
     _setsController.sink.add(_sets);
   }
 
@@ -72,7 +72,7 @@ class SetsBloc extends BlocBase {
         callback: (_sets) {
           _sets.sort((a, b) => a.setName.compareTo(b.setName));
           _setsController.sink.add(_sets);
-          HiveHelper.instance.updateSets(_sets);
+          locator<YgoProLocalDataSource>().updateSets(_sets);
         },
       );
     } catch (e) {

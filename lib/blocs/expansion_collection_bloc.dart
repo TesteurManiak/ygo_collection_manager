@@ -6,10 +6,11 @@ import 'package:rxdart/rxdart.dart';
 import '../core/bloc/bloc.dart';
 import '../core/bloc/bloc_provider.dart';
 import '../core/entities/card_edition_enum.dart';
+import '../data/api/ygopro_local_data_source.dart';
 import '../domain/entities/ygo_card.dart';
 import '../domain/entities/ygo_set.dart';
-import '../helper/hive_helper.dart';
 import '../models/card_owned_model.dart';
+import '../service_locator.dart';
 import 'cards_bloc.dart';
 
 class ExpansionCollectionBloc extends BlocBase {
@@ -49,16 +50,23 @@ class ExpansionCollectionBloc extends BlocBase {
     if (currentCards != null && currentSet != null) {
       final card = currentCards[index];
       _titleController.sink.add(card.name);
-      _firstEditionQtyController.sink.add(
-        HiveHelper.instance.getCopiesOfCardOwned(
-          card.getDbKey(currentSet, CardEditionEnum.first),
-        ),
-      );
-      _unlimitedQtyController.sink.add(
-        HiveHelper.instance.getCopiesOfCardOwned(
-          card.getDbKey(currentSet, CardEditionEnum.unlimited),
-        ),
-      );
+
+      final localRepo = locator<YgoProLocalDataSource>();
+      localRepo
+          .getCopiesOfCardOwned(
+        card.getDbKey(currentSet, CardEditionEnum.first),
+      )
+          .then((value) {
+        _firstEditionQtyController.sink.add(value);
+      });
+
+      localRepo
+          .getCopiesOfCardOwned(
+        card.getDbKey(currentSet, CardEditionEnum.unlimited),
+      )
+          .then((value) {
+        _unlimitedQtyController.sink.add(value);
+      });
     }
   }
 
@@ -127,7 +135,7 @@ class ExpansionCollectionBloc extends BlocBase {
           (edition == CardEditionEnum.first ? firstEditionQty : unlimitedQty) +
               1;
       Future.microtask(
-        () => HiveHelper.instance.updateCardOwned(
+        () => locator<YgoProLocalDataSource>().updateCardOwned(
           CardOwnedModel(
             quantity: newQuantity,
             setCode: card.getCardSetsFromSet(currentSet)!.code,
@@ -156,7 +164,7 @@ class ExpansionCollectionBloc extends BlocBase {
         final card = currentCards[selectedCardIndex];
         final newQuantity = currentQty - 1;
         Future.microtask(
-          () => HiveHelper.instance.updateCardOwned(
+          () => locator<YgoProLocalDataSource>().updateCardOwned(
             CardOwnedModel(
               quantity: newQuantity,
               setCode: card.getCardSetsFromSet(currentSet)!.code,

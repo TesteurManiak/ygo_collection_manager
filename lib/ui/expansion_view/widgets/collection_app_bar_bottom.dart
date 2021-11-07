@@ -36,18 +36,23 @@ class _CollectionAppBarBottomState extends State<CollectionAppBarBottom> {
 
   @override
   Widget build(BuildContext context) {
+    final cardsBloc = BlocProvider.of<CardsBloc>(context);
     return StreamBuilder(
       stream: _onChanges,
       builder: (_, __) {
         return AnimatedCrossFade(
-          firstChild: TotalCompletionWidget(
-            getTotalCompletion: () {
-              final cardsBloc = BlocProvider.of<CardsBloc>(context);
-              final numOfCards =
-                  cardsBloc.getCardsInSet(widget.currentSet)?.length ??
-                      widget.currentSet.numOfCards;
-              final cardsOwned = cardsBloc.cardsOwnedInSet(widget.currentSet);
-              return cardsOwned / numOfCards * 100;
+          firstChild: FutureBuilder<int>(
+            future: cardsBloc.cardsOwnedInSet(widget.currentSet),
+            builder: (_, snapshot) {
+              return TotalCompletionWidget(
+                getTotalCompletion: () {
+                  final numOfCards =
+                      cardsBloc.getCardsInSet(widget.currentSet)?.length ??
+                          widget.currentSet.numOfCards;
+                  final cardsOwned = snapshot.hasData ? snapshot.data! : 0;
+                  return cardsOwned / numOfCards * 100;
+                },
+              );
             },
           ),
           secondChild: AddRemoveCardWidget(widget.currentSet),

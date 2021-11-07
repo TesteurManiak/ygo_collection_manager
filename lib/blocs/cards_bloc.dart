@@ -5,12 +5,12 @@ import 'package:rxdart/rxdart.dart';
 
 import '../core/bloc/bloc.dart';
 import '../core/isolate/isolate_wrapper.dart';
+import '../data/api/ygopro_local_data_source.dart';
 import '../data/api/ygopro_remote_data_source.dart';
 import '../data/models/request/get_card_info_request.dart';
 import '../domain/entities/ygo_card.dart';
 import '../domain/entities/ygo_set.dart';
 import '../extensions/extensions.dart';
-import '../helper/hive_helper.dart';
 import '../models/card_owned_model.dart';
 import '../service_locator.dart';
 
@@ -68,9 +68,9 @@ class CardsBloc extends BlocBase {
     _fullCollectionCompletionController.close();
   }
 
-  void loadFromDb() {
-    final cards = HiveHelper.instance.cards.toList()
-      ..sort((a, b) => a.name.compareTo(b.name));
+  Future<void> loadFromDb() async {
+    final cards = await locator<YgoProLocalDataSource>().getCards();
+    cards.sort((a, b) => a.name.compareTo(b.name));
     _cardsController.sink.add(cards);
   }
 
@@ -81,12 +81,12 @@ class CardsBloc extends BlocBase {
       callback: (newCards) {
         newCards.sort((a, b) => a.name.compareTo(b.name));
         _cardsController.sink.add(newCards);
-        HiveHelper.instance.updateCards(newCards);
+        locator<YgoProLocalDataSource>().updateCards(newCards);
       },
     );
   }
 
-  void updateCompletion({List<YgoCard>? initialCards}) {
+  Future<void> updateCompletion({List<YgoCard>? initialCards}) async {
     final _cards = initialCards ?? cards;
     if (_cards != null) {
       final _cardsList =
@@ -96,7 +96,9 @@ class CardsBloc extends BlocBase {
         _differentCardsSet.addAll(card.cardSets!.map<String>((e) => e.code));
       }
       final _cardsOwned =
-          HiveHelper.instance.cardsOwned.map<String>((e) => e.setCode).toSet();
+          (await locator<YgoProLocalDataSource>().getCardsOwned())
+              .map<String>((e) => e.setCode)
+              .toSet();
       if (_differentCardsSet.isNotEmpty) {
         _fullCollectionCompletionController.sink
             .add(_cardsOwned.length / _differentCardsSet.length * 100);
@@ -104,15 +106,14 @@ class CardsBloc extends BlocBase {
     }
   }
 
-  int cardsOwnedInSet(YgoSet cardSet) {
-    return HiveHelper.instance.cardsOwned
+  Future<int> cardsOwnedInSet(YgoSet cardSet) async {
+    return (await locator<YgoProLocalDataSource>().getCardsOwned())
         .compactMap<CardOwnedModel>(
           (e) => e.setCode.contains(cardSet.setCode) &&
                   e.setName == cardSet.setName
               ? e
               : null,
         )
-        .map<String>((e) => e.setCode)
         .toSet()
         .length;
   }

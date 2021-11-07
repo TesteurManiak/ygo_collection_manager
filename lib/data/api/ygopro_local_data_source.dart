@@ -1,62 +1,70 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../../core/entities/card_edition_enum.dart';
+import '../../domain/entities/card_banlist_info.dart';
+import '../../domain/entities/card_images.dart';
+import '../../domain/entities/card_misc_info.dart';
+import '../../domain/entities/card_price.dart';
+import '../../domain/entities/card_set.dart';
+import '../../domain/entities/db_version.dart';
+import '../../domain/entities/ygo_card.dart';
+import '../../domain/entities/ygo_set.dart';
 import '../../extensions/list_extensions.dart';
-import '../../features/browse_cards/data/models/db_version_model.dart';
-import '../../features/browse_cards/data/models/ygo_card_model.dart';
-import '../../features/browse_cards/data/models/ygo_set_model.dart';
 import '../../models/card_owned_model.dart';
 import '../../utils/indexes.dart';
 
 class YgoProLocalDataSource {
-  YgoProLocalDataSource._();
-
-  late final Box<YgoCardModel> _cardsBox;
-  late final Box<YgoSetModel> _setsBox;
-  late final Box<DbVersionModel> _dbVersionBox;
+  late final Box<YgoCard> _cardsBox;
+  late final Box<YgoSet> _setsBox;
+  late final Box<DbVersion> _dbVersionBox;
   late final Box<CardOwnedModel> _cardsOwnedBox;
 
-  static Future<YgoProLocalDataSource> create() async {
-    final instance = YgoProLocalDataSource._();
-    await instance._init();
-    return instance;
-  }
-
-  Future<void> _init() async {
+  Future<void> init() async {
     await Hive.initFlutter();
 
-    // TODO: Register adapters for models
+    // Register Adapters.
+    Hive.registerAdapter(DbVersionAdapter());
 
-    _cardsBox = await Hive.openBox<YgoCardModel>(Indexes.tableCards);
-    _setsBox = await Hive.openBox<YgoSetModel>(Indexes.tableSets);
-    _dbVersionBox = await Hive.openBox<DbVersionModel>(Indexes.tableDB);
+    Hive.registerAdapter(YgoCardAdapter());
+    Hive.registerAdapter(CardImagesAdapter());
+    Hive.registerAdapter(CardSetAdapter());
+    Hive.registerAdapter(CardPriceAdapter());
+    Hive.registerAdapter(CardBanlistInfoAdapter());
+    Hive.registerAdapter(CardMiscInfoAdapter());
+
+    Hive.registerAdapter(YgoSetAdapter());
+    Hive.registerAdapter(CardOwnedModelAdapter());
+    Hive.registerAdapter(CardEditionEnumAdapter());
+
+    _cardsBox = await Hive.openBox<YgoCard>(Indexes.tableCards);
+    _setsBox = await Hive.openBox<YgoSet>(Indexes.tableSets);
+    _dbVersionBox = await Hive.openBox<DbVersion>(Indexes.tableDB);
     _cardsOwnedBox =
         await Hive.openBox<CardOwnedModel>(Indexes.tableCardsOwned);
   }
 
-  Future<void> dispose() => Hive.close();
-
-  Future<List<YgoCardModel>> getCards() {
+  Future<List<YgoCard>> getCards() {
     return Future.value(_cardsBox.values.toList());
   }
 
-  Future<DbVersionModel?> getDatabaseVersion() {
+  Future<DbVersion?> getDatabaseVersion() {
     if (_dbVersionBox.isEmpty) return Future.value(null);
     return Future.value(_dbVersionBox.values.first);
   }
 
-  Future<List<YgoSetModel>> getSets() {
+  Future<List<YgoSet>> getSets() {
     return Future.value(_setsBox.values.toList());
   }
 
-  Future<void> updateCards(List<YgoCardModel> cards) {
-    final cardsMap = <int, YgoCardModel>{};
+  Future<void> updateCards(List<YgoCard> cards) {
+    final cardsMap = <int, YgoCard>{};
     for (final card in cards) {
       cardsMap[card.id] = card;
     }
     return _cardsBox.putAll(cardsMap);
   }
 
-  Future<void> updateDbVersion(DbVersionModel dbVersion) async {
+  Future<void> updateDbVersion(DbVersion dbVersion) async {
     final _currentVersion = await getDatabaseVersion();
     if (_currentVersion == null) {
       return _dbVersionBox.put(0, dbVersion);
@@ -65,8 +73,8 @@ class YgoProLocalDataSource {
     }
   }
 
-  Future<void> updateSets(List<YgoSetModel> sets) {
-    final setsMap = <String, YgoSetModel>{};
+  Future<void> updateSets(List<YgoSet> sets) {
+    final setsMap = <String, YgoSet>{};
     for (final set in sets) {
       setsMap[set.setName] = set;
     }

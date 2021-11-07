@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../data/api/ygopro_local_data_source.dart';
 import '../../domain/entities/card_price.dart';
 import '../../domain/entities/ygo_card.dart';
-import '../../helper/hive_helper.dart';
+import '../../service_locator.dart';
 import '../../styles/colors.dart';
 import '../../styles/text_styles.dart';
 import '../card_view/card_view.dart';
@@ -24,9 +25,17 @@ class CardBottomSheet extends StatefulWidget {
 }
 
 class _CardBottomSheetState extends State<CardBottomSheet> {
-  late final _totalOwnedCard = ValueNotifier<int>(
-    HiveHelper.instance.getCopiesOfCardOwnedById(widget.card.id),
-  );
+  late final _totalOwnedCard = ValueNotifier<int>(0);
+
+  @override
+  void initState() {
+    super.initState();
+    locator<YgoProLocalDataSource>()
+        .getCopiesOfCardOwnedById(widget.card.id)
+        .then((value) {
+      _totalOwnedCard.value = value;
+    });
+  }
 
   @override
   void dispose() {

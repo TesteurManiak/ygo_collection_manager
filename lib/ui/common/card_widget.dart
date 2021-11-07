@@ -5,8 +5,9 @@ import '../../blocs/cards_bloc.dart';
 import '../../blocs/expansion_collection_bloc.dart';
 import '../../core/bloc/bloc_provider.dart';
 import '../../core/entities/card_edition_enum.dart';
+import '../../data/api/ygopro_local_data_source.dart';
 import '../../domain/entities/ygo_card.dart';
-import '../../helper/hive_helper.dart';
+import '../../service_locator.dart';
 import '../../styles/colors.dart';
 import '../../styles/text_styles.dart';
 import 'cards_overlay.dart';
@@ -49,36 +50,57 @@ class CardWidget extends StatelessWidget {
             child: StreamBuilder<Object>(
               stream: _cardsBloc.onFullCollectionCompletionChanged,
               builder: (streamContext, __) {
+                final localRepo = locator<YgoProLocalDataSource>();
                 final expansionCollectionBloc =
                     BlocProvider.of<ExpansionCollectionBloc>(streamContext);
-                final firstEdQty = HiveHelper.instance.getCopiesOfCardOwned(
-                  cards[index].getDbKey(
-                    expansionCollectionBloc.cardSet!,
-                    CardEditionEnum.first,
+
+                return FutureBuilder<int>(
+                  future: localRepo.getCopiesOfCardOwned(
+                    cards[index].getDbKey(
+                      expansionCollectionBloc.cardSet!,
+                      CardEditionEnum.first,
+                    ),
                   ),
-                );
-                final unlimitedQty = HiveHelper.instance.getCopiesOfCardOwned(
-                  cards[index].getDbKey(
-                    expansionCollectionBloc.cardSet!,
-                    CardEditionEnum.unlimited,
-                  ),
-                );
-                final quantity = firstEdQty + unlimitedQty;
-                return quantity > 0
-                    ? Container(
-                        decoration: const BoxDecoration(
-                          color: MyColors.yellow2,
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(6),
+                  builder: (_, firstEdSnapshot) {
+                    if (firstEdSnapshot.hasData) {
+                      final firstEdQty = firstEdSnapshot.data!;
+                      return FutureBuilder<int>(
+                        future: localRepo.getCopiesOfCardOwned(
+                          cards[index].getDbKey(
+                            expansionCollectionBloc.cardSet!,
+                            CardEditionEnum.unlimited,
                           ),
                         ),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 4,
-                          horizontal: 6,
-                        ),
-                        child: Text('$quantity', style: TextStyles.black12b),
-                      )
-                    : const SizedBox();
+                        builder: (_, unlimitedSnapshot) {
+                          if (unlimitedSnapshot.hasData) {
+                            final unlimitedQty = unlimitedSnapshot.data!;
+                            final quantity = firstEdQty + unlimitedQty;
+                            return quantity > 0
+                                ? Container(
+                                    decoration: const BoxDecoration(
+                                      color: MyColors.yellow2,
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(6),
+                                      ),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 4,
+                                      horizontal: 6,
+                                    ),
+                                    child: Text(
+                                      '$quantity',
+                                      style: TextStyles.black12b,
+                                    ),
+                                  )
+                                : const SizedBox();
+                          }
+                          return Container();
+                        },
+                      );
+                    }
+                    return Container();
+                  },
+                );
               },
             ),
           ),
