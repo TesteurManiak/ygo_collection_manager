@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../core/bloc/bloc.dart';
-import '../core/extensions/extensions.dart';
-import '../core/isolate/isolate_wrapper.dart';
-import '../data/datasources/local/ygopro_local_datasource.dart';
-import '../data/datasources/remote/ygopro_remote_data_source.dart';
-import '../data/models/request/get_card_info_request.dart';
-import '../domain/entities/card_owned.dart';
-import '../domain/entities/ygo_card.dart';
-import '../domain/entities/ygo_set.dart';
-import '../service_locator.dart';
+import '../../core/bloc/bloc.dart';
+import '../../core/extensions/extensions.dart';
+import '../../core/isolate/isolate_wrapper.dart';
+import '../../data/datasources/local/ygopro_local_datasource.dart';
+import '../../data/datasources/remote/ygopro_remote_data_source.dart';
+import '../../data/models/request/get_card_info_request.dart';
+import '../../domain/entities/card_owned.dart';
+import '../../domain/entities/ygo_card.dart';
+import '../../domain/entities/ygo_set.dart';
+import '../../service_locator.dart';
 
 class CardsBloc extends BlocBase {
   final _cardsController = BehaviorSubject<List<YgoCard>?>.seeded(null);

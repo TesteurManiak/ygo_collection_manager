@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../blocs/cards_bloc.dart';
-import '../../blocs/expansion_collection_bloc.dart';
+import '../blocs/cards_bloc.dart';
+import '../blocs/expansion_collection_bloc.dart';
 import '../../core/bloc/bloc_provider.dart';
 import '../../core/entities/card_edition_enum.dart';
 import '../../data/datasources/local/ygopro_local_datasource.dart';

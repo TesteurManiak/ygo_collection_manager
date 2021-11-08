@@ -1,8 +1,8 @@
 import 'package:animated_scaffold/animated_scaffold.dart';
 import 'package:flutter/material.dart';
 
-import '../../blocs/cards_bloc.dart';
-import '../../blocs/expansion_collection_bloc.dart';
+import '../blocs/cards_bloc.dart';
+import '../blocs/expansion_collection_bloc.dart';
 import '../../core/bloc/bloc_provider.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';

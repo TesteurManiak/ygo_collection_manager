@@ -1,7 +1,7 @@
-import '../core/bloc/bloc.dart';
-import '../data/datasources/local/ygopro_local_datasource.dart';
-import '../data/datasources/remote/ygopro_remote_data_source.dart';
-import '../service_locator.dart';
+import '../../core/bloc/bloc.dart';
+import '../../data/datasources/local/ygopro_local_datasource.dart';
+import '../../data/datasources/remote/ygopro_remote_data_source.dart';
+import '../../service_locator.dart';
 
 class DBVersionBloc extends BlocBase {
   @override

@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../../blocs/expansion_collection_bloc.dart';
+import '../../blocs/expansion_collection_bloc.dart';
 import '../../../core/bloc/bloc_provider.dart';
 import '../../../domain/entities/ygo_card.dart';
 

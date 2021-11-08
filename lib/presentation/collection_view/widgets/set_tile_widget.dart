@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../blocs/cards_bloc.dart';
+import '../../blocs/cards_bloc.dart';
 import '../../../core/bloc/bloc_provider.dart';
 import '../../../domain/entities/ygo_set.dart';
 import '../../../core/styles/colors.dart';

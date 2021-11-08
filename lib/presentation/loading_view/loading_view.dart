@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../blocs/cards_bloc.dart';
-import '../../blocs/db_version_bloc.dart';
-import '../../blocs/sets_bloc.dart';
+import '../blocs/cards_bloc.dart';
+import '../blocs/db_version_bloc.dart';
+import '../blocs/sets_bloc.dart';
 import '../../core/bloc/bloc_provider.dart';
 import '../common/magic_circle_progress_indicator.dart';
 import '../root_view/root_view.dart';

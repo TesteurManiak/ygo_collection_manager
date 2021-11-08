@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ygo_collection_manager/data/datasources/local/ygopro_local_datasource.dart';
 
-import '../core/bloc/bloc.dart';
-import '../core/isolate/isolate_wrapper.dart';
-import '../data/datasources/remote/ygopro_remote_data_source.dart';
-import '../domain/entities/ygo_set.dart';
-import '../service_locator.dart';
+import '../../core/bloc/bloc.dart';
+import '../../core/isolate/isolate_wrapper.dart';
+import '../../data/datasources/remote/ygopro_remote_data_source.dart';
+import '../../domain/entities/ygo_set.dart';
+import '../../service_locator.dart';
 
 class SetsBloc extends BlocBase {
   final _setsController = BehaviorSubject<List<YgoSet>?>.seeded(null);
