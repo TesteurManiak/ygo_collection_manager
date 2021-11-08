@@ -1,8 +1,4 @@
-import '../../core/entities/banlist.dart';
-import '../../core/entities/format.dart';
-import '../../core/entities/link_markers.dart';
-import '../../core/entities/sort.dart';
-import '../../domain/entities/archetype.dart';
+import '../../domain/entities/card_owned.dart';
 import '../../domain/entities/card_set_info.dart';
 import '../../domain/entities/db_version.dart';
 import '../../domain/entities/ygo_card.dart';
@@ -22,69 +18,9 @@ class YgoProRepositoryImpl implements YgoProRepository {
   });
 
   @override
-  Future<List<Archetype>> getAllCardArchetypes() async {
-    final archetypes = await remoteDataSource.getAllCardArchetypes();
-    return archetypes;
-  }
-
-  @override
   Future<List<YgoSet>> getAllSets() async {
     final remoteSets = await remoteDataSource.getAllSets();
     return remoteSets;
-  }
-
-  @override
-  Future<List<YgoCard>> getCardInfo({
-    List<String>? names,
-    String? fname,
-    List<int>? ids,
-    List<String>? types,
-    int? atk,
-    int? def,
-    int? level,
-    List<String>? races,
-    List<String>? attributes,
-    int? link,
-    List<LinkMarkers>? linkMarkers,
-    int? scale,
-    String? cardSet,
-    String? archetype,
-    Banlist? banlist,
-    Sort? sort,
-    Format? format,
-    bool misc = false,
-    bool? staple,
-    DateTime? startDate,
-    DateTime? endDate,
-    DateTime? dateRegion,
-  }) async {
-    final remoteCards = await remoteDataSource.getCardInfo(
-      GetCardInfoRequest(
-        names: names,
-        fname: fname,
-        ids: ids,
-        types: types,
-        atk: atk,
-        def: def,
-        level: level,
-        races: races,
-        attributes: attributes,
-        link: link,
-        linkMarkers: linkMarkers,
-        scale: scale,
-        cardSet: cardSet,
-        archetype: archetype,
-        banlist: banlist,
-        sort: sort,
-        format: format,
-        misc: misc,
-        staple: staple,
-        startDate: startDate,
-        endDate: endDate,
-        dateRegion: dateRegion,
-      ),
-    );
-    return remoteCards;
   }
 
   @override
@@ -101,4 +37,31 @@ class YgoProRepositoryImpl implements YgoProRepository {
   @override
   Future<DbVersion> checkDatabaseVersion() =>
       remoteDataSource.checkDatabaseVersion();
+
+  @override
+  Future<List<CardOwned>> getOwnedCards() => localDataSource.getCardsOwned();
+
+  @override
+  Future<List<YgoCard>> getLocalCards() async {
+    final cards = await localDataSource.getCards();
+    cards.sort((a, b) => a.name.compareTo(b.name));
+    return cards;
+  }
+
+  @override
+  Future<void> updateCards(List<YgoCard> cards) =>
+      localDataSource.updateCards(cards);
+
+  @override
+  Future<bool> shouldReloadDb() async {
+    final savedDbVersion = await localDataSource.getDatabaseVersion();
+    final fetchedDbVersion = await remoteDataSource.checkDatabaseVersion();
+
+    final shouldReload = savedDbVersion == null ||
+        savedDbVersion.version != fetchedDbVersion.version;
+    if (shouldReload) {
+      await localDataSource.updateDbVersion(fetchedDbVersion);
+    }
+    return shouldReload;
+  }
 }

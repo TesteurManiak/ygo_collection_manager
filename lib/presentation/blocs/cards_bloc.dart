@@ -6,12 +6,10 @@ import 'package:rxdart/rxdart.dart';
 import '../../core/bloc/bloc.dart';
 import '../../core/extensions/extensions.dart';
 import '../../core/isolate/isolate_wrapper.dart';
-import '../../data/datasources/local/ygopro_local_datasource.dart';
-import '../../data/datasources/remote/ygopro_remote_data_source.dart';
-import '../../data/models/request/get_card_info_request.dart';
 import '../../domain/entities/card_owned.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
+import '../../domain/repository/ygopro_repository.dart';
 import '../../service_locator.dart';
 
 class CardsBloc extends BlocBase {
@@ -69,19 +67,18 @@ class CardsBloc extends BlocBase {
   }
 
   Future<void> loadFromDb() async {
-    final cards = await sl<YgoProLocalDataSource>().getCards();
-    cards.sort((a, b) => a.name.compareTo(b.name));
+    final cards = await sl<YgoProRepository>().getLocalCards();
     _cardsController.sink.add(cards);
   }
 
   Future<void> fetchAllCards() async {
-    final remoteRepo = sl<YgoProRemoteDataSource>();
+    final repo = sl<YgoProRepository>();
     await IsolateWrapper().spawn<List<YgoCard>>(
-      () => remoteRepo.getCardInfo(GetCardInfoRequest(misc: true)),
+      () => repo.getAllCards(),
       callback: (newCards) {
         newCards.sort((a, b) => a.name.compareTo(b.name));
         _cardsController.sink.add(newCards);
-        sl<YgoProLocalDataSource>().updateCards(newCards);
+        repo.updateCards(newCards);
       },
     );
   }
@@ -95,7 +92,7 @@ class CardsBloc extends BlocBase {
       for (final card in _cardsList) {
         _differentCardsSet.addAll(card.cardSets!.map<String>((e) => e.code));
       }
-      final _cardsOwned = (await sl<YgoProLocalDataSource>().getCardsOwned())
+      final _cardsOwned = (await sl<YgoProRepository>().getOwnedCards())
           .map<String>((e) => e.setCode)
           .toSet();
       if (_differentCardsSet.isNotEmpty) {
@@ -106,7 +103,7 @@ class CardsBloc extends BlocBase {
   }
 
   Future<int> cardsOwnedInSet(YgoSet cardSet) async {
-    return (await sl<YgoProLocalDataSource>().getCardsOwned())
+    return (await sl<YgoProRepository>().getOwnedCards())
         .compactMap<CardOwned>(
           (e) => e.setCode.contains(cardSet.setCode) &&
                   e.setName == cardSet.setName

@@ -1,6 +1,5 @@
 import '../../core/bloc/bloc.dart';
-import '../../data/datasources/local/ygopro_local_datasource.dart';
-import '../../data/datasources/remote/ygopro_remote_data_source.dart';
+import '../../domain/repository/ygopro_repository.dart';
 import '../../service_locator.dart';
 
 class DBVersionBloc extends BlocBase {
@@ -11,14 +10,7 @@ class DBVersionBloc extends BlocBase {
   void dispose() {}
 
   Future<bool> shouldReloadDatabase() async {
-    final remoteRepo = sl<YgoProRemoteDataSource>();
-    final localRepo = sl<YgoProLocalDataSource>();
-    final savedDbVersion = await localRepo.getDatabaseVersion();
-    final fetchedDbVersion = await remoteRepo.checkDatabaseVersion();
-
-    final shouldReload = savedDbVersion == null ||
-        savedDbVersion.version != fetchedDbVersion.version;
-    localRepo.updateDbVersion(fetchedDbVersion);
-    return shouldReload;
+    final repo = sl<YgoProRepository>();
+    return repo.shouldReloadDb();
   }
 }
