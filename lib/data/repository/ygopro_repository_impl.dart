@@ -20,6 +20,7 @@ class YgoProRepositoryImpl implements YgoProRepository {
   @override
   Future<List<YgoSet>> getAllSets() async {
     final remoteSets = await remoteDataSource.getAllSets();
+    remoteSets.sort((a, b) => a.setName.compareTo(b.setName));
     return remoteSets;
   }
 
@@ -34,6 +35,7 @@ class YgoProRepositoryImpl implements YgoProRepository {
   Future<List<YgoCard>> getAllCards() async {
     final cards =
         await remoteDataSource.getCardInfo(GetCardInfoRequest(misc: true));
+    cards.sort((a, b) => a.name.compareTo(b.name));
     return cards;
   }
 

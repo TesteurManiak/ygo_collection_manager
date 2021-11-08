@@ -7,6 +7,6 @@ class UpdateCards {
   UpdateCards(this.repository);
 
   Future<void> call(List<YgoCard> cards) async {
-    await repository.updateCards(cards);
+    return repository.updateCards(cards);
   }
 }
