@@ -1,10 +1,11 @@
-import 'package:hive/hive.dart';
-import 'package:ygo_collection_manager/core/entities/card_edition_enum.dart';
+import 'package:hive_flutter/adapters.dart';
 
-part 'card_owned_model.g.dart';
+import '../../core/entities/card_edition_enum.dart';
+
+part 'card_owned.g.dart';
 
 @HiveType(typeId: 8)
-class CardOwnedModel {
+class CardOwned {
   /// Quantity of cards owned.
   @HiveField(1)
   final int quantity;
@@ -25,7 +26,7 @@ class CardOwnedModel {
 
   String get key => '$setCode-${edition.string}';
 
-  CardOwnedModel({
+  CardOwned({
     required this.quantity,
     required this.setCode,
     required this.edition,

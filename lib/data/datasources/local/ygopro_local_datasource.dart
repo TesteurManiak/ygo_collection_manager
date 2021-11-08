@@ -1,7 +1,7 @@
+import '../../../domain/entities/card_owned.dart';
 import '../../../domain/entities/db_version.dart';
 import '../../../domain/entities/ygo_card.dart';
 import '../../../domain/entities/ygo_set.dart';
-import '../../../models/card_owned_model.dart';
 
 abstract class YgoProLocalDataSource {
   Future<void> initDb();
@@ -14,7 +14,7 @@ abstract class YgoProLocalDataSource {
   Future<void> updateSets(List<YgoSet> sets);
 
   /// Getter to return a List<CardOwnedModel>.
-  Future<List<CardOwnedModel>> getCardsOwned();
+  Future<List<CardOwned>> getCardsOwned();
 
   /// Return the number of copy of a specific card.
   Future<int> getCopiesOfCardOwned(String key);
@@ -24,8 +24,8 @@ abstract class YgoProLocalDataSource {
 
   /// Add or update a card to the collection. Takes a [CardOwnedModel] as
   /// parameter.
-  Future<void> updateCardOwned(CardOwnedModel card);
+  Future<void> updateCardOwned(CardOwned card);
 
   /// Remove a card from the collection. Takes a [CardOwnedModel] as parameter.
-  Future<void> removeCard(CardOwnedModel card);
+  Future<void> removeCard(CardOwned card);
 }

@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'card_owned_model.dart';
+part of 'card_owned.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class CardOwnedModelAdapter extends TypeAdapter<CardOwnedModel> {
+class CardOwnedAdapter extends TypeAdapter<CardOwned> {
   @override
   final int typeId = 8;
 
   @override
-  CardOwnedModel read(BinaryReader reader) {
+  CardOwned read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return CardOwnedModel(
+    return CardOwned(
       quantity: fields[1] as int,
       setCode: fields[2] as String,
       edition: fields[3] as CardEditionEnum,
@@ -26,7 +26,7 @@ class CardOwnedModelAdapter extends TypeAdapter<CardOwnedModel> {
   }
 
   @override
-  void write(BinaryWriter writer, CardOwnedModel obj) {
+  void write(BinaryWriter writer, CardOwned obj) {
     writer
       ..writeByte(5)
       ..writeByte(1)
@@ -47,7 +47,7 @@ class CardOwnedModelAdapter extends TypeAdapter<CardOwnedModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CardOwnedModelAdapter &&
+      other is CardOwnedAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

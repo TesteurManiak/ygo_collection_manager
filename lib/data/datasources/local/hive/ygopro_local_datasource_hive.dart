@@ -5,12 +5,12 @@ import '../../../../core/extensions/extensions.dart';
 import '../../../../domain/entities/card_banlist_info.dart';
 import '../../../../domain/entities/card_images.dart';
 import '../../../../domain/entities/card_misc_info.dart';
+import '../../../../domain/entities/card_owned.dart';
 import '../../../../domain/entities/card_price.dart';
 import '../../../../domain/entities/card_set.dart';
 import '../../../../domain/entities/db_version.dart';
 import '../../../../domain/entities/ygo_card.dart';
 import '../../../../domain/entities/ygo_set.dart';
-import '../../../../models/card_owned_model.dart';
 import '../ygopro_local_datasource.dart';
 
 class YgoProLocalDataSourceHive implements YgoProLocalDataSource {
@@ -22,7 +22,7 @@ class YgoProLocalDataSourceHive implements YgoProLocalDataSource {
   late final Box<YgoCard> _cardsBox;
   late final Box<YgoSet> _setsBox;
   late final Box<DbVersion> _dbVersionBox;
-  late final Box<CardOwnedModel> _cardsOwnedBox;
+  late final Box<CardOwned> _cardsOwnedBox;
 
   @override
   Future<void> initDb() async {
@@ -39,13 +39,13 @@ class YgoProLocalDataSourceHive implements YgoProLocalDataSource {
     Hive.registerAdapter(CardMiscInfoAdapter());
 
     Hive.registerAdapter(YgoSetAdapter());
-    Hive.registerAdapter(CardOwnedModelAdapter());
+    // Hive.registerAdapter(CardOwnedModelAdapter());
     Hive.registerAdapter(CardEditionEnumAdapter());
 
     _cardsBox = await Hive.openBox<YgoCard>(tableCards);
     _setsBox = await Hive.openBox<YgoSet>(tableSets);
     _dbVersionBox = await Hive.openBox<DbVersion>(tableDB);
-    _cardsOwnedBox = await Hive.openBox<CardOwnedModel>(tableCardsOwned);
+    _cardsOwnedBox = await Hive.openBox<CardOwned>(tableCardsOwned);
   }
 
   @override
@@ -93,11 +93,11 @@ class YgoProLocalDataSourceHive implements YgoProLocalDataSource {
   }
 
   @override
-  Future<List<CardOwnedModel>> getCardsOwned() {
+  Future<List<CardOwned>> getCardsOwned() {
     return Future.value(
       _cardsOwnedBox.values
           .toList()
-          .compactMap<CardOwnedModel>((e) => e.quantity > 0 ? e : null),
+          .compactMap<CardOwned>((e) => e.quantity > 0 ? e : null),
     );
   }
 
@@ -118,14 +118,14 @@ class YgoProLocalDataSourceHive implements YgoProLocalDataSource {
   }
 
   @override
-  Future<void> updateCardOwned(CardOwnedModel card) {
+  Future<void> updateCardOwned(CardOwned card) {
     final keyIndex = _cardsOwnedBox.keys.toList().indexOf(card.key);
     if (keyIndex != -1) return _cardsOwnedBox.putAt(keyIndex, card);
     return _cardsOwnedBox.put(card.key, card);
   }
 
   @override
-  Future<void> removeCard(CardOwnedModel card) {
+  Future<void> removeCard(CardOwned card) {
     return _cardsOwnedBox.delete(card.key);
   }
 

@@ -9,9 +9,9 @@ import '../core/isolate/isolate_wrapper.dart';
 import '../data/datasources/local/ygopro_local_datasource.dart';
 import '../data/datasources/remote/ygopro_remote_data_source.dart';
 import '../data/models/request/get_card_info_request.dart';
+import '../domain/entities/card_owned.dart';
 import '../domain/entities/ygo_card.dart';
 import '../domain/entities/ygo_set.dart';
-import '../models/card_owned_model.dart';
 import '../service_locator.dart';
 
 class CardsBloc extends BlocBase {
@@ -107,7 +107,7 @@ class CardsBloc extends BlocBase {
 
   Future<int> cardsOwnedInSet(YgoSet cardSet) async {
     return (await sl<YgoProLocalDataSource>().getCardsOwned())
-        .compactMap<CardOwnedModel>(
+        .compactMap<CardOwned>(
           (e) => e.setCode.contains(cardSet.setCode) &&
                   e.setName == cardSet.setName
               ? e
