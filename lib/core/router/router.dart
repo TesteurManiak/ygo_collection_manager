@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
-import '../../ui/card_view/card_view.dart';
-import '../../ui/common/cards_overlay.dart';
-import '../../ui/expansion_view/expansion_view.dart';
-import '../../ui/loading_view/loading_view.dart';
-import '../../ui/root_view/root_view.dart';
+import '../../presentation/card_view/card_view.dart';
+import '../../presentation/common/cards_overlay.dart';
+import '../../presentation/expansion_view/expansion_view.dart';
+import '../../presentation/loading_view/loading_view.dart';
+import '../../presentation/root_view/root_view.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {

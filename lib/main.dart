@@ -9,10 +9,10 @@ import 'blocs/sets_bloc.dart';
 import 'core/bloc/bloc.dart';
 import 'core/bloc/bloc_provider.dart';
 import 'core/router/router.dart';
-import 'data/datasources/local/ygopro_local_datasource.dart';
-import 'service_locator.dart';
-import 'ui/loading_view/loading_view.dart';
 import 'core/styles/themes.dart';
+import 'data/datasources/local/ygopro_local_datasource.dart';
+import 'presentation/loading_view/loading_view.dart';
+import 'service_locator.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
