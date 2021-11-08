@@ -1,18 +1,29 @@
 import 'dart:async';
+import 'dart:isolate';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../core/bloc/bloc.dart';
 import '../../core/extensions/extensions.dart';
-import '../../core/isolate/isolate_wrapper.dart';
 import '../../domain/entities/card_owned.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
 import '../../domain/repository/ygopro_repository.dart';
+import '../../domain/usecases/fetch_all_cards.dart';
+import '../../domain/usecases/update_cards.dart';
 import '../../service_locator.dart';
 
 class CardsBloc extends BlocBase {
+  final FetchAllCards fetchCards;
+  final UpdateCards updateCards;
+
+  CardsBloc({
+    required this.fetchCards,
+    required this.updateCards,
+  });
+
   final _cardsController = BehaviorSubject<List<YgoCard>?>.seeded(null);
   Stream<List<YgoCard>?> get onCardsChanged => _cardsController.stream;
   List<YgoCard>? get cards => _cardsController.value;
@@ -30,6 +41,10 @@ class CardsBloc extends BlocBase {
       _fullCollectionCompletionController.stream;
   double get fullCollectionCompletion =>
       _fullCollectionCompletionController.value;
+
+  ReceivePort? _receivePort;
+  Isolate? _isolate;
+  StreamSubscription? _isolateSubscription;
 
   /// Return a list of [YgoCard] that are in the set of cards.
   /// Takes a [SetModel] as parameter.
@@ -59,6 +74,8 @@ class CardsBloc extends BlocBase {
 
   @override
   void dispose() {
+    _closeIsolate();
+
     _cardsSubscription.cancel();
 
     _cardsController.close();
@@ -66,21 +83,40 @@ class CardsBloc extends BlocBase {
     _fullCollectionCompletionController.close();
   }
 
+  void _closeIsolate() {
+    _receivePort?.close();
+    _isolate?.kill(priority: Isolate.immediate);
+    _isolateSubscription?.cancel();
+  }
+
   Future<void> loadFromDb() async {
     final cards = await sl<YgoProRepository>().getLocalCards();
     _cardsController.sink.add(cards);
   }
 
+  static void _fetchCards(List<Object> args) {
+    final sendPort = args[0] as SendPort;
+    setupLocator();
+    sl<FetchAllCards>().call().then((value) => sendPort.send(value));
+  }
+
   Future<void> fetchAllCards() async {
-    final repo = sl<YgoProRepository>();
-    await IsolateWrapper().spawn<List<YgoCard>>(
-      () => repo.getAllCards(),
-      callback: (newCards) {
-        newCards.sort((a, b) => a.name.compareTo(b.name));
+    if (kIsWeb) {
+      final newCards = await fetchCards();
+      _cardsController.sink.add(newCards);
+      await updateCards(newCards);
+    } else {
+      _receivePort = ReceivePort();
+      _isolate = await Isolate.spawn(_fetchCards, <Object>[
+        _receivePort!.sendPort,
+      ]);
+      _isolateSubscription = _receivePort!.listen((message) {
+        final newCards = message as List<YgoCard>;
         _cardsController.sink.add(newCards);
-        repo.updateCards(newCards);
-      },
-    );
+        updateCards(newCards);
+        _closeIsolate();
+      });
+    }
   }
 
   Future<void> updateCompletion({List<YgoCard>? initialCards}) async {

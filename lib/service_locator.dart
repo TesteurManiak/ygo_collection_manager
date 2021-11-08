@@ -1,4 +1,8 @@
 import 'package:get_it/get_it.dart';
+import 'package:ygo_collection_manager/domain/usecases/fetch_all_cards.dart';
+import 'package:ygo_collection_manager/domain/usecases/fetch_all_sets.dart';
+import 'package:ygo_collection_manager/domain/usecases/update_cards.dart';
+import 'package:ygo_collection_manager/domain/usecases/update_sets.dart';
 
 import 'data/api/api.dart';
 import 'data/datasources/local/hive/ygopro_local_datasource_hive.dart';
@@ -15,7 +19,10 @@ void setupLocator() {
 
   //! Domain
   // Use cases
-  // sl.registerLazySingleton();
+  sl.registerLazySingleton(() => FetchAllCards(sl()));
+  sl.registerLazySingleton(() => UpdateCards(sl()));
+  sl.registerLazySingleton(() => FetchAllSets(sl()));
+  sl.registerLazySingleton(() => UpdateSets(sl()));
 
   // Repository
   sl.registerLazySingleton<YgoProRepository>(

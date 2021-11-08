@@ -31,8 +31,11 @@ class YgoProRepositoryImpl implements YgoProRepository {
   Future<YgoCard> getRandomCard() => remoteDataSource.getRandomCard();
 
   @override
-  Future<List<YgoCard>> getAllCards() =>
-      remoteDataSource.getCardInfo(GetCardInfoRequest(misc: true));
+  Future<List<YgoCard>> getAllCards() async {
+    final cards =
+        await remoteDataSource.getCardInfo(GetCardInfoRequest(misc: true));
+    return cards;
+  }
 
   @override
   Future<DbVersion> checkDatabaseVersion() =>

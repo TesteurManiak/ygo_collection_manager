@@ -1,17 +1,29 @@
 import 'dart:async';
+import 'dart:isolate';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../core/bloc/bloc.dart';
-import '../../core/isolate/isolate_wrapper.dart';
 import '../../domain/entities/ygo_set.dart';
 import '../../domain/repository/ygopro_repository.dart';
+import '../../domain/usecases/fetch_all_sets.dart';
+import '../../domain/usecases/update_sets.dart';
 import '../../service_locator.dart';
 
 class SetsBloc extends BlocBase {
+  final FetchAllSets fetchSets;
+  final UpdateSets updateSets;
+
+  SetsBloc({
+    required this.fetchSets,
+    required this.updateSets,
+  });
+
   final _setsController = BehaviorSubject<List<YgoSet>?>.seeded(null);
   Stream<List<YgoSet>?> get onSetsChanged => _setsController.stream;
+  late final StreamSubscription _setsControllerSubscription;
 
   final _filteredSetsController = BehaviorSubject<List<YgoSet>?>.seeded(null);
   Stream<List<YgoSet>?> get onFilteredSetsChanged =>
@@ -19,7 +31,9 @@ class SetsBloc extends BlocBase {
 
   final searchController = TextEditingController();
 
-  late final StreamSubscription _setsControllerSubscription;
+  ReceivePort? _receivePort;
+  Isolate? _isolate;
+  StreamSubscription? _isolateSubscription;
 
   void _setsFilterListener(List<YgoSet>? value) {
     _filteredSetsController.sink.add(value);
@@ -27,7 +41,15 @@ class SetsBloc extends BlocBase {
   }
 
   @override
+  void initState() {
+    _setsControllerSubscription = _setsController.listen(_setsFilterListener);
+    loadFromDb();
+  }
+
+  @override
   void dispose() {
+    _closeIsolate();
+
     searchController.dispose();
     _setsControllerSubscription.cancel();
 
@@ -35,10 +57,10 @@ class SetsBloc extends BlocBase {
     _filteredSetsController.close();
   }
 
-  @override
-  void initState() {
-    _setsControllerSubscription = _setsController.listen(_setsFilterListener);
-    loadFromDb();
+  void _closeIsolate() {
+    _receivePort?.close();
+    _isolate?.kill(priority: Isolate.immediate);
+    _isolateSubscription?.cancel();
   }
 
   Future<void> loadFromDb() async {
@@ -63,17 +85,28 @@ class SetsBloc extends BlocBase {
     }
   }
 
+  static void _fetchSets(List<Object> args) {
+    final sendPort = args[0] as SendPort;
+    setupLocator();
+    sl<FetchAllSets>().call().then((value) => sendPort.send(value));
+  }
+
   Future<void> fetchAllSets() async {
     try {
-      final remoteRepo = sl<YgoProRepository>();
-      await IsolateWrapper().spawn<List<YgoSet>>(
-        () => remoteRepo.getAllSets(),
-        callback: (_sets) {
-          _sets.sort((a, b) => a.setName.compareTo(b.setName));
+      if (kIsWeb) {
+      } else {
+        _receivePort = ReceivePort();
+        _isolate = await Isolate.spawn(
+          _fetchSets,
+          [_receivePort!.sendPort],
+        );
+        _isolateSubscription = _receivePort!.listen((message) {
+          final _sets = message as List<YgoSet>;
           _setsController.sink.add(_sets);
-          sl<YgoProRepository>().updateSets(_sets);
-        },
-      );
+          updateSets(_sets);
+          _closeIsolate();
+        });
+      }
     } catch (e) {
       _setsController.addError(e);
     }
