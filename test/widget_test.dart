@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:ygo_collection_manager/data/models/response/ygo_card_model.dart';
 import 'package:ygo_collection_manager/domain/entities/ygo_card.dart';
-import 'package:ygo_collection_manager/features/browse_cards/data/models/ygo_card_model.dart';
 
 void main() {
   group('Parsing', () {

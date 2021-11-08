@@ -1,4 +1,4 @@
-import '../../../../domain/entities/archetype.dart';
+import '../../../domain/entities/archetype.dart';
 
 class ArchetypeModel extends Archetype {
   ArchetypeModel({required String name}) : super(name: name);

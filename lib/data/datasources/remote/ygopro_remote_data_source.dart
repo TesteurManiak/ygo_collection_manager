@@ -3,14 +3,14 @@ import 'dart:io' show SocketException;
 
 import 'package:flutter/material.dart';
 
-import '../../../../features/browse_cards/data/models/ygo_card_model.dart';
 import '../../../core/error/exceptions.dart';
-import '../../../features/browse_cards/data/models/archetype_model.dart';
-import '../../../features/browse_cards/data/models/card_set_info_model.dart';
-import '../../../features/browse_cards/data/models/db_version_model.dart';
-import '../../../features/browse_cards/data/models/ygo_set_model.dart';
 import '../../api/api.dart';
 import '../../models/request/get_card_info_request.dart';
+import '../../models/response/archetype_model.dart';
+import '../../models/response/card_set_info_model.dart';
+import '../../models/response/db_version_model.dart';
+import '../../models/response/ygo_card_model.dart';
+import '../../models/response/ygo_set_model.dart';
 
 class YgoProRemoteDataSource {
   static final baseUrl = Uri(scheme: 'https', host: 'db.ygoprodeck.com');
