@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../domain/entities/ygo_card.dart';
-import '../../styles/colors.dart';
+import '../styles/colors.dart';
 import 'widgets/set_rarity_widget.dart';
 
 class CardView extends StatelessWidget {

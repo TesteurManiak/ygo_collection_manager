@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/core/bloc/bloc_provider.dart';
-import 'package:ygo_collection_manager/blocs/cards_bloc.dart';
-import 'package:ygo_collection_manager/blocs/db_version_bloc.dart';
-import 'package:ygo_collection_manager/blocs/sets_bloc.dart';
-import 'package:ygo_collection_manager/ui/common/magic_circle_progress_indicator.dart';
-import 'package:ygo_collection_manager/ui/root_view/root_view.dart';
+
+import '../../blocs/cards_bloc.dart';
+import '../../blocs/db_version_bloc.dart';
+import '../../blocs/sets_bloc.dart';
+import '../../core/bloc/bloc_provider.dart';
+import '../common/magic_circle_progress_indicator.dart';
+import '../root_view/root_view.dart';
 
 class LoadingView extends StatefulWidget {
   static const routeName = '/';

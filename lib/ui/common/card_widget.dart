@@ -8,8 +8,8 @@ import '../../core/entities/card_edition_enum.dart';
 import '../../data/datasources/local/ygopro_local_datasource.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../service_locator.dart';
-import '../../styles/colors.dart';
-import '../../styles/text_styles.dart';
+import '../styles/colors.dart';
+import '../styles/text_styles.dart';
 import 'cards_overlay.dart';
 
 class CardWidget extends StatelessWidget {

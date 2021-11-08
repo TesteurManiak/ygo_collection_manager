@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/styles/text_styles.dart';
+
+import '../styles/text_styles.dart';
 
 class CardDetailWidget extends StatelessWidget {
   final String label;

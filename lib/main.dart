@@ -1,7 +1,6 @@
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:ygo_collection_manager/data/datasources/local/ygopro_local_datasource.dart';
 
 import 'blocs/cards_bloc.dart';
 import 'blocs/db_version_bloc.dart';
@@ -9,10 +8,11 @@ import 'blocs/expansion_collection_bloc.dart';
 import 'blocs/sets_bloc.dart';
 import 'core/bloc/bloc.dart';
 import 'core/bloc/bloc_provider.dart';
-import 'service_locator.dart';
-import 'styles/themes.dart';
-import 'ui/loading_view/loading_view.dart';
 import 'core/router/router.dart';
+import 'data/datasources/local/ygopro_local_datasource.dart';
+import 'service_locator.dart';
+import 'ui/loading_view/loading_view.dart';
+import 'ui/styles/themes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

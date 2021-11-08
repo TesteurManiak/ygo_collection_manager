@@ -5,7 +5,7 @@ import '../../../blocs/expansion_collection_bloc.dart';
 import '../../../core/bloc/bloc_provider.dart';
 import '../../../domain/entities/ygo_card.dart';
 
-import '../../../styles/colors.dart';
+import '../../styles/colors.dart';
 
 class CardEditingWidget extends StatelessWidget {
   final int index;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/styles/colors.dart';
+
+import '../styles/colors.dart';
 
 class SliverSpacer extends StatelessWidget {
   final double? height;

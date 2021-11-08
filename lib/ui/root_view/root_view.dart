@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/ui/browse_view/browse_view.dart';
-import 'package:ygo_collection_manager/ui/collection_view/collection_view.dart';
-import 'package:ygo_collection_manager/ui/common/fixed_bottom_navigation_bar.dart';
-import 'package:ygo_collection_manager/ui/settings_view/settings_view.dart';
+
+import '../browse_view/browse_view.dart';
+import '../collection_view/collection_view.dart';
+import '../common/fixed_bottom_navigation_bar.dart';
+import '../settings_view/settings_view.dart';
 
 class RootView extends StatefulWidget {
   static const routeName = '/root';

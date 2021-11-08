@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../blocs/cards_bloc.dart';
 import '../../../core/bloc/bloc_provider.dart';
 import '../../../domain/entities/ygo_set.dart';
-import '../../../styles/colors.dart';
+import '../../styles/colors.dart';
 import '../../expansion_view/expansion_view.dart';
 
 class SetTileWidget extends StatelessWidget {

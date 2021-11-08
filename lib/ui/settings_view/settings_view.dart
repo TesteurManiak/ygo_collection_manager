@@ -1,7 +1,8 @@
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/styles/colors.dart';
-import 'package:ygo_collection_manager/styles/themes.dart';
+
+import '../styles/colors.dart';
+import '../styles/themes.dart';
 
 class _ThemeChoice {
   final String name;
