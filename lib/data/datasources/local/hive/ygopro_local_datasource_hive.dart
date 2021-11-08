@@ -39,7 +39,7 @@ class YgoProLocalDataSourceHive implements YgoProLocalDataSource {
     Hive.registerAdapter(CardMiscInfoAdapter());
 
     Hive.registerAdapter(YgoSetAdapter());
-    // Hive.registerAdapter(CardOwnedModelAdapter());
+    Hive.registerAdapter(CardOwnedAdapter());
     Hive.registerAdapter(CardEditionEnumAdapter());
 
     _cardsBox = await Hive.openBox<YgoCard>(tableCards);
