@@ -12,7 +12,7 @@ import 'core/router/router.dart';
 import 'data/datasources/local/ygopro_local_datasource.dart';
 import 'service_locator.dart';
 import 'ui/loading_view/loading_view.dart';
-import 'ui/styles/themes.dart';
+import 'core/styles/themes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -4,7 +4,7 @@ import '../../blocs/cards_bloc.dart';
 import '../../blocs/sets_bloc.dart';
 import '../../core/bloc/bloc_provider.dart';
 import '../../domain/entities/ygo_set.dart';
-import '../styles/colors.dart';
+import '../../core/styles/colors.dart';
 import '../common/no_glow_scroll_behavior.dart';
 import '../common/sliver_spacer.dart';
 import '../common/top_rounded_sliver.dart';

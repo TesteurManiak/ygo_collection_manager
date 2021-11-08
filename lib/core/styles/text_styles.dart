@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/ui/styles/colors.dart';
+import 'package:ygo_collection_manager/core/styles/colors.dart';
 
 class TextStyles {
   // grey

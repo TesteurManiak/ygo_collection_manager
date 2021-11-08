@@ -1,8 +1,8 @@
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 
-import '../styles/colors.dart';
-import '../styles/themes.dart';
+import '../../core/styles/colors.dart';
+import '../../core/styles/themes.dart';
 
 class _ThemeChoice {
   final String name;

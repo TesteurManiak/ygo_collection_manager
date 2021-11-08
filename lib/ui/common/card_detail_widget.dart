@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../styles/text_styles.dart';
+import '../../core/styles/text_styles.dart';
 
 class CardDetailWidget extends StatelessWidget {
   final String label;
