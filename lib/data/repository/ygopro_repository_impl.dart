@@ -79,7 +79,11 @@ class YgoProRepositoryImpl implements YgoProRepository {
       localDataSource.updateCardOwned(card);
 
   @override
-  Future<List<YgoSet>> getLocalSets() => localDataSource.getSets();
+  Future<List<YgoSet>> getLocalSets() async {
+    final sets = await localDataSource.getSets();
+    sets.sort((a, b) => a.setName.compareTo(b.setName));
+    return sets;
+  }
 
   @override
   Future<void> updateSets(List<YgoSet> sets) =>

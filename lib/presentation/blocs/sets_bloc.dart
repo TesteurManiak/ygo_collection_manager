@@ -65,7 +65,6 @@ class SetsBloc extends BlocBase {
 
   Future<void> loadFromDb() async {
     final _sets = (await sl<YgoProRepository>().getLocalSets());
-    _sets.sort((a, b) => a.setName.compareTo(b.setName));
     _setsController.sink.add(_sets);
   }
 
