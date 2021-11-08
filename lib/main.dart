@@ -12,7 +12,7 @@ import 'dynamic_theme/dynamic_theme.dart';
 import 'service_locator.dart';
 import 'styles/themes.dart';
 import 'ui/loading_view/loading_view.dart';
-import 'utils/router.dart';
+import 'core/router/router.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
