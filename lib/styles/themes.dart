@@ -1,5 +1,5 @@
+import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/dynamic_theme/dynamic_theme.dart';
 import 'package:ygo_collection_manager/styles/colors.dart';
 
 extension BrightnessModifier on Brightness {
