@@ -2,12 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:ygo_collection_manager/data/datasources/local/ygopro_local_datasource.dart';
 
 import '../../core/bloc/bloc.dart';
 import '../../core/isolate/isolate_wrapper.dart';
-import '../../data/datasources/remote/ygopro_remote_data_source.dart';
 import '../../domain/entities/ygo_set.dart';
+import '../../domain/repository/ygopro_repository.dart';
 import '../../service_locator.dart';
 
 class SetsBloc extends BlocBase {
@@ -43,7 +42,7 @@ class SetsBloc extends BlocBase {
   }
 
   Future<void> loadFromDb() async {
-    final _sets = (await sl<YgoProLocalDataSource>().getSets());
+    final _sets = (await sl<YgoProRepository>().getLocalSets());
     _sets.sort((a, b) => a.setName.compareTo(b.setName));
     _setsController.sink.add(_sets);
   }
@@ -66,13 +65,13 @@ class SetsBloc extends BlocBase {
 
   Future<void> fetchAllSets() async {
     try {
-      final remoteRepo = sl<YgoProRemoteDataSource>();
+      final remoteRepo = sl<YgoProRepository>();
       await IsolateWrapper().spawn<List<YgoSet>>(
         () => remoteRepo.getAllSets(),
         callback: (_sets) {
           _sets.sort((a, b) => a.setName.compareTo(b.setName));
           _setsController.sink.add(_sets);
-          sl<YgoProLocalDataSource>().updateSets(_sets);
+          sl<YgoProRepository>().updateSets(_sets);
         },
       );
     } catch (e) {

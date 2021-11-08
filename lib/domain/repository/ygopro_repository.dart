@@ -8,6 +8,8 @@ abstract class YgoProRepository {
   /// Returns all of the current Yu-Gi-Oh! Card Set Names.
   Future<List<YgoSet>> getAllSets();
 
+  Future<List<YgoSet>> getLocalSets();
+
   /// Fetch a [List<YgoCard>] from the API.
   ///
   /// If a [ServerException] is thrown, the local data will be retried.
@@ -28,4 +30,10 @@ abstract class YgoProRepository {
   Future<void> updateCards(List<YgoCard> cards);
 
   Future<bool> shouldReloadDb();
+
+  Future<int> getCopiesOfCardOwned(String key);
+
+  Future<void> updateCardOwned(CardOwned card);
+
+  Future<void> updateSets(List<YgoSet> sets);
 }

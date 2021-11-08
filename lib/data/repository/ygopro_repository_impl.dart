@@ -64,4 +64,19 @@ class YgoProRepositoryImpl implements YgoProRepository {
     }
     return shouldReload;
   }
+
+  @override
+  Future<int> getCopiesOfCardOwned(String key) =>
+      localDataSource.getCopiesOfCardOwned(key);
+
+  @override
+  Future<void> updateCardOwned(CardOwned card) =>
+      localDataSource.updateCardOwned(card);
+
+  @override
+  Future<List<YgoSet>> getLocalSets() => localDataSource.getSets();
+
+  @override
+  Future<void> updateSets(List<YgoSet> sets) =>
+      localDataSource.updateSets(sets);
 }

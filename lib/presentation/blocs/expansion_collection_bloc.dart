@@ -6,10 +6,10 @@ import 'package:rxdart/rxdart.dart';
 import '../../core/bloc/bloc.dart';
 import '../../core/bloc/bloc_provider.dart';
 import '../../core/entities/card_edition_enum.dart';
-import '../../data/datasources/local/ygopro_local_datasource.dart';
 import '../../domain/entities/card_owned.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
+import '../../domain/repository/ygopro_repository.dart';
 import '../../service_locator.dart';
 import 'cards_bloc.dart';
 
@@ -51,8 +51,8 @@ class ExpansionCollectionBloc extends BlocBase {
       final card = currentCards[index];
       _titleController.sink.add(card.name);
 
-      final localRepo = sl<YgoProLocalDataSource>();
-      localRepo
+      final repo = sl<YgoProRepository>();
+      repo
           .getCopiesOfCardOwned(
         card.getDbKey(currentSet, CardEditionEnum.first),
       )
@@ -60,7 +60,7 @@ class ExpansionCollectionBloc extends BlocBase {
         _firstEditionQtyController.sink.add(value);
       });
 
-      localRepo
+      repo
           .getCopiesOfCardOwned(
         card.getDbKey(currentSet, CardEditionEnum.unlimited),
       )
@@ -135,7 +135,7 @@ class ExpansionCollectionBloc extends BlocBase {
           (edition == CardEditionEnum.first ? firstEditionQty : unlimitedQty) +
               1;
       Future.microtask(
-        () => sl<YgoProLocalDataSource>().updateCardOwned(
+        () => sl<YgoProRepository>().updateCardOwned(
           CardOwned(
             quantity: newQuantity,
             setCode: card.getCardSetsFromSet(currentSet)!.code,
@@ -164,7 +164,7 @@ class ExpansionCollectionBloc extends BlocBase {
         final card = currentCards[selectedCardIndex];
         final newQuantity = currentQty - 1;
         Future.microtask(
-          () => sl<YgoProLocalDataSource>().updateCardOwned(
+          () => sl<YgoProRepository>().updateCardOwned(
             CardOwned(
               quantity: newQuantity,
               setCode: card.getCardSetsFromSet(currentSet)!.code,
