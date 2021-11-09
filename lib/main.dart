@@ -23,7 +23,12 @@ Future<void> main() async {
       key: GlobalKey(),
       blocs: <BlocBase>[
         SetsBloc(fetchSets: sl(), updateSets: sl()),
-        CardsBloc(fetchCards: sl(), updateCards: sl()),
+        CardsBloc(
+          fetchCards: sl(),
+          updateCards: sl(),
+          fetchLocalCards: sl(),
+          fetchOwnedCards: sl(),
+        ),
         DBVersionBloc(),
         ExpansionCollectionBloc(),
       ],

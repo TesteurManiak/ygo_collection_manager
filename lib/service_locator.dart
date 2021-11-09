@@ -1,6 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:ygo_collection_manager/domain/usecases/fetch_all_cards.dart';
 import 'package:ygo_collection_manager/domain/usecases/fetch_all_sets.dart';
+import 'package:ygo_collection_manager/domain/usecases/fetch_local_cards.dart';
+import 'package:ygo_collection_manager/domain/usecases/fetch_owned_cards.dart';
 import 'package:ygo_collection_manager/domain/usecases/update_cards.dart';
 import 'package:ygo_collection_manager/domain/usecases/update_sets.dart';
 
@@ -17,20 +19,7 @@ void setupLocator() {
   //! Bloc
   // sl.registerFactory();
 
-  //! Domain
-  // Use cases
-  sl.registerLazySingleton(() => FetchAllCards(sl()));
-  sl.registerLazySingleton(() => UpdateCards(sl()));
-  sl.registerLazySingleton(() => FetchAllSets(sl()));
-  sl.registerLazySingleton(() => UpdateSets(sl()));
-
-  // Repository
-  sl.registerLazySingleton<YgoProRepository>(
-    () => YgoProRepositoryImpl(
-      remoteDataSource: sl(),
-      localDataSource: sl(),
-    ),
-  );
+  _configDomain();
 
   //! Data
   // Data sources
@@ -44,4 +33,23 @@ void setupLocator() {
 
   //! External
   sl.registerLazySingleton<RemoteClient>(() => DioClient());
+}
+
+void _configDomain() {
+  //! Domain
+  // Use cases
+  sl.registerLazySingleton(() => FetchAllCards(sl()));
+  sl.registerLazySingleton(() => UpdateCards(sl()));
+  sl.registerLazySingleton(() => FetchAllSets(sl()));
+  sl.registerLazySingleton(() => UpdateSets(sl()));
+  sl.registerLazySingleton(() => FetchLocalCards(sl()));
+  sl.registerLazySingleton(() => FetchOwnedCards(sl()));
+
+  // Repository
+  sl.registerLazySingleton<YgoProRepository>(
+    () => YgoProRepositoryImpl(
+      remoteDataSource: sl(),
+      localDataSource: sl(),
+    ),
+  );
 }

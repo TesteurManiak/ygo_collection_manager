@@ -10,17 +10,22 @@ import '../../core/extensions/extensions.dart';
 import '../../domain/entities/card_owned.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
-import '../../domain/repository/ygopro_repository.dart';
 import '../../domain/usecases/fetch_all_cards.dart';
+import '../../domain/usecases/fetch_local_cards.dart';
+import '../../domain/usecases/fetch_owned_cards.dart';
 import '../../domain/usecases/update_cards.dart';
 import '../../service_locator.dart';
 
 class CardsBloc extends BlocBase {
   final FetchAllCards fetchCards;
+  final FetchLocalCards fetchLocalCards;
+  final FetchOwnedCards fetchOwnedCards;
   final UpdateCards updateCards;
 
   CardsBloc({
     required this.fetchCards,
+    required this.fetchLocalCards,
+    required this.fetchOwnedCards,
     required this.updateCards,
   });
 
@@ -90,7 +95,7 @@ class CardsBloc extends BlocBase {
   }
 
   Future<void> loadFromDb() async {
-    final cards = await sl<YgoProRepository>().getLocalCards();
+    final cards = await fetchLocalCards();
     _cardsController.sink.add(cards);
   }
 
@@ -128,9 +133,8 @@ class CardsBloc extends BlocBase {
       for (final card in _cardsList) {
         _differentCardsSet.addAll(card.cardSets!.map<String>((e) => e.code));
       }
-      final _cardsOwned = (await sl<YgoProRepository>().getOwnedCards())
-          .map<String>((e) => e.setCode)
-          .toSet();
+      final _cardsOwned =
+          (await fetchOwnedCards()).map<String>((e) => e.setCode).toSet();
       if (_differentCardsSet.isNotEmpty) {
         _fullCollectionCompletionController.sink
             .add(_cardsOwned.length / _differentCardsSet.length * 100);
@@ -139,7 +143,7 @@ class CardsBloc extends BlocBase {
   }
 
   Future<int> cardsOwnedInSet(YgoSet cardSet) async {
-    return (await sl<YgoProRepository>().getOwnedCards())
+    return (await fetchOwnedCards())
         .compactMap<CardOwned>(
           (e) => e.setCode.contains(cardSet.setCode) &&
                   e.setName == cardSet.setName
