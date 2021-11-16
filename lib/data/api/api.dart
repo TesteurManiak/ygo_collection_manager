@@ -7,8 +7,8 @@ abstract class RemoteClient {
   Future<T> getUri<T>(Uri uri);
 }
 
-class DioClient extends RemoteClient {
-  final Dio _dio = Dio();
+class DioClient implements RemoteClient {
+  final  _dio = Dio();
 
   @override
   Future<T> getUri<T>(Uri uri) async {
