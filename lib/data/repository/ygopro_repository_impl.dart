@@ -1,3 +1,4 @@
+import '../../core/platform/network_info.dart';
 import '../../domain/entities/card_owned.dart';
 import '../../domain/entities/card_set_info.dart';
 import '../../domain/entities/db_version.dart';
@@ -11,17 +12,23 @@ import '../models/request/get_card_info_request.dart';
 class YgoProRepositoryImpl implements YgoProRepository {
   final YgoProRemoteDataSource remoteDataSource;
   final YgoProLocalDataSource localDataSource;
+  final NetworkInfo networkInfo;
 
   YgoProRepositoryImpl({
     required this.remoteDataSource,
     required this.localDataSource,
+    required this.networkInfo,
   });
 
   @override
   Future<List<YgoSet>> getAllSets() async {
-    final remoteSets = await remoteDataSource.getAllSets();
-    remoteSets.sort((a, b) => a.setName.compareTo(b.setName));
-    return remoteSets;
+    final isConnected = await networkInfo.isConnected;
+    if (isConnected) {
+      final remoteSets = await remoteDataSource.getAllSets();
+      remoteSets.sort((a, b) => a.setName.compareTo(b.setName));
+      return remoteSets;
+    }
+    return localDataSource.getSets();
   }
 
   @override

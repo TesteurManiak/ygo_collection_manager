@@ -45,6 +45,7 @@ void _configDomain() {
     () => YgoProRepositoryImpl(
       remoteDataSource: sl(),
       localDataSource: sl(),
+      networkInfo: sl(),
     ),
   );
 }
