@@ -1,17 +1,19 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get_it/get_it.dart';
-import 'package:ygo_collection_manager/domain/usecases/fetch_all_cards.dart';
-import 'package:ygo_collection_manager/domain/usecases/fetch_all_sets.dart';
-import 'package:ygo_collection_manager/domain/usecases/fetch_local_cards.dart';
-import 'package:ygo_collection_manager/domain/usecases/fetch_owned_cards.dart';
-import 'package:ygo_collection_manager/domain/usecases/update_cards.dart';
-import 'package:ygo_collection_manager/domain/usecases/update_sets.dart';
 
+import 'core/platform/network_info.dart';
 import 'data/api/api.dart';
 import 'data/datasources/local/hive/ygopro_local_datasource_hive.dart';
 import 'data/datasources/local/ygopro_local_datasource.dart';
 import 'data/datasources/remote/ygopro_remote_data_source.dart';
 import 'data/repository/ygopro_repository_impl.dart';
 import 'domain/repository/ygopro_repository.dart';
+import 'domain/usecases/fetch_all_cards.dart';
+import 'domain/usecases/fetch_all_sets.dart';
+import 'domain/usecases/fetch_local_cards.dart';
+import 'domain/usecases/fetch_owned_cards.dart';
+import 'domain/usecases/update_cards.dart';
+import 'domain/usecases/update_sets.dart';
 
 final sl = GetIt.instance;
 
@@ -20,19 +22,12 @@ void setupLocator() {
   // sl.registerFactory();
 
   _configDomain();
-
-  //! Data
-  // Data sources
-  sl.registerLazySingleton(() => YgoProRemoteDataSource(sl()));
-  sl.registerLazySingleton<YgoProLocalDataSource>(
-    () => YgoProLocalDataSourceHive(),
-  );
+  _configData();
 
   //! Core
   // sl.registerLazySingleton();
 
-  //! External
-  sl.registerLazySingleton<RemoteClient>(() => DioClient());
+  _configExternal();
 }
 
 void _configDomain() {
@@ -51,5 +46,24 @@ void _configDomain() {
       remoteDataSource: sl(),
       localDataSource: sl(),
     ),
+  );
+}
+
+void _configData() {
+  //! Data
+  // Data sources
+  sl.registerLazySingleton<YgoProRemoteDataSource>(
+    () => YgoProRemoteDataSourceImpl(sl()),
+  );
+  sl.registerLazySingleton<YgoProLocalDataSource>(
+    () => YgoProLocalDataSourceHive(),
+  );
+}
+
+void _configExternal() {
+  //! External
+  sl.registerLazySingleton<RemoteClient>(() => DioClient());
+  sl.registerLazySingleton<NetworkInfo>(
+    () => NetworkInfoImpl(connectivity: Connectivity()),
   );
 }

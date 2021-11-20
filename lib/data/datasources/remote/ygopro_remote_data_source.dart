@@ -12,7 +12,17 @@ import '../../models/response/db_version_model.dart';
 import '../../models/response/ygo_card_model.dart';
 import '../../models/response/ygo_set_model.dart';
 
-class YgoProRemoteDataSource {
+abstract class YgoProRemoteDataSource {
+  Future<List<ArchetypeModel>> getAllCardArchetypes();
+  Future<List<YgoSetModel>> getAllSets();
+  Future<CardSetInfoModel> getCardSetInformation(String setCode);
+  Future<YgoCardModel> getRandomCard();
+  Future<List<YgoCardModel>> getCardInfo(GetCardInfoRequest request);
+  Future<List<YgoSetModel>> getSets();
+  Future<DbVersionModel> checkDatabaseVersion();
+}
+
+class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
   static final baseUrl = Uri(scheme: 'https', host: 'db.ygoprodeck.com');
   static const basePath = <String>['api', 'v7'];
   static const cardInfoPath = 'cardinfo.php';
@@ -24,8 +34,9 @@ class YgoProRemoteDataSource {
 
   final RemoteClient httpClient;
 
-  YgoProRemoteDataSource(this.httpClient);
+  YgoProRemoteDataSourceImpl(this.httpClient);
 
+  @override
   Future<List<ArchetypeModel>> getAllCardArchetypes() async {
     final response = await _getCall<Iterable>([archetypesPath]);
     return response
@@ -33,6 +44,7 @@ class YgoProRemoteDataSource {
         .toList();
   }
 
+  @override
   Future<List<YgoSetModel>> getAllSets() async {
     final data = await _getCall<Iterable>([setsPath]);
     final sets = <YgoSetModel>[];
@@ -42,6 +54,7 @@ class YgoProRemoteDataSource {
     return sets;
   }
 
+  @override
   Future<CardSetInfoModel> getCardSetInformation(String setCode) async {
     final response = await _getCall<Map<String, dynamic>>(
       [cardSetsInfoPath],
@@ -52,11 +65,13 @@ class YgoProRemoteDataSource {
     return CardSetInfoModel.fromJson(response);
   }
 
+  @override
   Future<YgoCardModel> getRandomCard() async {
     final response = await _getCall<Map<String, dynamic>>([randomCardPath]);
     return YgoCardModel.fromJson(response);
   }
 
+  @override
   Future<List<YgoCardModel>> getCardInfo(GetCardInfoRequest request) async {
     final names = request.names;
     final fname = request.fname;
@@ -116,6 +131,7 @@ class YgoProRemoteDataSource {
     return cards;
   }
 
+  @override
   Future<List<YgoSetModel>> getSets() async {
     final data = await _getCall<Iterable>([setsPath]);
     final sets = <YgoSetModel>[];
@@ -125,6 +141,7 @@ class YgoProRemoteDataSource {
     return sets;
   }
 
+  @override
   Future<DbVersionModel> checkDatabaseVersion() async {
     final response = await _getCall<Iterable>([checkDBVerPath]);
     return DbVersionModel.fromJson(response.first as Map<String, dynamic>);
