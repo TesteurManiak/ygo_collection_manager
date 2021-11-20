@@ -12,13 +12,15 @@ import '../../domain/usecases/fetch_all_sets.dart';
 import '../../domain/usecases/update_sets.dart';
 import '../../service_locator.dart';
 
-class SetsBloc extends BlocBase {
+class SetsBloc implements BlocBase {
   final FetchAllSets fetchSets;
   final UpdateSets updateSets;
+  final YgoProRepository repository;
 
   SetsBloc({
     required this.fetchSets,
     required this.updateSets,
+    required this.repository,
   });
 
   final _setsController = BehaviorSubject<List<YgoSet>?>.seeded(null);
@@ -64,7 +66,7 @@ class SetsBloc extends BlocBase {
   }
 
   Future<void> loadFromDb() async {
-    final _sets = (await sl<YgoProRepository>().getLocalSets());
+    final _sets = (await repository.getLocalSets());
     _setsController.sink.add(_sets);
   }
 

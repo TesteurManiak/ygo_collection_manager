@@ -16,7 +16,7 @@ import '../../domain/usecases/fetch_owned_cards.dart';
 import '../../domain/usecases/update_cards.dart';
 import '../../service_locator.dart';
 
-class CardsBloc extends BlocBase {
+class CardsBloc implements BlocBase {
   final FetchAllCards fetchCards;
   final FetchLocalCards fetchLocalCards;
   final FetchOwnedCards fetchOwnedCards;

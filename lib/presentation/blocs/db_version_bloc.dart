@@ -1,8 +1,11 @@
 import '../../core/bloc/bloc.dart';
 import '../../domain/repository/ygopro_repository.dart';
-import '../../service_locator.dart';
 
-class DBVersionBloc extends BlocBase {
+class DBVersionBloc implements BlocBase {
+  final YgoProRepository repository;
+
+  DBVersionBloc({required this.repository});
+
   @override
   void initState() {}
 
@@ -10,7 +13,11 @@ class DBVersionBloc extends BlocBase {
   void dispose() {}
 
   Future<bool> shouldReloadDatabase() async {
-    final repo = sl<YgoProRepository>();
-    return repo.shouldReloadDb();
+    return repository.shouldReloadDb();
+  }
+
+  Future<void> updateDatabase() async {
+    final shouldReload = await repository.shouldReloadDb();
+    // await repository.updateDatabase();
   }
 }

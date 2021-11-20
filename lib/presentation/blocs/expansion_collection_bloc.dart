@@ -10,10 +10,13 @@ import '../../domain/entities/card_owned.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
 import '../../domain/repository/ygopro_repository.dart';
-import '../../service_locator.dart';
 import 'cards_bloc.dart';
 
-class ExpansionCollectionBloc extends BlocBase {
+class ExpansionCollectionBloc implements BlocBase {
+  final YgoProRepository repository;
+
+  ExpansionCollectionBloc({required this.repository});
+
   final _editionStateController = BehaviorSubject<bool>.seeded(false);
   Stream<bool> get onEditionStateChanged => _editionStateController.stream;
   bool get isEditing => _editionStateController.value;
@@ -51,8 +54,7 @@ class ExpansionCollectionBloc extends BlocBase {
       final card = currentCards[index];
       _titleController.sink.add(card.name);
 
-      final repo = sl<YgoProRepository>();
-      repo
+      repository
           .getCopiesOfCardOwned(
         card.getDbKey(currentSet, CardEditionEnum.first),
       )
@@ -60,7 +62,7 @@ class ExpansionCollectionBloc extends BlocBase {
         _firstEditionQtyController.sink.add(value);
       });
 
-      repo
+      repository
           .getCopiesOfCardOwned(
         card.getDbKey(currentSet, CardEditionEnum.unlimited),
       )
@@ -135,7 +137,7 @@ class ExpansionCollectionBloc extends BlocBase {
           (edition == CardEditionEnum.first ? firstEditionQty : unlimitedQty) +
               1;
       Future.microtask(
-        () => sl<YgoProRepository>().updateCardOwned(
+        () => repository.updateCardOwned(
           CardOwned(
             quantity: newQuantity,
             setCode: card.getCardSetsFromSet(currentSet)!.code,
@@ -164,7 +166,7 @@ class ExpansionCollectionBloc extends BlocBase {
         final card = currentCards[selectedCardIndex];
         final newQuantity = currentQty - 1;
         Future.microtask(
-          () => sl<YgoProRepository>().updateCardOwned(
+          () => repository.updateCardOwned(
             CardOwned(
               quantity: newQuantity,
               setCode: card.getCardSetsFromSet(currentSet)!.code,
