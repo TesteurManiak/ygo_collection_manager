@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -74,13 +73,9 @@ class SetsBloc implements BlocBase {
 
   Future<void> fetchAllSets() async {
     try {
-      if (kIsWeb) {
-        // TODO: implement web fetch
-      } else {
-        final _sets = await fetchSets();
-        _setsController.sink.add(_sets);
-        updateSets(_sets);
-      }
+      final _sets = await fetchSets();
+      _setsController.sink.add(_sets);
+      await updateSets(_sets);
     } catch (e) {
       _setsController.addError(e);
     }

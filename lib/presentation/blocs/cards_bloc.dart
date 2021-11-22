@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -86,15 +85,9 @@ class CardsBloc implements BlocBase {
   }
 
   Future<void> fetchAllCards() async {
-    if (kIsWeb) {
-      final newCards = await fetchCards();
-      _cardsController.sink.add(newCards);
-      await updateCards(newCards);
-    } else {
-      final newCards = await fetchCards();
-      _cardsController.sink.add(newCards);
-      updateCards(newCards);
-    }
+    final newCards = await fetchCards();
+    _cardsController.sink.add(newCards);
+    await updateCards(newCards);
   }
 
   Future<void> updateCompletion({List<YgoCard>? initialCards}) async {
