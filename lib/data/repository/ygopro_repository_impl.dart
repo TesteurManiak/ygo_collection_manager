@@ -1,3 +1,6 @@
+import 'package:flutter/foundation.dart';
+import 'package:ygo_collection_manager/service_locator.dart';
+
 import '../../core/platform/network_info.dart';
 import '../../domain/entities/card_owned.dart';
 import '../../domain/entities/card_set_info.dart';
@@ -20,15 +23,24 @@ class YgoProRepositoryImpl implements YgoProRepository {
     required this.networkInfo,
   });
 
+  static Future<List<YgoSet>> _fetchSets(bool isConnected) async {
+    setupLocator();
+    if (isConnected) {
+      final remoteSets = await sl<YgoProRemoteDataSource>().getAllSets();
+      remoteSets.sort((a, b) => a.setName.compareTo(b.setName));
+      return remoteSets;
+    } else {
+      final localSets = await sl<YgoProLocalDataSource>().getSets();
+      localSets.sort((a, b) => a.setName.compareTo(b.setName));
+      return localSets;
+    }
+  }
+
   @override
   Future<List<YgoSet>> getAllSets() async {
     final isConnected = await networkInfo.isConnected;
-    if (isConnected) {
-      final remoteSets = await remoteDataSource.getAllSets();
-      remoteSets.sort((a, b) => a.setName.compareTo(b.setName));
-      return remoteSets;
-    }
-    return localDataSource.getSets();
+    final _sets = await compute(_fetchSets, isConnected);
+    return _sets;
   }
 
   @override
