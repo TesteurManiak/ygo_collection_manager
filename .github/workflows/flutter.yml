@@ -15,10 +15,6 @@ jobs:
       with:
         flutter-version: '2.5.3'
     - run: flutter pub get
-    - run: flutter format --set-exit-if-changed .
-    - name: Analyze project source
-      run: flutter analyze
-      working-directory: ./lib
     - name: Test
       run: flutter test --coverage
     - name: Collect and report coverage
