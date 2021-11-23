@@ -7,6 +7,7 @@ import 'package:ygo_collection_manager/data/datasources/remote/ygopro_remote_dat
 import 'package:ygo_collection_manager/data/models/response/ygo_card_model.dart';
 import 'package:ygo_collection_manager/data/models/response/ygo_set_model.dart';
 import 'package:ygo_collection_manager/data/repository/ygopro_repository_impl.dart';
+import 'package:ygo_collection_manager/domain/entities/ygo_card.dart';
 import 'package:ygo_collection_manager/domain/entities/ygo_set.dart';
 
 import 'ygopro_repository_impl_test.mocks.dart';
@@ -21,6 +22,30 @@ void main() {
     remoteDataSource: mockRemoteDataSource,
     localDataSource: mockLocalDataSource,
     networkInfo: mockNetworkInfo,
+  );
+
+  final tCards = List<YgoCard>.generate(
+    10,
+    (index) => YgoCardModel(
+      id: index,
+      name: 'name: $index',
+      type: 'type: $index',
+      desc: 'desc: $index',
+      atk: null,
+      def: null,
+      level: null,
+      race: 'race: $index',
+      attribute: null,
+      archetype: null,
+      scale: null,
+      linkval: null,
+      cardImages: [],
+      linkmarkers: null,
+      cardSets: null,
+      cardPrices: [],
+      banlistInfo: null,
+      miscInfo: [],
+    ),
   );
 
   group('getAllSets', () {
@@ -71,6 +96,19 @@ void main() {
       // assert
       verify(mockNetworkInfo.isConnected);
     });
+
+    test('if offline fetch from local datasource', () async {
+      // arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      when(mockLocalDataSource.getCards()).thenAnswer((_) async => tCards);
+
+      // act
+      final cards = await repository.getAllCards(shouldReload: false);
+
+      // assert
+      expect(cards, tCards);
+      verify(mockLocalDataSource.getCards());
+    });
   });
 
   group('getRandomCard', () {
@@ -93,30 +131,6 @@ void main() {
       race: '',
       scale: null,
       type: '',
-    );
-
-    final tCards = List<YgoCardModel>.generate(
-      10,
-      (index) => YgoCardModel(
-        id: index,
-        name: 'name: $index',
-        type: 'type: $index',
-        desc: 'desc: $index',
-        atk: null,
-        def: null,
-        level: null,
-        race: 'race: $index',
-        attribute: null,
-        archetype: null,
-        scale: null,
-        linkval: null,
-        cardImages: [],
-        linkmarkers: null,
-        cardSets: null,
-        cardPrices: [],
-        banlistInfo: null,
-        miscInfo: [],
-      ),
     );
 
     test('should check if device is online', () async {
