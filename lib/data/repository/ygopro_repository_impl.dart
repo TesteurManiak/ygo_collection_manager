@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 
 import '../../core/platform/network_info.dart';
 import '../../domain/entities/card_owned.dart';
-import '../../domain/entities/db_version.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
 import '../../domain/repository/ygopro_repository.dart';
@@ -75,10 +74,6 @@ class YgoProRepositoryImpl implements YgoProRepository {
     cards.sort((a, b) => a.name.compareTo(b.name));
     return cards;
   }
-
-  @override
-  Future<DbVersion> checkDatabaseVersion() =>
-      remoteDataSource.checkDatabaseVersion();
 
   @override
   Future<List<CardOwned>> getOwnedCards() => localDataSource.getCardsOwned();

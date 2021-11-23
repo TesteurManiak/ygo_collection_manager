@@ -1,5 +1,4 @@
 import '../entities/card_owned.dart';
-import '../entities/db_version.dart';
 import '../entities/ygo_card.dart';
 import '../entities/ygo_set.dart';
 
@@ -19,8 +18,6 @@ abstract class YgoProRepository {
   ///
   /// If the device is offline, fetch a the cards from the local datasource.
   Future<List<YgoCard>> getAllCards({required bool shouldReload});
-
-  Future<DbVersion> checkDatabaseVersion();
 
   /// Fetch a random [YgoCard] from the API.
   ///
