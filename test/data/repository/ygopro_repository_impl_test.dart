@@ -265,5 +265,22 @@ void main() {
     });
   });
 
-  group('getCopiesOfCardOwned', () {});
+  group('getCopiesOfCardOwned', () {
+    const tKey = '1';
+    const tQuantity = 1;
+
+    test('should call getCopiesOfCardOwned from local datasource', () async {
+      // arrange
+      when(mockLocalDataSource.getCopiesOfCardOwned(tKey)).thenAnswer(
+        (_) async => tQuantity,
+      );
+
+      // act
+      final copies = await repository.getCopiesOfCardOwned(tKey);
+
+      // assert
+      verify(mockLocalDataSource.getCopiesOfCardOwned(tKey));
+      expect(copies, tQuantity);
+    });
+  });
 }
