@@ -54,5 +54,31 @@ void main() {
       // assert
       verify(mockNetworkInfo.isConnected);
     });
+
+    test('if online fetch from remote datasource', () async {
+      // arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockRemoteDataSource.getRandomCard()).thenAnswer((_) async => tCard);
+
+      // act
+      final randomCard = await repository.getRandomCard();
+
+      // assert
+      verify(mockRemoteDataSource.getRandomCard());
+      expect(randomCard, tCard);
+    });
+
+    test('if offline fetch a random card from local datasource', () async {
+      // arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      when(mockLocalDataSource.getCards()).thenAnswer((_) async => [tCard]);
+
+      // act
+      final randomCard = await repository.getRandomCard();
+
+      // assert
+      verify(mockLocalDataSource.getCards());
+      expect(randomCard, tCard);
+    });
   });
 }

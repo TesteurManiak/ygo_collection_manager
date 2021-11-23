@@ -50,7 +50,10 @@ class YgoProRepositoryImpl implements YgoProRepository {
   @override
   Future<YgoCard> getRandomCard() async {
     final isConnected = await networkInfo.isConnected;
-    return remoteDataSource.getRandomCard();
+    if (isConnected) {
+      return remoteDataSource.getRandomCard();
+    }
+    return ((await localDataSource.getCards())..shuffle()).first;
   }
 
   static Future<List<YgoCard>> _fetchCards(_) async {

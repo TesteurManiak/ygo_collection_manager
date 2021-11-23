@@ -21,6 +21,9 @@ abstract class YgoProRepository {
   Future<DbVersion> checkDatabaseVersion();
 
   /// Fetch a random [YgoCard] from the API.
+  ///
+  /// If there is no internet connection, a random card from the local data will
+  /// be retrived.
   Future<YgoCard> getRandomCard();
 
   Future<List<CardOwned>> getOwnedCards();
