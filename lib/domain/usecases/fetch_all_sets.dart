@@ -7,8 +7,8 @@ class FetchAllSets {
 
   FetchAllSets(this.repository);
 
-  Future<List<YgoSet>> call() async {
-    final newSets = await repository.getAllSets();
+  Future<List<YgoSet>> call({required bool shouldReload}) async {
+    final newSets = await repository.getAllSets(shouldReload: shouldReload);
     return newSets;
   }
 }

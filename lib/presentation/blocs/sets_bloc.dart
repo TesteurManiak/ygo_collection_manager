@@ -38,7 +38,6 @@ class SetsBloc implements BlocBase {
   @override
   void initState() {
     _setsControllerSubscription = _setsController.listen(_setsFilterListener);
-    loadFromDb();
   }
 
   @override
@@ -48,11 +47,6 @@ class SetsBloc implements BlocBase {
 
     _setsController.close();
     _filteredSetsController.close();
-  }
-
-  Future<void> loadFromDb() async {
-    final _sets = (await repository.getLocalSets());
-    _setsController.sink.add(_sets);
   }
 
   void filter(String search) {
@@ -71,9 +65,9 @@ class SetsBloc implements BlocBase {
     }
   }
 
-  Future<void> fetchAllSets() async {
+  Future<void> fetchAllSets({required bool shouldReload}) async {
     try {
-      final _sets = await fetchSets();
+      final _sets = await fetchSets(shouldReload: shouldReload);
       _setsController.sink.add(_sets);
       await updateSets(_sets);
     } catch (e) {

@@ -23,24 +23,24 @@ class YgoProRepositoryImpl implements YgoProRepository {
     required this.networkInfo,
   });
 
-  static Future<List<YgoSet>> _fetchSets(bool isConnected) async {
+  static Future<List<YgoSet>> _fetchSets(_) async {
     // TODO: need to refacto without the service locator
     setupLocator();
-    late final List<YgoSet> sets;
-    if (isConnected) {
-      sets = await sl<YgoProRemoteDataSource>().getAllSets();
-    } else {
-      sets = await sl<YgoProLocalDataSource>().getSets();
-    }
-    sets.sort((a, b) => a.setName.compareTo(b.setName));
+    final sets = await sl<YgoProRemoteDataSource>().getAllSets();
     return sets;
   }
 
   @override
-  Future<List<YgoSet>> getAllSets() async {
+  Future<List<YgoSet>> getAllSets({required bool shouldReload}) async {
     final isConnected = await networkInfo.isConnected;
-    final _sets = await compute(_fetchSets, isConnected);
-    return _sets;
+    late final List<YgoSet> sets;
+    if (isConnected && shouldReload) {
+      sets = await compute(_fetchSets, isConnected);
+    } else {
+      sets = await localDataSource.getSets();
+    }
+    sets.sort((a, b) => a.setName.compareTo(b.setName));
+    return sets;
   }
 
   @override
@@ -61,13 +61,19 @@ class YgoProRepositoryImpl implements YgoProRepository {
     setupLocator();
     final cards = await sl<YgoProRemoteDataSource>()
         .getCardInfo(GetCardInfoRequest(misc: true));
-    cards.sort((a, b) => a.name.compareTo(b.name));
     return cards;
   }
 
   @override
-  Future<List<YgoCard>> getAllCards() async {
-    final cards = await compute(_fetchCards, null);
+  Future<List<YgoCard>> getAllCards({required bool shouldReload}) async {
+    final isConnected = await networkInfo.isConnected;
+    late final List<YgoCard> cards;
+    if (isConnected && shouldReload) {
+      cards = await compute(_fetchCards, null);
+    } else {
+      cards = await localDataSource.getCards();
+    }
+    cards.sort((a, b) => a.name.compareTo(b.name));
     return cards;
   }
 
@@ -77,13 +83,6 @@ class YgoProRepositoryImpl implements YgoProRepository {
 
   @override
   Future<List<CardOwned>> getOwnedCards() => localDataSource.getCardsOwned();
-
-  @override
-  Future<List<YgoCard>> getLocalCards() async {
-    final cards = await localDataSource.getCards();
-    cards.sort((a, b) => a.name.compareTo(b.name));
-    return cards;
-  }
 
   @override
   Future<void> updateCards(List<YgoCard> cards) =>
@@ -109,13 +108,6 @@ class YgoProRepositoryImpl implements YgoProRepository {
   @override
   Future<void> updateCardOwned(CardOwned card) =>
       localDataSource.updateCardOwned(card);
-
-  @override
-  Future<List<YgoSet>> getLocalSets() async {
-    final sets = await localDataSource.getSets();
-    sets.sort((a, b) => a.setName.compareTo(b.setName));
-    return sets;
-  }
 
   @override
   Future<void> updateSets(List<YgoSet> sets) =>

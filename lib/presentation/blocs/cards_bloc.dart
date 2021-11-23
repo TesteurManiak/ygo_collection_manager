@@ -9,19 +9,16 @@ import '../../domain/entities/card_owned.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
 import '../../domain/usecases/fetch_all_cards.dart';
-import '../../domain/usecases/fetch_local_cards.dart';
 import '../../domain/usecases/fetch_owned_cards.dart';
 import '../../domain/usecases/update_cards.dart';
 
 class CardsBloc implements BlocBase {
   final FetchAllCards fetchCards;
-  final FetchLocalCards fetchLocalCards;
   final FetchOwnedCards fetchOwnedCards;
   final UpdateCards updateCards;
 
   CardsBloc({
     required this.fetchCards,
-    required this.fetchLocalCards,
     required this.fetchOwnedCards,
     required this.updateCards,
   });
@@ -67,7 +64,6 @@ class CardsBloc implements BlocBase {
   @override
   void initState() {
     _cardsSubscription = _cardsController.listen(_cardsListener);
-    loadFromDb();
   }
 
   @override
@@ -79,13 +75,8 @@ class CardsBloc implements BlocBase {
     _fullCollectionCompletionController.close();
   }
 
-  Future<void> loadFromDb() async {
-    final cards = await fetchLocalCards();
-    _cardsController.sink.add(cards);
-  }
-
-  Future<void> fetchAllCards() async {
-    final newCards = await fetchCards();
+  Future<void> fetchAllCards({required bool shouldReload}) async {
+    final newCards = await fetchCards(shouldReload: shouldReload);
     _cardsController.sink.add(newCards);
     await updateCards(newCards);
   }

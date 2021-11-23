@@ -23,12 +23,10 @@ class _LoadingViewState extends State<LoadingView> {
 
   Future<void> _loadAll() async {
     final shouldReload = await _dbVersionBloc.shouldReloadDatabase();
-    if (shouldReload) {
-      await Future.wait([
-        _setsBloc.fetchAllSets(),
-        _cardsBloc.fetchAllCards(),
-      ]);
-    }
+    await Future.wait([
+      _setsBloc.fetchAllSets(shouldReload: shouldReload),
+      _cardsBloc.fetchAllCards(shouldReload: shouldReload),
+    ]);
   }
 
   @override

@@ -10,7 +10,6 @@ import 'data/repository/ygopro_repository_impl.dart';
 import 'domain/repository/ygopro_repository.dart';
 import 'domain/usecases/fetch_all_cards.dart';
 import 'domain/usecases/fetch_all_sets.dart';
-import 'domain/usecases/fetch_local_cards.dart';
 import 'domain/usecases/fetch_owned_cards.dart';
 import 'domain/usecases/update_cards.dart';
 import 'domain/usecases/update_sets.dart';
@@ -37,7 +36,6 @@ void _configDomain() {
   sl.registerLazySingleton(() => UpdateCards(sl()));
   sl.registerLazySingleton(() => FetchAllSets(sl()));
   sl.registerLazySingleton(() => UpdateSets(sl()));
-  sl.registerLazySingleton(() => FetchLocalCards(sl()));
   sl.registerLazySingleton(() => FetchOwnedCards(sl()));
 
   // Repository

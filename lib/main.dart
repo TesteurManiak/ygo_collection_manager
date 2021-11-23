@@ -26,7 +26,6 @@ Future<void> main() async {
         CardsBloc(
           fetchCards: sl(),
           updateCards: sl(),
-          fetchLocalCards: sl(),
           fetchOwnedCards: sl(),
         ),
         DBVersionBloc(repository: sl()),

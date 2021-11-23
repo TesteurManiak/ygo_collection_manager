@@ -6,14 +6,12 @@ import '../entities/ygo_set.dart';
 
 abstract class YgoProRepository {
   /// Returns all of the current Yu-Gi-Oh! Card Set Names.
-  Future<List<YgoSet>> getAllSets();
-
-  Future<List<YgoSet>> getLocalSets();
+  Future<List<YgoSet>> getAllSets({required bool shouldReload});
 
   /// Fetch a [List<YgoCard>] from the API.
   ///
   /// If a [ServerException] is thrown, the local data will be retried.
-  Future<List<YgoCard>> getAllCards();
+  Future<List<YgoCard>> getAllCards({required bool shouldReload});
 
   /// Returns a [CardSetInfo] for the given [setCode] from the API.
   Future<CardSetInfo> getCardSetInformation(String setCode);
@@ -27,8 +25,6 @@ abstract class YgoProRepository {
   Future<YgoCard> getRandomCard();
 
   Future<List<CardOwned>> getOwnedCards();
-
-  Future<List<YgoCard>> getLocalCards();
 
   Future<void> updateCards(List<YgoCard> cards);
 

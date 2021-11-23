@@ -37,7 +37,7 @@ class _CollectionViewState extends State<CollectionView>
     super.build(context);
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: _setsBloc.fetchSets,
+        onRefresh: () => _setsBloc.fetchSets(shouldReload: true),
         child: ScrollConfiguration(
           behavior: NoGlowScrollBehavior(),
           child: CustomScrollView(

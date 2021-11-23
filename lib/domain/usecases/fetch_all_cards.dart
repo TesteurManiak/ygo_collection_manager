@@ -7,8 +7,8 @@ class FetchAllCards {
 
   FetchAllCards(this.repository);
 
-  Future<List<YgoCard>> call() async {
-    final newCards = await repository.getAllCards();
+  Future<List<YgoCard>> call({required bool shouldReload}) async {
+    final newCards = await repository.getAllCards(shouldReload: shouldReload);
     return newCards;
   }
 }
