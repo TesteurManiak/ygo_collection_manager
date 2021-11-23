@@ -69,7 +69,9 @@ class YgoProRepositoryImpl implements YgoProRepository {
     final isConnected = await networkInfo.isConnected;
     late final List<YgoCard> cards;
     if (isConnected && shouldReload) {
+      // Fetch cards from remote and update the database
       cards = await compute(_fetchCards, null);
+      await localDataSource.updateCards(cards);
     } else {
       cards = await localDataSource.getCards();
     }
@@ -83,10 +85,6 @@ class YgoProRepositoryImpl implements YgoProRepository {
 
   @override
   Future<List<CardOwned>> getOwnedCards() => localDataSource.getCardsOwned();
-
-  @override
-  Future<void> updateCards(List<YgoCard> cards) =>
-      localDataSource.updateCards(cards);
 
   @override
   Future<bool> shouldReloadDb() async {

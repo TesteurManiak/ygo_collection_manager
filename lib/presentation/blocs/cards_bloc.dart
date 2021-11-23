@@ -10,17 +10,14 @@ import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
 import '../../domain/usecases/fetch_all_cards.dart';
 import '../../domain/usecases/fetch_owned_cards.dart';
-import '../../domain/usecases/update_cards.dart';
 
 class CardsBloc implements BlocBase {
   final FetchAllCards fetchCards;
   final FetchOwnedCards fetchOwnedCards;
-  final UpdateCards updateCards;
 
   CardsBloc({
     required this.fetchCards,
     required this.fetchOwnedCards,
-    required this.updateCards,
   });
 
   final _cardsController = BehaviorSubject<List<YgoCard>?>.seeded(null);
@@ -78,7 +75,6 @@ class CardsBloc implements BlocBase {
   Future<void> fetchAllCards({required bool shouldReload}) async {
     final newCards = await fetchCards(shouldReload: shouldReload);
     _cardsController.sink.add(newCards);
-    await updateCards(newCards);
   }
 
   Future<void> updateCompletion({List<YgoCard>? initialCards}) async {
