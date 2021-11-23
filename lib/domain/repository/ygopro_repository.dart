@@ -9,8 +9,6 @@ abstract class YgoProRepository {
   Future<List<YgoSet>> getAllSets({required bool shouldReload});
 
   /// Fetch a [List<YgoCard>] from the API.
-  ///
-  /// If a [ServerException] is thrown, the local data will be retried.
   Future<List<YgoCard>> getAllCards({required bool shouldReload});
 
   /// Returns a [CardSetInfo] for the given [setCode] from the API.
