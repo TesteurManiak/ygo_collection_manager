@@ -1,12 +1,19 @@
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+  strong-mode:
+    implicit-casts: false
+  errors:
+    missing_required_param: warning
+    missing_return: warning
+    # todo: ignore
+
 linter:
   rules:
+    - always_declare_return_types
     - avoid_bool_literals_in_conditional_expressions
     - avoid_escaping_inner_quotes
     - avoid_positional_boolean_parameters
-    - flutter_style_todos
-    - one_member_abstracts
     - parameter_assignments
     - prefer_null_aware_method_calls
     - require_trailing_commas
