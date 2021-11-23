@@ -88,7 +88,7 @@ void main() {
     test('should check if device is online', () async {
       // arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
-      when(mockLocalDataSource.getCards()).thenAnswer((_) async => tCards);
+      when(mockLocalDataSource.getCards()).thenAnswer((_) async => []);
 
       // act
       repository.getAllCards(shouldReload: false);
@@ -100,14 +100,14 @@ void main() {
     test('if offline fetch from local datasource', () async {
       // arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
-      when(mockLocalDataSource.getCards()).thenAnswer((_) async => []);
+      when(mockLocalDataSource.getCards()).thenAnswer((_) async => tCards);
 
       // act
       final cards = await repository.getAllCards(shouldReload: false);
 
       // assert
+      expect(cards, tCards);
       verify(mockLocalDataSource.getCards());
-      expect(cards, []);
     });
   });
 
