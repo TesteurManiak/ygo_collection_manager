@@ -17,7 +17,7 @@ class DBVersionBloc implements BlocBase {
   }
 
   Future<void> updateDatabase() async {
-    final shouldReload = await repository.shouldReloadDb();
+    await repository.shouldReloadDb();
     // await repository.updateDatabase();
   }
 }
