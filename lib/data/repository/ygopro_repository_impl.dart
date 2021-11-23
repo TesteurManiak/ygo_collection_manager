@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 
 import '../../core/platform/network_info.dart';
 import '../../domain/entities/card_owned.dart';
-import '../../domain/entities/card_set_info.dart';
 import '../../domain/entities/db_version.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
@@ -44,10 +43,6 @@ class YgoProRepositoryImpl implements YgoProRepository {
     sets.sort((a, b) => a.setName.compareTo(b.setName));
     return sets;
   }
-
-  @override
-  Future<CardSetInfo> getCardSetInformation(String setCode) =>
-      remoteDataSource.getCardSetInformation(setCode);
 
   @override
   Future<YgoCard> getRandomCard() async {

@@ -59,6 +59,20 @@ void main() {
     });
   });
 
+  group('getAllCards', () {
+    test('should check if device is online', () async {
+      // arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      when(mockLocalDataSource.getCards()).thenAnswer((_) async => []);
+
+      // act
+      repository.getAllCards(shouldReload: false);
+
+      // assert
+      verify(mockNetworkInfo.isConnected);
+    });
+  });
+
   group('getRandomCard', () {
     final tCard = YgoCardModel(
       archetype: '',
@@ -79,6 +93,30 @@ void main() {
       race: '',
       scale: null,
       type: '',
+    );
+
+    final tCards = List<YgoCardModel>.generate(
+      10,
+      (index) => YgoCardModel(
+        id: index,
+        name: 'name: $index',
+        type: 'type: $index',
+        desc: 'desc: $index',
+        atk: null,
+        def: null,
+        level: null,
+        race: 'race: $index',
+        attribute: null,
+        archetype: null,
+        scale: null,
+        linkval: null,
+        cardImages: [],
+        linkmarkers: null,
+        cardSets: null,
+        cardPrices: [],
+        banlistInfo: null,
+        miscInfo: [],
+      ),
     );
 
     test('should check if device is online', () async {
@@ -109,14 +147,14 @@ void main() {
     test('if offline fetch a random card from local datasource', () async {
       // arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
-      when(mockLocalDataSource.getCards()).thenAnswer((_) async => [tCard]);
+      when(mockLocalDataSource.getCards()).thenAnswer((_) async => tCards);
 
       // act
       final randomCard = await repository.getRandomCard();
 
       // assert
       verify(mockLocalDataSource.getCards());
-      expect(randomCard, tCard);
+      expect(tCards.contains(randomCard), true);
     });
   });
 }
