@@ -5,13 +5,18 @@ import '../entities/ygo_card.dart';
 import '../entities/ygo_set.dart';
 
 abstract class YgoProRepository {
-  /// Returns all of the current Yu-Gi-Oh! Card Set Names.
+  /// Returns a `List<YgoSet>` of all the sets.
+  ///
+  /// If the device is online, fetch data from the remote datasource and update
+  /// the local datasource.
+  ///
+  /// If the device is offline, fetch data from the local datasource.
   Future<List<YgoSet>> getAllSets({required bool shouldReload});
 
   /// Return a `List<YgoCard>` of all the cards.
   ///
-  /// If the device is online, fetch a `List<YgoCard>` from the remote
-  /// datasource and update the local data.
+  /// If the device is online, fetch data from the remote datasource and update
+  /// the local datasource.
   ///
   /// If the device is offline, fetch a the cards from the local datasource.
   Future<List<YgoCard>> getAllCards({required bool shouldReload});
