@@ -80,15 +80,20 @@ class YgoProRepositoryImpl implements YgoProRepository {
 
   @override
   Future<bool> shouldReloadDb() async {
-    final savedDbVersion = await localDataSource.getDatabaseVersion();
-    final fetchedDbVersion = await remoteDataSource.checkDatabaseVersion();
+    final isConnected = await networkInfo.isConnected;
+    if (isConnected) {
+      final savedDbVersion = await localDataSource.getDatabaseVersion();
+      final fetchedDbVersion = await remoteDataSource.checkDatabaseVersion();
 
-    final shouldReload = savedDbVersion == null ||
-        savedDbVersion.version != fetchedDbVersion.version;
-    if (shouldReload) {
-      await localDataSource.updateDbVersion(fetchedDbVersion);
+      final shouldReload = savedDbVersion == null ||
+          savedDbVersion.version != fetchedDbVersion.version;
+      if (shouldReload) {
+        await localDataSource.updateDbVersion(fetchedDbVersion);
+      }
+      return shouldReload;
+    } else {
+      return false;
     }
-    return shouldReload;
   }
 
   @override

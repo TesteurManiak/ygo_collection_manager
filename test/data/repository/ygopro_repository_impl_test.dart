@@ -4,6 +4,7 @@ import 'package:mockito/mockito.dart';
 import 'package:ygo_collection_manager/core/platform/network_info.dart';
 import 'package:ygo_collection_manager/data/datasources/local/ygopro_local_datasource.dart';
 import 'package:ygo_collection_manager/data/datasources/remote/ygopro_remote_data_source.dart';
+import 'package:ygo_collection_manager/data/models/response/db_version_model.dart';
 import 'package:ygo_collection_manager/data/models/response/ygo_card_model.dart';
 import 'package:ygo_collection_manager/data/models/response/ygo_set_model.dart';
 import 'package:ygo_collection_manager/data/repository/ygopro_repository_impl.dart';
@@ -106,8 +107,8 @@ void main() {
       final cards = await repository.getAllCards(shouldReload: false);
 
       // assert
-      expect(cards, tCards);
       verify(mockLocalDataSource.getCards());
+      expect(cards, tCards);
     });
   });
 
@@ -171,4 +172,70 @@ void main() {
       expect(tCards.contains(randomCard), true);
     });
   });
+
+  group('getOwnedCards', () {
+    final tDbVersion = DbVersionModel(
+      lastUpdate: DateTime.now(),
+      version: '1',
+    );
+    final tDbVersion2 = DbVersionModel(
+      lastUpdate: DateTime.now(),
+      version: '2',
+    );
+
+    test('should check if device is online', () async {
+      // arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+
+      // act
+      repository.shouldReloadDb();
+
+      // assert
+      verify(mockNetworkInfo.isConnected);
+    });
+
+    test('if same version do not update and return false', () async {
+      // arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockRemoteDataSource.checkDatabaseVersion()).thenAnswer(
+        (_) async => tDbVersion,
+      );
+      when(mockLocalDataSource.getDatabaseVersion()).thenAnswer(
+        (_) async => tDbVersion,
+      );
+
+      // act
+      final shouldReload = await repository.shouldReloadDb();
+
+      // assert
+      verify(mockRemoteDataSource.checkDatabaseVersion());
+      verify(mockLocalDataSource.getDatabaseVersion());
+      expect(shouldReload, false);
+    });
+
+    test('if different version update and return true', () async {
+      // arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockRemoteDataSource.checkDatabaseVersion()).thenAnswer(
+        (_) async => tDbVersion2,
+      );
+      when(mockLocalDataSource.getDatabaseVersion()).thenAnswer(
+        (_) async => tDbVersion,
+      );
+      when(mockLocalDataSource.updateDbVersion(tDbVersion2)).thenAnswer(
+        (_) async => true,
+      );
+
+      // act
+      final shouldReload = await repository.shouldReloadDb();
+
+      // assert
+      verify(mockRemoteDataSource.checkDatabaseVersion());
+      verify(mockLocalDataSource.getDatabaseVersion());
+      verify(mockLocalDataSource.updateDbVersion(tDbVersion2));
+      expect(shouldReload, true);
+    });
+  });
+
+  group('shouldReloadDb', () {});
 }

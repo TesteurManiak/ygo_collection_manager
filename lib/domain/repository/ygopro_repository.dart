@@ -25,8 +25,17 @@ abstract class YgoProRepository {
   /// be retrived.
   Future<YgoCard> getRandomCard();
 
+  /// Return a `List<CardOwned>` from the local datasource of all the cards
+  /// owned by the user..
   Future<List<CardOwned>> getOwnedCards();
 
+  /// Fetch the `DbVersion` from the local and remote datasource.
+  ///
+  /// Return `false` if both `DbVersion.version` are identical or if there is no
+  /// internet connection.
+  ///
+  /// Return `true` if there is a new version available or if there is no local
+  /// version.
   Future<bool> shouldReloadDb();
 
   Future<int> getCopiesOfCardOwned(String key);
