@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:ygo_collection_manager/core/entities/card_edition_enum.dart';
 import 'package:ygo_collection_manager/core/platform/network_info.dart';
 import 'package:ygo_collection_manager/data/datasources/local/ygopro_local_datasource.dart';
 import 'package:ygo_collection_manager/data/datasources/remote/ygopro_remote_data_source.dart';
@@ -8,6 +9,7 @@ import 'package:ygo_collection_manager/data/models/response/db_version_model.dar
 import 'package:ygo_collection_manager/data/models/response/ygo_card_model.dart';
 import 'package:ygo_collection_manager/data/models/response/ygo_set_model.dart';
 import 'package:ygo_collection_manager/data/repository/ygopro_repository_impl.dart';
+import 'package:ygo_collection_manager/domain/entities/card_owned.dart';
 import 'package:ygo_collection_manager/domain/entities/ygo_card.dart';
 import 'package:ygo_collection_manager/domain/entities/ygo_set.dart';
 
@@ -174,6 +176,32 @@ void main() {
   });
 
   group('getOwnedCards', () {
+    final tOwnedCards = <CardOwned>[
+      CardOwned(
+        quantity: 1,
+        setCode: '',
+        edition: CardEditionEnum.first,
+        setName: '',
+        id: 1,
+      ),
+    ];
+
+    test('fetch owned cards from local datasource', () async {
+      // arrange
+      when(mockLocalDataSource.getCardsOwned()).thenAnswer(
+        (_) async => tOwnedCards,
+      );
+
+      // act
+      final cards = await repository.getOwnedCards();
+
+      // assert
+      verify(mockLocalDataSource.getCardsOwned());
+      expect(cards, tOwnedCards);
+    });
+  });
+
+  group('shouldReloadDb', () {
     final tDbVersion = DbVersionModel(
       lastUpdate: DateTime.now(),
       version: '1',
@@ -237,5 +265,22 @@ void main() {
     });
   });
 
-  group('shouldReloadDb', () {});
+  group('getCopiesOfCardOwned', () {
+    const tKey = '1';
+    const tQuantity = 1;
+
+    test('should call getCopiesOfCardOwned from local datasource', () async {
+      // arrange
+      when(mockLocalDataSource.getCopiesOfCardOwned(tKey)).thenAnswer(
+        (_) async => tQuantity,
+      );
+
+      // act
+      final copies = await repository.getCopiesOfCardOwned(tKey);
+
+      // assert
+      verify(mockLocalDataSource.getCopiesOfCardOwned(tKey));
+      expect(copies, tQuantity);
+    });
+  });
 }

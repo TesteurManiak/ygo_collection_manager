@@ -38,6 +38,9 @@ abstract class YgoProRepository {
   /// version.
   Future<bool> shouldReloadDb();
 
+  /// Return the number of a specific card owned by the user.
+  ///
+  /// The card is identified by its `key`.
   Future<int> getCopiesOfCardOwned(String key);
 
   Future<void> updateCardOwned(CardOwned card);
