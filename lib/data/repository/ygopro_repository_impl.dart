@@ -35,7 +35,9 @@ class YgoProRepositoryImpl implements YgoProRepository {
     final isConnected = await networkInfo.isConnected;
     late final List<YgoSet> sets;
     if (isConnected && shouldReload) {
+      // Fetch sets from remote and update the database.
       sets = await compute(_fetchSets, isConnected);
+      await localDataSource.updateSets(sets);
     } else {
       sets = await localDataSource.getSets();
     }
@@ -69,7 +71,7 @@ class YgoProRepositoryImpl implements YgoProRepository {
     final isConnected = await networkInfo.isConnected;
     late final List<YgoCard> cards;
     if (isConnected && shouldReload) {
-      // Fetch cards from remote and update the database
+      // Fetch cards from remote and update the database.
       cards = await compute(_fetchCards, null);
       await localDataSource.updateCards(cards);
     } else {
@@ -106,8 +108,4 @@ class YgoProRepositoryImpl implements YgoProRepository {
   @override
   Future<void> updateCardOwned(CardOwned card) =>
       localDataSource.updateCardOwned(card);
-
-  @override
-  Future<void> updateSets(List<YgoSet> sets) =>
-      localDataSource.updateSets(sets);
 }

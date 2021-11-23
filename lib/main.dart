@@ -22,11 +22,8 @@ Future<void> main() async {
     BlocProvider(
       key: GlobalKey(),
       blocs: <BlocBase>[
-        SetsBloc(fetchSets: sl(), updateSets: sl(), repository: sl()),
-        CardsBloc(
-          fetchCards: sl(),
-          fetchOwnedCards: sl(),
-        ),
+        SetsBloc(fetchSets: sl(), repository: sl()),
+        CardsBloc(fetchCards: sl(), fetchOwnedCards: sl()),
         DBVersionBloc(repository: sl()),
         ExpansionCollectionBloc(repository: sl()),
       ],

@@ -34,6 +34,4 @@ abstract class YgoProRepository {
   Future<int> getCopiesOfCardOwned(String key);
 
   Future<void> updateCardOwned(CardOwned card);
-
-  Future<void> updateSets(List<YgoSet> sets);
 }

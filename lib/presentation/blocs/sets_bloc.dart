@@ -7,16 +7,13 @@ import '../../core/bloc/bloc.dart';
 import '../../domain/entities/ygo_set.dart';
 import '../../domain/repository/ygopro_repository.dart';
 import '../../domain/usecases/fetch_all_sets.dart';
-import '../../domain/usecases/update_sets.dart';
 
 class SetsBloc implements BlocBase {
   final FetchAllSets fetchSets;
-  final UpdateSets updateSets;
   final YgoProRepository repository;
 
   SetsBloc({
     required this.fetchSets,
-    required this.updateSets,
     required this.repository,
   });
 
@@ -69,7 +66,6 @@ class SetsBloc implements BlocBase {
     try {
       final _sets = await fetchSets(shouldReload: shouldReload);
       _setsController.sink.add(_sets);
-      await updateSets(_sets);
     } catch (e) {
       _setsController.addError(e);
     }
