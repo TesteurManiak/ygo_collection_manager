@@ -48,7 +48,10 @@ class YgoProRepositoryImpl implements YgoProRepository {
       remoteDataSource.getCardSetInformation(setCode);
 
   @override
-  Future<YgoCard> getRandomCard() => remoteDataSource.getRandomCard();
+  Future<YgoCard> getRandomCard() async {
+    final isConnected = await networkInfo.isConnected;
+    return remoteDataSource.getRandomCard();
+  }
 
   static Future<List<YgoCard>> _fetchCards(_) async {
     // TODO: need to refacto without the service locator
