@@ -5,17 +5,12 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../core/bloc/bloc.dart';
 import '../../domain/entities/ygo_set.dart';
-import '../../domain/repository/ygopro_repository.dart';
 import '../../domain/usecases/fetch_all_sets.dart';
 
 class SetsBloc implements BlocBase {
   final FetchAllSets fetchSets;
-  final YgoProRepository repository;
 
-  SetsBloc({
-    required this.fetchSets,
-    required this.repository,
-  });
+  SetsBloc({required this.fetchSets});
 
   final _setsController = BehaviorSubject<List<YgoSet>?>.seeded(null);
   Stream<List<YgoSet>?> get onSetsChanged => _setsController.stream;

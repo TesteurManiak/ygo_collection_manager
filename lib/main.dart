@@ -22,10 +22,13 @@ Future<void> main() async {
     BlocProvider(
       key: GlobalKey(),
       blocs: <BlocBase>[
-        SetsBloc(fetchSets: sl(), repository: sl()),
+        SetsBloc(fetchSets: sl()),
         CardsBloc(fetchCards: sl(), fetchOwnedCards: sl()),
-        DBVersionBloc(repository: sl()),
-        ExpansionCollectionBloc(repository: sl()),
+        DBVersionBloc(shouldReloadDb: sl()),
+        ExpansionCollectionBloc(
+          getCopiesOfCardOwned: sl(),
+          updateCardOwned: sl(),
+        ),
       ],
       child: const MyApp(),
     ),

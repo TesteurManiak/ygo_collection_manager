@@ -9,13 +9,18 @@ import '../../core/entities/card_edition_enum.dart';
 import '../../domain/entities/card_owned.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
-import '../../domain/repository/ygopro_repository.dart';
+import '../../domain/usecases/get_copies_of_card_owned.dart';
+import '../../domain/usecases/update_card_owned.dart';
 import 'cards_bloc.dart';
 
 class ExpansionCollectionBloc implements BlocBase {
-  final YgoProRepository repository;
+  final GetCopiesOfCardOwned getCopiesOfCardOwned;
+  final UpdateCardOwned updateCardOwned;
 
-  ExpansionCollectionBloc({required this.repository});
+  ExpansionCollectionBloc({
+    required this.getCopiesOfCardOwned,
+    required this.updateCardOwned,
+  });
 
   final _editionStateController = BehaviorSubject<bool>.seeded(false);
   Stream<bool> get onEditionStateChanged => _editionStateController.stream;
@@ -54,19 +59,15 @@ class ExpansionCollectionBloc implements BlocBase {
       final card = currentCards[index];
       _titleController.sink.add(card.name);
 
-      repository
-          .getCopiesOfCardOwned(
+      getCopiesOfCardOwned(
         card.getDbKey(currentSet, CardEditionEnum.first),
-      )
-          .then((value) {
+      ).then((value) {
         _firstEditionQtyController.sink.add(value);
       });
 
-      repository
-          .getCopiesOfCardOwned(
+      getCopiesOfCardOwned(
         card.getDbKey(currentSet, CardEditionEnum.unlimited),
-      )
-          .then((value) {
+      ).then((value) {
         _unlimitedQtyController.sink.add(value);
       });
     }
@@ -137,7 +138,7 @@ class ExpansionCollectionBloc implements BlocBase {
           (edition == CardEditionEnum.first ? firstEditionQty : unlimitedQty) +
               1;
       Future.microtask(
-        () => repository.updateCardOwned(
+        () => updateCardOwned(
           CardOwned(
             quantity: newQuantity,
             setCode: card.getCardSetsFromSet(currentSet)!.code,
@@ -166,7 +167,7 @@ class ExpansionCollectionBloc implements BlocBase {
         final card = currentCards[selectedCardIndex];
         final newQuantity = currentQty - 1;
         Future.microtask(
-          () => repository.updateCardOwned(
+          () => updateCardOwned(
             CardOwned(
               quantity: newQuantity,
               setCode: card.getCardSetsFromSet(currentSet)!.code,
