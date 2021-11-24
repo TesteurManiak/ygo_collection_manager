@@ -1,12 +1,13 @@
 import 'package:animated_scaffold/animated_scaffold.dart';
 import 'package:flutter/material.dart';
 
-import '../blocs/cards_bloc.dart';
-import '../blocs/expansion_collection_bloc.dart';
 import '../../core/bloc/bloc_provider.dart';
+import '../../core/consts/durations.dart';
+import '../../core/styles/colors.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
-import '../../core/styles/colors.dart';
+import '../blocs/cards_bloc.dart';
+import '../blocs/expansion_collection_bloc.dart';
 import '../common/card_widget.dart';
 import 'widgets/card_editing_widget.dart';
 import 'widgets/cards_grid.dart';
@@ -33,7 +34,7 @@ class _ExpansionViewState extends State<ExpansionView>
 
   late final _animationController = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 400),
+    duration: Durations.ms400,
   );
   late final Animation<double> _animation = CurvedAnimation(
     parent: _animationController,
