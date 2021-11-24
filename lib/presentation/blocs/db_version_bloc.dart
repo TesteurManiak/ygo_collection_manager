@@ -1,10 +1,14 @@
 import '../../core/bloc/bloc.dart';
+import '../../core/bloc/bloc_provider.dart';
 import '../../domain/usecases/should_reload_db.dart';
+import 'cards_bloc.dart';
+import 'sets_bloc.dart';
 
 class DBVersionBloc implements BlocBase {
-  final ShouldReloadDb shouldReloadDb;
+  final ShouldReloadDb _shouldReloadDb;
 
-  DBVersionBloc({required this.shouldReloadDb});
+  DBVersionBloc({required ShouldReloadDb shouldReloadDb})
+      : _shouldReloadDb = shouldReloadDb;
 
   @override
   void initState() {}
@@ -12,10 +16,9 @@ class DBVersionBloc implements BlocBase {
   @override
   void dispose() {}
 
-  Future<bool> shouldReloadDatabase() => shouldReloadDb();
-
-  // Future<void> updateDatabase() async {
-  //   await repository.shouldReloadDb();
-  //   // await repository.updateDatabase();
-  // }
+  Future<void> updateDatabase() async {
+    final shouldReload = await _shouldReloadDb();
+    BlocProvider.master<SetsBloc>().fetchAllSets(shouldReload: shouldReload);
+    BlocProvider.master<CardsBloc>().fetchAllCards(shouldReload: shouldReload);
+  }
 }
