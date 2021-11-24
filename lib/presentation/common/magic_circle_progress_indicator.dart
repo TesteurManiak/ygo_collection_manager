@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/consts/durations.dart';
+
 class MagicCircleProgressIndicator extends ProgressIndicator {
   const MagicCircleProgressIndicator({
     Key? key,
@@ -22,7 +24,7 @@ class _MagicCircleProgressIndicatorState
     with SingleTickerProviderStateMixin {
   late final _controller = AnimationController(
     vsync: this,
-    duration: const Duration(seconds: 5),
+    duration: Durations.sec5,
   )..repeat();
 
   late final _rotationTween = Tween<double>(begin: 0, end: 1.0);

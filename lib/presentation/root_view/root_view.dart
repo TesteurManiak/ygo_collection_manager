@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/consts/durations.dart';
 import '../browse_view/browse_view.dart';
 import '../collection_view/collection_view.dart';
 import '../common/fixed_bottom_navigation_bar.dart';
@@ -23,7 +24,7 @@ class _RootViewState extends State<RootView> {
     _pageController.animateToPage(
       index,
       curve: Curves.easeInOutCubic,
-      duration: const Duration(milliseconds: 300),
+      duration: Durations.ms300,
     );
   }
 
@@ -31,7 +32,7 @@ class _RootViewState extends State<RootView> {
     _pageController.animateToPage(
       _selectedIndex.value,
       curve: Curves.easeInOutCubic,
-      duration: const Duration(milliseconds: 300),
+      duration: Durations.ms300,
     );
   }
 

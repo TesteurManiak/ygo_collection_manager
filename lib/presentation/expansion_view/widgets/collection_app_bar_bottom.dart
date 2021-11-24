@@ -1,10 +1,11 @@
 import 'package:async/async.dart' show StreamGroup;
 import 'package:flutter/material.dart';
 
+import '../../../core/bloc/bloc_provider.dart';
+import '../../../core/consts/durations.dart';
+import '../../../domain/entities/ygo_set.dart';
 import '../../blocs/cards_bloc.dart';
 import '../../blocs/expansion_collection_bloc.dart';
-import '../../../core/bloc/bloc_provider.dart';
-import '../../../domain/entities/ygo_set.dart';
 import '../../common/total_completion_widget.dart';
 import 'add_remove_card_widget.dart';
 
@@ -32,7 +33,7 @@ class _CollectionAppBarBottomState extends State<CollectionAppBarBottom> {
   ]);
 
   late final Duration _animationDuration =
-      widget.animationDuration ?? const Duration(milliseconds: 200);
+      widget.animationDuration ?? Durations.ms200;
 
   @override
   Widget build(BuildContext context) {

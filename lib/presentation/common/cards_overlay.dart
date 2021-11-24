@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
 
+import '../../core/consts/durations.dart';
 import '../../domain/entities/ygo_card.dart';
 import 'card_bottom_sheet.dart';
 
@@ -25,7 +26,7 @@ class _CardsOverlayState extends State<CardsOverlay>
   );
   late final _overlayAnimationController = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 500),
+    duration: Durations.ms500,
     value: 1.0,
   );
   late final _overlayAnimation = CurvedAnimation(
@@ -87,7 +88,7 @@ class _CardOverlayState extends State<_CardOverlay>
 
   late final _animationController = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 500),
+    duration: Durations.ms500,
   );
 
   @override
