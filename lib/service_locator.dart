@@ -11,6 +11,9 @@ import 'domain/repository/ygopro_repository.dart';
 import 'domain/usecases/fetch_all_cards.dart';
 import 'domain/usecases/fetch_all_sets.dart';
 import 'domain/usecases/fetch_owned_cards.dart';
+import 'domain/usecases/get_copies_of_card_owned.dart';
+import 'domain/usecases/should_reload_db.dart';
+import 'domain/usecases/update_card_owned.dart';
 
 final sl = GetIt.instance;
 
@@ -33,6 +36,9 @@ void _configDomain() {
   sl.registerLazySingleton(() => FetchAllCards(sl()));
   sl.registerLazySingleton(() => FetchAllSets(sl()));
   sl.registerLazySingleton(() => FetchOwnedCards(sl()));
+  sl.registerLazySingleton(() => GetCopiesOfCardOwned(sl()));
+  sl.registerLazySingleton(() => UpdateCardOwned(sl()));
+  sl.registerLazySingleton(() => ShouldReloadDb(sl()));
 
   // Repository
   sl.registerLazySingleton<YgoProRepository>(

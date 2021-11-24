@@ -45,7 +45,10 @@ class _SettingsViewState extends State<SettingsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
+      appBar: AppBar(
+        title: const Text('Settings'),
+        centerTitle: true,
+      ),
       body: Container(
         decoration: BoxDecoration(
           color: DynamicThemedColors.scaffoldBackground(context),
