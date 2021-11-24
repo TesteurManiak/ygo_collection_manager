@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-To generate or re-generate the database use:
+To generate or re-generate the database adapters or the mock files use:
 
 ```bash
 flutter packages pub run build_runner build
@@ -20,6 +20,9 @@ flutter packages pub run build_runner build
 
 * Add filters for expansions
 * Add filters for cards
+* Automatize the hosting of the web version on GitHub Pages
+* Refacto in clean architecture
+* Write tests
 * Release on the Play Store
 
 ## Screenshots
