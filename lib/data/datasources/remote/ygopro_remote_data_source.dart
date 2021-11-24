@@ -18,7 +18,6 @@ abstract class YgoProRemoteDataSource {
   Future<CardSetInfoModel> getCardSetInformation(String setCode);
   Future<YgoCardModel> getRandomCard();
   Future<List<YgoCardModel>> getCardInfo(GetCardInfoRequest request);
-  Future<List<YgoSetModel>> getSets();
   Future<DbVersionModel> checkDatabaseVersion();
 }
 
@@ -129,16 +128,6 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
       cards.add(YgoCardModel.fromJson(card as Map<String, dynamic>));
     }
     return cards;
-  }
-
-  @override
-  Future<List<YgoSetModel>> getSets() async {
-    final data = await _getCall<Iterable>([setsPath]);
-    final sets = <YgoSetModel>[];
-    for (final set in data) {
-      sets.add(YgoSetModel.fromJson(set as Map<String, dynamic>));
-    }
-    return sets;
   }
 
   @override
