@@ -4,17 +4,17 @@ import 'package:flutter/foundation.dart';
 import '../../core/error/exceptions.dart';
 
 abstract class RemoteClient {
-  Future<T> getUri<T>(Uri uri);
+  Future get(String uri);
 }
 
 class DioClient implements RemoteClient {
-  final  _dio = Dio();
+  final _dio = Dio();
 
   @override
-  Future<T> getUri<T>(Uri uri) async {
+  Future get(String uri) async {
     try {
-      final response = await _dio.getUri<T>(uri);
-      return response.data as T;
+      final response = await _dio.get(uri);
+      return response.data;
     } on DioError catch (e) {
       debugPrint(e.toString());
       throw ServerException(message: e.response?.statusMessage);

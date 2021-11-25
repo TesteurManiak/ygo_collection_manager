@@ -53,7 +53,7 @@ void main() {
 
   group('getAllSets', () {
     final tSets = <YgoSet>[
-      YgoSetModel(
+      const YgoSetModel(
         setName: '',
         setCode: '',
         numOfCards: 0,

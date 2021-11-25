@@ -18,7 +18,6 @@ abstract class YgoProRemoteDataSource {
   Future<CardSetInfoModel> getCardSetInformation(String setCode);
   Future<YgoCardModel> getRandomCard();
   Future<List<YgoCardModel>> getCardInfo(GetCardInfoRequest request);
-  Future<List<YgoSetModel>> getSets();
   Future<DbVersionModel> checkDatabaseVersion();
 }
 
@@ -34,7 +33,7 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
 
   final RemoteClient httpClient;
 
-  YgoProRemoteDataSourceImpl(this.httpClient);
+  YgoProRemoteDataSourceImpl({required this.httpClient});
 
   @override
   Future<List<ArchetypeModel>> getAllCardArchetypes() async {
@@ -132,16 +131,6 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
   }
 
   @override
-  Future<List<YgoSetModel>> getSets() async {
-    final data = await _getCall<Iterable>([setsPath]);
-    final sets = <YgoSetModel>[];
-    for (final set in data) {
-      sets.add(YgoSetModel.fromJson(set as Map<String, dynamic>));
-    }
-    return sets;
-  }
-
-  @override
   Future<DbVersionModel> checkDatabaseVersion() async {
     final response = await _getCall<Iterable>([checkDBVerPath]);
     return DbVersionModel.fromJson(response.first as Map<String, dynamic>);
@@ -152,13 +141,13 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
     Map<String, Object> queryParameters = const {},
   }) async {
     try {
-      final response = await httpClient.getUri<T>(
+      final response = await httpClient.get(
         baseUrl.replace(
           pathSegments: <String>[...basePath, ...pathSegments],
           queryParameters: queryParameters,
-        ),
+        ).toString(),
       );
-      return response;
+      return response as T;
     } on SocketException catch (e) {
       debugPrint(e.toString());
       throw const ServerException(message: 'Please check your connection.');

@@ -2,8 +2,6 @@
 // in ygo_collection_manager/test/data/repository/ygopro_repository_impl_test.dart.
 // Do not manually edit this file.
 
-// ignore_for_file: require_trailing_commas, unnecessary_overrides
-
 import 'dart:async' as _i6;
 
 import 'package:mockito/mockito.dart' as _i1;
@@ -82,11 +80,6 @@ class MockYgoProRemoteDataSource extends _i1.Mock
               returnValue:
                   Future<List<_i3.YgoCardModel>>.value(<_i3.YgoCardModel>[]))
           as _i6.Future<List<_i3.YgoCardModel>>);
-  @override
-  _i6.Future<List<_i8.YgoSetModel>> getSets() => (super.noSuchMethod(
-          Invocation.method(#getSets, []),
-          returnValue: Future<List<_i8.YgoSetModel>>.value(<_i8.YgoSetModel>[]))
-      as _i6.Future<List<_i8.YgoSetModel>>);
   @override
   _i6.Future<_i4.DbVersionModel> checkDatabaseVersion() =>
       (super.noSuchMethod(Invocation.method(#checkDatabaseVersion, []),
