@@ -54,7 +54,7 @@ void _configData() {
   //! Data
   // Data sources
   sl.registerLazySingleton<YgoProRemoteDataSource>(
-    () => YgoProRemoteDataSourceImpl(sl()),
+    () => YgoProRemoteDataSourceImpl(httpClient: sl()),
   );
   sl.registerLazySingleton<YgoProLocalDataSource>(
     () => YgoProLocalDataSourceHive(),

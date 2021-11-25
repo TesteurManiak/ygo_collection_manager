@@ -33,7 +33,7 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
 
   final RemoteClient httpClient;
 
-  YgoProRemoteDataSourceImpl(this.httpClient);
+  YgoProRemoteDataSourceImpl({required this.httpClient});
 
   @override
   Future<List<ArchetypeModel>> getAllCardArchetypes() async {
@@ -141,13 +141,13 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
     Map<String, Object> queryParameters = const {},
   }) async {
     try {
-      final response = await httpClient.getUri<T>(
+      final response = await httpClient.get(
         baseUrl.replace(
           pathSegments: <String>[...basePath, ...pathSegments],
           queryParameters: queryParameters,
-        ),
+        ).toString(),
       );
-      return response;
+      return response as T;
     } on SocketException catch (e) {
       debugPrint(e.toString());
       throw const ServerException(message: 'Please check your connection.');
