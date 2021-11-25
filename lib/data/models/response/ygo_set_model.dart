@@ -1,7 +1,7 @@
 import '../../../../domain/entities/ygo_set.dart';
 
 class YgoSetModel extends YgoSet {
-  YgoSetModel({
+  const YgoSetModel({
     required String setName,
     required String setCode,
     required int numOfCards,
