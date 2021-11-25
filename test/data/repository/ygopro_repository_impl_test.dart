@@ -52,8 +52,8 @@ void main() {
   );
 
   group('getAllSets', () {
-    const tSets = <YgoSet>[
-      YgoSetModel(
+    final tSets = <YgoSet>[
+      const YgoSetModel(
         setName: '',
         setCode: '',
         numOfCards: 0,
