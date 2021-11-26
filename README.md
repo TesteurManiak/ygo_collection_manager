@@ -21,11 +21,13 @@ flutter packages pub run build_runner build
 
 ## TODO
 
+* Refacto in clean architecture (ongoing)
+* Write tests (ongoing)
+* Atomic design
 * Add filters for expansions
 * Add filters for cards
 * Automatize the hosting of the web version on GitHub Pages
-* Refacto in clean architecture
-* Write tests
+* Dedicated Web layout
 * Release on the Play Store
 
 ## Screenshots

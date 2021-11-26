@@ -34,7 +34,7 @@ class YgoCardAdapter extends TypeAdapter<YgoCard> {
       cardSets: (fields[14] as List?)?.cast<CardSet>(),
       cardPrices: (fields[15] as List).cast<CardPrice>(),
       banlistInfo: fields[16] as CardBanlistInfo?,
-      miscInfo: (fields[17] as List).cast<CardMiscInfo>(),
+      miscInfo: (fields[17] as List?)?.cast<CardMiscInfo>(),
     );
   }
 

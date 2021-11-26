@@ -73,7 +73,7 @@ void main() {
         jsonDecode(fixture('cardsetsinfo.json')) as Map<String, dynamic>;
     final tCardSetInfo = CardSetInfoModel.fromJson(tFixture);
 
-    test('should perform a GET request on cardsetsinfo.php', () async {
+    test('should perform a GET request on cardsetsinfo.php endpoint', () async {
       //arrange
       when(mockHttpClient.get(tUri)).thenAnswer((_) async => tFixture);
 
@@ -93,7 +93,7 @@ void main() {
         jsonDecode(fixture('randomcard.json')) as Map<String, dynamic>;
     final tCard = YgoCardModel.fromJson(tFixture);
 
-    test('should perform a GET request on randomcard.php', () async {
+    test('should perform a GET request on randomcard.php endpoint', () async {
       //arrange
       when(mockHttpClient.get(tUri)).thenAnswer((_) async => tFixture);
 
@@ -106,7 +106,9 @@ void main() {
     });
   });
 
-  group('getCardInfo', () {});
+  group('getCardInfo', () {
+    test('should perform a GET request on cardinfo.php endpoint', () async {});
+  });
 
   group('checkDatabaseVersion', () {});
 }
