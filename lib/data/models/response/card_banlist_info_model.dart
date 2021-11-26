@@ -1,7 +1,7 @@
 import '../../../../domain/entities/card_banlist_info.dart';
 
 class CardBanlistInfoModel extends CardBanlistInfo {
-  CardBanlistInfoModel({
+  const CardBanlistInfoModel({
     required String? tcg,
     required String? ocg,
     required String? goat,

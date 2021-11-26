@@ -7,6 +7,7 @@ import 'package:ygo_collection_manager/data/api/api.dart';
 import 'package:ygo_collection_manager/data/datasources/remote/ygopro_remote_data_source.dart';
 import 'package:ygo_collection_manager/data/models/response/archetype_model.dart';
 import 'package:ygo_collection_manager/data/models/response/card_set_info_model.dart';
+import 'package:ygo_collection_manager/data/models/response/ygo_card_model.dart';
 import 'package:ygo_collection_manager/data/models/response/ygo_set_model.dart';
 import 'package:ygo_collection_manager/domain/entities/archetype.dart';
 import 'package:ygo_collection_manager/domain/entities/ygo_set.dart';
@@ -85,7 +86,25 @@ void main() {
     });
   });
 
-  group('getRandomCard', () {});
+  group('getRandomCard', () {
+    const tUri = 'https://db.ygoprodeck.com/api/v7/randomcard.php?';
+
+    final tFixture =
+        jsonDecode(fixture('randomcard.json')) as Map<String, dynamic>;
+    final tCard = YgoCardModel.fromJson(tFixture);
+
+    test('should perform a GET request on randomcard.php', () async {
+      //arrange
+      when(mockHttpClient.get(tUri)).thenAnswer((_) async => tFixture);
+
+      //act
+      final randCard = await dataSource.getRandomCard();
+
+      //assert
+      verify(mockHttpClient.get(tUri));
+      expect(randCard, tCard);
+    });
+  });
 
   group('getCardInfo', () {});
 

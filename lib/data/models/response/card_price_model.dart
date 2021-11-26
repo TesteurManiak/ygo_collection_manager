@@ -1,12 +1,12 @@
 import '../../../../domain/entities/card_price.dart';
 
 class CardPriceModel extends CardPrice {
-  CardPriceModel({
+  const CardPriceModel({
     required String cardmarket,
     required String tcgplayer,
     required String ebay,
     required String amazon,
-    required String coolstuffinc,
+    required String? coolstuffinc,
   }) : super(
           cardmarket: cardmarket,
           tcgplayer: tcgplayer,
@@ -21,7 +21,7 @@ class CardPriceModel extends CardPrice {
       tcgplayer: json['tcgplayer_price'] as String,
       ebay: json['ebay_price'] as String,
       amazon: json['amazon_price'] as String,
-      coolstuffinc: json['coolstuffinc_price'] as String,
+      coolstuffinc: json['coolstuffinc_price'] as String?,
     );
   }
 }

@@ -45,6 +45,7 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final miscInfo = widget.card.miscInfo;
     return Container(
       decoration: BoxDecoration(
         color: DynamicThemedColors.bottomSheetBackground(context),
@@ -150,16 +151,17 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                       value: widget.card.archetype!,
                     ),
                   if (widget.card.archetype != null) const SizedBox(width: 32),
-                  Expanded(
-                    child: CardDetailWidget(
-                      label: 'Formats',
-                      value: widget.card.miscInfo
-                          .map<List<String>>((e) => e.formats)
-                          .reduce((a, b) => [...a, ...b])
-                          .toSet()
-                          .join(', '),
+                  if (miscInfo != null)
+                    Expanded(
+                      child: CardDetailWidget(
+                        label: 'Formats',
+                        value: miscInfo
+                            .map<List<String>>((e) => e.formats)
+                            .reduce((a, b) => [...a, ...b])
+                            .toSet()
+                            .join(', '),
+                      ),
                     ),
-                  ),
                 ],
               ),
               const SizedBox(height: 28),

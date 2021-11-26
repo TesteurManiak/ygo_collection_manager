@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:hive_flutter/adapters.dart';
 
 part 'card_misc_info.g.dart';
 
 @HiveType(typeId: 7)
-class CardMiscInfo {
+class CardMiscInfo extends Equatable {
   @HiveField(0)
   final String? betaName;
 
@@ -43,7 +44,7 @@ class CardMiscInfo {
   @HiveField(12)
   final String? treatedAs;
 
-  CardMiscInfo({
+  const CardMiscInfo({
     required this.views,
     required this.betaName,
     required this.staple,
@@ -58,4 +59,21 @@ class CardMiscInfo {
     required this.hasEffect,
     required this.treatedAs,
   });
+
+  @override
+  List<Object?> get props => [
+        betaName,
+        staple,
+        views,
+        viewsWeek,
+        upvotes,
+        downvotes,
+        formats,
+        betaId,
+        tcgDate,
+        ocgDate,
+        konamiId,
+        hasEffect,
+        treatedAs,
+      ];
 }
