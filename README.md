@@ -5,10 +5,16 @@
 
 ## Getting Started
 
-To generate or re-generate the database adapters or the mock files use:
+* To generate or re-generate the database adapters or the mock files use:
 
 ```bash
 flutter packages pub run build_runner build
+```
+
+* To generate or re-generate the golden files use:
+
+```bash
+flutter test --update-goldens --tags=golden
 ```
 
 ## Features
