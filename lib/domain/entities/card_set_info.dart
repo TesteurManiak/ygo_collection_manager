@@ -1,4 +1,6 @@
-class CardSetInfo {
+import 'package:equatable/equatable.dart';
+
+class CardSetInfo extends Equatable {
   final int id;
   final String name;
   final String setName;
@@ -6,7 +8,7 @@ class CardSetInfo {
   final String setRarity;
   final String setPrice;
 
-  CardSetInfo({
+  const CardSetInfo({
     required this.id,
     required this.name,
     required this.setName,
@@ -14,4 +16,7 @@ class CardSetInfo {
     required this.setRarity,
     required this.setPrice,
   });
+
+  @override
+  List<Object?> get props => [id, name, setName, setCode, setRarity, setPrice];
 }
