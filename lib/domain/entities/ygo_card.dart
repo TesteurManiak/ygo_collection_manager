@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:hive_flutter/adapters.dart';
 
 import '../../../../core/entities/card_edition_enum.dart';
@@ -11,7 +12,7 @@ import 'ygo_set.dart';
 part 'ygo_card.g.dart';
 
 @HiveType(typeId: 1)
-class YgoCard {
+class YgoCard extends Equatable {
   @HiveField(0)
   final int id;
 
@@ -64,9 +65,9 @@ class YgoCard {
   final CardBanlistInfo? banlistInfo;
 
   @HiveField(17)
-  final List<CardMiscInfo> miscInfo;
+  final List<CardMiscInfo>? miscInfo;
 
-  YgoCard({
+  const YgoCard({
     required this.id,
     required this.name,
     required this.type,
@@ -98,4 +99,26 @@ class YgoCard {
     final cardSet = getCardSetsFromSet(set)!;
     return '${cardSet.code}-${edition.string}';
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        type,
+        desc,
+        atk,
+        def,
+        level,
+        race,
+        attribute,
+        archetype,
+        scale,
+        linkval,
+        cardImages,
+        linkmarkers,
+        cardSets,
+        cardPrices,
+        banlistInfo,
+        miscInfo,
+      ];
 }

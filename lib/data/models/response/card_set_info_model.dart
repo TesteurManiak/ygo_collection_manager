@@ -1,7 +1,7 @@
 import '../../../../domain/entities/card_set_info.dart';
 
 class CardSetInfoModel extends CardSetInfo {
-  CardSetInfoModel({
+  const CardSetInfoModel({
     required int id,
     required String name,
     required String setName,

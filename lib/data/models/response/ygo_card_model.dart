@@ -6,7 +6,7 @@ import 'card_price_model.dart';
 import 'card_set_model.dart';
 
 class YgoCardModel extends YgoCard {
-  YgoCardModel({
+  const YgoCardModel({
     required int id,
     required String name,
     required String type,
@@ -24,7 +24,7 @@ class YgoCardModel extends YgoCard {
     required List<CardSetModel>? cardSets,
     required List<CardPriceModel> cardPrices,
     required CardBanlistInfoModel? banlistInfo,
-    required List<CardMiscInfoModel> miscInfo,
+    required List<CardMiscInfoModel>? miscInfo,
   }) : super(
           id: id,
           name: name,
@@ -69,13 +69,15 @@ class YgoCardModel extends YgoCard {
           )
           .toList(),
       cardSets: (json['card_sets'] as Iterable?)
-          ?.map<CardSetModel>(
-            (e) => CardSetModel.fromJson(e as Map<String, dynamic>),
+          ?.cast<Map<String, dynamic>>()
+          .map<CardSetModel>(
+            (e) => CardSetModel.fromJson(e),
           )
           .toList(),
       cardPrices: (json['card_prices'] as Iterable)
+          .cast<Map<String, dynamic>>()
           .map<CardPriceModel>(
-            (e) => CardPriceModel.fromJson(e as Map<String, dynamic>),
+            (e) => CardPriceModel.fromJson(e),
           )
           .toList(),
       banlistInfo: json['banlist_info'] != null
@@ -83,9 +85,10 @@ class YgoCardModel extends YgoCard {
               json['banlist_info'] as Map<String, dynamic>,
             )
           : null,
-      miscInfo: (json['misc_info'] as Iterable)
+      miscInfo: (json['misc_info'] as Iterable?)
+          ?.cast<Map<String, dynamic>>()
           .map<CardMiscInfoModel>(
-            (e) => CardMiscInfoModel.fromJson(e as Map<String, dynamic>),
+            (e) => CardMiscInfoModel.fromJson(e),
           )
           .toList(),
     );

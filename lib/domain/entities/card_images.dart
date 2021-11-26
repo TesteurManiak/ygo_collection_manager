@@ -1,11 +1,12 @@
+import 'package:equatable/equatable.dart';
 import 'package:hive_flutter/adapters.dart';
 
 part 'card_images.g.dart';
 
 @HiveType(typeId: 2)
-class CardImages {
+class CardImages extends Equatable {
   @HiveField(0)
-  final int id;
+  final int? id;
 
   @HiveField(1)
   final String imageUrl;
@@ -13,9 +14,12 @@ class CardImages {
   @HiveField(2)
   final String imageUrlSmall;
 
-  CardImages({
+  const CardImages({
     required this.id,
     required this.imageUrl,
     required this.imageUrlSmall,
   });
+
+  @override
+  List<Object?> get props => [id, imageUrl, imageUrlSmall];
 }

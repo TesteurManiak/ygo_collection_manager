@@ -42,12 +42,12 @@ void main() {
       archetype: null,
       scale: null,
       linkval: null,
-      cardImages: [],
+      cardImages: const [],
       linkmarkers: null,
       cardSets: null,
-      cardPrices: [],
+      cardPrices: const [],
       banlistInfo: null,
-      miscInfo: [],
+      miscInfo: const [],
     ),
   );
 
@@ -115,7 +115,7 @@ void main() {
   });
 
   group('getRandomCard', () {
-    final tCard = YgoCardModel(
+    const tCard = YgoCardModel(
       archetype: '',
       atk: null,
       attribute: '',

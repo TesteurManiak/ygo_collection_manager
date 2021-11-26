@@ -1,0 +1,45 @@
+{
+    "id": 21830679,
+    "name": "Clock Wyvern",
+    "type": "Effect Monster",
+    "desc": "If this card is Normal or Special Summoned: You can halve this card's ATK, and if you do, Special Summon 1 \"Clock Token\" (Cyberse/WIND/Level 1/ATK 0/DEF 0). You can only use this effect of \"Clock Wyvern\" once per turn.",
+    "atk": 1800,
+    "def": 1000,
+    "level": 4,
+    "race": "Cyberse",
+    "attribute": "WIND",
+    "card_sets": [
+        {
+            "set_name": "2019 Gold Sarcophagus Tin Mega Pack",
+            "set_code": "MP19-EN152",
+            "set_rarity": "Common",
+            "set_price": "$1.55"
+        },
+        {
+            "set_name": "Egyptian God Deck: Slifer the Sky Dragon",
+            "set_code": "EGS1-EN018",
+            "set_rarity": "Common",
+            "set_price": "$1.39"
+        },
+        {
+            "set_name": "Soul Fusion",
+            "set_code": "SOFU-EN001",
+            "set_rarity": "Rare",
+            "set_price": "$2.18"
+        }
+    ],
+    "card_images": [
+        {
+            "image_url": "https://storage.googleapis.com/ygoprodeck.com/pics/21830679.jpg",
+            "image_url_small": "https://storage.googleapis.com/ygoprodeck.com/pics_small/21830679.jpg"
+        }
+    ],
+    "card_prices": [
+        {
+            "cardmarket_price": "0.09",
+            "tcgplayer_price": "0.16",
+            "ebay_price": "0.99",
+            "amazon_price": "0.99"
+        }
+    ]
+}

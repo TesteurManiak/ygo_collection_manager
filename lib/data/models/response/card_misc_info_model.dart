@@ -1,7 +1,7 @@
 import '../../../../domain/entities/card_misc_info.dart';
 
 class CardMiscInfoModel extends CardMiscInfo {
-  CardMiscInfoModel({
+  const CardMiscInfoModel({
     required int? views,
     required String? betaName,
     required String? staple,
