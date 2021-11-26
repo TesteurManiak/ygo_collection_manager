@@ -5,10 +5,16 @@
 
 ## Getting Started
 
-To generate or re-generate the database adapters or the mock files use:
+* To generate or re-generate the database adapters or the mock files use:
 
 ```bash
 flutter packages pub run build_runner build
+```
+
+* To generate or re-generate the golden files use:
+
+```bash
+flutter test --update-goldens --tags=golden
 ```
 
 ## Features
@@ -21,11 +27,13 @@ flutter packages pub run build_runner build
 
 ## TODO
 
+* Refacto in clean architecture (ongoing)
+* Write tests (ongoing)
+* Atomic design
 * Add filters for expansions
 * Add filters for cards
 * Automatize the hosting of the web version on GitHub Pages
-* Refacto in clean architecture
-* Write tests
+* Dedicated Web layout
 * Release on the Play Store
 
 ## Screenshots

@@ -20,7 +20,7 @@ class CardSetAdapter extends TypeAdapter<CardSet> {
       name: fields[0] as String,
       code: fields[1] as String,
       rarity: fields[2] as String,
-      rarityCode: fields[3] as String,
+      rarityCode: fields[3] as String?,
       price: fields[4] as String,
     );
   }

@@ -17,7 +17,7 @@ class CardImagesAdapter extends TypeAdapter<CardImages> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return CardImages(
-      id: fields[0] as int,
+      id: fields[0] as int?,
       imageUrl: fields[1] as String,
       imageUrlSmall: fields[2] as String,
     );
