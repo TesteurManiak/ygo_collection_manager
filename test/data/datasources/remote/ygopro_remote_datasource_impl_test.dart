@@ -142,19 +142,42 @@ void main() {
   });
 
   group('parseSets', () {
-    test('should parse the response from sets.php endpoint', () async {
-      // arrange
-      final tFixture = jsonDecode(fixture('cardsets.json')) as Iterable;
-      final tSets = tFixture
-          .cast<Map<String, dynamic>>()
-          .map<YgoSet>((e) => YgoSetModel.fromJson(e))
-          .toList();
+    test(
+      'should parse the file cardsets.json into an array of YgoSetModel',
+      () async {
+        // arrange
+        final tFixture = jsonDecode(fixture('cardsets.json')) as Iterable;
+        final tSets = tFixture
+            .cast<Map<String, dynamic>>()
+            .map((e) => YgoSetModel.fromJson(e))
+            .toList();
 
-      // act
-      final sets = YgoProRemoteDataSourceImpl.parseSets(tFixture);
+        // act
+        final sets = YgoProRemoteDataSourceImpl.parseSets(tFixture);
 
-      // assert
-      expect(sets, tSets);
-    });
+        // assert
+        expect(sets, tSets);
+      },
+    );
+  });
+
+  group('parseCards', () {
+    test(
+      'should parse the file cardinfo.json into an array of YgoCardModel',
+      () async {
+        // arrange
+        final tFixture =
+            jsonDecode(fixture('cardinfo.json')) as Map<String, dynamic>;
+        final tCards = (tFixture['data'] as Iterable)
+            .cast<Map<String, dynamic>>()
+            .map((e) => YgoCardModel.fromJson(e));
+
+        // act
+        final cards = YgoProRemoteDataSourceImpl.parseCards(tFixture);
+
+        // assert
+        expect(cards, tCards);
+      },
+    );
   });
 }
