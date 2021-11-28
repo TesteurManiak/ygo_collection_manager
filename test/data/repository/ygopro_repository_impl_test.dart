@@ -103,7 +103,28 @@ void main() {
   group('getAllCards', () {
     const tInfoRequest = GetCardInfoRequest(misc: true);
 
-    final tCards = <YgoCardModel>[];
+    final tCards = <YgoCardModel>[
+      const YgoCardModel(
+        id: 1,
+        name: 'name',
+        type: 'type',
+        desc: 'desc',
+        atk: null,
+        archetype: null,
+        attribute: null,
+        banlistInfo: null,
+        cardImages: [],
+        cardPrices: [],
+        cardSets: null,
+        def: null,
+        level: null,
+        linkmarkers: null,
+        linkval: null,
+        miscInfo: null,
+        race: 'race',
+        scale: null,
+      ),
+    ];
 
     test('should check if device is online', () async {
       // arrange
