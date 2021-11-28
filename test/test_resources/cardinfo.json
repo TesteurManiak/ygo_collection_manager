@@ -1,0 +1,61 @@
+{
+    "data": [
+        {
+            "id": 6983839,
+            "name": "Tornado Dragon",
+            "type": "XYZ Monster",
+            "desc": "2 Level 4 monsters\nOnce per turn (Quick Effect): You can detach 1 material from this card, then target 1 Spell/Trap on the field; destroy it.",
+            "atk": 2100,
+            "def": 2000,
+            "level": 4,
+            "race": "Wyrm",
+            "attribute": "WIND",
+            "card_sets": [
+                {
+                    "set_name": "Battles of Legend: Relentless Revenge",
+                    "set_code": "BLRR-EN084",
+                    "set_rarity": "Secret Rare",
+                    "set_rarity_code": "(ScR)",
+                    "set_price": "5.33"
+                },
+                {
+                    "set_name": "Duel Devastator",
+                    "set_code": "DUDE-EN019",
+                    "set_rarity": "Ultra Rare",
+                    "set_rarity_code": "(UR)",
+                    "set_price": "2.92"
+                },
+                {
+                    "set_name": "Legendary Duelists: Synchro Storm",
+                    "set_code": "LED8-EN055",
+                    "set_rarity": "Common",
+                    "set_rarity_code": "(C)",
+                    "set_price": "0.82"
+                },
+                {
+                    "set_name": "Maximum Crisis",
+                    "set_code": "MACR-EN081",
+                    "set_rarity": "Secret Rare",
+                    "set_rarity_code": "(ScR)",
+                    "set_price": "4.41"
+                }
+            ],
+            "card_images": [
+                {
+                    "id": 6983839,
+                    "image_url": "https://storage.googleapis.com/ygoprodeck.com/pics/6983839.jpg",
+                    "image_url_small": "https://storage.googleapis.com/ygoprodeck.com/pics_small/6983839.jpg"
+                }
+            ],
+            "card_prices": [
+                {
+                    "cardmarket_price": "0.06",
+                    "tcgplayer_price": "0.14",
+                    "ebay_price": "4.99",
+                    "amazon_price": "1.80",
+                    "coolstuffinc_price": "0.79"
+                }
+            ]
+        }
+    ]
+}
