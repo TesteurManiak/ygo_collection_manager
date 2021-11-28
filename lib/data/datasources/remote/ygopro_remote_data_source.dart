@@ -23,8 +23,11 @@ abstract class YgoProRemoteDataSource {
 }
 
 class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
-  static final baseUrl = Uri(scheme: 'https', host: 'db.ygoprodeck.com');
-  static const basePath = <String>['api', 'v7'];
+  static final baseUrl = Uri(
+    scheme: 'https',
+    host: 'db.ygoprodeck.com',
+    pathSegments: ['api', 'v7'],
+  );
   static const cardInfoPath = 'cardinfo.php';
   static const randomCardPath = 'randomcard.php';
   static const setsPath = 'cardsets.php';
@@ -152,7 +155,7 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
     try {
       final response = await httpClient.get(
         baseUrl.replace(
-          pathSegments: <String>[...basePath, ...pathSegments],
+          pathSegments: <String>[...baseUrl.pathSegments, ...pathSegments],
           queryParameters: queryParameters,
         ).toString(),
       );

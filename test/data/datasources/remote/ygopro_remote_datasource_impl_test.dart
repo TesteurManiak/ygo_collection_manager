@@ -108,6 +108,7 @@ void main() {
     final tCards = (tFixture['data'] as Iterable)
         .cast<Map<String, dynamic>>()
         .map((e) => YgoCardModel.fromJson(e));
+    final tNames = <String>['test1', 'test2'];
 
     test('should perform a GET request on cardinfo.php endpoint', () async {
       // arrange
@@ -119,6 +120,24 @@ void main() {
       // assert
       verify(mockHttpClient.get(any));
       expect(cardInfo, tCards);
+    });
+
+    test('check names', () async {
+      // arrange
+      final tNamesRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
+        pathSegments: [
+          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
+          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
+        ],
+        queryParameters: {'name': tNames.join(',')},
+      ).toString();
+      when(mockHttpClient.get(tNamesRequest)).thenAnswer((_) async => tFixture);
+
+      // act
+      await dataSource.getCardInfo(GetCardInfoRequest(names: tNames));
+
+      // assert
+      verify(mockHttpClient.get(any));
     });
   });
 
