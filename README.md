@@ -30,10 +30,11 @@ flutter test --update-goldens --tags=golden
 * Refacto in clean architecture (ongoing)
 * Write tests (ongoing)
 * Atomic design
-* Add filters for expansions
-* Add filters for cards
+* Integrate Navigator 2.0 ([go_router](https://pub.dev/packages/go_router))
 * Automatize the hosting of the web version on GitHub Pages
 * Dedicated Web layout
+* Add filters for expansions
+* Add filters for cards
 * Release on the Play Store
 
 ## Screenshots
@@ -46,3 +47,33 @@ flutter test --update-goldens --tags=golden
 <img src="screenshots/flutter_05.png" height="450"/>
 <img src="screenshots/flutter_06.png" height="450"/>
 </p>
+
+## Dependencies
+
+### Database
+
+* [hive](https://pub.dev/packages/hive)
+* [hive_flutter](https://pub.dev/packages/hive_flutter)
+* [hive_generator](https://pub.dev/packages/hive_generator)
+
+### Dependency Injection
+
+* [get_it](https://pub.dev/packages/get_it)
+
+### State Management
+
+* [rxdart](https://pub.dev/packages/rxdart) (Might migrate to [flutter_bloc](https://pub.dev/packages/flutter_bloc))
+
+### Tests
+
+* [golden_toolkit](https://pub.dev/packages/golden_toolkit)
+* [mockito](https://pub.dev/packages/mockito)
+* [device_sizes](https://github.com/matthew-carroll/device_sizes.git)
+
+### Others
+
+* [cached_network_image](https://pub.dev/packages/cached_network_image)
+* [connectivity_plus](https://pub.dev/packages/connectivity_plus)
+* [dio](https://pub.dev/packages/dio)
+* [equatable](https://pub.dev/packages/equatable)
+* [snapping_sheet](https://pub.dev/packages/snapping_sheet)
