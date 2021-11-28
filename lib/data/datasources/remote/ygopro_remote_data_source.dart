@@ -123,7 +123,7 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
         if (level != null) 'level': level.toString(),
         if (races != null) 'race': races.join(','),
         if (attributes != null) 'attribute': attributes.join(','),
-        if (link != null) 'link': link,
+        if (link != null) 'link': link.toString(),
         if (linkMarkers != null)
           'linkmarker': linkMarkers.toStringIterable().join(','),
         if (scale != null) 'scale': scale,

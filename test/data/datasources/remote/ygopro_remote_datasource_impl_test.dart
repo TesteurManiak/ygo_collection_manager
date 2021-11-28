@@ -290,6 +290,66 @@ void main() {
       // assert
       verify(mockHttpClient.get(any));
     });
+
+    test('check attributes', () async {
+      // arrange
+      final tAttributesRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
+        pathSegments: [
+          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
+          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
+        ],
+        queryParameters: {'attribute': tAttributes.join(',')},
+      ).toString();
+      when(mockHttpClient.get(tAttributesRequest))
+          .thenAnswer((_) async => tFixture);
+
+      // act
+      await dataSource
+          .getCardInfo(const GetCardInfoRequest(attributes: tAttributes));
+
+      // assert
+      verify(mockHttpClient.get(any));
+    });
+
+    test('check link', () async {
+      // arrange
+      final tLinkRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
+        pathSegments: [
+          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
+          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
+        ],
+        queryParameters: {'link': tLink.toString()},
+      ).toString();
+      when(mockHttpClient.get(tLinkRequest)).thenAnswer((_) async => tFixture);
+
+      // act
+      await dataSource.getCardInfo(const GetCardInfoRequest(link: tLink));
+
+      // assert
+      verify(mockHttpClient.get(any));
+    });
+
+    test('check linkmarkers', () async {
+      // arrange
+      final tLinkMarkersRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
+        pathSegments: [
+          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
+          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
+        ],
+        queryParameters: {
+          'linkmarkers': tLinkMarkers.toStringIterable().join(','),
+        },
+      ).toString();
+      when(mockHttpClient.get(tLinkMarkersRequest))
+          .thenAnswer((_) async => tFixture);
+
+      // act
+      await dataSource
+          .getCardInfo(const GetCardInfoRequest(linkMarkers: tLinkMarkers));
+
+      // assert
+      verify(mockHttpClient.get(any));
+    });
   });
 
   group('checkDatabaseVersion', () {
