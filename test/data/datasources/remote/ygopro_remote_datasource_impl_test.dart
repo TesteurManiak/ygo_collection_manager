@@ -3,6 +3,10 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:ygo_collection_manager/core/entities/banlist.dart';
+import 'package:ygo_collection_manager/core/entities/format.dart';
+import 'package:ygo_collection_manager/core/entities/link_markers.dart';
+import 'package:ygo_collection_manager/core/entities/sort.dart';
 import 'package:ygo_collection_manager/data/api/api.dart';
 import 'package:ygo_collection_manager/data/datasources/remote/ygopro_remote_data_source.dart';
 import 'package:ygo_collection_manager/data/models/request/get_card_info_request.dart';
@@ -102,15 +106,33 @@ void main() {
 
   group('getCardInfo', () {
     const tRequest = GetCardInfoRequest();
+    const tNames = ['test1', 'test2'];
     const tFname = 'Magician';
     const tIds = [1, 2, 3];
+    const tTypes = ['Effect Monster', 'Flip Effect Monster'];
+    const tAtk = 0;
+    const tDef = 0;
+    const tLevel = 1;
+    const tRaces = ['Aqua', 'Beast'];
+    const tAttributes = ['WATER', 'DARK'];
+    const tLink = 1;
+    const tLinkMarkers = [LinkMarkers.bottom];
+    const tScale = 1;
+    const tCardSet = 'Metal Raiders';
+    const tArchetype = 'Blue-Eyes';
+    const tBanlist = Banlist.tcg;
+    const tSort = Sort.name;
+    const tFormat = Format.tcg;
+    const tStaple = true;
 
     final tFixture =
         jsonDecode(fixture('cardinfo.json')) as Map<String, dynamic>;
     final tCards = (tFixture['data'] as Iterable)
         .cast<Map<String, dynamic>>()
         .map((e) => YgoCardModel.fromJson(e));
-    final tNames = <String>['test1', 'test2'];
+    final tStartDate = DateTime.now();
+    final tEndDate = DateTime.now();
+    final tDateRegion = DateTime.now();
 
     test('should perform a GET request on cardinfo.php endpoint', () async {
       // arrange
@@ -136,7 +158,7 @@ void main() {
       when(mockHttpClient.get(tNamesRequest)).thenAnswer((_) async => tFixture);
 
       // act
-      await dataSource.getCardInfo(GetCardInfoRequest(names: tNames));
+      await dataSource.getCardInfo(const GetCardInfoRequest(names: tNames));
 
       // assert
       verify(mockHttpClient.get(any));
@@ -174,6 +196,96 @@ void main() {
 
       // act
       await dataSource.getCardInfo(const GetCardInfoRequest(ids: tIds));
+
+      // assert
+      verify(mockHttpClient.get(any));
+    });
+
+    test('check types', () async {
+      // arrange
+      final tTypesRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
+        pathSegments: [
+          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
+          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
+        ],
+        queryParameters: {'type': tTypes.join(',')},
+      ).toString();
+      when(mockHttpClient.get(tTypesRequest)).thenAnswer((_) async => tFixture);
+
+      // act
+      await dataSource.getCardInfo(const GetCardInfoRequest(types: tTypes));
+
+      // assert
+      verify(mockHttpClient.get(any));
+    });
+
+    test('check atk', () async {
+      // arrange
+      final tAtkRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
+        pathSegments: [
+          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
+          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
+        ],
+        queryParameters: {'atk': tAtk.toString()},
+      ).toString();
+      when(mockHttpClient.get(tAtkRequest)).thenAnswer((_) async => tFixture);
+
+      // act
+      await dataSource.getCardInfo(const GetCardInfoRequest(atk: tAtk));
+
+      // assert
+      verify(mockHttpClient.get(any));
+    });
+
+    test('check def', () async {
+      // arrange
+      final tDefRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
+        pathSegments: [
+          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
+          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
+        ],
+        queryParameters: {'def': tDef.toString()},
+      ).toString();
+      when(mockHttpClient.get(tDefRequest)).thenAnswer((_) async => tFixture);
+
+      // act
+      await dataSource.getCardInfo(const GetCardInfoRequest(def: tDef));
+
+      // assert
+      verify(mockHttpClient.get(any));
+    });
+
+    test('check level', () async {
+      // arrange
+      final tLevelRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
+        pathSegments: [
+          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
+          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
+        ],
+        queryParameters: {'level': tLevel.toString()},
+      ).toString();
+      when(mockHttpClient.get(tLevelRequest)).thenAnswer((_) async => tFixture);
+
+      // act
+      await dataSource.getCardInfo(const GetCardInfoRequest(level: tLevel));
+
+      // assert
+      verify(mockHttpClient.get(any));
+    });
+
+    test('check races', () async {
+      // arrange
+      final tRacesRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
+        pathSegments: [
+          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
+          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
+        ],
+        queryParameters: {'race': tRaces.join(',')},
+      ).toString();
+      when(mockHttpClient.get(tRacesRequest)).thenAnswer((_) async => tFixture);
+
+      // act
+      await dataSource.getCardInfo(const GetCardInfoRequest(races: tRaces));
 
       // assert
       verify(mockHttpClient.get(any));
