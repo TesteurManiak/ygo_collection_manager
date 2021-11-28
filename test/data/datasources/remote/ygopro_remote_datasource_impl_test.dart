@@ -102,6 +102,7 @@ void main() {
 
   group('getCardInfo', () {
     const tRequest = GetCardInfoRequest();
+    const tFname = 'Magician';
 
     final tFixture =
         jsonDecode(fixture('cardinfo.json')) as Map<String, dynamic>;
@@ -135,6 +136,25 @@ void main() {
 
       // act
       await dataSource.getCardInfo(GetCardInfoRequest(names: tNames));
+
+      // assert
+      verify(mockHttpClient.get(any));
+    });
+
+    test('check fname', () async {
+      // arrange
+      final tFNamesRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
+        pathSegments: [
+          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
+          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
+        ],
+        queryParameters: {'fname': tFname},
+      ).toString();
+      when(mockHttpClient.get(tFNamesRequest))
+          .thenAnswer((_) async => tFixture);
+
+      // act
+      await dataSource.getCardInfo(const GetCardInfoRequest(fname: tFname));
 
       // assert
       verify(mockHttpClient.get(any));
