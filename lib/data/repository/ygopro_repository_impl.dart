@@ -48,8 +48,8 @@ class YgoProRepositoryImpl implements YgoProRepository {
     late final List<YgoCard> cards;
     if (isConnected && shouldReload) {
       // Fetch cards from remote and update the database.
-      cards =
-          await remoteDataSource.getCardInfo(GetCardInfoRequest(misc: true));
+      cards = await remoteDataSource
+          .getCardInfo(const GetCardInfoRequest(misc: true));
       await localDataSource.updateCards(cards);
     } else {
       cards = await localDataSource.getCards();

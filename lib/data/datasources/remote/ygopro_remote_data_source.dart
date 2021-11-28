@@ -40,13 +40,15 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
   Future<List<ArchetypeModel>> getAllCardArchetypes() async {
     final response = await _getCall<Iterable>([archetypesPath]);
     return response
-        .map((e) => ArchetypeModel.fromJson(e as Map<String, dynamic>))
+        .cast<Map<String, dynamic>>()
+        .map((e) => ArchetypeModel.fromJson(e))
         .toList();
   }
 
   static List<YgoSetModel> _parseSets(Iterable<dynamic> sets) {
     return sets
-        .map((e) => YgoSetModel.fromJson(e as Map<String, dynamic>))
+        .cast<Map<String, dynamic>>()
+        .map((e) => YgoSetModel.fromJson(e))
         .toList();
   }
 
@@ -74,12 +76,10 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
   }
 
   static List<YgoCardModel> _parseCards(Map<String, dynamic> response) {
-    final data = response['data'] as Iterable;
-    final cards = <YgoCardModel>[];
-    for (final card in data) {
-      cards.add(YgoCardModel.fromJson(card as Map<String, dynamic>));
-    }
-    return cards;
+    return (response['data'] as Iterable)
+        .cast<Map<String, dynamic>>()
+        .map<YgoCardModel>((e) => YgoCardModel.fromJson(e))
+        .toList();
   }
 
   @override
