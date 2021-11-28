@@ -140,4 +140,21 @@ void main() {
       expect(version, tVersion);
     });
   });
+
+  group('parseSets', () {
+    test('should parse the response from sets.php endpoint', () async {
+      // arrange
+      final tFixture = jsonDecode(fixture('cardsets.json')) as Iterable;
+      final tSets = tFixture
+          .cast<Map<String, dynamic>>()
+          .map<YgoSet>((e) => YgoSetModel.fromJson(e))
+          .toList();
+
+      // act
+      final sets = YgoProRemoteDataSourceImpl.parseSets(tFixture);
+
+      // assert
+      expect(sets, tSets);
+    });
+  });
 }

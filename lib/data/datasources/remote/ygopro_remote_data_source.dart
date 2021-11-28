@@ -45,7 +45,8 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
         .toList();
   }
 
-  static List<YgoSetModel> _parseSets(Iterable<dynamic> sets) {
+  @visibleForTesting
+  static List<YgoSetModel> parseSets(Iterable<dynamic> sets) {
     return sets
         .cast<Map<String, dynamic>>()
         .map((e) => YgoSetModel.fromJson(e))
@@ -55,7 +56,7 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
   @override
   Future<List<YgoSetModel>> getAllSets() async {
     final data = await _getCall<Iterable>([setsPath]);
-    return compute(_parseSets, data);
+    return compute(parseSets, data);
   }
 
   @override
@@ -75,7 +76,8 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
     return YgoCardModel.fromJson(response);
   }
 
-  static List<YgoCardModel> _parseCards(Map<String, dynamic> response) {
+  @visibleForTesting
+  static List<YgoCardModel> parseCards(Map<String, dynamic> response) {
     return (response['data'] as Iterable)
         .cast<Map<String, dynamic>>()
         .map<YgoCardModel>((e) => YgoCardModel.fromJson(e))
@@ -134,7 +136,7 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
         if (dateRegion != null) 'dateregion': dateRegion.toIso8601String(),
       },
     );
-    return compute(_parseCards, response);
+    return compute(parseCards, response);
   }
 
   @override
