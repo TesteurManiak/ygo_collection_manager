@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io' show SocketException;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/error/exceptions.dart';
@@ -39,18 +40,23 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
   Future<List<ArchetypeModel>> getAllCardArchetypes() async {
     final response = await _getCall<Iterable>([archetypesPath]);
     return response
-        .map((e) => ArchetypeModel.fromJson(e as Map<String, dynamic>))
+        .cast<Map<String, dynamic>>()
+        .map((e) => ArchetypeModel.fromJson(e))
+        .toList();
+  }
+
+  @visibleForTesting
+  static List<YgoSetModel> parseSets(Iterable<dynamic> sets) {
+    return sets
+        .cast<Map<String, dynamic>>()
+        .map((e) => YgoSetModel.fromJson(e))
         .toList();
   }
 
   @override
   Future<List<YgoSetModel>> getAllSets() async {
     final data = await _getCall<Iterable>([setsPath]);
-    final sets = <YgoSetModel>[];
-    for (final set in data) {
-      sets.add(YgoSetModel.fromJson(set as Map<String, dynamic>));
-    }
-    return sets;
+    return compute(parseSets, data);
   }
 
   @override
@@ -68,6 +74,14 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
   Future<YgoCardModel> getRandomCard() async {
     final response = await _getCall<Map<String, dynamic>>([randomCardPath]);
     return YgoCardModel.fromJson(response);
+  }
+
+  @visibleForTesting
+  static List<YgoCardModel> parseCards(Map<String, dynamic> response) {
+    return (response['data'] as Iterable)
+        .cast<Map<String, dynamic>>()
+        .map<YgoCardModel>((e) => YgoCardModel.fromJson(e))
+        .toList();
   }
 
   @override
@@ -122,12 +136,7 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
         if (dateRegion != null) 'dateregion': dateRegion.toIso8601String(),
       },
     );
-    final data = response['data'] as Iterable;
-    final cards = <YgoCardModel>[];
-    for (final card in data) {
-      cards.add(YgoCardModel.fromJson(card as Map<String, dynamic>));
-    }
-    return cards;
+    return compute(parseCards, response);
   }
 
   @override

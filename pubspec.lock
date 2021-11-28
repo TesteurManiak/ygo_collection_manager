@@ -246,6 +246,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.6"
+  device_sizes:
+    dependency: "direct dev"
+    description:
+      path: "."
+      ref: main
+      resolved-ref: b2cdd0015638ab52b80ea3eb298059347e597c08
+      url: "https://github.com/matthew-carroll/device_sizes.git"
+    source: git
+    version: "0.0.1"
   dio:
     dependency: "direct main"
     description:

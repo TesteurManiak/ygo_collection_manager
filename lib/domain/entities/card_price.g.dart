@@ -21,7 +21,7 @@ class CardPriceAdapter extends TypeAdapter<CardPrice> {
       tcgplayer: fields[1] as String,
       ebay: fields[2] as String,
       amazon: fields[3] as String,
-      coolstuffinc: fields[4] as String,
+      coolstuffinc: fields[4] as String?,
     );
   }
 

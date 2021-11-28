@@ -1,9 +1,11 @@
+import 'package:equatable/equatable.dart';
+
 import '../../../core/entities/banlist.dart';
 import '../../../core/entities/format.dart';
 import '../../../core/entities/link_markers.dart';
 import '../../../core/entities/sort.dart';
 
-class GetCardInfoRequest {
+class GetCardInfoRequest extends Equatable {
   final List<String>? names;
   final String? fname;
   final List<int>? ids;
@@ -27,7 +29,7 @@ class GetCardInfoRequest {
   final DateTime? endDate;
   final DateTime? dateRegion;
 
-  GetCardInfoRequest({
+  const GetCardInfoRequest({
     this.names,
     this.fname,
     this.ids,
@@ -51,6 +53,32 @@ class GetCardInfoRequest {
     this.endDate,
     this.dateRegion,
   });
+
+  @override
+  List<Object?> get props => [
+        names,
+        fname,
+        ids,
+        types,
+        atk,
+        def,
+        level,
+        races,
+        attributes,
+        link,
+        linkMarkers,
+        misc,
+        scale,
+        cardSet,
+        archetype,
+        banlist,
+        sort,
+        format,
+        staple,
+        startDate,
+        endDate,
+        dateRegion,
+      ];
 }
 
 extension LinkMarkersIterableModifier on Iterable<LinkMarkers> {

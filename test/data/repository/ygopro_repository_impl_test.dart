@@ -5,13 +5,13 @@ import 'package:ygo_collection_manager/core/entities/card_edition_enum.dart';
 import 'package:ygo_collection_manager/core/platform/network_info.dart';
 import 'package:ygo_collection_manager/data/datasources/local/ygopro_local_datasource.dart';
 import 'package:ygo_collection_manager/data/datasources/remote/ygopro_remote_data_source.dart';
+import 'package:ygo_collection_manager/data/models/request/get_card_info_request.dart';
 import 'package:ygo_collection_manager/data/models/response/db_version_model.dart';
 import 'package:ygo_collection_manager/data/models/response/ygo_card_model.dart';
 import 'package:ygo_collection_manager/data/models/response/ygo_set_model.dart';
 import 'package:ygo_collection_manager/data/repository/ygopro_repository_impl.dart';
 import 'package:ygo_collection_manager/domain/entities/card_owned.dart';
 import 'package:ygo_collection_manager/domain/entities/ygo_card.dart';
-import 'package:ygo_collection_manager/domain/entities/ygo_set.dart';
 
 import 'ygopro_repository_impl_test.mocks.dart';
 
@@ -52,7 +52,7 @@ void main() {
   );
 
   group('getAllSets', () {
-    final tSets = <YgoSet>[
+    final tSets = <YgoSetModel>[
       const YgoSetModel(
         setName: '',
         setCode: '',
@@ -85,9 +85,47 @@ void main() {
       verify(mockLocalDataSource.getSets());
       expect(sets, tSets);
     });
+
+    test('if online fetch from remote datasource', () async {
+      // arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockRemoteDataSource.getAllSets()).thenAnswer((_) async => tSets);
+
+      // act
+      final sets = await repository.getAllSets(shouldReload: true);
+
+      // assert
+      verify(mockRemoteDataSource.getAllSets());
+      expect(sets, tSets);
+    });
   });
 
   group('getAllCards', () {
+    const tInfoRequest = GetCardInfoRequest(misc: true);
+
+    final tCards = <YgoCardModel>[
+      const YgoCardModel(
+        id: 1,
+        name: 'name',
+        type: 'type',
+        desc: 'desc',
+        atk: null,
+        archetype: null,
+        attribute: null,
+        banlistInfo: null,
+        cardImages: [],
+        cardPrices: [],
+        cardSets: null,
+        def: null,
+        level: null,
+        linkmarkers: null,
+        linkval: null,
+        miscInfo: null,
+        race: 'race',
+        scale: null,
+      ),
+    ];
+
     test('should check if device is online', () async {
       // arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
@@ -110,6 +148,20 @@ void main() {
 
       // assert
       verify(mockLocalDataSource.getCards());
+      expect(cards, tCards);
+    });
+
+    test('if online fetch from remote datasource', () async {
+      // arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockRemoteDataSource.getCardInfo(tInfoRequest))
+          .thenAnswer((_) async => tCards);
+
+      // act
+      final cards = await repository.getAllCards(shouldReload: true);
+
+      // assert
+      verify(mockRemoteDataSource.getCardInfo(tInfoRequest));
       expect(cards, tCards);
     });
   });

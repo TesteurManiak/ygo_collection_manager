@@ -15,7 +15,7 @@ extension BrightnessModifier on Brightness {
   }
 }
 
-class MyThemes {
+abstract class MyThemes {
   static final _baseDark = ThemeData.dark();
   static final _baseLight = ThemeData.light();
 

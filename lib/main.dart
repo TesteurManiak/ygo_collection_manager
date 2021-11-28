@@ -16,8 +16,10 @@ import 'service_locator.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   setupLocator();
   await sl<YgoProLocalDataSource>().initDb();
+
   runApp(
     BlocProvider(
       key: GlobalKey(),
@@ -53,11 +55,13 @@ class _MyAppState extends State<MyApp> {
           ? ThemeMode.dark
           : ThemeMode.light,
       data: (themeMode) => MyThemes.fromThemeMode(themeMode, _systemBrightness),
-      themedWidgetBuilder: (_, theme) => MaterialApp(
-        theme: theme,
-        initialRoute: LoadingView.routeName,
-        onGenerateRoute: generateRoute,
-      ),
+      themedWidgetBuilder: (_, theme) {
+        return MaterialApp(
+          theme: theme,
+          initialRoute: LoadingView.routeName,
+          onGenerateRoute: generateRoute,
+        );
+      },
     );
   }
 }
