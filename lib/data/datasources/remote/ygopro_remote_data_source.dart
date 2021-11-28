@@ -113,7 +113,7 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
     final dateRegion = request.dateRegion;
     final response = await _getCall<Map<String, dynamic>>(
       [cardInfoPath],
-      queryParameters: <String, Object>{
+      queryParameters: <String, String>{
         if (names != null) 'name': names.join('|'),
         if (fname != null) 'fname': fname,
         if (ids != null) 'id': ids.join(','),
@@ -126,7 +126,7 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
         if (link != null) 'link': link.toString(),
         if (linkMarkers != null)
           'linkmarker': linkMarkers.toStringIterable().join(','),
-        if (scale != null) 'scale': scale,
+        if (scale != null) 'scale': scale.toString(),
         if (cardSet != null) 'cardset': cardSet,
         if (archetype != null) 'archetype': archetype,
         if (banlist != null) 'banlist': banlist.string,

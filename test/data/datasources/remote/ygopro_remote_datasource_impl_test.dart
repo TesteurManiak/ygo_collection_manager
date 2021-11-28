@@ -350,6 +350,24 @@ void main() {
       // assert
       verify(mockHttpClient.get(any));
     });
+
+    test('check scale', () async {
+      // arrange
+      final tScaleRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
+        pathSegments: [
+          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
+          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
+        ],
+        queryParameters: {'scale': tScale.toString()},
+      ).toString();
+      when(mockHttpClient.get(tScaleRequest)).thenAnswer((_) async => tFixture);
+
+      // act
+      await dataSource.getCardInfo(const GetCardInfoRequest(scale: tScale));
+
+      // assert
+      verify(mockHttpClient.get(any));
+    });
   });
 
   group('checkDatabaseVersion', () {
