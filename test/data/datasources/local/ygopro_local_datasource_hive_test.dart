@@ -3,6 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:ygo_collection_manager/data/datasources/local/hive/ygopro_local_datasource_hive.dart';
+import 'package:ygo_collection_manager/data/models/response/db_version_model.dart';
 import 'package:ygo_collection_manager/domain/entities/card_owned.dart';
 import 'package:ygo_collection_manager/domain/entities/db_version.dart';
 import 'package:ygo_collection_manager/domain/entities/ygo_card.dart';
@@ -21,6 +22,11 @@ class MockCardOwnedBox extends MockBox<CardOwned> {}
 @GenerateMocks([HiveInterface, Box])
 void main() {
   final mockHiveInterface = MockHiveInterface();
+  final mockYgoCardBox = MockYgoCardBox();
+  final mockYgoSetBox = MockYgoSetBox();
+  final mockDbVersionBox = MockDbVersionBox();
+  final mockCardOwnedBox = MockCardOwnedBox();
+
   final dataSource = YgoProLocalDataSourceHive(hive: mockHiveInterface);
 
   group('initDb', () {
@@ -30,17 +36,17 @@ void main() {
       when(
         mockHiveInterface
             .openBox<YgoCard>(YgoProLocalDataSourceHive.tableCards),
-      ).thenAnswer((_) async => MockYgoCardBox());
+      ).thenAnswer((_) async => mockYgoCardBox);
       when(
         mockHiveInterface.openBox<YgoSet>(YgoProLocalDataSourceHive.tableSets),
-      ).thenAnswer((_) async => MockYgoSetBox());
+      ).thenAnswer((_) async => mockYgoSetBox);
       when(
         mockHiveInterface.openBox<DbVersion>(YgoProLocalDataSourceHive.tableDB),
-      ).thenAnswer((_) async => MockDbVersionBox());
+      ).thenAnswer((_) async => mockDbVersionBox);
       when(
         mockHiveInterface
             .openBox<CardOwned>(YgoProLocalDataSourceHive.tableCardsOwned),
-      ).thenAnswer((_) async => MockCardOwnedBox());
+      ).thenAnswer((_) async => mockCardOwnedBox);
 
       // act
       await dataSource.initDb();
@@ -64,11 +70,67 @@ void main() {
     });
   });
 
-  group('closeDb', () {});
+  group('closeDb', () {
+    test('should call close from the hive instance', () async {
+      // arrange
+      when(mockHiveInterface.close()).thenAnswer((_) async => true);
 
-  group('getCards', () {});
+      // act
+      await dataSource.closeDb();
 
-  group('getDatabaseVersion', () {});
+      // assert
+      verify(mockHiveInterface.close());
+    });
+  });
+
+  group('getCards', () {
+    final tCards = <YgoCard>[];
+
+    test('should return the local values', () async {
+      // arrange
+      when(mockYgoCardBox.values).thenAnswer((_) => tCards);
+
+      // act
+      final cards = await dataSource.getCards();
+
+      // assert
+      verify(mockYgoCardBox.values);
+      expect(cards, tCards);
+    });
+  });
+
+  group('getDatabaseVersion', () {
+    final tDbVersion = DbVersionModel(
+      lastUpdate: DateTime.now(),
+      version: '1',
+    );
+
+    test('should check if box is empty and return null if true', () async {
+      // arrange
+      when(mockDbVersionBox.isEmpty).thenAnswer((_) => true);
+
+      // act
+      final version = await dataSource.getDatabaseVersion();
+
+      // assert
+      verify(mockDbVersionBox.isEmpty);
+      expect(version, null);
+    });
+
+    test('should return local data if box is not empty', () async {
+      // arrange
+      when(mockDbVersionBox.isEmpty).thenAnswer((_) => false);
+      when(mockDbVersionBox.values).thenAnswer((_) => [tDbVersion]);
+
+      // act
+      final version = await dataSource.getDatabaseVersion();
+
+      // assert
+      verify(mockDbVersionBox.isEmpty);
+      verify(mockDbVersionBox.values);
+      expect(version, tDbVersion);
+    });
+  });
 
   group('getSets', () {});
 }
