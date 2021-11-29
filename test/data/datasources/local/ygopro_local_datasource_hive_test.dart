@@ -170,7 +170,7 @@ void main() {
     );
 
     test(
-      'if no previous version should call put on index 0 from the dbVersionBox',
+      'should call put on key 0 if no previous version is recorded',
       () async {
         // arrange
         when(mockDbVersionBox.isEmpty).thenAnswer((_) => true);
@@ -182,6 +182,22 @@ void main() {
         // assert
         verify(mockDbVersionBox.isEmpty);
         verify(mockDbVersionBox.put(0, any));
+      },
+    );
+
+    test(
+      'should call putAt on key 0 if previous version is recorded',
+      () async {
+        // arrange
+        when(mockDbVersionBox.isEmpty).thenAnswer((_) => false);
+        when(mockDbVersionBox.putAt(0, any)).thenAnswer((_) async => true);
+
+        // act
+        await dataSource.updateDbVersion(tDbVersion);
+
+        // assert
+        verify(mockDbVersionBox.isEmpty);
+        verify(mockDbVersionBox.putAt(0, any));
       },
     );
   });
