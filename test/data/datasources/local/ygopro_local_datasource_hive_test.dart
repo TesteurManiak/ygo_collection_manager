@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:ygo_collection_manager/core/entities/card_edition_enum.dart';
 import 'package:ygo_collection_manager/data/datasources/local/hive/ygopro_local_datasource_hive.dart';
 import 'package:ygo_collection_manager/data/models/response/db_version_model.dart';
 import 'package:ygo_collection_manager/domain/entities/card_owned.dart';
@@ -202,15 +203,144 @@ void main() {
     );
   });
 
-  group('updateSets', () {});
+  group('updateSets', () {
+    final tSets = <YgoSet>[];
 
-  group('getCardsOwned', () {});
+    test('should call putAll from the setsBox', () async {
+      // arrange
+      when(mockYgoSetBox.putAll(any)).thenAnswer((_) async => true);
 
-  group('getCopiesOfCardOwned', () {});
+      // act
+      await dataSource.updateSets(tSets);
 
-  group('getCopiesOfCardOwnedById', () {});
+      // assert
+      verify(mockYgoSetBox.putAll(any));
+    });
+  });
 
-  group('updateCardOwned', () {});
+  group('getCardsOwned', () {
+    final tCardsOwned = <CardOwned>[];
 
-  group('removeCard', () {});
+    test('should return the local values', () async {
+      // arrange
+      when(mockCardOwnedBox.values).thenAnswer((_) => tCardsOwned);
+
+      // act
+      final cardsOwned = await dataSource.getCardsOwned();
+
+      // assert
+      verify(mockCardOwnedBox.values);
+      expect(cardsOwned, tCardsOwned);
+    });
+  });
+
+  group('getCopiesOfCardOwned', () {
+    final tCardOwned = CardOwned(
+      edition: CardEditionEnum.first,
+      id: 1,
+      quantity: 1,
+      setCode: '',
+      setName: '',
+    );
+
+    test('should return the number of copies owned', () async {
+      // arrange
+      when(mockCardOwnedBox.get(tCardOwned.key)).thenAnswer((_) => tCardOwned);
+
+      // act
+      final copiesOwned = await dataSource.getCopiesOfCardOwned(tCardOwned.key);
+
+      // assert
+      verify(mockCardOwnedBox.get(tCardOwned.key));
+      expect(copiesOwned, tCardOwned.quantity);
+    });
+  });
+
+  group('getCopiesOfCardOwnedById', () {
+    final tCardOwned = CardOwned(
+      edition: CardEditionEnum.first,
+      id: 1,
+      quantity: 1,
+      setCode: '',
+      setName: '',
+    );
+
+    test('should return the number of copies owned', () async {
+      // arrange
+      when(mockCardOwnedBox.values).thenAnswer((_) => [tCardOwned]);
+
+      // act
+      final copiesOwned =
+          await dataSource.getCopiesOfCardOwnedById(tCardOwned.id);
+
+      // assert
+      verify(mockCardOwnedBox.values);
+      expect(copiesOwned, tCardOwned.quantity);
+    });
+  });
+
+  group('updateCardOwned', () {
+    const tKeyIndex = 0;
+
+    final tCardOwned = CardOwned(
+      edition: CardEditionEnum.first,
+      id: 1,
+      quantity: 1,
+      setCode: '',
+      setName: '',
+    );
+
+    test(
+      'should call put on the cardOwnedBox if card does not exists',
+      () async {
+        // arrange
+        when(mockCardOwnedBox.keys).thenAnswer((_) => []);
+        when(mockCardOwnedBox.put(tCardOwned.key, any))
+            .thenAnswer((_) async => true);
+
+        // act
+        await dataSource.updateCardOwned(tCardOwned);
+
+        // assert
+        verify(mockCardOwnedBox.keys);
+        verify(mockCardOwnedBox.put(tCardOwned.key, any));
+      },
+    );
+
+    test('should call putAt on the cardOwnedBox if card exists', () async {
+      // arrange
+      when(mockCardOwnedBox.keys).thenAnswer((_) => [tCardOwned.key]);
+      when(mockCardOwnedBox.putAt(tKeyIndex, any))
+          .thenAnswer((_) async => true);
+
+      // act
+      await dataSource.updateCardOwned(tCardOwned);
+
+      // assert
+      verify(mockCardOwnedBox.keys);
+      verify(mockCardOwnedBox.putAt(tKeyIndex, any));
+    });
+  });
+
+  group('removeCard', () {
+    final tCardOwned = CardOwned(
+      edition: CardEditionEnum.first,
+      id: 1,
+      quantity: 1,
+      setCode: '',
+      setName: '',
+    );
+
+    test('should call delete from the cardOwnedBox', () async {
+      // arrange
+      when(mockCardOwnedBox.delete(tCardOwned.key))
+          .thenAnswer((_) async => true);
+
+      // act
+      await dataSource.removeCard(tCardOwned);
+
+      // assert
+      verify(mockCardOwnedBox.delete(tCardOwned.key));
+    });
+  });
 }
