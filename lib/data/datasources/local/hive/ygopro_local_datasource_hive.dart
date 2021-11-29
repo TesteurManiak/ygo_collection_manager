@@ -1,4 +1,4 @@
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_flutter/hive_flutter.dart' hide Hive;
 
 import '../../../../core/entities/card_edition_enum.dart';
 import '../../../../core/extensions/extensions.dart';
@@ -19,6 +19,12 @@ class YgoProLocalDataSourceHive implements YgoProLocalDataSource {
   static const tableSets = 'sets';
   static const tableCardsOwned = 'cards_owned';
 
+  final HiveInterface hiveInstance;
+
+  YgoProLocalDataSourceHive({
+    required HiveInterface hive,
+  }) : hiveInstance = hive;
+
   late final Box<YgoCard> _cardsBox;
   late final Box<YgoSet> _setsBox;
   late final Box<DbVersion> _dbVersionBox;
@@ -26,26 +32,26 @@ class YgoProLocalDataSourceHive implements YgoProLocalDataSource {
 
   @override
   Future<void> initDb() async {
-    await Hive.initFlutter();
+    await hiveInstance.initFlutter();
 
     // Register Adapters.
-    Hive.registerAdapter(DbVersionAdapter());
+    hiveInstance.registerAdapter(DbVersionAdapter());
 
-    Hive.registerAdapter(YgoCardAdapter());
-    Hive.registerAdapter(CardImagesAdapter());
-    Hive.registerAdapter(CardSetAdapter());
-    Hive.registerAdapter(CardPriceAdapter());
-    Hive.registerAdapter(CardBanlistInfoAdapter());
-    Hive.registerAdapter(CardMiscInfoAdapter());
+    hiveInstance.registerAdapter(YgoCardAdapter());
+    hiveInstance.registerAdapter(CardImagesAdapter());
+    hiveInstance.registerAdapter(CardSetAdapter());
+    hiveInstance.registerAdapter(CardPriceAdapter());
+    hiveInstance.registerAdapter(CardBanlistInfoAdapter());
+    hiveInstance.registerAdapter(CardMiscInfoAdapter());
 
-    Hive.registerAdapter(YgoSetAdapter());
-    Hive.registerAdapter(CardOwnedAdapter());
-    Hive.registerAdapter(CardEditionEnumAdapter());
+    hiveInstance.registerAdapter(YgoSetAdapter());
+    hiveInstance.registerAdapter(CardOwnedAdapter());
+    hiveInstance.registerAdapter(CardEditionEnumAdapter());
 
-    _cardsBox = await Hive.openBox<YgoCard>(tableCards);
-    _setsBox = await Hive.openBox<YgoSet>(tableSets);
-    _dbVersionBox = await Hive.openBox<DbVersion>(tableDB);
-    _cardsOwnedBox = await Hive.openBox<CardOwned>(tableCardsOwned);
+    _cardsBox = await hiveInstance.openBox<YgoCard>(tableCards);
+    _setsBox = await hiveInstance.openBox<YgoSet>(tableSets);
+    _dbVersionBox = await hiveInstance.openBox<DbVersion>(tableDB);
+    _cardsOwnedBox = await hiveInstance.openBox<CardOwned>(tableCardsOwned);
   }
 
   @override
@@ -131,6 +137,6 @@ class YgoProLocalDataSourceHive implements YgoProLocalDataSource {
 
   @override
   Future<void> closeDb() {
-    return Hive.close();
+    return hiveInstance.close();
   }
 }
