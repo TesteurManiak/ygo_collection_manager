@@ -3,6 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:ygo_collection_manager/data/datasources/local/hive/ygopro_local_datasource_hive.dart';
+import 'package:ygo_collection_manager/data/models/response/db_version_model.dart';
 import 'package:ygo_collection_manager/domain/entities/card_owned.dart';
 import 'package:ygo_collection_manager/domain/entities/db_version.dart';
 import 'package:ygo_collection_manager/domain/entities/ygo_card.dart';
@@ -98,7 +99,38 @@ void main() {
     });
   });
 
-  group('getDatabaseVersion', () {});
+  group('getDatabaseVersion', () {
+    final tDbVersion = DbVersionModel(
+      lastUpdate: DateTime.now(),
+      version: '1',
+    );
+
+    test('should check if box is empty and return null if true', () async {
+      // arrange
+      when(mockDbVersionBox.isEmpty).thenAnswer((_) => true);
+
+      // act
+      final version = await dataSource.getDatabaseVersion();
+
+      // assert
+      verify(mockDbVersionBox.isEmpty);
+      expect(version, null);
+    });
+
+    test('should return local data if box is not empty', () async {
+      // arrange
+      when(mockDbVersionBox.isEmpty).thenAnswer((_) => false);
+      when(mockDbVersionBox.values).thenAnswer((_) => [tDbVersion]);
+
+      // act
+      final version = await dataSource.getDatabaseVersion();
+
+      // assert
+      verify(mockDbVersionBox.isEmpty);
+      verify(mockDbVersionBox.values);
+      expect(version, tDbVersion);
+    });
+  });
 
   group('getSets', () {});
 }
