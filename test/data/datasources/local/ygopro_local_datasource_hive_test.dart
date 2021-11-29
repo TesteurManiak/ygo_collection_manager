@@ -132,5 +132,69 @@ void main() {
     });
   });
 
-  group('getSets', () {});
+  group('getSets', () {
+    final tSets = <YgoSet>[];
+
+    test('should return the local values', () async {
+      // arrange
+      when(mockYgoSetBox.values).thenAnswer((_) => tSets);
+
+      // act
+      final sets = await dataSource.getSets();
+
+      // assert
+      verify(mockYgoSetBox.values);
+      expect(sets, tSets);
+    });
+  });
+
+  group('updateCards', () {
+    final tCards = <YgoCard>[];
+
+    test('should call putAll from the cardsBox', () async {
+      // arrange
+      when(mockYgoCardBox.putAll(any)).thenAnswer((_) async => true);
+
+      // act
+      await dataSource.updateCards(tCards);
+
+      // assert
+      verify(mockYgoCardBox.putAll(any));
+    });
+  });
+
+  group('updateDbVersion', () {
+    final tDbVersion = DbVersionModel(
+      lastUpdate: DateTime.now(),
+      version: '1',
+    );
+
+    test(
+      'if no previous version should call put on index 0 from the dbVersionBox',
+      () async {
+        // arrange
+        when(mockDbVersionBox.isEmpty).thenAnswer((_) => true);
+        when(mockDbVersionBox.put(0, any)).thenAnswer((_) async => true);
+
+        // act
+        await dataSource.updateDbVersion(tDbVersion);
+
+        // assert
+        verify(mockDbVersionBox.isEmpty);
+        verify(mockDbVersionBox.put(0, any));
+      },
+    );
+  });
+
+  group('updateSets', () {});
+
+  group('getCardsOwned', () {});
+
+  group('getCopiesOfCardOwned', () {});
+
+  group('getCopiesOfCardOwnedById', () {});
+
+  group('updateCardOwned', () {});
+
+  group('removeCard', () {});
 }
