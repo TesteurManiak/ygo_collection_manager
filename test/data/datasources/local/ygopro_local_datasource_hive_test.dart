@@ -21,6 +21,11 @@ class MockCardOwnedBox extends MockBox<CardOwned> {}
 @GenerateMocks([HiveInterface, Box])
 void main() {
   final mockHiveInterface = MockHiveInterface();
+  final mockYgoCardBox = MockYgoCardBox();
+  final mockYgoSetBox = MockYgoSetBox();
+  final mockDbVersionBox = MockDbVersionBox();
+  final mockCardOwnedBox = MockCardOwnedBox();
+
   final dataSource = YgoProLocalDataSourceHive(hive: mockHiveInterface);
 
   group('initDb', () {
@@ -30,17 +35,17 @@ void main() {
       when(
         mockHiveInterface
             .openBox<YgoCard>(YgoProLocalDataSourceHive.tableCards),
-      ).thenAnswer((_) async => MockYgoCardBox());
+      ).thenAnswer((_) async => mockYgoCardBox);
       when(
         mockHiveInterface.openBox<YgoSet>(YgoProLocalDataSourceHive.tableSets),
-      ).thenAnswer((_) async => MockYgoSetBox());
+      ).thenAnswer((_) async => mockYgoSetBox);
       when(
         mockHiveInterface.openBox<DbVersion>(YgoProLocalDataSourceHive.tableDB),
-      ).thenAnswer((_) async => MockDbVersionBox());
+      ).thenAnswer((_) async => mockDbVersionBox);
       when(
         mockHiveInterface
             .openBox<CardOwned>(YgoProLocalDataSourceHive.tableCardsOwned),
-      ).thenAnswer((_) async => MockCardOwnedBox());
+      ).thenAnswer((_) async => mockCardOwnedBox);
 
       // act
       await dataSource.initDb();
@@ -64,9 +69,34 @@ void main() {
     });
   });
 
-  group('closeDb', () {});
+  group('closeDb', () {
+    test('should call close from the hive instance', () async {
+      // arrange
+      when(mockHiveInterface.close()).thenAnswer((_) async => true);
 
-  group('getCards', () {});
+      // act
+      await dataSource.closeDb();
+
+      // assert
+      verify(mockHiveInterface.close());
+    });
+  });
+
+  group('getCards', () {
+    final tCards = <YgoCard>[];
+
+    test('should return the local values', () async {
+      // arrange
+      when(mockYgoCardBox.values).thenAnswer((_) => tCards);
+
+      // act
+      final cards = await dataSource.getCards();
+
+      // assert
+      verify(mockYgoCardBox.values);
+      expect(cards, tCards);
+    });
+  });
 
   group('getDatabaseVersion', () {});
 
