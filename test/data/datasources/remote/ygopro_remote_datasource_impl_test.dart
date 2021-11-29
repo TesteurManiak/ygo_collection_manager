@@ -401,6 +401,66 @@ void main() {
       // assert
       verify(mockHttpClient.get(any));
     });
+
+    test('check staple', () async {
+      // arrange
+      final tStapleRequest = tBaseUri.replace(
+        queryParameters: {'staple': tStaple.toString()},
+      ).toString();
+      when(mockHttpClient.get(tStapleRequest))
+          .thenAnswer((_) async => tFixture);
+
+      // act
+      await dataSource.getCardInfo(const GetCardInfoRequest(staple: tStaple));
+
+      // assert
+      verify(mockHttpClient.get(any));
+    });
+
+    test('check startDate', () async {
+      // arrange
+      final tStartDateRequest = tBaseUri.replace(
+        queryParameters: {'startDate': tStartDate.toString()},
+      ).toString();
+      when(mockHttpClient.get(tStartDateRequest))
+          .thenAnswer((_) async => tFixture);
+
+      // act
+      await dataSource.getCardInfo(GetCardInfoRequest(startDate: tStartDate));
+
+      // assert
+      verify(mockHttpClient.get(any));
+    });
+
+    test('check endDate', () async {
+      // arrange
+      final tEndDateRequest = tBaseUri.replace(
+        queryParameters: {'endDate': tEndDate.toString()},
+      ).toString();
+      when(mockHttpClient.get(tEndDateRequest))
+          .thenAnswer((_) async => tFixture);
+
+      // act
+      await dataSource.getCardInfo(GetCardInfoRequest(endDate: tEndDate));
+
+      // assert
+      verify(mockHttpClient.get(any));
+    });
+
+    test('check dateRegion', () async {
+      // arrange
+      final tDateRegionRequest = tBaseUri.replace(
+        queryParameters: {'dateRegion': tDateRegion.toString()},
+      ).toString();
+      when(mockHttpClient.get(tDateRegionRequest))
+          .thenAnswer((_) async => tFixture);
+
+      // act
+      await dataSource.getCardInfo(GetCardInfoRequest(dateRegion: tDateRegion));
+
+      // assert
+      verify(mockHttpClient.get(any));
+    });
   });
 
   group('checkDatabaseVersion', () {
