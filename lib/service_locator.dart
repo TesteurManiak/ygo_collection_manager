@@ -1,4 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart' show Hive;
 
@@ -64,7 +65,7 @@ void _configData() {
 
 void _configExternal() {
   //! External
-  sl.registerLazySingleton<RemoteClient>(() => DioClient());
+  sl.registerLazySingleton<RemoteClient>(() => DioClient(dio: Dio()));
   sl.registerLazySingleton<NetworkInfo>(
     () => NetworkInfoImpl(connectivity: Connectivity()),
   );

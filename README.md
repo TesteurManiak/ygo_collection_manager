@@ -27,7 +27,6 @@ flutter test --update-goldens --tags=golden
 
 ## TODO
 
-* Refacto in clean architecture (ongoing)
 * Write tests (ongoing)
 * Atomic design
 * Integrate Navigator 2.0 ([go_router](https://pub.dev/packages/go_router))
