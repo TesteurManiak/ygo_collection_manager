@@ -125,6 +125,12 @@ void main() {
     const tFormat = Format.tcg;
     const tStaple = true;
 
+    final tBaseUri = YgoProRemoteDataSourceImpl.baseUrl.replace(
+      pathSegments: [
+        ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
+        YgoProRemoteDataSourceImpl.cardSetsInfoPath,
+      ],
+    );
     final tFixture =
         jsonDecode(fixture('cardinfo.json')) as Map<String, dynamic>;
     final tCards = (tFixture['data'] as Iterable)
@@ -148,11 +154,7 @@ void main() {
 
     test('check names', () async {
       // arrange
-      final tNamesRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
-        pathSegments: [
-          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
-          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
-        ],
+      final tNamesRequest = tBaseUri.replace(
         queryParameters: {'name': tNames.join(',')},
       ).toString();
       when(mockHttpClient.get(tNamesRequest)).thenAnswer((_) async => tFixture);
@@ -166,11 +168,7 @@ void main() {
 
     test('check fname', () async {
       // arrange
-      final tFNamesRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
-        pathSegments: [
-          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
-          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
-        ],
+      final tFNamesRequest = tBaseUri.replace(
         queryParameters: {'fname': tFname},
       ).toString();
       when(mockHttpClient.get(tFNamesRequest))
@@ -185,11 +183,7 @@ void main() {
 
     test('check ids', () async {
       // arrange
-      final tIdsRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
-        pathSegments: [
-          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
-          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
-        ],
+      final tIdsRequest = tBaseUri.replace(
         queryParameters: {'id': tIds.join(',')},
       ).toString();
       when(mockHttpClient.get(tIdsRequest)).thenAnswer((_) async => tFixture);
@@ -203,11 +197,7 @@ void main() {
 
     test('check types', () async {
       // arrange
-      final tTypesRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
-        pathSegments: [
-          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
-          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
-        ],
+      final tTypesRequest = tBaseUri.replace(
         queryParameters: {'type': tTypes.join(',')},
       ).toString();
       when(mockHttpClient.get(tTypesRequest)).thenAnswer((_) async => tFixture);
@@ -221,11 +211,7 @@ void main() {
 
     test('check atk', () async {
       // arrange
-      final tAtkRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
-        pathSegments: [
-          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
-          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
-        ],
+      final tAtkRequest = tBaseUri.replace(
         queryParameters: {'atk': tAtk.toString()},
       ).toString();
       when(mockHttpClient.get(tAtkRequest)).thenAnswer((_) async => tFixture);
@@ -239,11 +225,7 @@ void main() {
 
     test('check def', () async {
       // arrange
-      final tDefRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
-        pathSegments: [
-          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
-          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
-        ],
+      final tDefRequest = tBaseUri.replace(
         queryParameters: {'def': tDef.toString()},
       ).toString();
       when(mockHttpClient.get(tDefRequest)).thenAnswer((_) async => tFixture);
@@ -257,11 +239,7 @@ void main() {
 
     test('check level', () async {
       // arrange
-      final tLevelRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
-        pathSegments: [
-          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
-          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
-        ],
+      final tLevelRequest = tBaseUri.replace(
         queryParameters: {'level': tLevel.toString()},
       ).toString();
       when(mockHttpClient.get(tLevelRequest)).thenAnswer((_) async => tFixture);
@@ -275,11 +253,7 @@ void main() {
 
     test('check races', () async {
       // arrange
-      final tRacesRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
-        pathSegments: [
-          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
-          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
-        ],
+      final tRacesRequest = tBaseUri.replace(
         queryParameters: {'race': tRaces.join(',')},
       ).toString();
       when(mockHttpClient.get(tRacesRequest)).thenAnswer((_) async => tFixture);
@@ -293,11 +267,7 @@ void main() {
 
     test('check attributes', () async {
       // arrange
-      final tAttributesRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
-        pathSegments: [
-          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
-          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
-        ],
+      final tAttributesRequest = tBaseUri.replace(
         queryParameters: {'attribute': tAttributes.join(',')},
       ).toString();
       when(mockHttpClient.get(tAttributesRequest))
@@ -313,11 +283,7 @@ void main() {
 
     test('check link', () async {
       // arrange
-      final tLinkRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
-        pathSegments: [
-          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
-          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
-        ],
+      final tLinkRequest = tBaseUri.replace(
         queryParameters: {'link': tLink.toString()},
       ).toString();
       when(mockHttpClient.get(tLinkRequest)).thenAnswer((_) async => tFixture);
@@ -331,11 +297,7 @@ void main() {
 
     test('check linkmarkers', () async {
       // arrange
-      final tLinkMarkersRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
-        pathSegments: [
-          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
-          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
-        ],
+      final tLinkMarkersRequest = tBaseUri.replace(
         queryParameters: {
           'linkmarkers': tLinkMarkers.toStringIterable().join(','),
         },
@@ -353,17 +315,88 @@ void main() {
 
     test('check scale', () async {
       // arrange
-      final tScaleRequest = YgoProRemoteDataSourceImpl.baseUrl.replace(
-        pathSegments: [
-          ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
-          YgoProRemoteDataSourceImpl.cardSetsInfoPath,
-        ],
+      final tScaleRequest = tBaseUri.replace(
         queryParameters: {'scale': tScale.toString()},
       ).toString();
       when(mockHttpClient.get(tScaleRequest)).thenAnswer((_) async => tFixture);
 
       // act
       await dataSource.getCardInfo(const GetCardInfoRequest(scale: tScale));
+
+      // assert
+      verify(mockHttpClient.get(any));
+    });
+
+    test('check cardset', () async {
+      // arrange
+      final tCardSetRequest = tBaseUri.replace(
+        queryParameters: {'cardset': tCardSet},
+      ).toString();
+      when(mockHttpClient.get(tCardSetRequest))
+          .thenAnswer((_) async => tFixture);
+
+      // act
+      await dataSource.getCardInfo(const GetCardInfoRequest(cardSet: tCardSet));
+
+      // assert
+      verify(mockHttpClient.get(any));
+    });
+
+    test('check archetype', () async {
+      // arrange
+      final tArchetypeRequest = tBaseUri.replace(
+        queryParameters: {'archetype': tArchetype},
+      ).toString();
+      when(mockHttpClient.get(tArchetypeRequest))
+          .thenAnswer((_) async => tFixture);
+
+      // act
+      await dataSource
+          .getCardInfo(const GetCardInfoRequest(archetype: tArchetype));
+
+      // assert
+      verify(mockHttpClient.get(any));
+    });
+
+    test('check banlist', () async {
+      // arrange
+      final tBanlistRequest = tBaseUri.replace(
+        queryParameters: {'banlist': tBanlist.string},
+      ).toString();
+      when(mockHttpClient.get(tBanlistRequest))
+          .thenAnswer((_) async => tFixture);
+
+      // act
+      await dataSource.getCardInfo(const GetCardInfoRequest(banlist: tBanlist));
+
+      // assert
+      verify(mockHttpClient.get(any));
+    });
+
+    test('check sort', () async {
+      // arrange
+      final tSortRequest = tBaseUri.replace(
+        queryParameters: {'sort': tSort.string},
+      ).toString();
+      when(mockHttpClient.get(tSortRequest)).thenAnswer((_) async => tFixture);
+
+      // act
+      await dataSource.getCardInfo(const GetCardInfoRequest(sort: tSort));
+
+      // assert
+      verify(mockHttpClient.get(any));
+    });
+
+    test('check format', () async {
+      // arrange
+      final tFormatRequest = tBaseUri.replace(
+        queryParameters: {'format': tFormat.string},
+      ).toString();
+      when(mockHttpClient.get(tFormatRequest))
+          .thenAnswer((_) async => tFixture);
+
+      // act
+      await dataSource.getCardInfo(const GetCardInfoRequest(format: tFormat));
 
       // assert
       verify(mockHttpClient.get(any));
