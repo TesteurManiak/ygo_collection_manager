@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ygo_collection_manager/core/entities/banlist.dart';
-import 'package:ygo_collection_manager/core/entities/format.dart';
-import 'package:ygo_collection_manager/core/entities/link_markers.dart';
-import 'package:ygo_collection_manager/core/entities/sort.dart';
 import 'package:ygo_collection_manager/data/models/request/get_card_info_request.dart';
+import 'package:ygo_collection_manager/domain/entities/banlist.dart';
+import 'package:ygo_collection_manager/domain/entities/format.dart';
+import 'package:ygo_collection_manager/domain/entities/link_markers.dart';
+import 'package:ygo_collection_manager/domain/entities/sort.dart';
 
 void main() {
   group('GetCardInfoRequest', () {

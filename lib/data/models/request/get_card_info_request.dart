@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../core/entities/banlist.dart';
-import '../../../core/entities/format.dart';
-import '../../../core/entities/link_markers.dart';
-import '../../../core/entities/sort.dart';
+import '../../../domain/entities/banlist.dart';
+import '../../../domain/entities/format.dart';
+import '../../../domain/entities/link_markers.dart';
+import '../../../domain/entities/sort.dart';
 
 class GetCardInfoRequest extends Equatable {
   final List<String>? names;

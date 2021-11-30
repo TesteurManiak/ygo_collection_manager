@@ -3,10 +3,6 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:ygo_collection_manager/core/entities/banlist.dart';
-import 'package:ygo_collection_manager/core/entities/format.dart';
-import 'package:ygo_collection_manager/core/entities/link_markers.dart';
-import 'package:ygo_collection_manager/core/entities/sort.dart';
 import 'package:ygo_collection_manager/data/api/api.dart';
 import 'package:ygo_collection_manager/data/datasources/remote/ygopro_remote_data_source.dart';
 import 'package:ygo_collection_manager/data/models/request/get_card_info_request.dart';
@@ -16,6 +12,10 @@ import 'package:ygo_collection_manager/data/models/response/db_version_model.dar
 import 'package:ygo_collection_manager/data/models/response/ygo_card_model.dart';
 import 'package:ygo_collection_manager/data/models/response/ygo_set_model.dart';
 import 'package:ygo_collection_manager/domain/entities/archetype.dart';
+import 'package:ygo_collection_manager/domain/entities/banlist.dart';
+import 'package:ygo_collection_manager/domain/entities/format.dart';
+import 'package:ygo_collection_manager/domain/entities/link_markers.dart';
+import 'package:ygo_collection_manager/domain/entities/sort.dart';
 import 'package:ygo_collection_manager/domain/entities/ygo_set.dart';
 
 import '../../../utils/fixture_reader.dart';

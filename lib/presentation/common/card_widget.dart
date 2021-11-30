@@ -1,15 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../blocs/cards_bloc.dart';
-import '../blocs/expansion_collection_bloc.dart';
 import '../../core/bloc/bloc_provider.dart';
-import '../../core/entities/card_edition_enum.dart';
-import '../../data/datasources/local/ygopro_local_datasource.dart';
-import '../../domain/entities/ygo_card.dart';
-import '../../service_locator.dart';
 import '../../core/styles/colors.dart';
 import '../../core/styles/text_styles.dart';
+import '../../data/datasources/local/ygopro_local_datasource.dart';
+import '../../domain/entities/card_edition_enum.dart';
+import '../../domain/entities/ygo_card.dart';
+import '../../service_locator.dart';
+import '../blocs/cards_bloc.dart';
+import '../blocs/expansion_collection_bloc.dart';
 import 'cards_overlay.dart';
 
 class CardWidget extends StatelessWidget {
