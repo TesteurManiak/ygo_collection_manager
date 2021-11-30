@@ -23,8 +23,11 @@ abstract class YgoProRemoteDataSource {
 }
 
 class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
-  static final baseUrl = Uri(scheme: 'https', host: 'db.ygoprodeck.com');
-  static const basePath = <String>['api', 'v7'];
+  static final baseUrl = Uri(
+    scheme: 'https',
+    host: 'db.ygoprodeck.com',
+    pathSegments: ['api', 'v7'],
+  );
   static const cardInfoPath = 'cardinfo.php';
   static const randomCardPath = 'randomcard.php';
   static const setsPath = 'cardsets.php';
@@ -110,20 +113,20 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
     final dateRegion = request.dateRegion;
     final response = await _getCall<Map<String, dynamic>>(
       [cardInfoPath],
-      queryParameters: <String, Object>{
+      queryParameters: <String, String>{
         if (names != null) 'name': names.join('|'),
         if (fname != null) 'fname': fname,
         if (ids != null) 'id': ids.join(','),
         if (types != null) 'type': types.join(','),
-        if (atk != null) 'atk': atk,
-        if (def != null) 'def': def,
-        if (level != null) 'level': level,
+        if (atk != null) 'atk': atk.toString(),
+        if (def != null) 'def': def.toString(),
+        if (level != null) 'level': level.toString(),
         if (races != null) 'race': races.join(','),
         if (attributes != null) 'attribute': attributes.join(','),
-        if (link != null) 'link': link,
+        if (link != null) 'link': link.toString(),
         if (linkMarkers != null)
           'linkmarker': linkMarkers.toStringIterable().join(','),
-        if (scale != null) 'scale': scale,
+        if (scale != null) 'scale': scale.toString(),
         if (cardSet != null) 'cardset': cardSet,
         if (archetype != null) 'archetype': archetype,
         if (banlist != null) 'banlist': banlist.string,
@@ -152,7 +155,7 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
     try {
       final response = await httpClient.get(
         baseUrl.replace(
-          pathSegments: <String>[...basePath, ...pathSegments],
+          pathSegments: <String>[...baseUrl.pathSegments, ...pathSegments],
           queryParameters: queryParameters,
         ).toString(),
       );

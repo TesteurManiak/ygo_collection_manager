@@ -1,5 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart' show Hive;
 
 import 'core/platform/network_info.dart';
 import 'data/api/api.dart';
@@ -57,13 +59,13 @@ void _configData() {
     () => YgoProRemoteDataSourceImpl(httpClient: sl()),
   );
   sl.registerLazySingleton<YgoProLocalDataSource>(
-    () => YgoProLocalDataSourceHive(),
+    () => YgoProLocalDataSourceHive(hive: Hive),
   );
 }
 
 void _configExternal() {
   //! External
-  sl.registerLazySingleton<RemoteClient>(() => DioClient());
+  sl.registerLazySingleton<RemoteClient>(() => DioClient(dio: Dio()));
   sl.registerLazySingleton<NetworkInfo>(
     () => NetworkInfoImpl(connectivity: Connectivity()),
   );
