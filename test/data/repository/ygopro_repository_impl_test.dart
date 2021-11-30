@@ -335,4 +335,27 @@ void main() {
       expect(copies, tQuantity);
     });
   });
+
+  group('updateCardOwned', () {
+    test('should call updateCard from local datasource', () async {
+      // arrange
+      when(mockLocalDataSource.updateCardOwned(any)).thenAnswer(
+        (_) async => true,
+      );
+
+      // act
+      await repository.updateCardOwned(
+        CardOwned(
+          quantity: 1,
+          setCode: '',
+          edition: CardEditionEnum.first,
+          setName: '',
+          id: 1,
+        ),
+      );
+
+      // assert
+      verify(mockLocalDataSource.updateCardOwned(any));
+    });
+  });
 }
