@@ -4,6 +4,7 @@ import 'package:ygo_collection_manager/domain/entities/card_misc_info.dart';
 void main() {
   group('CardMiscInfo', () {
     test('compare instances with same props', () {
+      final now = DateTime.now();
       final a = CardMiscInfo(
         views: 0,
         betaName: null,
@@ -11,10 +12,10 @@ void main() {
         viewsWeek: 10,
         upvotes: 56,
         downvotes: 13,
-        formats: [],
+        formats: const [],
         betaId: null,
-        tcgDate: DateTime.now(),
-        ocgDate: DateTime.now(),
+        tcgDate: now,
+        ocgDate: now,
         konamiId: null,
         hasEffect: null,
         treatedAs: null,
@@ -26,10 +27,10 @@ void main() {
         viewsWeek: 10,
         upvotes: 56,
         downvotes: 13,
-        formats: [],
+        formats: const [],
         betaId: null,
-        tcgDate: DateTime.now(),
-        ocgDate: DateTime.now(),
+        tcgDate: now,
+        ocgDate: now,
         konamiId: null,
         hasEffect: null,
         treatedAs: null,
