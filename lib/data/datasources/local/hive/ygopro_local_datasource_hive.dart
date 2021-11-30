@@ -1,8 +1,8 @@
 import 'package:hive_flutter/hive_flutter.dart' hide Hive;
 
-import '../../../../core/entities/card_edition_enum.dart';
 import '../../../../core/extensions/extensions.dart';
 import '../../../../domain/entities/card_banlist_info.dart';
+import '../../../../domain/entities/card_edition_enum.dart';
 import '../../../../domain/entities/card_images.dart';
 import '../../../../domain/entities/card_misc_info.dart';
 import '../../../../domain/entities/card_owned.dart';

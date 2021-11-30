@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:hive_flutter/adapters.dart';
 
-import '../../../../core/entities/card_edition_enum.dart';
 import 'card_banlist_info.dart';
+import 'card_edition_enum.dart';
 import 'card_images.dart';
 import 'card_misc_info.dart';
 import 'card_price.dart';
