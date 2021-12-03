@@ -1,5 +1,5 @@
-import 'package:ygo_collection_manager/domain/entities/ygo_set.dart';
-import 'package:ygo_collection_manager/domain/repository/ygopro_repository.dart';
+import '../entities/ygo_set.dart';
+import '../repository/ygopro_repository.dart';
 
 /// Fetch all sets from the YgoPro API.
 class FetchAllSets {

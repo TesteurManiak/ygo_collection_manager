@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../blocs/cards_bloc.dart';
 import '../../core/bloc/bloc_provider.dart';
-import '../../domain/entities/ygo_card.dart';
 import '../../core/styles/colors.dart';
+import '../../domain/entities/ygo_card.dart';
+import '../blocs/cards_bloc.dart';
 import '../common/card_widget.dart';
+import '../common/filter_field.dart';
 import '../common/no_glow_scroll_behavior.dart';
 import '../common/sliver_spacer.dart';
 import '../common/top_rounded_sliver.dart';
@@ -19,15 +20,6 @@ class BrowseView extends StatefulWidget {
 class _BrowseViewState extends State<BrowseView>
     with AutomaticKeepAliveClientMixin {
   late final _cardsBloc = BlocProvider.of<CardsBloc>(context);
-
-  void _showFilterDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (_) => const AlertDialog(
-        title: Text('Sort by'),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,20 +44,9 @@ class _BrowseViewState extends State<BrowseView>
               toolbarHeight: kToolbarHeight + 4,
               backgroundColor: DynamicThemedColors.scaffoldBackground(context),
               pinned: true,
-              title: TextField(
+              title: FilterField(
+                hintText: 'Search for cards...',
                 controller: _cardsBloc.searchController,
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.search),
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.sort),
-                    onPressed: () => _showFilterDialog(context),
-                  ),
-                  hintText: 'Search for cards...',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(36),
-                    borderSide: const BorderSide(width: 2),
-                  ),
-                ),
                 onChanged: _cardsBloc.filter,
               ),
             ),

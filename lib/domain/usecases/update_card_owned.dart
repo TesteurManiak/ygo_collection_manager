@@ -1,5 +1,5 @@
-import 'package:ygo_collection_manager/domain/entities/card_owned.dart';
-import 'package:ygo_collection_manager/domain/repository/ygopro_repository.dart';
+import '../entities/card_owned.dart';
+import '../repository/ygopro_repository.dart';
 
 class UpdateCardOwned {
   final YgoProRepository repository;

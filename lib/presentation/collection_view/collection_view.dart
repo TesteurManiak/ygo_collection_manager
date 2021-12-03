@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../../core/bloc/bloc_provider.dart';
+import '../../core/styles/colors.dart';
+import '../../domain/entities/ygo_set.dart';
 import '../blocs/cards_bloc.dart';
 import '../blocs/sets_bloc.dart';
-import '../../core/bloc/bloc_provider.dart';
-import '../../domain/entities/ygo_set.dart';
-import '../../core/styles/colors.dart';
 import '../common/no_glow_scroll_behavior.dart';
 import '../common/sliver_spacer.dart';
 import '../common/top_rounded_sliver.dart';
 import '../common/total_completion_widget.dart';
+import '../common/filter_field.dart';
 import 'widgets/set_tile_widget.dart';
 
 class CollectionView extends StatefulWidget {
@@ -22,15 +23,6 @@ class _CollectionViewState extends State<CollectionView>
     with AutomaticKeepAliveClientMixin {
   late final _setsBloc = BlocProvider.of<SetsBloc>(context);
   late final _cardsBloc = BlocProvider.of<CardsBloc>(context);
-
-  void _showFilterDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (_) => const AlertDialog(
-        title: Text('Sort by'),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,21 +45,10 @@ class _CollectionViewState extends State<CollectionView>
                 backgroundColor:
                     DynamicThemedColors.scaffoldBackground(context),
                 pinned: true,
-                title: TextField(
-                  controller: _setsBloc.searchController,
+                title: FilterField(
+                  hintText: 'Filter expansions',
                   onChanged: _setsBloc.filter,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.search),
-                    suffixIcon: IconButton(
-                      icon: const Icon(Icons.sort),
-                      onPressed: () => _showFilterDialog(context),
-                    ),
-                    hintText: 'Filter expansions',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(36),
-                      borderSide: const BorderSide(width: 2),
-                    ),
-                  ),
+                  controller: _setsBloc.searchController,
                 ),
               ),
               const SliverSpacer(height: 16),

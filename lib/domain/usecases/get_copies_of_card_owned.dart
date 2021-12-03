@@ -1,4 +1,4 @@
-import 'package:ygo_collection_manager/domain/repository/ygopro_repository.dart';
+import '../repository/ygopro_repository.dart';
 
 class GetCopiesOfCardOwned {
   final YgoProRepository repository;

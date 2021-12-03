@@ -4,6 +4,7 @@ analyzer:
   exclude:
     - lib/**.g.dart
     - test/**.mocks.dart
+    - lib/generated_plugin_registrant.dart
   strong-mode:
     implicit-casts: false
   errors:
@@ -23,3 +24,4 @@ linter:
     - use_is_even_rather_than_modulo
     - use_named_constants
     - use_to_and_as_if_applicable
+    - prefer_relative_imports
