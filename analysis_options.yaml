@@ -4,6 +4,7 @@ analyzer:
   exclude:
     - lib/**.g.dart
     - test/**.mocks.dart
+    - lib/generated_plugin_registrant.dart
   strong-mode:
     implicit-casts: false
   errors:

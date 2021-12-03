@@ -9,7 +9,7 @@ import '../common/no_glow_scroll_behavior.dart';
 import '../common/sliver_spacer.dart';
 import '../common/top_rounded_sliver.dart';
 import '../common/total_completion_widget.dart';
-import 'widgets/filter_expansions_field.dart';
+import '../common/filter_field.dart';
 import 'widgets/set_tile_widget.dart';
 
 class CollectionView extends StatefulWidget {
@@ -45,7 +45,7 @@ class _CollectionViewState extends State<CollectionView>
                 backgroundColor:
                     DynamicThemedColors.scaffoldBackground(context),
                 pinned: true,
-                title: FilterExpansionsField(
+                title: FilterField(
                   hintText: 'Filter expansions',
                   onChanged: _setsBloc.filter,
                   controller: _setsBloc.searchController,

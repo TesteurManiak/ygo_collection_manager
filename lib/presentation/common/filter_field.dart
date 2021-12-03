@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class FilterExpansionsField extends StatelessWidget {
+class FilterField extends StatelessWidget {
   final String hintText;
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
 
-  const FilterExpansionsField({
+  const FilterField({
     Key? key,
     required this.hintText,
     this.controller,
