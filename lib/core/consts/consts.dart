@@ -1,4 +1,5 @@
 abstract class Consts {
+  static const px2 = 2.0;
   static const px3 = 3.0;
   static const px4 = 4.0;
   static const px6 = 6.0;

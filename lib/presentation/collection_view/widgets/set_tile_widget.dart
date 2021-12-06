@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/bloc/bloc_provider.dart';
 import '../../../core/consts/consts.dart';
+import '../../../core/consts/my_edge_insets.dart';
 import '../../../core/styles/colors.dart';
 import '../../../domain/entities/ygo_set.dart';
 import '../../blocs/cards_bloc.dart';
@@ -19,10 +20,7 @@ class SetTileWidget extends StatelessWidget {
         cardsBloc.getCardsInSet(cardSet)?.length ?? cardSet.numOfCards;
     final cardsOwned = cardsBloc.cardsOwnedInSet(cardSet);
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: Consts.px8,
-        horizontal: Consts.px16,
-      ),
+      padding: MyEdgeInsets.symH16V8,
       child: Material(
         color: Colors.transparent,
         child: InkWell(
@@ -36,7 +34,7 @@ class SetTileWidget extends StatelessWidget {
             );
           },
           child: Container(
-            padding: const EdgeInsets.all(Consts.px16),
+            padding: MyEdgeInsets.all16,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(Consts.px16),
               border: Border.all(
