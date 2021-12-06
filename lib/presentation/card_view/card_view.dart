@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../domain/entities/ygo_card.dart';
+import '../../core/consts/consts.dart';
+import '../../core/consts/my_edge_insets.dart';
 import '../../core/styles/colors.dart';
+import '../../domain/entities/ygo_card.dart';
 import 'widgets/set_rarity_widget.dart';
 
 class CardView extends StatelessWidget {
@@ -32,12 +34,12 @@ class CardView extends StatelessWidget {
         decoration: BoxDecoration(
           color: DynamicThemedColors.scaffoldBackground(context),
           borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
+            topLeft: Radius.circular(Consts.px20),
+            topRight: Radius.circular(Consts.px20),
           ),
         ),
         child: ListView.separated(
-          padding: const EdgeInsets.all(16),
+          padding: MyEdgeInsets.all16,
           itemBuilder: (_, index) => SetRarityWidget(cardSet: sets![index]),
           itemCount: sets?.length ?? 0,
           separatorBuilder: (_, __) => const Divider(),

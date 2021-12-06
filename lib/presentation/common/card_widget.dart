@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/bloc/bloc_provider.dart';
+import '../../core/consts/consts.dart';
+import '../../core/consts/my_edge_insets.dart';
 import '../../core/styles/colors.dart';
 import '../../core/styles/text_styles.dart';
 import '../../data/datasources/local/ygopro_local_datasource.dart';
@@ -32,7 +34,7 @@ class CardWidget extends StatelessWidget {
         Positioned.fill(
           child: Container(
             color: DynamicThemedColors.scaffoldBackground(context),
-            padding: const EdgeInsets.all(2),
+            padding: MyEdgeInsets.all2,
             child: CachedNetworkImage(
               imageUrl: cards[index].cardImages.first.imageUrlSmall,
               placeholder: (_, __) => Image.asset(
@@ -80,13 +82,10 @@ class CardWidget extends StatelessWidget {
                                     decoration: const BoxDecoration(
                                       color: MyColors.yellow2,
                                       borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(6),
+                                        topRight: Radius.circular(Consts.px6),
                                       ),
                                     ),
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 4,
-                                      horizontal: 6,
-                                    ),
+                                    padding: MyEdgeInsets.symH6V4,
                                     child: Text(
                                       '$quantity',
                                       style: TextStyles.black12b,

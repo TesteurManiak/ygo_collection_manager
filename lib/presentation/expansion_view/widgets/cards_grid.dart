@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/consts/my_edge_insets.dart';
 import '../../../domain/entities/ygo_card.dart';
 import '../../common/no_glow_scroll_behavior.dart';
 
@@ -26,10 +27,10 @@ class CardsGrid extends StatelessWidget {
     final itemHeight = itemWidth * 1.47;
 
     return ScrollConfiguration(
-      behavior: NoGlowScrollBehavior(),
+      behavior: const NoGlowScrollBehavior(),
       child: GridView.builder(
         physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.all(16),
+        padding: MyEdgeInsets.all16,
         itemCount: cards.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,

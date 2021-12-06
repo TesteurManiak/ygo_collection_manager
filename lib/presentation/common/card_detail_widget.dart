@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/consts/consts.dart';
+import '../../core/consts/my_edge_insets.dart';
 import '../../core/styles/text_styles.dart';
 
 class CardDetailWidget extends StatelessWidget {
@@ -25,7 +27,7 @@ class CardDetailWidget extends StatelessWidget {
         leading: Image.asset(
           asset,
           errorBuilder: (_, error, ___) => const SizedBox(),
-          height: 20,
+          height: Consts.px20,
         ),
       );
 
@@ -35,13 +37,13 @@ class CardDetailWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label, style: TextStyles.grey14),
-        const SizedBox(height: 4),
+        const SizedBox(height: Consts.px4),
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             if (leading != null)
               Padding(
-                padding: const EdgeInsets.only(right: 4),
+                padding: MyEdgeInsets.onlyR4,
                 child: leading,
               ),
             Flexible(child: Text(value, maxLines: 2)),
