@@ -27,7 +27,7 @@ class CardsGrid extends StatelessWidget {
     final itemHeight = itemWidth * 1.47;
 
     return ScrollConfiguration(
-      behavior: NoGlowScrollBehavior(),
+      behavior: const NoGlowScrollBehavior(),
       child: GridView.builder(
         physics: const BouncingScrollPhysics(),
         padding: MyEdgeInsets.all16,

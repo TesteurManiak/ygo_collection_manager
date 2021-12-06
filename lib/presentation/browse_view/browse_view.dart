@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../core/bloc/bloc_provider.dart';
 import '../../core/consts/consts.dart';
-import '../../core/styles/colors.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../blocs/cards_bloc.dart';
 import '../common/card_widget.dart';
-import '../common/filter_field.dart';
+import '../common/filter_sliver_app_bar.dart';
 import '../common/no_glow_scroll_behavior.dart';
 import '../common/sliver_spacer.dart';
 import '../common/top_rounded_sliver.dart';
@@ -33,7 +32,7 @@ class _BrowseViewState extends State<BrowseView>
 
     return Scaffold(
       body: ScrollConfiguration(
-        behavior: NoGlowScrollBehavior(),
+        behavior: const NoGlowScrollBehavior(),
         child: CustomScrollView(
           slivers: [
             const SliverAppBar(
@@ -41,15 +40,10 @@ class _BrowseViewState extends State<BrowseView>
               centerTitle: true,
             ),
             const TopRoundedSliver(),
-            SliverAppBar(
-              toolbarHeight: kToolbarHeight + 4,
-              backgroundColor: DynamicThemedColors.scaffoldBackground(context),
-              pinned: true,
-              title: FilterField(
-                hintText: 'Search for cards...',
-                controller: _cardsBloc.searchController,
-                onChanged: _cardsBloc.filter,
-              ),
+            FilterSliverAppBar(
+              hintText: 'Search for cards...',
+              controller: _cardsBloc.searchController,
+              onChanged: _cardsBloc.filter,
             ),
             const SliverSpacer(height: Consts.px16),
             StreamBuilder<List<YgoCard>?>(

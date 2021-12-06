@@ -56,7 +56,7 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
         ),
       ),
       child: ScrollConfiguration(
-        behavior: NoGlowScrollBehavior(),
+        behavior: const NoGlowScrollBehavior(),
         child: SingleChildScrollView(
           padding: MyEdgeInsets.all25,
           controller: widget.controller,
