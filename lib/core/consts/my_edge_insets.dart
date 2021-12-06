@@ -17,6 +17,7 @@ abstract class MyEdgeInsets {
     horizontal: Consts.px10,
     vertical: Consts.px12,
   );
+  static const symH16 = EdgeInsets.symmetric(horizontal: Consts.px16);
   static const symH16V8 = EdgeInsets.symmetric(
     horizontal: Consts.px16,
     vertical: Consts.px8,

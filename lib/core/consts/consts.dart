@@ -13,4 +13,5 @@ abstract class Consts {
   static const px25 = 25.0;
   static const px28 = 28.0;
   static const px32 = 32.0;
+  static const px80 = 80.0;
 }
