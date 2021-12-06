@@ -2,7 +2,9 @@ import 'package:animated_scaffold/animated_scaffold.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/bloc/bloc_provider.dart';
+import '../../core/consts/consts.dart';
 import '../../core/consts/durations.dart';
+import '../../core/consts/my_edge_insets.dart';
 import '../../core/styles/colors.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
@@ -62,8 +64,8 @@ class _ExpansionViewState extends State<ExpansionView>
       child: AnimatedAppBarScaffold(
         animation: _animation,
         appBar: ExpandingAppBarBottom(
-          bottomExpandedHeight: 80,
-          bottomHeight: 18,
+          bottomExpandedHeight: Consts.px80,
+          bottomHeight: Consts.px18,
           title: StreamBuilder<String?>(
             stream: _expansionCollectionBloc.onTitleChanged,
             builder: (_, snapshot) {
@@ -82,10 +84,12 @@ class _ExpansionViewState extends State<ExpansionView>
           ),
         ),
         body: Container(
-          margin: const EdgeInsets.only(top: 16),
+          margin: MyEdgeInsets.onlyT16,
           decoration: BoxDecoration(
             color: DynamicThemedColors.scaffoldBackground(context),
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(Consts.px20),
+            ),
           ),
           child: StreamBuilder<bool>(
             stream: _expansionCollectionBloc.onEditionStateChanged,

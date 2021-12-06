@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
 
 import '../../core/consts/durations.dart';
+import '../../core/consts/my_edge_insets.dart';
 import '../../domain/entities/ygo_card.dart';
 import 'card_bottom_sheet.dart';
 
@@ -118,7 +119,7 @@ class _CardOverlayState extends State<_CardOverlay>
             curve: Curves.easeIn,
           ),
           child: Container(
-            margin: const EdgeInsets.all(8.0),
+            margin: MyEdgeInsets.all8,
             child: CachedNetworkImage(
               imageUrl: widget.card.cardImages.first.imageUrl,
               placeholder: (_, __) => Image.asset(

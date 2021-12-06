@@ -1,6 +1,8 @@
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/consts/consts.dart';
+import '../../core/consts/my_edge_insets.dart';
 import '../../core/styles/colors.dart';
 import '../../core/styles/themes.dart';
 
@@ -48,19 +50,19 @@ class _SettingsViewState extends State<SettingsView> {
         decoration: BoxDecoration(
           color: DynamicThemedColors.scaffoldBackground(context),
           borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(20.0),
-            topRight: Radius.circular(20.0),
+            topLeft: Radius.circular(Consts.px20),
+            topRight: Radius.circular(Consts.px20),
           ),
         ),
         child: ListView(
-          padding: const EdgeInsets.all(16),
+          padding: MyEdgeInsets.all16,
           children: [
             Row(
               children: [
                 const Icon(Icons.light_mode),
-                const SizedBox(width: 8),
+                const SizedBox(width: Consts.px8),
                 const Text('Theme'),
-                const SizedBox(width: 16),
+                const SizedBox(width: Consts.px16),
                 Expanded(
                   child: DropdownButton<_ThemeChoice>(
                     value: _themeChoice,

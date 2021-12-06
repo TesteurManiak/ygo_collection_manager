@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../blocs/cards_bloc.dart';
 import '../../core/bloc/bloc_provider.dart';
+import '../../core/consts/consts.dart';
+import '../../core/consts/my_edge_insets.dart';
+import '../blocs/cards_bloc.dart';
 
-const _kBottomHeight = 14.0;
+const _kBottomHeight = Consts.px14;
 
 class TotalCompletionBottomWidget extends StatelessWidget
     with PreferredSizeWidget {
@@ -26,7 +28,7 @@ class TotalCompletionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final _cardsBloc = BlocProvider.of<CardsBloc>(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: MyEdgeInsets.symH16,
       child: StreamBuilder<double>(
         stream: _cardsBloc.onFullCollectionCompletionChanged,
         initialData: _cardsBloc.fullCollectionCompletion,
@@ -38,7 +40,7 @@ class TotalCompletionWidget extends StatelessWidget {
             children: [
               Expanded(
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(Consts.px20),
                   child: SizedBox(
                     height: _kBottomHeight,
                     child: LinearProgressIndicator(
@@ -50,7 +52,7 @@ class TotalCompletionWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: Consts.px8),
               Text('${completion.toStringAsFixed(0)}%'),
             ],
           );

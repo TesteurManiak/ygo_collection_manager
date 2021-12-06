@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../blocs/expansion_collection_bloc.dart';
 import '../../../core/bloc/bloc_provider.dart';
-import '../../../domain/entities/ygo_card.dart';
-
+import '../../../core/consts/my_edge_insets.dart';
 import '../../../core/styles/colors.dart';
+import '../../../domain/entities/ygo_card.dart';
+import '../../blocs/expansion_collection_bloc.dart';
 
 class CardEditingWidget extends StatelessWidget {
   final int index;
@@ -33,7 +33,7 @@ class CardEditingWidget extends StatelessWidget {
             : expansionCollectionBloc.selectCard(index),
         child: Container(
           color: DynamicThemedColors.scaffoldBackground(context),
-          padding: const EdgeInsets.all(2),
+          padding: MyEdgeInsets.all2,
           child: CachedNetworkImage(
             imageUrl: cards[index].cardImages.first.imageUrlSmall,
             placeholder: (_, __) => Image.asset(
