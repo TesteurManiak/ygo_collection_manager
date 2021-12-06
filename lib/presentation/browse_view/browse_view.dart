@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/bloc/bloc_provider.dart';
+import '../../core/consts/consts.dart';
 import '../../core/styles/colors.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../blocs/cards_bloc.dart';
@@ -50,7 +51,7 @@ class _BrowseViewState extends State<BrowseView>
                 onChanged: _cardsBloc.filter,
               ),
             ),
-            const SliverSpacer(height: 16),
+            const SliverSpacer(height: Consts.px16),
             StreamBuilder<List<YgoCard>?>(
               stream: _cardsBloc.onFilteredCardsChanged,
               builder: (_, snapshot) {

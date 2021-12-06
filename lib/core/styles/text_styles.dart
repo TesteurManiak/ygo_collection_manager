@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 
+import '../consts/consts.dart';
 import 'colors.dart';
 
-class TextStyles {
+abstract class TextStyles {
   // grey
-  static const grey14 = TextStyle(color: MyColors.grey, fontSize: 14);
+  static const grey14 = TextStyle(
+    color: MyColors.grey,
+    fontSize: Consts.px14,
+  );
 
   // default
+  static const font16 = TextStyle(fontSize: Consts.px16);
   static const font18w500 = TextStyle(
-    fontSize: 18,
+    fontSize: Consts.px18,
     fontWeight: FontWeight.w500,
   );
-  static const font20 = TextStyle(fontSize: 20);
+  static const font20 = TextStyle(fontSize: Consts.px20);
 
   // black
   static const black12b = TextStyle(
@@ -37,6 +42,6 @@ class DynamicTextStyles {
           light: Colors.black,
           dark: Colors.white,
         ),
-        fontSize: 14,
+        fontSize: Consts.px14,
       );
 }

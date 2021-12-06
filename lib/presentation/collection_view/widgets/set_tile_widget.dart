@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../blocs/cards_bloc.dart';
 import '../../../core/bloc/bloc_provider.dart';
-import '../../../domain/entities/ygo_set.dart';
+import '../../../core/consts/consts.dart';
 import '../../../core/styles/colors.dart';
+import '../../../domain/entities/ygo_set.dart';
+import '../../blocs/cards_bloc.dart';
 import '../../expansion_view/expansion_view.dart';
 
 class SetTileWidget extends StatelessWidget {
@@ -18,11 +19,14 @@ class SetTileWidget extends StatelessWidget {
         cardsBloc.getCardsInSet(cardSet)?.length ?? cardSet.numOfCards;
     final cardsOwned = cardsBloc.cardsOwnedInSet(cardSet);
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      padding: const EdgeInsets.symmetric(
+        vertical: Consts.px8,
+        horizontal: Consts.px16,
+      ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(Consts.px16),
           onTap: () {
             FocusScope.of(context).unfocus();
             Navigator.pushNamed<YgoSet>(
@@ -32,9 +36,9 @@ class SetTileWidget extends StatelessWidget {
             );
           },
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(Consts.px16),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(Consts.px16),
               border: Border.all(
                 color: DynamicThemedColors.cardSetBorder(context),
                 width: 2,

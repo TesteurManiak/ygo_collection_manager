@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../../core/consts/consts.dart';
+import '../../core/consts/my_edge_insets.dart';
+import '../../core/styles/colors.dart';
+import '../../core/styles/text_styles.dart';
 import '../../data/datasources/local/ygopro_local_datasource.dart';
 import '../../domain/entities/card_price.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../service_locator.dart';
-import '../../core/styles/colors.dart';
-import '../../core/styles/text_styles.dart';
 import '../card_view/card_view.dart';
 import 'card_detail_widget.dart';
 import 'no_glow_scroll_behavior.dart';
@@ -49,12 +51,14 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
     return Container(
       decoration: BoxDecoration(
         color: DynamicThemedColors.bottomSheetBackground(context),
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(Consts.px20),
+        ),
       ),
       child: ScrollConfiguration(
         behavior: NoGlowScrollBehavior(),
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(25),
+          padding: MyEdgeInsets.all25,
           controller: widget.controller,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,14 +67,11 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                 children: [
                   Image.asset(
                     'assets/type/${widget.card.type}.jpg',
-                    height: 20,
+                    height: Consts.px20,
                     errorBuilder: (_, __, ___) => const SizedBox(),
                   ),
-                  const SizedBox(width: 8),
-                  Text(
-                    widget.card.type,
-                    style: const TextStyle(fontSize: 16),
-                  ),
+                  const SizedBox(width: Consts.px8),
+                  Text(widget.card.type, style: TextStyles.font16),
                   Expanded(child: Container()),
                   RichText(
                     text: TextSpan(
@@ -88,7 +89,7 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                   ),
                 ],
               ),
-              const SizedBox(height: 14),
+              const SizedBox(height: Consts.px14),
               Row(
                 children: [
                   Expanded(
@@ -96,8 +97,11 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                   ),
                   if (widget.card.level != null)
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: Image.asset(widget.card.levelAsset, height: 20),
+                      padding: MyEdgeInsets.symH4,
+                      child: Image.asset(
+                        widget.card.levelAsset,
+                        height: Consts.px20,
+                      ),
                     ),
                   if (widget.card.level != null)
                     Text(
@@ -106,9 +110,9 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                     ),
                 ],
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: Consts.px6),
               Text(widget.card.desc, style: TextStyles.grey14),
-              const SizedBox(height: 28),
+              const SizedBox(height: Consts.px28),
               Row(
                 children: [
                   if (widget.card.atk != null)
@@ -116,7 +120,10 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                       label: 'Atk',
                       value: widget.card.atk.toString(),
                     ),
-                  if (widget.card.def != null) const SizedBox(width: 32),
+                  if (widget.card.def != null)
+                    const SizedBox(
+                      width: Consts.px32,
+                    ),
                   if (widget.card.def != null)
                     CardDetailWidget(
                       label: 'Def',
@@ -125,7 +132,7 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                 ],
               ),
               if (widget.card.atk != null || widget.card.def != null)
-                const SizedBox(height: 16),
+                const SizedBox(height: Consts.px16),
               Row(
                 children: [
                   CardDetailWidget.assetImage(
@@ -133,7 +140,10 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                     value: widget.card.race,
                     asset: 'assets/race/${widget.card.race}.png',
                   ),
-                  if (widget.card.attribute != null) const SizedBox(width: 32),
+                  if (widget.card.attribute != null)
+                    const SizedBox(
+                      width: Consts.px32,
+                    ),
                   if (widget.card.attribute != null)
                     CardDetailWidget.assetImage(
                       label: 'Attribute',
@@ -142,7 +152,7 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                     ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: Consts.px16),
               Row(
                 children: [
                   if (widget.card.archetype != null)
@@ -150,7 +160,10 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                       label: 'Archetype',
                       value: widget.card.archetype!,
                     ),
-                  if (widget.card.archetype != null) const SizedBox(width: 32),
+                  if (widget.card.archetype != null)
+                    const SizedBox(
+                      width: Consts.px32,
+                    ),
                   if (miscInfo != null)
                     Expanded(
                       child: CardDetailWidget(
@@ -164,7 +177,7 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                     ),
                 ],
               ),
-              const SizedBox(height: 28),
+              const SizedBox(height: Consts.px28),
               Row(
                 children: [
                   ValueListenableBuilder<int>(
@@ -175,7 +188,7 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                   TextButton(
                     style: TextButton.styleFrom(
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(Consts.px20),
                       ),
                     ),
                     onPressed: () => Navigator.pushNamed(
@@ -190,7 +203,7 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                   ),
                 ],
               ),
-              const SizedBox(height: 28),
+              const SizedBox(height: Consts.px28),
               _PricesWidget(prices: widget.card.cardPrices),
             ],
           ),
@@ -209,10 +222,10 @@ class _PricesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(Consts.px12),
         border: Border.all(
           color: MyColors.yellow2,
-          width: 3,
+          width: Consts.px3,
         ),
       ),
       child: Column(
@@ -261,11 +274,11 @@ class _PriceLine extends StatelessWidget {
       decoration: BoxDecoration(
         border: hasBorder
             ? const Border(
-                bottom: BorderSide(color: MyColors.yellow2, width: 3),
+                bottom: BorderSide(color: MyColors.yellow2, width: Consts.px3),
               )
             : null,
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+      padding: MyEdgeInsets.symH10V12,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

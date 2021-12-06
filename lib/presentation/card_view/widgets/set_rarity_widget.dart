@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../domain/entities/card_set.dart';
+import '../../../core/consts/consts.dart';
 import '../../../core/styles/colors.dart';
 import '../../../core/styles/text_styles.dart';
+import '../../../domain/entities/card_set.dart';
 
 class SetRarityWidget extends StatelessWidget {
   final CardSet cardSet;
@@ -20,7 +21,7 @@ class SetRarityWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(cardSet.name, style: const TextStyle(color: MyColors.yellow)),
-        const SizedBox(height: 16),
+        const SizedBox(height: Consts.px16),
         Text(
           cardSet.rarity,
           style: TextStyles.font18w500,

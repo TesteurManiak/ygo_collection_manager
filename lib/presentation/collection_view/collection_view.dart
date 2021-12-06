@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
 import '../../core/bloc/bloc_provider.dart';
+import '../../core/consts/consts.dart';
 import '../../core/styles/colors.dart';
 import '../../domain/entities/ygo_set.dart';
 import '../blocs/cards_bloc.dart';
 import '../blocs/sets_bloc.dart';
+import '../common/filter_field.dart';
 import '../common/no_glow_scroll_behavior.dart';
 import '../common/sliver_spacer.dart';
 import '../common/top_rounded_sliver.dart';
 import '../common/total_completion_widget.dart';
-import '../common/filter_field.dart';
 import 'widgets/set_tile_widget.dart';
 
 class CollectionView extends StatefulWidget {
@@ -51,7 +52,7 @@ class _CollectionViewState extends State<CollectionView>
                   controller: _setsBloc.searchController,
                 ),
               ),
-              const SliverSpacer(height: 16),
+              const SliverSpacer(height: Consts.px16),
               StreamBuilder(
                 stream: _cardsBloc.onCardsChanged,
                 builder: (_, __) => StreamBuilder<List<YgoSet>?>(
