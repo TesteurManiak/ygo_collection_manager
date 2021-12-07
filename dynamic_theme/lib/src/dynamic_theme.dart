@@ -3,10 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-typedef ThemedWidgetBuilder = Widget Function(
-  BuildContext context,
-  ThemeData data,
-);
+typedef ThemedWidgetBuilder = Widget Function(BuildContext, ThemeData);
 
 typedef ThemeDataWithThemeModeBuilder = ThemeData Function(ThemeMode themeMode);
 

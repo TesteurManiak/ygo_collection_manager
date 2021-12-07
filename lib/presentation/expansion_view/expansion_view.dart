@@ -61,9 +61,9 @@ class _ExpansionViewState extends State<ExpansionView>
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
-      child: AnimatedAppBarScaffold(
+      child: AnimatedScaffold(
         animation: _animation,
-        appBar: ExpandingAppBarBottom(
+        appBarBuilder: (listenable) => ExpandingAppBarBottom(
           bottomExpandedHeight: Consts.px80,
           bottomHeight: Consts.px18,
           title: StreamBuilder<String?>(
@@ -82,6 +82,7 @@ class _ExpansionViewState extends State<ExpansionView>
               currentSet: widget.cardSet,
             ),
           ),
+          animation: listenable as Animation<double>,
         ),
         body: Container(
           margin: MyEdgeInsets.onlyT16,
