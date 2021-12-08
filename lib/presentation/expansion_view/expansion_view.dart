@@ -1,6 +1,7 @@
-import 'package:animated_scaffold/animated_scaffold.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/animated_scaffold/animated_app_bar.dart';
+import '../../core/animated_scaffold/animated_scaffold.dart';
 import '../../core/bloc/bloc_provider.dart';
 import '../../core/consts/consts.dart';
 import '../../core/consts/durations.dart';
