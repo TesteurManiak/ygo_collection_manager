@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'colors.dart';
 
-extension BrightnessModifier on Brightness {
+extension on Brightness {
   ThemeMode toThemeMode() {
     switch (this) {
       case Brightness.light:
@@ -79,6 +79,6 @@ abstract class MyThemes {
         ? Brightness.light
         : Brightness.dark;
     DynamicTheme.of(context)
-        .setBrightness(themeMode ?? newBrightness.toThemeMode());
+        .setThemeMode(themeMode ?? newBrightness.toThemeMode());
   }
 }

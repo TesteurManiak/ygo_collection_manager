@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:shared_preferences/shared_preferences.dart';
 
 typedef ThemedWidgetBuilder = Widget Function(BuildContext, ThemeData);
@@ -25,6 +26,8 @@ extension on String {
   }
 }
 
+/// Creates a widget that applies a theme to a child widget. You can change the
+/// theme by calling `setThemeMode`.
 class DynamicTheme extends StatefulWidget {
   const DynamicTheme({
     Key? key,
@@ -86,6 +89,8 @@ class DynamicThemeState extends State<DynamicTheme> {
     }
     final myThemeMode = await _getThemeMode();
     _themeMode = myThemeMode;
+    final _systemBrightness =
+        SchedulerBinding.instance?.window.platformBrightness;
     _themeData = widget.data(_themeMode);
     if (mounted) {
       setState(() {});
@@ -113,7 +118,7 @@ class DynamicThemeState extends State<DynamicTheme> {
 
   /// Sets the new theme
   /// Rebuilds the tree
-  Future<void> setBrightness(ThemeMode themeMode) async {
+  Future<void> setThemeMode(ThemeMode themeMode) async {
     // Update state with new values
     setState(() {
       _themeData = widget.data(themeMode);
@@ -124,12 +129,23 @@ class DynamicThemeState extends State<DynamicTheme> {
 
   /// Toggles the brightness from dark to light
   Future<void> toggleBrightness() async {
-    // If brightness is dark, set it to light
-    // If it's not dark, set it to dark
-    if (_themeMode == ThemeMode.dark) {
-      await setBrightness(ThemeMode.light);
-    } else {
-      await setBrightness(ThemeMode.dark);
+    switch (_themeMode) {
+      case ThemeMode.system:
+        // If brightness is dark, set it to light
+        // If it's not dark, set it to dark
+        final b = Theme.of(context).brightness;
+        if (b == Brightness.dark) {
+          await setThemeMode(ThemeMode.light);
+        } else {
+          await setThemeMode(ThemeMode.dark);
+        }
+        break;
+      case ThemeMode.light:
+        await setThemeMode(ThemeMode.dark);
+        break;
+      case ThemeMode.dark:
+        await setThemeMode(ThemeMode.light);
+        break;
     }
   }
 
