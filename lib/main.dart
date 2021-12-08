@@ -47,7 +47,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return DynamicTheme(
-      data: MyThemes.fromThemeMode,
       themedWidgetBuilder: (_, themeMode) {
         return MaterialApp(
           themeMode: themeMode,

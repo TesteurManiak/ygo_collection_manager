@@ -66,16 +66,6 @@ abstract class MyThemes {
     return _light;
   }
 
-  static ThemeData fromThemeMode(
-    ThemeMode themeMode,
-    Brightness? systemBrightness,
-  ) {
-    if (themeMode == ThemeMode.system) {
-      return systemBrightness == Brightness.dark ? dark : light;
-    }
-    return themeMode == ThemeMode.dark ? dark : light;
-  }
-
   static void changeBrightness(BuildContext context, {ThemeMode? themeMode}) {
     final newBrightness = Theme.of(context).brightness == Brightness.dark
         ? Brightness.light
