@@ -5,7 +5,10 @@ import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:shared_preferences/shared_preferences.dart';
 
 typedef ThemedWidgetBuilder = Widget Function(BuildContext, ThemeData);
-typedef ThemeDataWithThemeModeBuilder = ThemeData Function(ThemeMode);
+typedef ThemeDataWithThemeModeBuilder = ThemeData Function(
+  ThemeMode themeMode,
+  Brightness? systemBrightness,
+);
 
 extension on ThemeMode {
   String get string => toString().split('.').last;
@@ -33,7 +36,7 @@ class DynamicTheme extends StatefulWidget {
     Key? key,
     required this.data,
     required this.themedWidgetBuilder,
-    this.defaultThemeMode = ThemeMode.light,
+    this.defaultThemeMode = ThemeMode.system,
     this.loadThemeOnStart = true,
   }) : super(key: key);
 
@@ -45,7 +48,7 @@ class DynamicTheme extends StatefulWidget {
 
   /// The default theme on start
   ///
-  /// Defaults to `ThemeMode.light`
+  /// Defaults to `ThemeMode.system`
   final ThemeMode defaultThemeMode;
 
   /// Whether or not to load the theme on start.
@@ -82,6 +85,14 @@ class DynamicThemeState extends State<DynamicTheme> {
     _loadThemeMode();
   }
 
+  void _updateThemeData() {
+    Brightness? systemBrightness;
+    if (_themeMode == ThemeMode.system) {
+      systemBrightness = SchedulerBinding.instance?.window.platformBrightness;
+    }
+    _themeData = widget.data(_themeMode, systemBrightness);
+  }
+
   /// Loads the theme depending on the `loadThemeOnStart` value.
   Future<void> _loadThemeMode() async {
     if (!_shouldLoadBrightness) {
@@ -89,9 +100,7 @@ class DynamicThemeState extends State<DynamicTheme> {
     }
     final myThemeMode = await _getThemeMode();
     _themeMode = myThemeMode;
-    final _systemBrightness =
-        SchedulerBinding.instance?.window.platformBrightness;
-    _themeData = widget.data(_themeMode);
+    _updateThemeData();
     if (mounted) {
       setState(() {});
     }
@@ -100,28 +109,31 @@ class DynamicThemeState extends State<DynamicTheme> {
   /// Initializes the variables.
   void _initVariables() {
     _themeMode = widget.defaultThemeMode;
-    _themeData = widget.data(_themeMode);
+    _updateThemeData();
     _shouldLoadBrightness = widget.loadThemeOnStart;
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _themeData = widget.data(_themeMode);
+    _updateThemeData();
   }
 
   @override
   void didUpdateWidget(DynamicTheme oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _themeData = widget.data(_themeMode);
+    _updateThemeData();
   }
 
   /// Sets the new theme
   /// Rebuilds the tree
   Future<void> setThemeMode(ThemeMode themeMode) async {
+    final _systemBrightness =
+        SchedulerBinding.instance?.window.platformBrightness;
+
     // Update state with new values
     setState(() {
-      _themeData = widget.data(themeMode);
+      _themeData = widget.data(themeMode, _systemBrightness);
       _themeMode = themeMode;
     });
     await _saveThemeMode(themeMode);
