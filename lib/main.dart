@@ -1,6 +1,5 @@
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 import 'core/bloc/bloc.dart';
 import 'core/bloc/bloc_provider.dart';
@@ -45,19 +44,14 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late final _systemBrightness =
-      SchedulerBinding.instance?.window.platformBrightness;
-
   @override
   Widget build(BuildContext context) {
     return DynamicTheme(
-      defaultThemeMode: _systemBrightness == Brightness.dark
-          ? ThemeMode.dark
-          : ThemeMode.light,
-      data: (themeMode) => MyThemes.fromThemeMode(themeMode, _systemBrightness),
-      themedWidgetBuilder: (_, theme) {
+      themedWidgetBuilder: (_, themeMode) {
         return MaterialApp(
-          theme: theme,
+          themeMode: themeMode,
+          darkTheme: MyThemes.dark,
+          theme: MyThemes.light,
           initialRoute: LoadingView.routeName,
           onGenerateRoute: generateRoute,
         );

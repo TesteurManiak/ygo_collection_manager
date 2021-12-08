@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'colors.dart';
 
-extension BrightnessModifier on Brightness {
+extension on Brightness {
   ThemeMode toThemeMode() {
     switch (this) {
       case Brightness.light:
@@ -22,6 +22,7 @@ abstract class MyThemes {
 
   static ThemeData get dark {
     final _dark = _baseDark.copyWith(
+      brightness: Brightness.dark,
       appBarTheme: _baseDark.appBarTheme.copyWith(
         backgroundColor: MyColors.appBarBackgroundDark,
         elevation: 0,
@@ -44,6 +45,7 @@ abstract class MyThemes {
 
   static ThemeData get light {
     final _light = _baseLight.copyWith(
+      brightness: Brightness.light,
       appBarTheme: _baseLight.appBarTheme.copyWith(
         elevation: 0,
         backgroundColor: MyColors.appBarBackground,
@@ -64,21 +66,11 @@ abstract class MyThemes {
     return _light;
   }
 
-  static ThemeData fromThemeMode(
-    ThemeMode themeMode,
-    Brightness? systemBrightness,
-  ) {
-    if (themeMode == ThemeMode.system) {
-      return systemBrightness == Brightness.dark ? dark : light;
-    }
-    return themeMode == ThemeMode.dark ? dark : light;
-  }
-
   static void changeBrightness(BuildContext context, {ThemeMode? themeMode}) {
     final newBrightness = Theme.of(context).brightness == Brightness.dark
         ? Brightness.light
         : Brightness.dark;
     DynamicTheme.of(context)
-        .setBrightness(themeMode ?? newBrightness.toThemeMode());
+        .setThemeMode(themeMode ?? newBrightness.toThemeMode());
   }
 }
