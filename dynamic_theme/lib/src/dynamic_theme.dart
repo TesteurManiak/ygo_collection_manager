@@ -68,7 +68,7 @@ class DynamicThemeState extends State<DynamicTheme> {
   late ThemeData _themeData;
 
   ThemeMode _themeMode = ThemeMode.light;
-  bool _shouldLoadBrightness = true;
+  bool _shouldLoadThemeMode = true;
 
   static const _sharedPreferencesKey = 'themeMode';
 
@@ -95,7 +95,7 @@ class DynamicThemeState extends State<DynamicTheme> {
 
   /// Loads the theme depending on the `loadThemeOnStart` value.
   Future<void> _loadThemeMode() async {
-    if (!_shouldLoadBrightness) {
+    if (!_shouldLoadThemeMode) {
       return;
     }
     final myThemeMode = await _getThemeMode();
@@ -110,7 +110,7 @@ class DynamicThemeState extends State<DynamicTheme> {
   void _initVariables() {
     _themeMode = widget.defaultThemeMode;
     _updateThemeData();
-    _shouldLoadBrightness = widget.loadThemeOnStart;
+    _shouldLoadThemeMode = widget.loadThemeOnStart;
   }
 
   @override
@@ -139,8 +139,12 @@ class DynamicThemeState extends State<DynamicTheme> {
     await _saveThemeMode(themeMode);
   }
 
-  /// Toggles the brightness from dark to light
-  Future<void> toggleBrightness() async {
+  /// Toggles [ThemeMode.light] to [ThemeMode.dark] and vice versa.
+  ///
+  /// If the current theme is [ThemeMode.system], it will be set to
+  /// [ThemeMode.light] or [ThemeMode.dark] depending on the current system
+  /// brightness.
+  Future<void> toggleThemeMode() async {
     switch (_themeMode) {
       case ThemeMode.system:
         // If brightness is dark, set it to light
@@ -161,15 +165,15 @@ class DynamicThemeState extends State<DynamicTheme> {
     }
   }
 
-  /// Changes the theme using the provided `ThemeData`
+  /// Changes the theme using the provided [ThemeData]
   void setThemeData(ThemeData data) {
     setState(() => _themeData = data);
   }
 
-  /// Saves the provided themeMode in `SharedPreferences`
+  /// Saves the provided themeMode in [SharedPreferences].
   Future<void> _saveThemeMode(ThemeMode themeMode) async {
-    //! Shouldn't save the brightness if you don't want to load it
-    if (!_shouldLoadBrightness) {
+    //! Shouldn't save the themeMode if you don't want to load it
+    if (!_shouldLoadThemeMode) {
       return;
     }
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -179,8 +183,7 @@ class DynamicThemeState extends State<DynamicTheme> {
   /// Returns a [ThemeMode] that gives you the latest brightness.
   Future<ThemeMode> _getThemeMode() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    // Gets the ThemeMode stored in prefs
-    // Or returns the `defaultThemeMode`
+    // Gets the ThemeMode stored in prefs or returns the [defaultThemeMode].
     return prefs.getString(_sharedPreferencesKey)?.toThemeMode() ??
         widget.defaultThemeMode;
   }
