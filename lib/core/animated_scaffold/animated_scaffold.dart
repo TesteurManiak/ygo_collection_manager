@@ -1,12 +1,23 @@
 import 'package:flutter/gestures.dart' show DragStartBehavior;
 import 'package:flutter/material.dart';
 
-import 'animated_app_bar.dart';
+typedef AnimatedWidgetBuilder<T extends Widget> = T Function(Listenable);
 
-class AnimatedAppBarScaffold extends AnimatedWidget {
+/// Wrapping around the [Scaffold] widget. This widget extends [AnimatedWidget]
+/// to provide animation capabilites when building certain widgets.
+///
+/// The properties which can be animated are:
+/// - [appBar] with [appBarBuilder]
+/// - [body] with [bodyBuilder]
+/// - [floatingActionButton] with [floatingActionButtonBuilder]
+/// - [bottomNavigationBar] with [bottomNavigationBarBuilder]
+class AnimatedScaffold extends AnimatedWidget {
   final Widget? body;
-  final AnimatedAppBar? appBar;
+  final AnimatedWidgetBuilder<Widget>? bodyBuilder;
+  final PreferredSizeWidget? appBar;
+  final AnimatedWidgetBuilder<PreferredSizeWidget>? appBarBuilder;
   final Widget? floatingActionButton;
+  final AnimatedWidgetBuilder<Widget>? floatingActionButtonBuilder;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
   final FloatingActionButtonAnimator? floatingActionButtonAnimator;
   final List<Widget>? persistentFooterButtons;
@@ -15,6 +26,7 @@ class AnimatedAppBarScaffold extends AnimatedWidget {
   final Widget? endDrawer;
   final void Function(bool)? onEndDrawerChanged;
   final Widget? bottomNavigationBar;
+  final AnimatedWidgetBuilder<Widget>? bottomNavigationBarBuilder;
   final Widget? bottomSheet;
   final Color? backgroundColor;
   final bool? resizeToAvoidBottomInset;
@@ -28,12 +40,15 @@ class AnimatedAppBarScaffold extends AnimatedWidget {
   final bool endDrawerEnableOpenDragGesture;
   final String? restorationId;
 
-  const AnimatedAppBarScaffold({
+  const AnimatedScaffold({
     Key? key,
     required Animation<double> animation,
     this.body,
+    this.bodyBuilder,
     this.appBar,
+    this.appBarBuilder,
     this.floatingActionButton,
+    this.floatingActionButtonBuilder,
     this.floatingActionButtonLocation,
     this.floatingActionButtonAnimator,
     this.persistentFooterButtons,
@@ -42,6 +57,7 @@ class AnimatedAppBarScaffold extends AnimatedWidget {
     this.endDrawer,
     this.onEndDrawerChanged,
     this.bottomNavigationBar,
+    this.bottomNavigationBarBuilder,
     this.bottomSheet,
     this.backgroundColor,
     this.resizeToAvoidBottomInset,
@@ -54,44 +70,31 @@ class AnimatedAppBarScaffold extends AnimatedWidget {
     this.drawerEnableOpenDragGesture = true,
     this.endDrawerEnableOpenDragGesture = true,
     this.restorationId,
-  }) : super(listenable: animation, key: key);
+  })  : assert(
+          body == null || bodyBuilder == null,
+          "Only one of body and bodyBuilder can be specified",
+        ),
+        assert(
+          appBar == null || appBarBuilder == null,
+          "Only one of appBar and appBarBuilder can be specified",
+        ),
+        assert(
+          floatingActionButton == null || floatingActionButtonBuilder == null,
+          "Only one of floatingActionButton and floatingActionButtonBuilder can be specified",
+        ),
+        assert(
+          bottomNavigationBar == null || bottomNavigationBarBuilder == null,
+          "Only one of bottomNavigationBar and bottomNavigationBarBuilder can be specified",
+        ),
+        super(listenable: animation, key: key);
 
   @override
   Widget build(BuildContext context) {
-    final _appBar = appBar;
-    final _bottomBuilder = appBar?.bottomBuilder;
     return Scaffold(
-      appBar: _appBar != null
-          ? AppBar(
-              leading: _appBar.leading,
-              automaticallyImplyLeading: _appBar.automaticallyImplyLeading,
-              title: _appBar.title,
-              actions: _appBar.actions,
-              flexibleSpace: _appBar.flexibleSpace,
-              bottom: _bottomBuilder?.call(
-                _appBar.animatable.evaluate(listenable as Animation<double>),
-              ),
-              elevation: _appBar.elevation,
-              shadowColor: _appBar.shadowColor,
-              shape: _appBar.shape,
-              backgroundColor: _appBar.backgroundColor,
-              iconTheme: _appBar.iconTheme,
-              actionsIconTheme: _appBar.actionsIconTheme,
-              primary: _appBar.primary,
-              centerTitle: _appBar.centerTitle,
-              excludeHeaderSemantics: _appBar.excludeHeaderSemantics,
-              titleSpacing: _appBar.titleSpacing,
-              toolbarOpacity: _appBar.toolbarOpacity,
-              bottomOpacity: _appBar.bottomOpacity,
-              toolbarHeight: _appBar.toolbarHeight,
-              leadingWidth: _appBar.leadingWidth,
-              toolbarTextStyle: _appBar.toolbarTextStyle,
-              titleTextStyle: _appBar.titleTextStyle,
-              systemOverlayStyle: _appBar.systemOverlayStyle,
-            )
-          : null,
-      body: body,
-      floatingActionButton: floatingActionButton,
+      appBar: appBar ?? appBarBuilder?.call(listenable),
+      body: body ?? bodyBuilder?.call(listenable),
+      floatingActionButton:
+          floatingActionButton ?? floatingActionButtonBuilder?.call(listenable),
       floatingActionButtonLocation: floatingActionButtonLocation,
       floatingActionButtonAnimator: floatingActionButtonAnimator,
       persistentFooterButtons: persistentFooterButtons,
@@ -99,7 +102,8 @@ class AnimatedAppBarScaffold extends AnimatedWidget {
       onDrawerChanged: onDrawerChanged,
       endDrawer: endDrawer,
       onEndDrawerChanged: onEndDrawerChanged,
-      bottomNavigationBar: bottomNavigationBar,
+      bottomNavigationBar:
+          bottomNavigationBar ?? bottomNavigationBarBuilder?.call(listenable),
       bottomSheet: bottomSheet,
       backgroundColor: backgroundColor,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,

@@ -1,6 +1,7 @@
-import 'package:animated_scaffold/animated_scaffold.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/animated_scaffold/animated_app_bar.dart';
+import '../../core/animated_scaffold/animated_scaffold.dart';
 import '../../core/bloc/bloc_provider.dart';
 import '../../core/consts/consts.dart';
 import '../../core/consts/durations.dart';
@@ -61,9 +62,9 @@ class _ExpansionViewState extends State<ExpansionView>
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
-      child: AnimatedAppBarScaffold(
+      child: AnimatedScaffold(
         animation: _animation,
-        appBar: ExpandingAppBarBottom(
+        appBarBuilder: (listenable) => ExpandingAppBarBottom(
           bottomExpandedHeight: Consts.px80,
           bottomHeight: Consts.px18,
           title: StreamBuilder<String?>(
@@ -82,6 +83,7 @@ class _ExpansionViewState extends State<ExpansionView>
               currentSet: widget.cardSet,
             ),
           ),
+          animation: listenable as Animation<double>,
         ),
         body: Container(
           margin: MyEdgeInsets.onlyT16,
