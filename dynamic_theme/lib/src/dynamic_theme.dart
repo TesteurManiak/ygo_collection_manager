@@ -4,14 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 typedef ThemedWidgetBuilder = Widget Function(BuildContext, ThemeData);
+typedef ThemeDataWithThemeModeBuilder = ThemeData Function(ThemeMode);
 
-typedef ThemeDataWithThemeModeBuilder = ThemeData Function(ThemeMode themeMode);
-
-extension ThemeModeMofifier on ThemeMode {
+extension on ThemeMode {
   String get string => toString().split('.').last;
 }
 
-extension StringModifier on String {
+extension on String {
   ThemeMode toThemeMode() {
     switch (this) {
       case 'system':
@@ -46,7 +45,7 @@ class DynamicTheme extends StatefulWidget {
   /// Defaults to `ThemeMode.light`
   final ThemeMode defaultThemeMode;
 
-  /// Whether or not to load the brightness on start
+  /// Whether or not to load the theme on start.
   ///
   /// Defaults to `true`
   final bool loadThemeOnStart;
