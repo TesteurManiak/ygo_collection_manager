@@ -22,6 +22,7 @@ abstract class MyThemes {
 
   static ThemeData get dark {
     final _dark = _baseDark.copyWith(
+      brightness: Brightness.dark,
       appBarTheme: _baseDark.appBarTheme.copyWith(
         backgroundColor: MyColors.appBarBackgroundDark,
         elevation: 0,
@@ -44,6 +45,7 @@ abstract class MyThemes {
 
   static ThemeData get light {
     final _light = _baseLight.copyWith(
+      brightness: Brightness.light,
       appBarTheme: _baseLight.appBarTheme.copyWith(
         elevation: 0,
         backgroundColor: MyColors.appBarBackground,

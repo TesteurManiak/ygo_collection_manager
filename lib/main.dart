@@ -48,9 +48,11 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return DynamicTheme(
       data: MyThemes.fromThemeMode,
-      themedWidgetBuilder: (_, theme) {
+      themedWidgetBuilder: (_, themeMode) {
         return MaterialApp(
-          theme: theme,
+          themeMode: themeMode,
+          darkTheme: MyThemes.dark,
+          theme: MyThemes.light,
           initialRoute: LoadingView.routeName,
           onGenerateRoute: generateRoute,
         );
