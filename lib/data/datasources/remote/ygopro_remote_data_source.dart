@@ -58,6 +58,7 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
   @override
   Future<List<YgoSetModel>> getAllSets() async {
     final data = await _getCall<Iterable>([setsPath]);
+    if (kIsWeb) return parseSets(data);
     return compute(parseSets, data);
   }
 
@@ -138,6 +139,7 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
         if (dateRegion != null) 'dateregion': dateRegion.toIso8601String(),
       },
     );
+    if (kIsWeb) return parseCards(response);
     return compute(parseCards, response);
   }
 
