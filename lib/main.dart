@@ -10,6 +10,9 @@ import 'presentation/blocs/cards_bloc.dart';
 import 'presentation/blocs/db_version_bloc.dart';
 import 'presentation/blocs/expansion_collection_bloc.dart';
 import 'presentation/blocs/sets_bloc.dart';
+import 'presentation/expansion_view/expansion_view.dart';
+import 'presentation/loading_view/loading_state.dart';
+import 'presentation/loading_view/loading_view.dart';
 import 'presentation/root_view/root_view.dart';
 import 'service_locator.dart';
 
@@ -18,6 +21,9 @@ Future<void> main() async {
 
   setupLocator();
   await sl<YgoProLocalDataSource>().initDb();
+
+  // Turn off the # in the URLs on the web.
+  GoRouter.setUrlPathStrategy(UrlPathStrategy.path);
 
   runApp(
     BlocProvider(
@@ -44,6 +50,64 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final _loadingState = LoadingState();
+
+  late final _router = GoRouter(
+    redirect: (state) {
+      final hasLoaded = _loadingState.hasLoaded;
+      final isLoadingPath = state.location == '/loading';
+
+      if (!hasLoaded && !isLoadingPath) return '/loading';
+      if (hasLoaded && isLoadingPath) return '/home';
+    },
+    routes: [
+      GoRoute(
+        name: RootView.routeName,
+        path: '/home',
+        pageBuilder: (_, state) => MaterialPage(
+          key: state.pageKey,
+          child: const RootView(),
+        ),
+        routes: [
+          GoRoute(
+            name: ExpansionView.routeName,
+            path: ':id',
+            pageBuilder: (context, state) {
+              final cardSet = BlocProvider.of<SetsBloc>(context)
+                  .sets
+                  .firstWhere((e) => e.setCode == state.params['id']);
+              return MaterialPage(
+                key: state.pageKey,
+                child: ExpansionView(cardSet: cardSet),
+              );
+            },
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/loading',
+        pageBuilder: (_, state) => MaterialPage(
+          key: state.pageKey,
+          child: LoadingView(state: _loadingState),
+        ),
+      ),
+    ],
+    errorPageBuilder: (_, state) => MaterialPage(
+      key: state.pageKey,
+      child: Scaffold(
+        body: Center(
+          child: Text(state.error.toString(), textAlign: TextAlign.center),
+        ),
+      ),
+    ),
+  );
+
+  @override
+  void dispose() {
+    _loadingState.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DynamicTheme(
@@ -52,8 +116,6 @@ class _MyAppState extends State<MyApp> {
           themeMode: themeMode,
           darkTheme: MyThemes.dark,
           theme: MyThemes.light,
-          // initialRoute: LoadingView.routeName,
-          // onGenerateRoute: generateRoute,
           routeInformationParser: _router.routeInformationParser,
           routerDelegate: _router.routerDelegate,
         );
@@ -61,23 +123,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-final _router = GoRouter(
-  routes: [
-    GoRoute(
-      path: '/',
-      pageBuilder: (_, state) => MaterialPage(
-        key: state.pageKey,
-        child: const RootView(),
-      ),
-    ),
-  ],
-  errorPageBuilder: (_, state) => MaterialPage(
-    key: state.pageKey,
-    child: Scaffold(
-      body: Center(
-        child: Text(state.error.toString(), textAlign: TextAlign.center),
-      ),
-    ),
-  ),
-);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/bloc/bloc_provider.dart';
 import '../../../core/consts/consts.dart';
@@ -27,11 +28,15 @@ class SetTileWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(Consts.px16),
           onTap: () {
             FocusScope.of(context).unfocus();
-            Navigator.pushNamed<YgoSet>(
-              context,
+            context.goNamed(
               ExpansionView.routeName,
-              arguments: cardSet,
+              params: {'id': cardSet.setCode},
             );
+            // Navigator.pushNamed<YgoSet>(
+            //   context,
+            //   ExpansionView.routeName,
+            //   arguments: cardSet,
+            // );
           },
           child: Container(
             padding: MyEdgeInsets.all16,

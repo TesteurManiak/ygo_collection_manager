@@ -7,7 +7,7 @@ import '../common/fixed_bottom_navigation_bar.dart';
 import '../settings_view/settings_view.dart';
 
 class RootView extends StatefulWidget {
-  static const routeName = '/root';
+  static const routeName = 'home';
 
   const RootView({Key? key}) : super(key: key);
 

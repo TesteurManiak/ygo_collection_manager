@@ -17,11 +17,11 @@ import 'widgets/cards_grid.dart';
 import 'widgets/collection_app_bar_bottom.dart';
 
 class ExpansionView extends StatefulWidget {
-  static const routeName = '/expansion';
+  static const routeName = 'set';
 
   final YgoSet cardSet;
 
-  const ExpansionView(this.cardSet, {Key? key}) : super(key: key);
+  const ExpansionView({Key? key, required this.cardSet}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ExpansionViewState();
