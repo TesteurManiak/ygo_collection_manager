@@ -1,16 +1,16 @@
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'core/bloc/bloc.dart';
 import 'core/bloc/bloc_provider.dart';
-import 'core/router/router.dart';
 import 'core/styles/themes.dart';
 import 'data/datasources/local/ygopro_local_datasource.dart';
 import 'presentation/blocs/cards_bloc.dart';
 import 'presentation/blocs/db_version_bloc.dart';
 import 'presentation/blocs/expansion_collection_bloc.dart';
 import 'presentation/blocs/sets_bloc.dart';
-import 'presentation/loading_view/loading_view.dart';
+import 'presentation/root_view/root_view.dart';
 import 'service_locator.dart';
 
 Future<void> main() async {
@@ -48,14 +48,36 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return DynamicTheme(
       themedWidgetBuilder: (_, themeMode, __) {
-        return MaterialApp(
+        return MaterialApp.router(
           themeMode: themeMode,
           darkTheme: MyThemes.dark,
           theme: MyThemes.light,
-          initialRoute: LoadingView.routeName,
-          onGenerateRoute: generateRoute,
+          // initialRoute: LoadingView.routeName,
+          // onGenerateRoute: generateRoute,
+          routeInformationParser: _router.routeInformationParser,
+          routerDelegate: _router.routerDelegate,
         );
       },
     );
   }
 }
+
+final _router = GoRouter(
+  routes: [
+    GoRoute(
+      path: '/',
+      pageBuilder: (_, state) => MaterialPage(
+        key: state.pageKey,
+        child: const RootView(),
+      ),
+    ),
+  ],
+  errorPageBuilder: (_, state) => MaterialPage(
+    key: state.pageKey,
+    child: Scaffold(
+      body: Center(
+        child: Text(state.error.toString(), textAlign: TextAlign.center),
+      ),
+    ),
+  ),
+);
