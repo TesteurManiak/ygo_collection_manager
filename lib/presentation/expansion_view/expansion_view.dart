@@ -134,8 +134,11 @@ class _CollectionLayoutState extends State<_CollectionLayout> {
   Widget build(BuildContext context) {
     return StreamBuilder<int>(
       stream: _expansionCollectionBloc.onSelectedCardIndexChanged,
-      builder: (_, __) {
+      builder: (context, __) {
+        final size = MediaQuery.of(context).size;
+        final crossAxisCount = size.width < size.height ? 3 : 6;
         return CardsGrid(
+          crossAxisCount: crossAxisCount,
           cards: widget.cards,
           cardBuilder: (_, index) => !widget.isEditing
               ? CardWidget(

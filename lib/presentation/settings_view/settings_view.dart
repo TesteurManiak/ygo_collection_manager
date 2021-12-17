@@ -16,7 +16,7 @@ class _ThemeChoice {
 const _themeItems = <_ThemeChoice>[
   _ThemeChoice(name: 'Light', mode: ThemeMode.light),
   _ThemeChoice(name: 'Dark', mode: ThemeMode.dark),
-  _ThemeChoice(name: 'Set by System', mode: ThemeMode.system),
+  _ThemeChoice(name: 'System', mode: ThemeMode.system),
 ];
 
 class SettingsView extends StatefulWidget {
