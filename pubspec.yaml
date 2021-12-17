@@ -12,7 +12,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   dio: ^4.0.0
   dynamic_theme:
-    path: ./dynamic_theme
+    git:
+      url: https://github.com/TesteurManiak/dynamic_theme.git
+      ref: issue_#63
   equatable: ^2.0.3
   flutter:
     sdk: flutter

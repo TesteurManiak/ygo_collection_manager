@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io' show SocketException;
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 
 import '../../../core/error/exceptions.dart';
 import '../../api/api.dart';
