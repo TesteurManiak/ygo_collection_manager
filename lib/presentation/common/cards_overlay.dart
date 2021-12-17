@@ -105,6 +105,7 @@ class _CardOverlayState extends State<_CardOverlay>
   @override
   void dispose() {
     _animationController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 

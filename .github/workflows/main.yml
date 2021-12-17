@@ -1,0 +1,53 @@
+name: Main
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: subosito/flutter-action@v1.5.3
+      with:
+        flutter-version: '2.8.1'
+    - run: flutter pub get
+    - name: Update Goldens
+      run: flutter test --update-goldens --tags=golden
+    - name: Test
+      run: flutter test --coverage
+    - name: Exclude generated files from coverage
+      run: dart pub run remove_from_coverage -f coverage/lcov.info -r '\.g\.dart$'
+    - name: Collect and report coverage
+      uses: coverallsapp/github-action@v1.1.2
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  build_web:
+    needs: test
+    name: Build Web
+    env:
+      my_secret: ${{secrets.commit_secret}}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: subosito/flutter-action@v1.5.3
+      with:
+        flutter-version: '2.8.1'
+    - run: flutter config --enable-web
+    - run: flutter pub get
+    - run: flutter build web --release
+    - run: |
+        cd build/web
+        git init
+        git config --global user.email rouxguillaume8@gmail.com 
+        git config --global user.name "Guillaume Roux"
+        git remote add origin https://${{secrets.commit_secret}}@github.com/TesteurManiak/ygo_collection_manager.git
+        git checkout -b gh-pages
+        git add --all
+        git commit -m "update"
+        git push origin gh-pages -f
+
