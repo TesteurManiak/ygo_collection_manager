@@ -10,6 +10,7 @@ import 'presentation/blocs/cards_bloc.dart';
 import 'presentation/blocs/db_version_bloc.dart';
 import 'presentation/blocs/expansion_collection_bloc.dart';
 import 'presentation/blocs/sets_bloc.dart';
+import 'presentation/card_view/card_view.dart';
 import 'presentation/expansion_view/expansion_view.dart';
 import 'presentation/loading_view/loading_state_info.dart';
 import 'presentation/loading_view/loading_view.dart';
@@ -52,6 +53,7 @@ class _MyAppState extends State<MyApp> {
   late final _router = GoRouter(
     initialLocation: '/home',
     urlPathStrategy: UrlPathStrategy.path,
+    debugLogDiagnostics: true,
     redirect: (state) {
       final isLoading = state.location == '/loading';
       final hasLoaded = _loadingState.hasLoaded;
@@ -76,6 +78,19 @@ class _MyAppState extends State<MyApp> {
                   .firstWhere((e) => e.setCode == state.params['id']);
               return ExpansionView(cardSet: cardSet);
             },
+            routes: [
+              GoRoute(
+                name: CardView.routeName,
+                path: 'list/:cardId',
+                builder: (context, state) {
+                  final card =
+                      BlocProvider.of<CardsBloc>(context).cards!.firstWhere(
+                            (e) => e.id == int.parse(state.params['cardId']!),
+                          );
+                  return CardView(card: card);
+                },
+              ),
+            ],
           ),
         ],
       ),

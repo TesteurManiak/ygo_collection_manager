@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/consts/consts.dart';
 import '../../core/consts/my_edge_insets.dart';
@@ -191,10 +192,9 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                         borderRadius: BorderRadius.circular(Consts.px20),
                       ),
                     ),
-                    onPressed: () => Navigator.pushNamed(
-                      context,
+                    onPressed: () => context.goNamed(
                       CardView.routeName,
-                      arguments: [widget.card, _totalOwnedCard],
+                      params: {'cardId': '${widget.card.id}'},
                     ),
                     child: const Text(
                       'VIEW',

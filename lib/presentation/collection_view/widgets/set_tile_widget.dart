@@ -32,11 +32,6 @@ class SetTileWidget extends StatelessWidget {
               ExpansionView.routeName,
               params: {'id': cardSet.setCode},
             );
-            // Navigator.pushNamed<YgoSet>(
-            //   context,
-            //   ExpansionView.routeName,
-            //   arguments: cardSet,
-            // );
           },
           child: Container(
             padding: MyEdgeInsets.all16,

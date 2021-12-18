@@ -7,16 +7,11 @@ import '../../domain/entities/ygo_card.dart';
 import 'widgets/set_rarity_widget.dart';
 
 class CardView extends StatelessWidget {
-  static const routeName = '/card-view-overlay';
+  static const routeName = 'card-view';
 
   final YgoCard card;
-  final ValueNotifier<int> totalOwnedCard;
 
-  const CardView({
-    Key? key,
-    required this.card,
-    required this.totalOwnedCard,
-  }) : super(key: key);
+  const CardView({Key? key, required this.card}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
