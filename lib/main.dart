@@ -11,7 +11,7 @@ import 'presentation/blocs/db_version_bloc.dart';
 import 'presentation/blocs/expansion_collection_bloc.dart';
 import 'presentation/blocs/sets_bloc.dart';
 import 'presentation/expansion_view/expansion_view.dart';
-import 'presentation/loading_view/loading_state.dart';
+import 'presentation/loading_view/loading_state_info.dart';
 import 'presentation/loading_view/loading_view.dart';
 import 'presentation/root_view/root_view.dart';
 import 'service_locator.dart';
@@ -21,9 +21,6 @@ Future<void> main() async {
 
   setupLocator();
   await sl<YgoProLocalDataSource>().initDb();
-
-  // Turn off the # in the URLs on the web.
-  GoRouter.setUrlPathStrategy(UrlPathStrategy.path);
 
   runApp(
     BlocProvider(
@@ -50,60 +47,53 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final _loadingState = LoadingState();
+  final _loadingState = LoadingStateInfo();
 
   late final _router = GoRouter(
+    initialLocation: '/home',
+    urlPathStrategy: UrlPathStrategy.path,
     redirect: (state) {
+      final isLoading = state.location == '/loading';
       final hasLoaded = _loadingState.hasLoaded;
-      final isLoadingPath = state.location == '/loading';
 
-      if (!hasLoaded && !isLoadingPath) return '/loading';
-      if (hasLoaded && isLoadingPath) return '/home';
+      if (!hasLoaded && !isLoading) return '/loading';
+      if (hasLoaded && isLoading) return '/home';
+      return null;
     },
+    refreshListenable: _loadingState,
     routes: [
       GoRoute(
         name: RootView.routeName,
         path: '/home',
-        pageBuilder: (_, state) => MaterialPage(
-          key: state.pageKey,
-          child: const RootView(),
-        ),
+        builder: (_, __) => const RootView(),
         routes: [
           GoRoute(
             name: ExpansionView.routeName,
             path: ':id',
-            pageBuilder: (context, state) {
+            builder: (context, state) {
               final cardSet = BlocProvider.of<SetsBloc>(context)
                   .sets
                   .firstWhere((e) => e.setCode == state.params['id']);
-              return MaterialPage(
-                key: state.pageKey,
-                child: ExpansionView(cardSet: cardSet),
-              );
+              return ExpansionView(cardSet: cardSet);
             },
           ),
         ],
       ),
       GoRoute(
         path: '/loading',
-        pageBuilder: (_, state) => MaterialPage(
-          key: state.pageKey,
-          child: LoadingView(state: _loadingState),
-        ),
+        builder: (_, __) => LoadingView(state: _loadingState),
       ),
     ],
-    errorPageBuilder: (_, state) => MaterialPage(
-      key: state.pageKey,
-      child: Scaffold(
-        body: Center(
-          child: Text(state.error.toString(), textAlign: TextAlign.center),
-        ),
+    errorBuilder: (_, state) => Scaffold(
+      body: Center(
+        child: Text(state.error.toString(), textAlign: TextAlign.center),
       ),
     ),
   );
 
   @override
   void dispose() {
+    _router.dispose();
     _loadingState.dispose();
     super.dispose();
   }

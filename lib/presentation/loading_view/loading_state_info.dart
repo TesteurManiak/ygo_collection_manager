@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class LoadingState extends ChangeNotifier {
+class LoadingStateInfo extends ChangeNotifier {
   bool _hasLoaded = false;
   bool get hasLoaded => _hasLoaded;
 
