@@ -20,7 +20,7 @@ class DBVersionBloc implements BlocBase {
 
   Future<void> updateDatabase(BuildContext context) async {
     final shouldReload = await _shouldReloadDb();
-    await Future.microtask(() {
+    Future.microtask(() {
       BlocProvider.of<SetsBloc>(context)
           .fetchAllSets(shouldReload: shouldReload);
       BlocProvider.of<CardsBloc>(context)

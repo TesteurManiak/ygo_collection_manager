@@ -102,6 +102,7 @@ class _ExpansionViewState extends State<ExpansionView>
                 cards: _cards,
                 isEditing: isEditing,
                 controller: _animationController,
+                setId: widget.cardSet.setCode,
               );
             },
           ),
@@ -115,11 +116,13 @@ class _CollectionLayout extends StatefulWidget {
   final List<YgoCard> cards;
   final bool isEditing;
   final AnimationController controller;
+  final String setId;
 
   const _CollectionLayout({
     required this.cards,
     required this.isEditing,
     required this.controller,
+    required this.setId,
   });
 
   @override
@@ -149,6 +152,7 @@ class _CollectionLayoutState extends State<_CollectionLayout> {
                     controller: widget.controller,
                     cards: widget.cards,
                   ),
+                  setId: widget.setId,
                 )
               : CardEditingWidget(
                   index: index,
