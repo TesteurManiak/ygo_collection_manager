@@ -71,7 +71,7 @@ class _MyAppState extends State<MyApp> {
         routes: [
           GoRoute(
             name: ExpansionView.routeName,
-            path: ':setId',
+            path: 'set/:setId',
             builder: (context, state) {
               final cardSet = BlocProvider.of<SetsBloc>(context)
                   .sets
@@ -81,7 +81,7 @@ class _MyAppState extends State<MyApp> {
             routes: [
               GoRoute(
                 name: CardView.routeName,
-                path: 'list/:cardId',
+                path: 'details/:cardId',
                 builder: (context, state) {
                   final card =
                       BlocProvider.of<CardsBloc>(context).cards!.firstWhere(
