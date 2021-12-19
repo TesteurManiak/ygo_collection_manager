@@ -16,11 +16,13 @@ import 'no_glow_scroll_behavior.dart';
 class CardBottomSheet extends StatefulWidget {
   final YgoCard card;
   final ScrollController controller;
+  final String? setId;
 
   const CardBottomSheet({
     Key? key,
     required this.card,
     required this.controller,
+    this.setId,
   }) : super(key: key);
 
   @override
@@ -192,10 +194,18 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                         borderRadius: BorderRadius.circular(Consts.px20),
                       ),
                     ),
-                    onPressed: () => context.goNamed(
-                      CardView.routeName,
-                      params: {'cardId': '${widget.card.id}'},
-                    ),
+                    onPressed: () {
+                      final _setId = widget.setId;
+                      context.goNamed(
+                        _setId != null
+                            ? CardView.routeName
+                            : CardView.alternateRouteName,
+                        params: {
+                          if (_setId != null) 'setId': _setId,
+                          'cardId': '${widget.card.id}',
+                        },
+                      );
+                    },
                     child: const Text(
                       'VIEW',
                       style: TextStyle(color: MyColors.yellow),

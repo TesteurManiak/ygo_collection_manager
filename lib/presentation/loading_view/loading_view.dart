@@ -20,12 +20,11 @@ class _LoadingViewState extends State<LoadingView> {
   @override
   void initState() {
     super.initState();
-
     final hasLoaded = widget.state.hasLoaded;
     if (!hasLoaded) {
-      Future.microtask(_dbVersionBloc.updateDatabase).then(
-        (_) => widget.state.finishedLoading(),
-      );
+      _dbVersionBloc.updateDatabase(context).then(
+            (_) => widget.state.finishedLoading(),
+          );
     }
   }
 

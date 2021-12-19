@@ -71,11 +71,11 @@ class _MyAppState extends State<MyApp> {
         routes: [
           GoRoute(
             name: ExpansionView.routeName,
-            path: ':id',
+            path: ':setId',
             builder: (context, state) {
               final cardSet = BlocProvider.of<SetsBloc>(context)
                   .sets
-                  .firstWhere((e) => e.setCode == state.params['id']);
+                  .firstWhere((e) => e.setCode == state.params['setId']);
               return ExpansionView(cardSet: cardSet);
             },
             routes: [
@@ -91,6 +91,17 @@ class _MyAppState extends State<MyApp> {
                 },
               ),
             ],
+          ),
+          GoRoute(
+            name: CardView.alternateRouteName,
+            path: '${CardView.alternateRouteName}/:cardId',
+            builder: (context, state) {
+              final card =
+                  BlocProvider.of<CardsBloc>(context).cards!.firstWhere(
+                        (e) => e.id == int.parse(state.params['cardId']!),
+                      );
+              return CardView(card: card);
+            },
           ),
         ],
       ),

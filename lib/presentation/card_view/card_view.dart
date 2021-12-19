@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/consts/consts.dart';
 import '../../core/consts/my_edge_insets.dart';
@@ -8,6 +9,7 @@ import 'widgets/set_rarity_widget.dart';
 
 class CardView extends StatelessWidget {
   static const routeName = 'card-view';
+  static const alternateRouteName = 'card-view-alternate';
 
   final YgoCard card;
 
@@ -22,7 +24,7 @@ class CardView extends StatelessWidget {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.close),
-          onPressed: () => Navigator.pop(context),
+          onPressed: context.pop,
         ),
       ),
       body: Container(

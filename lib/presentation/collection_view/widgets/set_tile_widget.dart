@@ -30,7 +30,7 @@ class SetTileWidget extends StatelessWidget {
             FocusScope.of(context).unfocus();
             context.goNamed(
               ExpansionView.routeName,
-              params: {'id': cardSet.setCode},
+              params: {'setId': cardSet.setCode},
             );
           },
           child: Container(
