@@ -16,4 +16,4 @@ jobs:
         flutter-version: '2.8.1'
     - run: flutter config --enable-web
     - run: flutter pub get
-    - run: flutter build web
+    - run: flutter build web --base-href "/ygo_collection_manager/"

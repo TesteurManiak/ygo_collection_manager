@@ -17,11 +17,19 @@ import 'widgets/cards_grid.dart';
 import 'widgets/collection_app_bar_bottom.dart';
 
 class ExpansionView extends StatefulWidget {
-  static const routeName = '/expansion';
+  static const routeName = 'set';
+
+  static const routeParam = 'setId';
+
+  static const routePath = '$routeName/:$routeParam';
+
+  static Map<String, String> routeParams(YgoSet ygoSet) => {
+        routeParam: ygoSet.setCode,
+      };
 
   final YgoSet cardSet;
 
-  const ExpansionView(this.cardSet, {Key? key}) : super(key: key);
+  const ExpansionView({Key? key, required this.cardSet}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ExpansionViewState();
@@ -102,6 +110,7 @@ class _ExpansionViewState extends State<ExpansionView>
                 cards: _cards,
                 isEditing: isEditing,
                 controller: _animationController,
+                setId: widget.cardSet.setCode,
               );
             },
           ),
@@ -115,11 +124,13 @@ class _CollectionLayout extends StatefulWidget {
   final List<YgoCard> cards;
   final bool isEditing;
   final AnimationController controller;
+  final String setId;
 
   const _CollectionLayout({
     required this.cards,
     required this.isEditing,
     required this.controller,
+    required this.setId,
   });
 
   @override
@@ -149,6 +160,7 @@ class _CollectionLayoutState extends State<_CollectionLayout> {
                     controller: widget.controller,
                     cards: widget.cards,
                   ),
+                  setId: widget.setId,
                 )
               : CardEditingWidget(
                   index: index,

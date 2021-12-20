@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/consts/consts.dart';
 import '../../core/consts/my_edge_insets.dart';
@@ -15,11 +16,13 @@ import 'no_glow_scroll_behavior.dart';
 class CardBottomSheet extends StatefulWidget {
   final YgoCard card;
   final ScrollController controller;
+  final String? setId;
 
   const CardBottomSheet({
     Key? key,
     required this.card,
     required this.controller,
+    this.setId,
   }) : super(key: key);
 
   @override
@@ -191,11 +194,18 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                         borderRadius: BorderRadius.circular(Consts.px20),
                       ),
                     ),
-                    onPressed: () => Navigator.pushNamed(
-                      context,
-                      CardView.routeName,
-                      arguments: [widget.card, _totalOwnedCard],
-                    ),
+                    onPressed: () {
+                      final _setId = widget.setId;
+                      context.goNamed(
+                        _setId != null
+                            ? CardView.routeName
+                            : CardView.altRouteName,
+                        params: CardView.routeParams(
+                          card: widget.card,
+                          setId: widget.setId,
+                        ),
+                      );
+                    },
                     child: const Text(
                       'VIEW',
                       style: TextStyle(color: MyColors.yellow),
