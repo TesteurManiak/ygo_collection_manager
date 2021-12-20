@@ -62,7 +62,6 @@ class _MyAppState extends State<MyApp> {
 
   late final _router = GoRouter(
     initialLocation: RootView.routePath,
-    urlPathStrategy: UrlPathStrategy.path,
     debugLogDiagnostics: true,
     redirect: (state) {
       final isLoading = state.location == LoadingView.routePath;
