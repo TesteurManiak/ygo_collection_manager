@@ -12,9 +12,14 @@ class CardsOverlay extends StatefulWidget {
 
   final int initialIndex;
   final List<YgoCard> cards;
+  final String? setId;
 
-  const CardsOverlay({Key? key, this.initialIndex = 0, required this.cards})
-      : super(key: key);
+  const CardsOverlay({
+    Key? key,
+    this.initialIndex = 0,
+    required this.cards,
+    this.setId,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _CardsOverlayState();
@@ -65,7 +70,10 @@ class _CardsOverlayState extends State<CardsOverlay>
           backgroundColor: Colors.black.withOpacity(0.8),
           body: PageView.builder(
             controller: _pageController,
-            itemBuilder: (_, index) => _CardOverlay(widget.cards[index]),
+            itemBuilder: (_, index) => _CardOverlay(
+              card: widget.cards[index],
+              setId: widget.setId,
+            ),
             itemCount: widget.cards.length,
           ),
         ),
@@ -76,8 +84,9 @@ class _CardsOverlayState extends State<CardsOverlay>
 
 class _CardOverlay extends StatefulWidget {
   final YgoCard card;
+  final String? setId;
 
-  const _CardOverlay(this.card);
+  const _CardOverlay({required this.card, this.setId});
 
   @override
   State<StatefulWidget> createState() => _CardOverlayState();
@@ -145,6 +154,7 @@ class _CardOverlayState extends State<_CardOverlay>
             child: CardBottomSheet(
               card: widget.card,
               controller: _scrollController,
+              setId: widget.setId,
             ),
           ),
         ),

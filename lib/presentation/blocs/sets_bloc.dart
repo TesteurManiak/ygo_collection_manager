@@ -14,6 +14,7 @@ class SetsBloc implements BlocBase {
 
   final _setsController = BehaviorSubject<List<YgoSet>?>.seeded(null);
   Stream<List<YgoSet>?> get onSetsChanged => _setsController.stream;
+  List<YgoSet> get sets => _setsController.value ?? [];
   late final StreamSubscription _setsControllerSubscription;
 
   final _filteredSetsController = BehaviorSubject<List<YgoSet>?>.seeded(null);

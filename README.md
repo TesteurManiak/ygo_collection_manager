@@ -24,12 +24,13 @@ flutter test --update-goldens --tags=golden
 * Check your completion rate
 * View card details
 * Dark & Light themes
+* Use of Navigator 2.0
+* Hosted with Github Pages
 
 ## TODO
 
 * Write tests (ongoing)
 * Atomic design
-* Integrate Navigator 2.0 ([go_router](https://pub.dev/packages/go_router))
 * Automatize the hosting of the web version on GitHub Pages
 * Dedicated Web layout
 * Add filters for expansions
@@ -62,6 +63,10 @@ flutter test --update-goldens --tags=golden
 ### State Management
 
 * [rxdart](https://pub.dev/packages/rxdart) (Might migrate to [flutter_bloc](https://pub.dev/packages/flutter_bloc))
+
+### Navigation
+
+* [go_router](https://pub.dev/packages/go_router)
 
 ### Tests
 

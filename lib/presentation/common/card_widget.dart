@@ -18,12 +18,14 @@ class CardWidget extends StatelessWidget {
   final int index;
   final List<YgoCard> cards;
   final void Function()? onLongPress;
+  final String? setId;
 
   const CardWidget({
     Key? key,
     required this.cards,
     required this.index,
     this.onLongPress,
+    this.setId,
   }) : super(key: key);
 
   @override
@@ -109,10 +111,16 @@ class CardWidget extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 FocusScope.of(context).unfocus();
-                Navigator.pushNamed(
+                Navigator.push(
                   context,
-                  CardsOverlay.routeName,
-                  arguments: <Object>[cards, index],
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => CardsOverlay(
+                      cards: cards,
+                      initialIndex: index,
+                      setId: setId,
+                    ),
+                    opaque: false,
+                  ),
                 );
               },
               onLongPress: onLongPress,

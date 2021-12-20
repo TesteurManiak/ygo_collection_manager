@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../blocs/db_version_bloc.dart';
 import '../../core/bloc/bloc_provider.dart';
+import '../blocs/db_version_bloc.dart';
 import '../common/magic_circle_progress_indicator.dart';
-import '../root_view/root_view.dart';
+import 'loading_state_info.dart';
 
 class LoadingView extends StatefulWidget {
-  static const routeName = '/';
+  static const routeName = 'loading';
+  static const routePath = '/';
 
-  const LoadingView({Key? key}) : super(key: key);
+  final LoadingStateInfo state;
+
+  const LoadingView({Key? key, required this.state}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _LoadingViewState();
@@ -20,9 +23,12 @@ class _LoadingViewState extends State<LoadingView> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(_dbVersionBloc.updateDatabase).then(
-      (_) => Navigator.pushReplacementNamed(context, RootView.routeName),
-    );
+    final hasLoaded = widget.state.hasLoaded;
+    if (!hasLoaded) {
+      _dbVersionBloc.updateDatabase(context).then(
+            (_) => widget.state.finishedLoading(),
+          );
+    }
   }
 
   @override
