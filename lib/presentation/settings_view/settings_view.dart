@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../../core/consts/consts.dart';
 import '../../core/consts/my_edge_insets.dart';
-import '../../core/styles/colors.dart';
-import '../../core/styles/themes.dart';
+import '../constants/colors.dart';
+import '../constants/themes.dart';
 
 class _ThemeChoice {
   final String name;

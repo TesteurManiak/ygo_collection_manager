@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/bloc/bloc_provider.dart';
 import '../../../core/consts/my_edge_insets.dart';
-import '../../../core/styles/colors.dart';
+import '../../constants/colors.dart';
 import '../../../domain/entities/ygo_card.dart';
 import '../../blocs/expansion_collection_bloc.dart';
 

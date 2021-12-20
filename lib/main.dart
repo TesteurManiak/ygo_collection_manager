@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'core/bloc/bloc.dart';
 import 'core/bloc/bloc_provider.dart';
-import 'core/styles/themes.dart';
+import 'presentation/constants/themes.dart';
 import 'data/datasources/local/ygopro_local_datasource.dart';
 import 'presentation/blocs/cards_bloc.dart';
 import 'presentation/blocs/db_version_bloc.dart';

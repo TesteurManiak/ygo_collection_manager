@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/bloc/bloc_provider.dart';
 import '../../core/consts/consts.dart';
-import '../../core/styles/colors.dart';
+import '../constants/colors.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
 import '../blocs/cards_bloc.dart';
