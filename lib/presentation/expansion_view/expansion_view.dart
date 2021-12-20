@@ -19,6 +19,14 @@ import 'widgets/collection_app_bar_bottom.dart';
 class ExpansionView extends StatefulWidget {
   static const routeName = 'set';
 
+  static const routeParam = 'setId';
+
+  static const routePath = '$routeName/:$routeParam';
+
+  static Map<String, String> routeParams(YgoSet ygoSet) => {
+        routeParam: ygoSet.setCode,
+      };
+
   final YgoSet cardSet;
 
   const ExpansionView({Key? key, required this.cardSet}) : super(key: key);

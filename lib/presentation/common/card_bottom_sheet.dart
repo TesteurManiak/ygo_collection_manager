@@ -199,11 +199,11 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                       context.goNamed(
                         _setId != null
                             ? CardView.routeName
-                            : CardView.alternateRouteName,
-                        params: {
-                          if (_setId != null) 'setId': _setId,
-                          'cardId': '${widget.card.id}',
-                        },
+                            : CardView.altRouteName,
+                        params: CardView.routeParams(
+                          card: widget.card,
+                          setId: widget.setId,
+                        ),
                       );
                     },
                     child: const Text(

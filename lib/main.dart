@@ -50,63 +50,64 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final _loadingState = LoadingStateInfo();
 
+  Widget _cardDetailsViewBuilder(
+    BuildContext builderContext,
+    GoRouterState state,
+  ) {
+    final card = BlocProvider.of<CardsBloc>(builderContext).cards!.firstWhere(
+          (e) => e.id == int.parse(state.params[CardView.routeParam]!),
+        );
+    return CardView(card: card);
+  }
+
   late final _router = GoRouter(
-    initialLocation: '/home',
+    initialLocation: RootView.routePath,
     urlPathStrategy: UrlPathStrategy.path,
     debugLogDiagnostics: true,
     redirect: (state) {
-      final isLoading = state.location == '/loading';
+      final isLoading = state.location == LoadingView.routePath;
       final hasLoaded = _loadingState.hasLoaded;
 
-      if (!hasLoaded && !isLoading) return '/loading';
-      if (hasLoaded && isLoading) return '/home';
+      if (!hasLoaded && !isLoading) return LoadingView.routePath;
+      if (hasLoaded && isLoading) return RootView.routePath;
       return null;
     },
     refreshListenable: _loadingState,
     routes: [
       GoRoute(
         name: RootView.routeName,
-        path: '/home',
+        path: RootView.routePath,
         builder: (_, __) => const RootView(),
         routes: [
           GoRoute(
             name: ExpansionView.routeName,
-            path: 'set/:setId',
+            path: ExpansionView.routePath,
             builder: (context, state) {
-              final cardSet = BlocProvider.of<SetsBloc>(context)
-                  .sets
-                  .firstWhere((e) => e.setCode == state.params['setId']);
+              final cardSet =
+                  BlocProvider.of<SetsBloc>(context).sets.firstWhere(
+                        (e) =>
+                            e.setCode == state.params[ExpansionView.routeParam],
+                      );
               return ExpansionView(cardSet: cardSet);
             },
             routes: [
               GoRoute(
                 name: CardView.routeName,
-                path: 'details/:cardId',
-                builder: (context, state) {
-                  final card =
-                      BlocProvider.of<CardsBloc>(context).cards!.firstWhere(
-                            (e) => e.id == int.parse(state.params['cardId']!),
-                          );
-                  return CardView(card: card);
-                },
+                path: CardView.routePath,
+                builder: _cardDetailsViewBuilder,
               ),
             ],
           ),
           GoRoute(
-            name: CardView.alternateRouteName,
-            path: '${CardView.alternateRouteName}/:cardId',
-            builder: (context, state) {
-              final card =
-                  BlocProvider.of<CardsBloc>(context).cards!.firstWhere(
-                        (e) => e.id == int.parse(state.params['cardId']!),
-                      );
-              return CardView(card: card);
-            },
+            name: CardView.altRouteName,
+            path: CardView.altRoutePath,
+            builder: _cardDetailsViewBuilder,
           ),
         ],
       ),
       GoRoute(
-        path: '/loading',
+        name: LoadingView.routeName,
+        path: LoadingView.routePath,
         builder: (_, __) => LoadingView(state: _loadingState),
       ),
     ],
