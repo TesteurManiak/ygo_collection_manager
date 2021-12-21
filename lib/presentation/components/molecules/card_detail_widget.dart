@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../core/consts/consts.dart';
-import '../../core/consts/my_edge_insets.dart';
-import '../constants/text_styles.dart';
+import '../../../core/consts/consts.dart';
+import '../../../core/consts/my_edge_insets.dart';
+import '../../constants/text_styles.dart';
 
 class CardDetailWidget extends StatelessWidget {
   final String label;

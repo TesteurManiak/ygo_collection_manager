@@ -9,9 +9,12 @@ import '../../domain/entities/ygo_card.dart';
 import '../../service_locator.dart';
 import '../card_view/card_view.dart';
 import '../constants/colors.dart';
-import '../constants/text_styles.dart';
-import 'card_detail_widget.dart';
+import 'atoms/card_description.dart';
+import 'molecules/card_detail_widget.dart';
 import 'no_glow_scroll_behavior.dart';
+import 'organisms/card_name_and_level.dart';
+import 'organisms/card_stats.dart';
+import 'organisms/card_type_and_id.dart';
 
 class CardBottomSheet extends StatefulWidget {
   final YgoCard card;
@@ -51,6 +54,9 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final miscInfo = widget.card.miscInfo;
+    final atk = widget.card.atk;
+    final def = widget.card.def;
+
     return Container(
       decoration: BoxDecoration(
         color: DynamicThemedColors.bottomSheetBackground(context),
@@ -66,76 +72,15 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Image.asset(
-                    'assets/type/${widget.card.type}.jpg',
-                    height: Consts.px20,
-                    errorBuilder: (_, __, ___) => const SizedBox(),
-                  ),
-                  const SizedBox(width: Consts.px8),
-                  Text(widget.card.type, style: TextStyles.font16),
-                  Expanded(child: Container()),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        const TextSpan(
-                          text: 'ID: ',
-                          style: TextStyles.grey14,
-                        ),
-                        TextSpan(
-                          text: widget.card.id.toString(),
-                          style: DynamicTextStyles.cardId(context),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+              CardTypeAndId(type: widget.card.type, id: widget.card.id),
               const SizedBox(height: Consts.px14),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(widget.card.name, style: TextStyles.font20),
-                  ),
-                  if (widget.card.level != null)
-                    Padding(
-                      padding: MyEdgeInsets.symH4,
-                      child: Image.asset(
-                        widget.card.levelAsset,
-                        height: Consts.px20,
-                      ),
-                    ),
-                  if (widget.card.level != null)
-                    Text(
-                      widget.card.level.toString(),
-                      style: TextStyles.font20,
-                    ),
-                ],
+              CardNameAndLevel(
+                name: widget.card.name,
+                level: widget.card.level,
+                levelAsset: widget.card.levelAsset,
               ),
-              const SizedBox(height: Consts.px6),
-              Text(widget.card.desc, style: TextStyles.grey14),
-              const SizedBox(height: Consts.px28),
-              Row(
-                children: [
-                  if (widget.card.atk != null)
-                    CardDetailWidget(
-                      label: 'Atk',
-                      value: widget.card.atk.toString(),
-                    ),
-                  if (widget.card.def != null)
-                    const SizedBox(
-                      width: Consts.px32,
-                    ),
-                  if (widget.card.def != null)
-                    CardDetailWidget(
-                      label: 'Def',
-                      value: widget.card.def.toString(),
-                    ),
-                ],
-              ),
-              if (widget.card.atk != null || widget.card.def != null)
-                const SizedBox(height: Consts.px16),
+              CardDescription(desc: widget.card.desc),
+              if (atk != null || def != null) CardStats(atk: atk, def: def),
               Row(
                 children: [
                   CardDetailWidget.assetImage(
@@ -187,7 +132,7 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                     valueListenable: _totalOwnedCard,
                     builder: (_, value, __) => Text('$value in Collection'),
                   ),
-                  Expanded(child: Container()),
+                  const Spacer(),
                   TextButton(
                     style: TextButton.styleFrom(
                       shape: RoundedRectangleBorder(

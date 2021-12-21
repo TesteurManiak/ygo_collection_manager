@@ -63,7 +63,7 @@ class _EditionLineState extends State<_EditionLine> {
         return Row(
           children: [
             Text(widget.edition.string),
-            Expanded(child: Container()),
+            const Spacer(),
             IconButton(
               onPressed: () =>
                   _expansionCollectionBloc.removeCard(widget.edition),
