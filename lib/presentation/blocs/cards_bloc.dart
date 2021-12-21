@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../core/extensions/extensions.dart';
@@ -29,8 +28,6 @@ class CardsBloc implements BlocBase {
   Stream<List<YgoCard>?> get onFilteredCardsChanged =>
       _filteredCardsController.stream;
 
-  final searchController = TextEditingController();
-
   final _fullCollectionCompletionController =
       BehaviorSubject<double>.seeded(0.0);
   Stream<double> get onFullCollectionCompletionChanged =>
@@ -55,7 +52,6 @@ class CardsBloc implements BlocBase {
   void _cardsListener(List<YgoCard>? _cards) {
     updateCompletion(initialCards: _cards);
     _filteredCardsController.sink.add(_cards);
-    searchController.clear();
   }
 
   @override

@@ -10,7 +10,7 @@ import '../../domain/entities/ygo_set.dart';
 import '../blocs/bloc_provider.dart';
 import '../blocs/cards_bloc.dart';
 import '../blocs/expansion_collection_bloc.dart';
-import '../common/card_widget.dart';
+import '../components/card_widget.dart';
 import '../constants/colors.dart';
 import 'widgets/card_editing_widget.dart';
 import 'widgets/cards_grid.dart';

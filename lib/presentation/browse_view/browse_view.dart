@@ -4,11 +4,11 @@ import '../../core/consts/consts.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../blocs/bloc_provider.dart';
 import '../blocs/cards_bloc.dart';
-import '../common/card_widget.dart';
-import '../common/filter_sliver_app_bar.dart';
-import '../common/no_glow_scroll_behavior.dart';
-import '../common/sliver_spacer.dart';
-import '../common/top_rounded_sliver.dart';
+import '../components/card_widget.dart';
+import '../components/filter_sliver_app_bar.dart';
+import '../components/no_glow_scroll_behavior.dart';
+import '../components/sliver_spacer.dart';
+import '../components/top_rounded_sliver.dart';
 
 class BrowseView extends StatefulWidget {
   const BrowseView({Key? key}) : super(key: key);
@@ -19,7 +19,15 @@ class BrowseView extends StatefulWidget {
 
 class _BrowseViewState extends State<BrowseView>
     with AutomaticKeepAliveClientMixin {
+  final _searchController = TextEditingController();
+
   late final _cardsBloc = BlocProvider.of<CardsBloc>(context);
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +50,7 @@ class _BrowseViewState extends State<BrowseView>
             const TopRoundedSliver(),
             FilterSliverAppBar(
               hintText: 'Search for cards...',
-              controller: _cardsBloc.searchController,
+              controller: _searchController,
               onChanged: _cardsBloc.filter,
             ),
             const SliverSpacer(height: Consts.px16),
