@@ -23,8 +23,16 @@ class CollectionView extends StatefulWidget {
 
 class _CollectionViewState extends State<CollectionView>
     with AutomaticKeepAliveClientMixin {
+  final _searchController = TextEditingController();
+
   late final _setsBloc = BlocProvider.of<SetsBloc>(context);
   late final _cardsBloc = BlocProvider.of<CardsBloc>(context);
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +53,7 @@ class _CollectionViewState extends State<CollectionView>
               FilterSliverAppBar(
                 hintText: 'Filter expansions',
                 onChanged: _setsBloc.filter,
-                controller: _setsBloc.searchController,
+                controller: _searchController,
               ),
               const SliverSpacer(height: Consts.px16),
               StreamBuilder<List<YgoCard>?>(

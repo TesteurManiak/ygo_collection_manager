@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../domain/entities/ygo_set.dart';
@@ -21,12 +20,8 @@ class SetsBloc implements BlocBase {
   Stream<List<YgoSet>?> get onFilteredSetsChanged =>
       _filteredSetsController.stream;
 
-  final searchController = TextEditingController();
-
-  void _setsFilterListener(List<YgoSet>? value) {
-    _filteredSetsController.sink.add(value);
-    searchController.clear();
-  }
+  void _setsFilterListener(List<YgoSet>? value) =>
+      _filteredSetsController.sink.add(value);
 
   @override
   void initState() {
@@ -35,7 +30,6 @@ class SetsBloc implements BlocBase {
 
   @override
   void dispose() {
-    searchController.dispose();
     _setsControllerSubscription.cancel();
 
     _setsController.close();
