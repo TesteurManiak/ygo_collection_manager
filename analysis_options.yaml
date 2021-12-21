@@ -11,6 +11,8 @@ analyzer:
     missing_required_param: error
     missing_return: warning
     unrelated_type_equality_checks: error
+    close_sinks: warning
+    cancel_subscriptions: warning
     # todo: ignore
 
 linter:
@@ -29,3 +31,5 @@ linter:
     - avoid_unused_constructor_parameters
     - sort_child_properties_last
     - directives_ordering
+    - close_sinks
+    - cancel_subscriptions
