@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../atoms/card_id.dart';
-import '../molecules/card_type.dart';
+import 'card_id.dart';
+import 'card_type.dart';
 
 class CardTypeAndId extends StatelessWidget {
   final String type;

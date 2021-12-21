@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/text_styles.dart';
+import '../constants/text_styles.dart';
 
 class CardDescription extends StatelessWidget {
   final String desc;

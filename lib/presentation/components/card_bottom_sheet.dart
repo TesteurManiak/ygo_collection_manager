@@ -9,12 +9,13 @@ import '../../domain/entities/ygo_card.dart';
 import '../../service_locator.dart';
 import '../card_view/card_view.dart';
 import '../constants/colors.dart';
-import 'atoms/card_description.dart';
-import 'molecules/card_detail_widget.dart';
+import 'card_description.dart';
+import 'card_detail_widget.dart';
+import 'card_name_and_level.dart';
+import 'card_race_and_attribute.dart';
+import 'card_stats.dart';
+import 'card_type_and_id.dart';
 import 'no_glow_scroll_behavior.dart';
-import 'organisms/card_name_and_level.dart';
-import 'organisms/card_stats.dart';
-import 'organisms/card_type_and_id.dart';
 
 class CardBottomSheet extends StatefulWidget {
   final YgoCard card;
@@ -81,26 +82,10 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
               ),
               CardDescription(desc: widget.card.desc),
               if (atk != null || def != null) CardStats(atk: atk, def: def),
-              Row(
-                children: [
-                  CardDetailWidget.assetImage(
-                    label: 'Race',
-                    value: widget.card.race,
-                    asset: 'assets/race/${widget.card.race}.png',
-                  ),
-                  if (widget.card.attribute != null)
-                    const SizedBox(
-                      width: Consts.px32,
-                    ),
-                  if (widget.card.attribute != null)
-                    CardDetailWidget.assetImage(
-                      label: 'Attribute',
-                      value: widget.card.attribute!,
-                      asset: 'assets/attribute/${widget.card.attribute!}.png',
-                    ),
-                ],
+              CardRaceAndAttribute(
+                race: widget.card.race,
+                attribute: widget.card.attribute,
               ),
-              const SizedBox(height: Consts.px16),
               Row(
                 children: [
                   if (widget.card.archetype != null)
@@ -109,9 +94,7 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                       value: widget.card.archetype!,
                     ),
                   if (widget.card.archetype != null)
-                    const SizedBox(
-                      width: Consts.px32,
-                    ),
+                    const SizedBox(width: Consts.px32),
                   if (miscInfo != null)
                     Expanded(
                       child: CardDetailWidget(

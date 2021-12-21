@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/text_styles.dart';
-import '../molecules/card_level.dart';
+import '../constants/text_styles.dart';
+import 'card_level.dart';
 
 class CardNameAndLevel extends StatelessWidget {
   final String name;

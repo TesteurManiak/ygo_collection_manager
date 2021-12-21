@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/consts/consts.dart';
-import '../../../core/consts/my_edge_insets.dart';
+import '../../core/consts/consts.dart';
+import '../../core/consts/my_edge_insets.dart';
 
 class CardLevelAsset extends StatelessWidget {
   final String asset;

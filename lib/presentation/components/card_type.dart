@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/consts/consts.dart';
-import '../../constants/text_styles.dart';
-import '../atoms/card_type_asset.dart';
+import '../../core/consts/consts.dart';
+import '../constants/text_styles.dart';
+import 'card_type_asset.dart';
 
 class CardType extends StatelessWidget {
   final String type;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/consts/consts.dart';
-import '../molecules/card_detail_widget.dart';
+import '../../core/consts/consts.dart';
+import 'card_detail_widget.dart';
 
 class CardStats extends StatelessWidget {
   final int? atk;
@@ -16,7 +16,7 @@ class CardStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.only(bottom: Consts.px16),
       child: Row(
         children: [
           if (atk != null)

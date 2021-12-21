@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/text_styles.dart';
-import '../atoms/card_level_asset.dart';
+import '../constants/text_styles.dart';
+import 'card_level_asset.dart';
 
 class CardLevel extends StatelessWidget {
   final int level;
