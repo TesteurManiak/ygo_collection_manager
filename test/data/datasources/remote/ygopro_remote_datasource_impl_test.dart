@@ -361,7 +361,7 @@ void main() {
     test('check banlist', () async {
       // arrange
       final tBanlistRequest = tBaseUri.replace(
-        queryParameters: {'banlist': tBanlist.string},
+        queryParameters: {'banlist': tBanlist.name.toUpperCase()},
       ).toString();
       when(mockHttpClient.get(tBanlistRequest))
           .thenAnswer((_) async => tFixture);

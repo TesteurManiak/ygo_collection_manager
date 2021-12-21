@@ -85,19 +85,6 @@ extension LinkMarkersIterableModifier on Iterable<LinkMarkers> {
   Iterable<String> toStringIterable() => map((e) => e.string);
 }
 
-extension BanlistModifier on Banlist {
-  String get string {
-    switch (this) {
-      case Banlist.tcg:
-        return 'TCG';
-      case Banlist.ocg:
-        return 'OCG';
-      case Banlist.goat:
-        return 'GOAT';
-    }
-  }
-}
-
 extension LinkMarkersModifier on LinkMarkers {
   String get string {
     switch (this) {

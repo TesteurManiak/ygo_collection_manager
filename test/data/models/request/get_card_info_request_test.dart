@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ygo_collection_manager/data/models/request/get_card_info_request.dart';
-import 'package:ygo_collection_manager/domain/entities/banlist.dart';
 import 'package:ygo_collection_manager/domain/entities/format.dart';
 import 'package:ygo_collection_manager/domain/entities/link_markers.dart';
 import 'package:ygo_collection_manager/domain/entities/sort.dart';
@@ -18,14 +17,6 @@ void main() {
       );
       expect(a, b);
       expect(a.props, b.props);
-    });
-  });
-
-  group('Banlist', () {
-    test('getter string', () {
-      expect(Banlist.tcg.string, 'TCG');
-      expect(Banlist.ocg.string, 'OCG');
-      expect(Banlist.goat.string, 'GOAT');
     });
   });
 
