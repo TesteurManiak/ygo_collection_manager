@@ -8,7 +8,7 @@ analyzer:
   strong-mode:
     implicit-casts: false
   errors:
-    missing_required_param: warning
+    missing_required_param: error
     missing_return: warning
     unrelated_type_equality_checks: error
     # todo: ignore
@@ -26,3 +26,6 @@ linter:
     - use_named_constants
     - use_to_and_as_if_applicable
     - prefer_relative_imports
+    - avoid_unused_constructor_parameters
+    - sort_child_properties_last
+    - directives_ordering

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../core/bloc/bloc_provider.dart';
 import '../../core/consts/consts.dart';
-import '../constants/colors.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
+import '../blocs/bloc_provider.dart';
 import '../blocs/cards_bloc.dart';
 import '../blocs/sets_bloc.dart';
 import '../common/filter_sliver_app_bar.dart';
@@ -12,6 +11,7 @@ import '../common/no_glow_scroll_behavior.dart';
 import '../common/sliver_spacer.dart';
 import '../common/top_rounded_sliver.dart';
 import '../common/total_completion_widget.dart';
+import '../constants/colors.dart';
 import 'widgets/set_tile_widget.dart';
 
 class CollectionView extends StatefulWidget {

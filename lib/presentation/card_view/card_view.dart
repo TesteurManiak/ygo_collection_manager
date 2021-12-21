@@ -3,8 +3,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/consts/consts.dart';
 import '../../core/consts/my_edge_insets.dart';
-import '../constants/colors.dart';
 import '../../domain/entities/ygo_card.dart';
+import '../constants/colors.dart';
 import '../expansion_view/expansion_view.dart';
 import 'widgets/set_rarity_widget.dart';
 

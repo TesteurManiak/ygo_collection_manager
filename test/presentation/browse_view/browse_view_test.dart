@@ -1,8 +1,8 @@
 import 'dart:ui' as ui;
 
+import 'package:device_sizes/device_sizes.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
-import 'package:device_sizes/device_sizes.dart';
 import 'package:mockito/annotations.dart';
 import 'package:ygo_collection_manager/domain/usecases/fetch_all_cards.dart';
 import 'package:ygo_collection_manager/domain/usecases/fetch_owned_cards.dart';

@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../core/bloc/bloc.dart';
 import '../../core/extensions/extensions.dart';
 import '../../domain/entities/card_owned.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
 import '../../domain/usecases/fetch_all_cards.dart';
 import '../../domain/usecases/fetch_owned_cards.dart';
+import 'bloc.dart';
 
 class CardsBloc implements BlocBase {
   final FetchAllCards fetchCards;

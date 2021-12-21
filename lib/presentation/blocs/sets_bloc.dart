@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../core/bloc/bloc.dart';
 import '../../domain/entities/ygo_set.dart';
 import '../../domain/usecases/fetch_all_sets.dart';
+import 'bloc.dart';
 
 class SetsBloc implements BlocBase {
   final FetchAllSets fetchSets;

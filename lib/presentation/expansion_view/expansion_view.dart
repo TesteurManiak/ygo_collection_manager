@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 
 import '../../core/animated_scaffold/animated_app_bar.dart';
 import '../../core/animated_scaffold/animated_scaffold.dart';
-import '../../core/bloc/bloc_provider.dart';
 import '../../core/consts/consts.dart';
 import '../../core/consts/durations.dart';
 import '../../core/consts/my_edge_insets.dart';
-import '../constants/colors.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
+import '../blocs/bloc_provider.dart';
 import '../blocs/cards_bloc.dart';
 import '../blocs/expansion_collection_bloc.dart';
 import '../common/card_widget.dart';
+import '../constants/colors.dart';
 import 'widgets/card_editing_widget.dart';
 import 'widgets/cards_grid.dart';
 import 'widgets/collection_app_bar_bottom.dart';

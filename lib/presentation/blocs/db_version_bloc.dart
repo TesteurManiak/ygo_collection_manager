@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../core/bloc/bloc.dart';
-import '../../core/bloc/bloc_provider.dart';
 import '../../domain/usecases/should_reload_db.dart';
+import 'bloc.dart';
+import 'bloc_provider.dart';
 import 'cards_bloc.dart';
 import 'sets_bloc.dart';
 

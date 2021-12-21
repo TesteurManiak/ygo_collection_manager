@@ -3,13 +3,13 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/consts/consts.dart';
 import '../../core/consts/my_edge_insets.dart';
-import '../constants/colors.dart';
-import '../constants/text_styles.dart';
 import '../../data/datasources/local/ygopro_local_datasource.dart';
 import '../../domain/entities/card_price.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../service_locator.dart';
 import '../card_view/card_view.dart';
+import '../constants/colors.dart';
+import '../constants/text_styles.dart';
 import 'card_detail_widget.dart';
 import 'no_glow_scroll_behavior.dart';
 

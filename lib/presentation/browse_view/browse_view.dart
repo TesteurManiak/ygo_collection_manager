@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../core/bloc/bloc_provider.dart';
 import '../../core/consts/consts.dart';
 import '../../domain/entities/ygo_card.dart';
+import '../blocs/bloc_provider.dart';
 import '../blocs/cards_bloc.dart';
 import '../common/card_widget.dart';
 import '../common/filter_sliver_app_bar.dart';

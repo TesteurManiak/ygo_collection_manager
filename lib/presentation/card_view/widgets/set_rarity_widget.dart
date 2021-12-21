@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/consts/consts.dart';
+import '../../../domain/entities/card_set.dart';
 import '../../constants/colors.dart';
 import '../../constants/text_styles.dart';
-import '../../../domain/entities/card_set.dart';
 
 class SetRarityWidget extends StatelessWidget {
   final CardSet cardSet;

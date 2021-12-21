@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../core/bloc/bloc_provider.dart';
 import '../../core/consts/consts.dart';
 import '../../core/consts/my_edge_insets.dart';
+import '../blocs/bloc_provider.dart';
 import '../blocs/cards_bloc.dart';
 
 const _kBottomHeight = Consts.px14;
