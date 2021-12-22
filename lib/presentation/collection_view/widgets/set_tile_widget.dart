@@ -46,7 +46,7 @@ class SetTileWidget extends StatelessWidget {
               future: cardsOwned,
               builder: (_, snapshot) {
                 final _cardsOwned = snapshot.hasData ? snapshot.data! : 0;
-                final percentage = (_cardsOwned / numOfCards * 100);
+                final percentage = _cardsOwned / numOfCards * 100;
                 return Row(
                   children: [
                     Expanded(
