@@ -1,6 +1,6 @@
 # ygo_collection_manager
 
-[![Flutter](https://github.com/TesteurManiak/ygo_collection_manager/actions/workflows/flutter.yml/badge.svg?branch=main)](https://github.com/TesteurManiak/ygo_collection_manager/actions/workflows/flutter.yml)
+[![Main](https://github.com/TesteurManiak/ygo_collection_manager/actions/workflows/main.yml/badge.svg)](https://github.com/TesteurManiak/ygo_collection_manager/actions/workflows/main.yml)
 [![Coverage Status](https://coveralls.io/repos/github/TesteurManiak/ygo_collection_manager/badge.svg?branch=main)](https://coveralls.io/github/TesteurManiak/ygo_collection_manager?branch=main)
 
 ## Getting Started
