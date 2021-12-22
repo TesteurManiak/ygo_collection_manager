@@ -67,7 +67,7 @@ void main() {
       when(mockLocalDataSource.getSets()).thenAnswer((_) async => []);
 
       // act
-      repository.getAllSets(shouldReload: false);
+      await repository.getAllSets(shouldReload: false);
 
       // assert
       verify(mockNetworkInfo.isConnected);
@@ -132,7 +132,7 @@ void main() {
       when(mockLocalDataSource.getCards()).thenAnswer((_) async => []);
 
       // act
-      repository.getAllCards(shouldReload: false);
+      await repository.getAllCards(shouldReload: false);
 
       // assert
       verify(mockNetworkInfo.isConnected);
@@ -194,7 +194,7 @@ void main() {
       when(mockRemoteDataSource.getRandomCard()).thenAnswer((_) async => tCard);
 
       // act
-      repository.getRandomCard();
+      await repository.getRandomCard();
 
       // assert
       verify(mockNetworkInfo.isConnected);
@@ -268,7 +268,7 @@ void main() {
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
 
       // act
-      repository.shouldReloadDb();
+      await repository.shouldReloadDb();
 
       // assert
       verify(mockNetworkInfo.isConnected);

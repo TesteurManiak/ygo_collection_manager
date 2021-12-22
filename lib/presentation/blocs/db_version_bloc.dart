@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../domain/usecases/should_reload_db.dart';
@@ -20,11 +22,13 @@ class DBVersionBloc implements BlocBase {
 
   Future<void> updateDatabase(BuildContext context) async {
     final shouldReload = await _shouldReloadDb();
-    Future.microtask(() {
-      BlocProvider.of<SetsBloc>(context)
-          .fetchAllSets(shouldReload: shouldReload);
-      BlocProvider.of<CardsBloc>(context)
-          .fetchAllCards(shouldReload: shouldReload);
-    });
+    unawaited(
+      Future.microtask(() {
+        BlocProvider.of<SetsBloc>(context)
+            .fetchAllSets(shouldReload: shouldReload);
+        BlocProvider.of<CardsBloc>(context)
+            .fetchAllCards(shouldReload: shouldReload);
+      }),
+    );
   }
 }

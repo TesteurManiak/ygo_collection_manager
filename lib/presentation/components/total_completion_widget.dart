@@ -8,7 +8,7 @@ import '../blocs/cards_bloc.dart';
 const _kBottomHeight = Consts.px14;
 
 class TotalCompletionBottomWidget extends StatelessWidget
-    with PreferredSizeWidget {
+    implements PreferredSizeWidget {
   const TotalCompletionBottomWidget({Key? key}) : super(key: key);
 
   @override

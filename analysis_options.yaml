@@ -9,11 +9,14 @@ analyzer:
     implicit-casts: false
   errors:
     missing_required_param: error
-    missing_return: warning
     unrelated_type_equality_checks: error
+    missing_return: warning
     close_sinks: warning
     cancel_subscriptions: warning
-    # todo: ignore
+    parameter_assignments: warning
+    prefer_final_in_for_each: warning
+    prefer_mixin: warning
+    unawaited_futures: warning
 
 linter:
   rules:
@@ -33,3 +36,10 @@ linter:
     - directives_ordering
     - close_sinks
     - cancel_subscriptions
+    - unnecessary_statements
+    - avoid_annotating_with_dynamic
+    - prefer_final_locals
+    - prefer_final_in_for_each
+    - prefer_interpolation_to_compose_strings
+    - prefer_mixin
+    - unawaited_futures
