@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../core/consts/consts.dart';
 import '../../core/consts/my_edge_insets.dart';
 import '../../domain/entities/card_price.dart';
 import '../../domain/entities/ygo_card.dart';
-import '../card_view/card_view.dart';
 import '../constants/colors.dart';
 import 'card_archetype_and_formats.dart';
 import 'card_description.dart';
@@ -13,6 +11,7 @@ import 'card_name_and_level.dart';
 import 'card_race_and_attribute.dart';
 import 'card_stats.dart';
 import 'card_type_and_id.dart';
+import 'card_view_button.dart';
 import 'no_glow_scroll_behavior.dart';
 import 'total_card_in_collection.dart';
 
@@ -65,34 +64,11 @@ class CardBottomSheet extends StatelessWidget {
                 archetype: card.archetype,
                 miscInfos: card.miscInfo,
               ),
-              const SizedBox(height: Consts.px28),
               Row(
                 children: [
                   TotalCardInCollection(cardId: card.id),
                   const Spacer(),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(Consts.px20),
-                      ),
-                    ),
-                    onPressed: () {
-                      final _setId = setId;
-                      context.goNamed(
-                        _setId != null
-                            ? CardView.routeName
-                            : CardView.altRouteName,
-                        params: CardView.routeParams(
-                          card: card,
-                          setId: setId,
-                        ),
-                      );
-                    },
-                    child: const Text(
-                      'VIEW',
-                      style: TextStyle(color: MyColors.yellow),
-                    ),
-                  ),
+                  CardViewButton(setId: setId, card: card),
                 ],
               ),
               const SizedBox(height: Consts.px28),

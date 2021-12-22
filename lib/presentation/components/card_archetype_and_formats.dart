@@ -18,28 +18,31 @@ class CardArchetypeAndFormats extends StatelessWidget {
   Widget build(BuildContext context) {
     final _archetype = archetype;
     final _miscInfos = miscInfos;
-    return Row(
-      children: [
-        if (_archetype != null)
-          Padding(
-            padding: const EdgeInsets.only(bottom: Consts.px32),
-            child: CardDetailWidget(
-              label: 'Archetype',
-              value: _archetype,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: Consts.px28),
+      child: Row(
+        children: [
+          if (_archetype != null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: Consts.px32),
+              child: CardDetailWidget(
+                label: 'Archetype',
+                value: _archetype,
+              ),
             ),
-          ),
-        if (_miscInfos != null)
-          Expanded(
-            child: CardDetailWidget(
-              label: 'Formats',
-              value: _miscInfos
-                  .map<List<String>>((e) => e.formats)
-                  .reduce((a, b) => [...a, ...b])
-                  .toSet()
-                  .join(', '),
+          if (_miscInfos != null)
+            Expanded(
+              child: CardDetailWidget(
+                label: 'Formats',
+                value: _miscInfos
+                    .map<List<String>>((e) => e.formats)
+                    .reduce((a, b) => [...a, ...b])
+                    .toSet()
+                    .join(', '),
+              ),
             ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 }
