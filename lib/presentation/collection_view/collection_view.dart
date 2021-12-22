@@ -7,7 +7,7 @@ import '../blocs/bloc_provider.dart';
 import '../blocs/cards_bloc.dart';
 import '../blocs/sets_bloc.dart';
 import '../components/filter_sliver_app_bar.dart';
-import '../components/no_glow_scroll_behavior.dart';
+import '../components/no_glow_custom_scroll_view.dart';
 import '../components/sliver_spacer.dart';
 import '../components/top_rounded_sliver.dart';
 import '../components/total_completion_widget.dart';
@@ -40,59 +40,56 @@ class _CollectionViewState extends State<CollectionView>
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: () => _setsBloc.fetchSets(shouldReload: true),
-        child: ScrollConfiguration(
-          behavior: const NoGlowScrollBehavior(),
-          child: CustomScrollView(
-            slivers: [
-              const SliverAppBar(
-                title: Text('Collection'),
-                centerTitle: true,
-                bottom: TotalCompletionBottomWidget(),
-              ),
-              const TopRoundedSliver(),
-              FilterSliverAppBar(
-                hintText: 'Filter expansions',
-                onChanged: _setsBloc.filter,
-                controller: _searchController,
-              ),
-              const SliverSpacer(height: Consts.px16),
-              StreamBuilder<List<YgoCard>?>(
-                stream: _cardsBloc.onCardsChanged,
-                builder: (_, __) => StreamBuilder<List<YgoSet>?>(
-                  stream: _setsBloc.onFilteredSetsChanged,
-                  builder: (_, snapshot) {
-                    final data = snapshot.data;
-                    if (!snapshot.hasData || data == null) {
-                      return const SliverToBoxAdapter(child: SizedBox());
-                    }
-                    return StreamBuilder<double>(
-                      stream: _cardsBloc.onFullCollectionCompletionChanged,
-                      builder: (_, __) {
-                        return SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) => Container(
-                              decoration: BoxDecoration(
+        child: NoGlowCustomScrollView(
+          slivers: [
+            const SliverAppBar(
+              title: Text('Collection'),
+              centerTitle: true,
+              bottom: TotalCompletionBottomWidget(),
+            ),
+            const TopRoundedSliver(),
+            FilterSliverAppBar(
+              hintText: 'Filter expansions',
+              onChanged: _setsBloc.filter,
+              controller: _searchController,
+            ),
+            const SliverSpacer(height: Consts.px16),
+            StreamBuilder<List<YgoCard>?>(
+              stream: _cardsBloc.onCardsChanged,
+              builder: (_, __) => StreamBuilder<List<YgoSet>?>(
+                stream: _setsBloc.onFilteredSetsChanged,
+                builder: (_, snapshot) {
+                  final data = snapshot.data;
+                  if (!snapshot.hasData || data == null) {
+                    return const SliverToBoxAdapter(child: SizedBox());
+                  }
+                  return StreamBuilder<double>(
+                    stream: _cardsBloc.onFullCollectionCompletionChanged,
+                    builder: (_, __) {
+                      return SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) => Container(
+                            decoration: BoxDecoration(
+                              color: DynamicThemedColors.scaffoldBackground(
+                                context,
+                              ),
+                              border: Border.all(
                                 color: DynamicThemedColors.scaffoldBackground(
                                   context,
                                 ),
-                                border: Border.all(
-                                  color: DynamicThemedColors.scaffoldBackground(
-                                    context,
-                                  ),
-                                ),
                               ),
-                              child: SetTileWidget(data[index]),
                             ),
-                            childCount: data.length,
+                            child: SetTileWidget(data[index]),
                           ),
-                        );
-                      },
-                    );
-                  },
-                ),
+                          childCount: data.length,
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

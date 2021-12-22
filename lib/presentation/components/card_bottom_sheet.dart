@@ -12,7 +12,7 @@ import 'card_race_and_attribute.dart';
 import 'card_stats.dart';
 import 'card_type_and_id.dart';
 import 'card_view_button.dart';
-import 'no_glow_scroll_behavior.dart';
+import 'no_glow_single_child_scroll_view.dart';
 import 'total_card_in_collection.dart';
 
 class CardBottomSheet extends StatelessWidget {
@@ -39,42 +39,39 @@ class CardBottomSheet extends StatelessWidget {
           top: Radius.circular(Consts.px20),
         ),
       ),
-      child: ScrollConfiguration(
-        behavior: const NoGlowScrollBehavior(),
-        child: SingleChildScrollView(
-          padding: MyEdgeInsets.all25,
-          controller: controller,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CardTypeAndId(type: card.type, id: card.id),
-              const SizedBox(height: Consts.px14),
-              CardNameAndLevel(
-                name: card.name,
-                level: card.level,
-                levelAsset: card.levelAsset,
-              ),
-              CardDescription(desc: card.desc),
-              if (atk != null || def != null) CardStats(atk: atk, def: def),
-              CardRaceAndAttribute(
-                race: card.race,
-                attribute: card.attribute,
-              ),
-              CardArchetypeAndFormats(
-                archetype: card.archetype,
-                miscInfos: card.miscInfo,
-              ),
-              Row(
-                children: [
-                  TotalCardInCollection(cardId: card.id),
-                  const Spacer(),
-                  CardViewButton(setId: setId, card: card),
-                ],
-              ),
-              const SizedBox(height: Consts.px28),
-              _PricesWidget(prices: card.cardPrices),
-            ],
-          ),
+      child: NoGlowSingleChildScrollView(
+        padding: MyEdgeInsets.all25,
+        controller: controller,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CardTypeAndId(type: card.type, id: card.id),
+            const SizedBox(height: Consts.px14),
+            CardNameAndLevel(
+              name: card.name,
+              level: card.level,
+              levelAsset: card.levelAsset,
+            ),
+            CardDescription(desc: card.desc),
+            if (atk != null || def != null) CardStats(atk: atk, def: def),
+            CardRaceAndAttribute(
+              race: card.race,
+              attribute: card.attribute,
+            ),
+            CardArchetypeAndFormats(
+              archetype: card.archetype,
+              miscInfos: card.miscInfo,
+            ),
+            Row(
+              children: [
+                TotalCardInCollection(cardId: card.id),
+                const Spacer(),
+                CardViewButton(setId: setId, card: card),
+              ],
+            ),
+            const SizedBox(height: Consts.px28),
+            _PricesWidget(prices: card.cardPrices),
+          ],
         ),
       ),
     );
