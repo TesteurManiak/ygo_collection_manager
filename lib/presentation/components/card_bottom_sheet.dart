@@ -9,8 +9,8 @@ import '../../domain/entities/ygo_card.dart';
 import '../../service_locator.dart';
 import '../card_view/card_view.dart';
 import '../constants/colors.dart';
+import 'card_archetype_and_formats.dart';
 import 'card_description.dart';
-import 'card_detail_widget.dart';
 import 'card_name_and_level.dart';
 import 'card_race_and_attribute.dart';
 import 'card_stats.dart';
@@ -54,7 +54,6 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final miscInfo = widget.card.miscInfo;
     final atk = widget.card.atk;
     final def = widget.card.def;
 
@@ -86,27 +85,9 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                 race: widget.card.race,
                 attribute: widget.card.attribute,
               ),
-              Row(
-                children: [
-                  if (widget.card.archetype != null)
-                    CardDetailWidget(
-                      label: 'Archetype',
-                      value: widget.card.archetype!,
-                    ),
-                  if (widget.card.archetype != null)
-                    const SizedBox(width: Consts.px32),
-                  if (miscInfo != null)
-                    Expanded(
-                      child: CardDetailWidget(
-                        label: 'Formats',
-                        value: miscInfo
-                            .map<List<String>>((e) => e.formats)
-                            .reduce((a, b) => [...a, ...b])
-                            .toSet()
-                            .join(', '),
-                      ),
-                    ),
-                ],
+              CardArchetypeAndFormats(
+                archetype: widget.card.archetype,
+                miscInfos: widget.card.miscInfo,
               ),
               const SizedBox(height: Consts.px28),
               Row(
