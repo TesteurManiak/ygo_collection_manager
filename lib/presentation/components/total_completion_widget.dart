@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../../core/bloc/bloc_provider.dart';
 import '../../core/consts/consts.dart';
 import '../../core/consts/my_edge_insets.dart';
+import '../blocs/bloc_provider.dart';
 import '../blocs/cards_bloc.dart';
 
 const _kBottomHeight = Consts.px14;
 
 class TotalCompletionBottomWidget extends StatelessWidget
-    with PreferredSizeWidget {
+    implements PreferredSizeWidget {
   const TotalCompletionBottomWidget({Key? key}) : super(key: key);
 
   @override

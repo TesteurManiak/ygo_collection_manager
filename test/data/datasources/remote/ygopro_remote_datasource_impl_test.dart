@@ -30,7 +30,7 @@ void main() {
     final tFixture = jsonDecode(fixture('archetypes.json')) as Iterable;
     final tArchetypes = tFixture
         .cast<Map<String, dynamic>>()
-        .map<Archetype>((e) => ArchetypeModel.fromJson(e))
+        .map<Archetype>(ArchetypeModel.fromJson)
         .toList();
 
     test('should perform a GET request on archetypes.php endpoint', () async {
@@ -50,7 +50,7 @@ void main() {
     final tFixture = jsonDecode(fixture('cardsets.json')) as Iterable;
     final tSets = tFixture
         .cast<Map<String, dynamic>>()
-        .map<YgoSet>((e) => YgoSetModel.fromJson(e))
+        .map<YgoSet>(YgoSetModel.fromJson)
         .toList();
 
     test('should perform a GET request on cardsets.php endpoint', () async {
@@ -135,7 +135,7 @@ void main() {
         jsonDecode(fixture('cardinfo.json')) as Map<String, dynamic>;
     final tCards = (tFixture['data'] as Iterable)
         .cast<Map<String, dynamic>>()
-        .map((e) => YgoCardModel.fromJson(e));
+        .map(YgoCardModel.fromJson);
     final tStartDate = DateTime.now();
     final tEndDate = DateTime.now();
     final tDateRegion = DateTime.now();
@@ -361,7 +361,7 @@ void main() {
     test('check banlist', () async {
       // arrange
       final tBanlistRequest = tBaseUri.replace(
-        queryParameters: {'banlist': tBanlist.string},
+        queryParameters: {'banlist': tBanlist.name.toUpperCase()},
       ).toString();
       when(mockHttpClient.get(tBanlistRequest))
           .thenAnswer((_) async => tFixture);
@@ -490,7 +490,7 @@ void main() {
         final tFixture = jsonDecode(fixture('cardsets.json')) as Iterable;
         final tSets = tFixture
             .cast<Map<String, dynamic>>()
-            .map((e) => YgoSetModel.fromJson(e))
+            .map(YgoSetModel.fromJson)
             .toList();
 
         // act
@@ -511,7 +511,7 @@ void main() {
             jsonDecode(fixture('cardinfo.json')) as Map<String, dynamic>;
         final tCards = (tFixture['data'] as Iterable)
             .cast<Map<String, dynamic>>()
-            .map((e) => YgoCardModel.fromJson(e));
+            .map(YgoCardModel.fromJson);
 
         // act
         final cards = YgoProRemoteDataSourceImpl.parseCards(tFixture);

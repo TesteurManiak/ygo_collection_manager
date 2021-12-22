@@ -30,8 +30,6 @@ flutter test --update-goldens --tags=golden
 ## TODO
 
 * Write tests (ongoing)
-* Atomic design
-* Automatize the hosting of the web version on GitHub Pages
 * Dedicated Web layout
 * Add filters for expansions
 * Add filters for cards

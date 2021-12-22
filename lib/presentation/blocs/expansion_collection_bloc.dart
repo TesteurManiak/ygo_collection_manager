@@ -3,14 +3,14 @@ import 'dart:async';
 import 'package:flutter/animation.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../core/bloc/bloc.dart';
-import '../../core/bloc/bloc_provider.dart';
 import '../../domain/entities/card_edition_enum.dart';
 import '../../domain/entities/card_owned.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
 import '../../domain/usecases/get_copies_of_card_owned.dart';
 import '../../domain/usecases/update_card_owned.dart';
+import 'bloc.dart';
+import 'bloc_provider.dart';
 import 'cards_bloc.dart';
 
 class ExpansionCollectionBloc implements BlocBase {

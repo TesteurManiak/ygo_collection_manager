@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/bloc/bloc_provider.dart';
 import '../../../core/consts/consts.dart';
 import '../../../core/consts/my_edge_insets.dart';
-import '../../../core/styles/colors.dart';
 import '../../../domain/entities/ygo_set.dart';
+import '../../blocs/bloc_provider.dart';
 import '../../blocs/cards_bloc.dart';
+import '../../constants/colors.dart';
 import '../../expansion_view/expansion_view.dart';
 
 class SetTileWidget extends StatelessWidget {
@@ -46,7 +46,7 @@ class SetTileWidget extends StatelessWidget {
               future: cardsOwned,
               builder: (_, snapshot) {
                 final _cardsOwned = snapshot.hasData ? snapshot.data! : 0;
-                final percentage = (_cardsOwned / numOfCards * 100);
+                final percentage = _cardsOwned / numOfCards * 100;
                 return Row(
                   children: [
                     Expanded(

@@ -32,7 +32,7 @@ void main() {
       'should throw a ServerException if response has a status code different than 200',
       () async {
         expect(
-          () async => await remoteClient.get('error'),
+          () async => remoteClient.get('error'),
           throwsA(isA<ServerException>()),
         );
       },

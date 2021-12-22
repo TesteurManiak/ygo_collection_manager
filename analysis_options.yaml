@@ -8,10 +8,19 @@ analyzer:
   strong-mode:
     implicit-casts: false
   errors:
-    missing_required_param: warning
-    missing_return: warning
+    missing_required_param: error
     unrelated_type_equality_checks: error
-    # todo: ignore
+    missing_return: warning
+    close_sinks: warning
+    cancel_subscriptions: warning
+    parameter_assignments: warning
+    prefer_final_in_for_each: warning
+    prefer_mixin: warning
+    unawaited_futures: warning
+    unnecessary_await_in_return: warning
+    unnecessary_null_aware_assignments: warning
+    use_string_buffers: warning
+    avoid_unnecessary_containers: warning
 
 linter:
   rules:
@@ -26,3 +35,24 @@ linter:
     - use_named_constants
     - use_to_and_as_if_applicable
     - prefer_relative_imports
+    - avoid_unused_constructor_parameters
+    - sort_child_properties_last
+    - directives_ordering
+    - close_sinks
+    - cancel_subscriptions
+    - unnecessary_statements
+    - avoid_annotating_with_dynamic
+    - prefer_final_locals
+    - prefer_final_in_for_each
+    - prefer_interpolation_to_compose_strings
+    - prefer_mixin
+    - unawaited_futures
+    - unnecessary_await_in_return
+    - unnecessary_lambdas
+    - unnecessary_null_aware_assignments
+    - unnecessary_parenthesis
+    - unnecessary_raw_strings
+    - use_if_null_to_convert_nulls_to_bools
+    - use_string_buffers
+    - avoid_unnecessary_containers
+    

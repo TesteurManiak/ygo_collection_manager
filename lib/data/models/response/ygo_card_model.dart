@@ -70,15 +70,11 @@ class YgoCardModel extends YgoCard {
           .toList(),
       cardSets: (json['card_sets'] as Iterable?)
           ?.cast<Map<String, dynamic>>()
-          .map<CardSetModel>(
-            (e) => CardSetModel.fromJson(e),
-          )
+          .map<CardSetModel>(CardSetModel.fromJson)
           .toList(),
       cardPrices: (json['card_prices'] as Iterable)
           .cast<Map<String, dynamic>>()
-          .map<CardPriceModel>(
-            (e) => CardPriceModel.fromJson(e),
-          )
+          .map<CardPriceModel>(CardPriceModel.fromJson)
           .toList(),
       banlistInfo: json['banlist_info'] != null
           ? CardBanlistInfoModel.fromJson(
@@ -87,9 +83,7 @@ class YgoCardModel extends YgoCard {
           : null,
       miscInfo: (json['misc_info'] as Iterable?)
           ?.cast<Map<String, dynamic>>()
-          .map<CardMiscInfoModel>(
-            (e) => CardMiscInfoModel.fromJson(e),
-          )
+          .map<CardMiscInfoModel>(CardMiscInfoModel.fromJson)
           .toList(),
     );
   }

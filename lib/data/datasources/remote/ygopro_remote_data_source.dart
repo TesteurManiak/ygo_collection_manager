@@ -43,16 +43,13 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
     final response = await _getCall<Iterable>([archetypesPath]);
     return response
         .cast<Map<String, dynamic>>()
-        .map((e) => ArchetypeModel.fromJson(e))
+        .map(ArchetypeModel.fromJson)
         .toList();
   }
 
   @visibleForTesting
   static List<YgoSetModel> parseSets(Iterable<dynamic> sets) {
-    return sets
-        .cast<Map<String, dynamic>>()
-        .map((e) => YgoSetModel.fromJson(e))
-        .toList();
+    return sets.cast<Map<String, dynamic>>().map(YgoSetModel.fromJson).toList();
   }
 
   @override
@@ -83,7 +80,7 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
   static List<YgoCardModel> parseCards(Map<String, dynamic> response) {
     return (response['data'] as Iterable)
         .cast<Map<String, dynamic>>()
-        .map<YgoCardModel>((e) => YgoCardModel.fromJson(e))
+        .map<YgoCardModel>(YgoCardModel.fromJson)
         .toList();
   }
 
@@ -129,11 +126,11 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
         if (scale != null) 'scale': scale.toString(),
         if (cardSet != null) 'cardset': cardSet,
         if (archetype != null) 'archetype': archetype,
-        if (banlist != null) 'banlist': banlist.string,
+        if (banlist != null) 'banlist': banlist.name.toUpperCase(),
         if (sort != null) 'sort': sort.string,
         if (format != null) 'format': format.string,
-        'misc': (misc ? 'yes' : 'no'),
-        if (staple != null) 'staple': (staple ? 'yes' : 'no'),
+        'misc': misc ? 'yes' : 'no',
+        if (staple != null) 'staple': staple ? 'yes' : 'no',
         if (startDate != null) 'startdate': startDate.toIso8601String(),
         if (endDate != null) 'enddate': endDate.toIso8601String(),
         if (dateRegion != null) 'dateregion': dateRegion.toIso8601String(),
