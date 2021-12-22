@@ -20,6 +20,7 @@ analyzer:
     unnecessary_await_in_return: warning
     unnecessary_null_aware_assignments: warning
     use_string_buffers: warning
+    avoid_unnecessary_containers: warning
 
 linter:
   rules:
@@ -53,4 +54,5 @@ linter:
     - unnecessary_raw_strings
     - use_if_null_to_convert_nulls_to_bools
     - use_string_buffers
+    - avoid_unnecessary_containers
     

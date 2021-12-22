@@ -81,7 +81,7 @@ class _PricesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(Consts.px12),
         border: Border.all(

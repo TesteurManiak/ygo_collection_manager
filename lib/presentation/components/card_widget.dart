@@ -93,13 +93,13 @@ class CardWidget extends StatelessWidget {
                                       style: TextStyles.black12b,
                                     ),
                                   )
-                                : const SizedBox();
+                                : const SizedBox.shrink();
                           }
-                          return Container();
+                          return const SizedBox.shrink();
                         },
                       );
                     }
-                    return Container();
+                    return const SizedBox.shrink();
                   },
                 );
               },

@@ -68,7 +68,7 @@ class _CollectionViewState extends State<CollectionView>
                     builder: (_, __) {
                       return SliverList(
                         delegate: SliverChildBuilderDelegate(
-                          (context, index) => Container(
+                          (context, index) => DecoratedBox(
                             decoration: BoxDecoration(
                               color: DynamicThemedColors.scaffoldBackground(
                                 context,

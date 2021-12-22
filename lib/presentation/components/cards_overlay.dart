@@ -128,8 +128,8 @@ class _CardOverlayState extends State<_CardOverlay>
             parent: _animationController,
             curve: Curves.easeIn,
           ),
-          child: Container(
-            margin: MyEdgeInsets.all8,
+          child: Padding(
+            padding: MyEdgeInsets.all8,
             child: CachedNetworkImage(
               imageUrl: widget.card.cardImages.first.imageUrl,
               placeholder: (_, __) => Image.asset(
