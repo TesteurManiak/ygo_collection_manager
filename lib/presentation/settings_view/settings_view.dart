@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/consts/consts.dart';
 import '../../core/consts/my_edge_insets.dart';
-import '../constants/colors.dart';
+import '../components/rounded_scaffold_box.dart';
 import '../constants/themes.dart';
 
 class _ThemeChoice {
@@ -46,14 +46,7 @@ class _SettingsViewState extends State<SettingsView> {
         title: const Text('Settings'),
         centerTitle: true,
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          color: DynamicThemedColors.scaffoldBackground(context),
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(Consts.px20),
-            topRight: Radius.circular(Consts.px20),
-          ),
-        ),
+      body: RoundedScaffoldBox(
         child: ListView(
           padding: MyEdgeInsets.all16,
           children: [

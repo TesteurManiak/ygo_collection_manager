@@ -13,6 +13,7 @@ import 'card_stats.dart';
 import 'card_type_and_id.dart';
 import 'card_view_button.dart';
 import 'no_glow_single_child_scroll_view.dart';
+import 'rounded_scaffold_box.dart';
 import 'total_card_in_collection.dart';
 
 class CardBottomSheet extends StatelessWidget {
@@ -32,13 +33,8 @@ class CardBottomSheet extends StatelessWidget {
     final atk = card.atk;
     final def = card.def;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: DynamicThemedColors.bottomSheetBackground(context),
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(Consts.px20),
-        ),
-      ),
+    return RoundedScaffoldBox(
+      color: DynamicThemedColors.bottomSheetBackground(context),
       child: NoGlowSingleChildScrollView(
         padding: MyEdgeInsets.all25,
         controller: controller,

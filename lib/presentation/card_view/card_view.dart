@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/consts/consts.dart';
 import '../../core/consts/my_edge_insets.dart';
 import '../../domain/entities/ygo_card.dart';
-import '../constants/colors.dart';
+import '../components/rounded_scaffold_box.dart';
 import '../expansion_view/expansion_view.dart';
 import 'widgets/set_rarity_widget.dart';
 
@@ -42,14 +41,7 @@ class CardView extends StatelessWidget {
           onPressed: context.pop,
         ),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          color: DynamicThemedColors.scaffoldBackground(context),
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(Consts.px20),
-            topRight: Radius.circular(Consts.px20),
-          ),
-        ),
+      body: RoundedScaffoldBox(
         child: ListView.separated(
           padding: MyEdgeInsets.all16,
           itemBuilder: (_, index) => SetRarityWidget(cardSet: sets![index]),
