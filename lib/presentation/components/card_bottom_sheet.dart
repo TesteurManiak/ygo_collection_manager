@@ -3,10 +3,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/consts/consts.dart';
 import '../../core/consts/my_edge_insets.dart';
-import '../../data/datasources/local/ygopro_local_datasource.dart';
 import '../../domain/entities/card_price.dart';
 import '../../domain/entities/ygo_card.dart';
-import '../../service_locator.dart';
 import '../card_view/card_view.dart';
 import '../constants/colors.dart';
 import 'card_archetype_and_formats.dart';
@@ -16,8 +14,9 @@ import 'card_race_and_attribute.dart';
 import 'card_stats.dart';
 import 'card_type_and_id.dart';
 import 'no_glow_scroll_behavior.dart';
+import 'total_card_in_collection.dart';
 
-class CardBottomSheet extends StatefulWidget {
+class CardBottomSheet extends StatelessWidget {
   final YgoCard card;
   final ScrollController controller;
   final String? setId;
@@ -30,32 +29,9 @@ class CardBottomSheet extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _CardBottomSheetState();
-}
-
-class _CardBottomSheetState extends State<CardBottomSheet> {
-  late final _totalOwnedCard = ValueNotifier<int>(0);
-
-  @override
-  void initState() {
-    super.initState();
-    sl<YgoProLocalDataSource>()
-        .getCopiesOfCardOwnedById(widget.card.id)
-        .then((value) {
-      _totalOwnedCard.value = value;
-    });
-  }
-
-  @override
-  void dispose() {
-    _totalOwnedCard.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final atk = widget.card.atk;
-    final def = widget.card.def;
+    final atk = card.atk;
+    final def = card.def;
 
     return Container(
       decoration: BoxDecoration(
@@ -68,34 +44,31 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
         behavior: const NoGlowScrollBehavior(),
         child: SingleChildScrollView(
           padding: MyEdgeInsets.all25,
-          controller: widget.controller,
+          controller: controller,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CardTypeAndId(type: widget.card.type, id: widget.card.id),
+              CardTypeAndId(type: card.type, id: card.id),
               const SizedBox(height: Consts.px14),
               CardNameAndLevel(
-                name: widget.card.name,
-                level: widget.card.level,
-                levelAsset: widget.card.levelAsset,
+                name: card.name,
+                level: card.level,
+                levelAsset: card.levelAsset,
               ),
-              CardDescription(desc: widget.card.desc),
+              CardDescription(desc: card.desc),
               if (atk != null || def != null) CardStats(atk: atk, def: def),
               CardRaceAndAttribute(
-                race: widget.card.race,
-                attribute: widget.card.attribute,
+                race: card.race,
+                attribute: card.attribute,
               ),
               CardArchetypeAndFormats(
-                archetype: widget.card.archetype,
-                miscInfos: widget.card.miscInfo,
+                archetype: card.archetype,
+                miscInfos: card.miscInfo,
               ),
               const SizedBox(height: Consts.px28),
               Row(
                 children: [
-                  ValueListenableBuilder<int>(
-                    valueListenable: _totalOwnedCard,
-                    builder: (_, value, __) => Text('$value in Collection'),
-                  ),
+                  TotalCardInCollection(cardId: card.id),
                   const Spacer(),
                   TextButton(
                     style: TextButton.styleFrom(
@@ -104,14 +77,14 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                       ),
                     ),
                     onPressed: () {
-                      final _setId = widget.setId;
+                      final _setId = setId;
                       context.goNamed(
                         _setId != null
                             ? CardView.routeName
                             : CardView.altRouteName,
                         params: CardView.routeParams(
-                          card: widget.card,
-                          setId: widget.setId,
+                          card: card,
+                          setId: setId,
                         ),
                       );
                     },
@@ -123,7 +96,7 @@ class _CardBottomSheetState extends State<CardBottomSheet> {
                 ],
               ),
               const SizedBox(height: Consts.px28),
-              _PricesWidget(prices: widget.card.cardPrices),
+              _PricesWidget(prices: card.cardPrices),
             ],
           ),
         ),
