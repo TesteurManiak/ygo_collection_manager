@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/consts/my_edge_insets.dart';
 import '../../../domain/entities/ygo_card.dart';
-import '../../common/no_glow_scroll_behavior.dart';
+import '../../components/no_glow_scroll_behavior.dart';
 
 const _kDefaultCrossAxisCount = 3;
 

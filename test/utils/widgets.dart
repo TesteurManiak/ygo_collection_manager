@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/core/bloc/bloc.dart';
-import 'package:ygo_collection_manager/core/bloc/bloc_provider.dart';
-import 'package:ygo_collection_manager/core/styles/themes.dart';
+import 'package:ygo_collection_manager/presentation/blocs/bloc.dart';
+import 'package:ygo_collection_manager/presentation/blocs/bloc_provider.dart';
+import 'package:ygo_collection_manager/presentation/constants/themes.dart';
 
 /// Return a `MaterialApp` nested inside a `BlocProvider` providing instances of
 /// [blocs] accessible to the descendant [child] widget.

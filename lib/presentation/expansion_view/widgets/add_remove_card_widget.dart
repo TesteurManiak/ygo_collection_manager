@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/bloc/bloc_provider.dart';
 import '../../../core/consts/my_edge_insets.dart';
 import '../../../domain/entities/card_edition_enum.dart';
 import '../../../domain/entities/ygo_set.dart';
+import '../../blocs/bloc_provider.dart';
 import '../../blocs/expansion_collection_bloc.dart';
 
 class AddRemoveCardWidget extends StatelessWidget {
@@ -63,7 +63,7 @@ class _EditionLineState extends State<_EditionLine> {
         return Row(
           children: [
             Text(widget.edition.string),
-            Expanded(child: Container()),
+            const Spacer(),
             IconButton(
               onPressed: () =>
                   _expansionCollectionBloc.removeCard(widget.edition),

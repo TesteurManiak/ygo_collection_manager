@@ -2,15 +2,15 @@ import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'core/bloc/bloc.dart';
-import 'core/bloc/bloc_provider.dart';
-import 'core/styles/themes.dart';
 import 'data/datasources/local/ygopro_local_datasource.dart';
+import 'presentation/blocs/bloc.dart';
+import 'presentation/blocs/bloc_provider.dart';
 import 'presentation/blocs/cards_bloc.dart';
 import 'presentation/blocs/db_version_bloc.dart';
 import 'presentation/blocs/expansion_collection_bloc.dart';
 import 'presentation/blocs/sets_bloc.dart';
 import 'presentation/card_view/card_view.dart';
+import 'presentation/constants/themes.dart';
 import 'presentation/expansion_view/expansion_view.dart';
 import 'presentation/loading_view/loading_state_info.dart';
 import 'presentation/loading_view/loading_view.dart';

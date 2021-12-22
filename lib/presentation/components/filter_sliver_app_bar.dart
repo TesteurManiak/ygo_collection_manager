@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/styles/colors.dart';
+import '../constants/colors.dart';
 import 'filter_field.dart';
 
 class FilterSliverAppBar extends StatelessWidget {

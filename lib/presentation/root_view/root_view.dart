@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/consts/durations.dart';
 import '../browse_view/browse_view.dart';
 import '../collection_view/collection_view.dart';
-import '../common/fixed_bottom_navigation_bar.dart';
+import '../components/fixed_bottom_navigation_bar.dart';
 import '../settings_view/settings_view.dart';
 
 class RootView extends StatefulWidget {

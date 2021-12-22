@@ -1,15 +1,14 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../core/bloc/bloc.dart';
 import '../../core/extensions/extensions.dart';
 import '../../domain/entities/card_owned.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
 import '../../domain/usecases/fetch_all_cards.dart';
 import '../../domain/usecases/fetch_owned_cards.dart';
+import 'bloc.dart';
 
 class CardsBloc implements BlocBase {
   final FetchAllCards fetchCards;
@@ -28,8 +27,6 @@ class CardsBloc implements BlocBase {
   final _filteredCardsController = BehaviorSubject<List<YgoCard>?>.seeded(null);
   Stream<List<YgoCard>?> get onFilteredCardsChanged =>
       _filteredCardsController.stream;
-
-  final searchController = TextEditingController();
 
   final _fullCollectionCompletionController =
       BehaviorSubject<double>.seeded(0.0);
@@ -55,7 +52,6 @@ class CardsBloc implements BlocBase {
   void _cardsListener(List<YgoCard>? _cards) {
     updateCompletion(initialCards: _cards);
     _filteredCardsController.sink.add(_cards);
-    searchController.clear();
   }
 
   @override

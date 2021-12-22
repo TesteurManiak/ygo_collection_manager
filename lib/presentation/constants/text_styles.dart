@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../consts/consts.dart';
+import '../../core/consts/consts.dart';
 import 'colors.dart';
 
 abstract class TextStyles {

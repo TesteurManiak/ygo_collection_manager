@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../core/bloc/bloc_provider.dart';
+import '../blocs/bloc_provider.dart';
 import '../blocs/db_version_bloc.dart';
-import '../common/magic_circle_progress_indicator.dart';
+import '../components/magic_circle_progress_indicator.dart';
 import 'loading_state_info.dart';
 
 class LoadingView extends StatefulWidget {
