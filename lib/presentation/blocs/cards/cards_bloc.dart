@@ -24,9 +24,9 @@ class CardsBloc extends Cubit<CardsState> {
     _cardsSubscription = _cardsController.listen(_cardsListener);
   }
 
-  final _cardsController = BehaviorSubject<List<YgoCard>?>.seeded(null);
-  Stream<List<YgoCard>?> get onCardsChanged => _cardsController.stream;
-  List<YgoCard>? get cards => _cardsController.value;
+  final _cardsController = BehaviorSubject<List<YgoCard>>.seeded([]);
+  Stream<List<YgoCard>> get onCardsChanged => _cardsController.stream;
+  List<YgoCard> get cards => _cardsController.value;
   late final StreamSubscription<List<YgoCard>?> _cardsSubscription;
 
   final _filteredCardsController = BehaviorSubject<List<YgoCard>?>.seeded(null);
@@ -43,7 +43,7 @@ class CardsBloc extends Cubit<CardsState> {
   /// Return a list of [YgoCard] that are in the set of cards.
   /// Takes a [SetModel] as parameter.
   List<YgoCard>? getCardsInSet(YgoSet cardSet) {
-    return cards?.compactMap<YgoCard>(
+    final cardsInSet = cards.compactMap<YgoCard>(
       (card) => card.cardSets != null &&
               card.cardSets!
                   .map<String>((e) => e.name)
@@ -52,6 +52,7 @@ class CardsBloc extends Cubit<CardsState> {
           ? card
           : null,
     );
+    return cardsInSet.isEmpty ? null : cardsInSet;
   }
 
   void _cardsListener(List<YgoCard>? _cards) {
@@ -76,19 +77,16 @@ class CardsBloc extends Cubit<CardsState> {
 
   Future<void> updateCompletion({List<YgoCard>? initialCards}) async {
     final _cards = initialCards ?? cards;
-    if (_cards != null) {
-      final _cardsList =
-          _cards.compactMap((e) => e.cardSets != null ? e : null);
-      final _differentCardsSet = <String>{};
-      for (final card in _cardsList) {
-        _differentCardsSet.addAll(card.cardSets!.map<String>((e) => e.code));
-      }
-      final _cardsOwned =
-          (await fetchOwnedCards()).map<String>((e) => e.setCode).toSet();
-      if (_differentCardsSet.isNotEmpty) {
-        _fullCollectionCompletionController.sink
-            .add(_cardsOwned.length / _differentCardsSet.length * 100);
-      }
+    final _cardsList = _cards.compactMap((e) => e.cardSets != null ? e : null);
+    final _differentCardsSet = <String>{};
+    for (final card in _cardsList) {
+      _differentCardsSet.addAll(card.cardSets!.map<String>((e) => e.code));
+    }
+    final _cardsOwned =
+        (await fetchOwnedCards()).map<String>((e) => e.setCode).toSet();
+    if (_differentCardsSet.isNotEmpty) {
+      _fullCollectionCompletionController.sink
+          .add(_cardsOwned.length / _differentCardsSet.length * 100);
     }
   }
 
@@ -109,7 +107,7 @@ class CardsBloc extends Cubit<CardsState> {
       _filteredCardsController.sink.add(_cardsController.value);
     } else {
       _filteredCardsController.sink.add(
-        _cardsController.value!
+        _cardsController.value
             .where((e) => e.name.toLowerCase().contains(search.toLowerCase()))
             .toList(),
       );
@@ -117,6 +115,6 @@ class CardsBloc extends Cubit<CardsState> {
   }
 
   YgoCard findCardFromParam(String paramId) {
-    return cards!.firstWhere((e) => e.id == int.parse(paramId));
+    return cards.firstWhere((e) => e.id == int.parse(paramId));
   }
 }
