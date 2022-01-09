@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/consts/consts.dart';
+import '../../domain/entities/ygo_card.dart';
 import '../blocs/cards/cards_bloc.dart';
 import '../components/card_widget.dart';
 import '../components/filter_sliver_app_bar.dart';
@@ -55,6 +56,7 @@ class _BrowseViewState extends State<BrowseView>
           BlocBuilder<CardsBloc, CardsState>(
             bloc: _cardsBloc,
             builder: (_, state) {
+              final List<YgoCard> cards;
               switch (state.status) {
                 case CardsStatus.initial:
                 case CardsStatus.loading:
@@ -63,21 +65,26 @@ class _BrowseViewState extends State<BrowseView>
                   );
                 case CardsStatus.loaded:
                   final _state = state as CardsLoaded;
-                  final cards = _state.filteredCards;
-                  return SliverGrid(
-                    delegate: SliverChildBuilderDelegate(
-                      (_, index) => CardWidget(cards: cards, index: index),
-                      childCount: cards.length,
-                    ),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: _crossAxisCount,
-                      childAspectRatio: itemWidth / itemHeight,
-                    ),
-                  );
+                  cards = _state.cards;
+                  break;
+                case CardsStatus.filtered:
+                  final _state = state as CardsFiltered;
+                  cards = _state.filteredCards;
+                  break;
                 case CardsStatus.error:
                   final _state = state as CardsError;
                   return SliverToBoxAdapter(child: Text(_state.message));
               }
+              return SliverGrid(
+                delegate: SliverChildBuilderDelegate(
+                  (_, index) => CardWidget(cards: cards, index: index),
+                  childCount: cards.length,
+                ),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: _crossAxisCount,
+                  childAspectRatio: itemWidth / itemHeight,
+                ),
+              );
             },
           ),
         ],

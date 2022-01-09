@@ -20,14 +20,10 @@ class CardsBloc extends Cubit<CardsState> {
   CardsBloc({
     required this.fetchCards,
     required this.fetchOwnedCards,
-  }) : super(const CardsInitial()) {
-    _cardsSubscription = _cardsController.listen(_cardsListener);
-  }
+  }) : super(const CardsInitial());
 
-  final _cardsController = BehaviorSubject<List<YgoCard>>.seeded([]);
-  Stream<List<YgoCard>> get onCardsChanged => _cardsController.stream;
-  List<YgoCard> get cards => _cardsController.value;
-  late final StreamSubscription<List<YgoCard>> _cardsSubscription;
+  List<YgoCard> _cards = [];
+  List<YgoCard> get cards => _cards;
 
   final _fullCollectionCompletionController =
       BehaviorSubject<double>.seeded(0.0);
@@ -51,16 +47,8 @@ class CardsBloc extends Cubit<CardsState> {
     return cardsInSet.isEmpty ? null : cardsInSet;
   }
 
-  void _cardsListener(List<YgoCard> _cards) {
-    updateCompletion(initialCards: _cards);
-    emit(CardsLoaded(cards: _cards));
-  }
-
   @override
   Future<void> close() {
-    _cardsSubscription.cancel();
-
-    _cardsController.close();
     _fullCollectionCompletionController.close();
     return super.close();
   }
@@ -69,8 +57,9 @@ class CardsBloc extends Cubit<CardsState> {
     emit(const CardsLoading());
     try {
       final newCards = await fetchCards(shouldReload: shouldReload);
-      _cardsController.sink.add(newCards);
-      emit(CardsLoaded(cards: newCards, filteredCards: newCards));
+      emit(CardsLoaded(cards: newCards));
+      _cards = newCards;
+      unawaited(updateCompletion(initialCards: newCards));
     } catch (e) {
       emit(CardsError(e.toString()));
     }
@@ -105,17 +94,12 @@ class CardsBloc extends Cubit<CardsState> {
 
   void filter(String search) {
     if (search.isEmpty) {
-      emit(CardsLoaded(cards: _cardsController.value));
+      emit(CardsFiltered(cards: _cards));
     } else {
-      final filteredResult = _cardsController.value
+      final filteredResult = _cards
           .where((e) => e.name.toLowerCase().contains(search.toLowerCase()))
           .toList();
-      emit(
-        CardsLoaded(
-          cards: _cardsController.value,
-          filteredCards: filteredResult,
-        ),
-      );
+      emit(CardsFiltered(cards: _cards, filteredCards: filteredResult));
     }
   }
 

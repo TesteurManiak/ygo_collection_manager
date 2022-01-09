@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/consts/consts.dart';
-import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
 import '../blocs/cards/cards_bloc.dart';
 import '../blocs/sets/sets_bloc.dart';
@@ -54,8 +53,8 @@ class _CollectionViewState extends State<CollectionView>
               controller: _searchController,
             ),
             const SliverSpacer(height: Consts.px16),
-            StreamBuilder<List<YgoCard>?>(
-              stream: _cardsBloc.onCardsChanged,
+            BlocBuilder<CardsBloc, CardsState>(
+              bloc: _cardsBloc,
               builder: (_, __) => StreamBuilder<List<YgoSet>?>(
                 stream: _setsBloc.onFilteredSetsChanged,
                 builder: (_, snapshot) {
