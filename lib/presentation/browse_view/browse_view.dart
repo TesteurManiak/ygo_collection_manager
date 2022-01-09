@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/consts/consts.dart';
-import '../../domain/entities/ygo_card.dart';
 import '../blocs/cards/cards_bloc.dart';
 import '../components/card_widget.dart';
 import '../components/filter_sliver_app_bar.dart';
+import '../components/magic_circle_progress_indicator.dart';
 import '../components/no_glow_custom_scroll_view.dart';
 import '../components/sliver_spacer.dart';
 import '../components/top_rounded_sliver.dart';
@@ -52,26 +52,32 @@ class _BrowseViewState extends State<BrowseView>
             onChanged: _cardsBloc.filter,
           ),
           const SliverSpacer(height: Consts.px16),
-          StreamBuilder<List<YgoCard>?>(
-            stream: _cardsBloc.onFilteredCardsChanged,
-            builder: (_, snapshot) {
-              final data = snapshot.data;
-              if (!snapshot.hasData || data == null) {
-                return const SliverToBoxAdapter(child: SizedBox());
+          BlocBuilder<CardsBloc, CardsState>(
+            bloc: _cardsBloc,
+            builder: (_, state) {
+              switch (state.status) {
+                case CardsStatus.initial:
+                case CardsStatus.loading:
+                  return const SliverToBoxAdapter(
+                    child: MagicCircleProgressIndicator(size: 48),
+                  );
+                case CardsStatus.loaded:
+                  final _state = state as CardsLoaded;
+                  final cards = _state.filteredCards;
+                  return SliverGrid(
+                    delegate: SliverChildBuilderDelegate(
+                      (_, index) => CardWidget(cards: cards, index: index),
+                      childCount: cards.length,
+                    ),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: _crossAxisCount,
+                      childAspectRatio: itemWidth / itemHeight,
+                    ),
+                  );
+                case CardsStatus.error:
+                  final _state = state as CardsError;
+                  return SliverToBoxAdapter(child: Text(_state.message));
               }
-              return SliverGrid(
-                delegate: SliverChildBuilderDelegate(
-                  (_, index) => CardWidget(
-                    cards: data,
-                    index: index,
-                  ),
-                  childCount: data.length,
-                ),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: _crossAxisCount,
-                  childAspectRatio: itemWidth / itemHeight,
-                ),
-              );
             },
           ),
         ],

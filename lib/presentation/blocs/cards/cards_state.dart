@@ -25,8 +25,16 @@ class CardsLoaded extends CardsState {
   final CardsStatus status;
 
   final List<YgoCard> cards;
+  final List<YgoCard> filteredCards;
 
-  const CardsLoaded(this.cards) : status = CardsStatus.loaded;
+  const CardsLoaded({
+    required this.cards,
+    List<YgoCard>? filteredCards,
+  })  : status = CardsStatus.loaded,
+        filteredCards = filteredCards ?? cards;
+
+  @override
+  List<Object?> get props => [status, cards, filteredCards];
 }
 
 class CardsError extends CardsState {
@@ -36,4 +44,7 @@ class CardsError extends CardsState {
   final String message;
 
   const CardsError(this.message) : status = CardsStatus.error;
+
+  @override
+  List<Object?> get props => [status, message];
 }
