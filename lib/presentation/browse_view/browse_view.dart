@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/consts/consts.dart';
 import '../../domain/entities/ygo_card.dart';
-import '../blocs/bloc_provider.dart';
-import '../blocs/cards_bloc.dart';
+import '../blocs/cards/cards_bloc.dart';
 import '../components/card_widget.dart';
 import '../components/filter_sliver_app_bar.dart';
 import '../components/no_glow_custom_scroll_view.dart';

@@ -6,7 +6,7 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mockito/annotations.dart';
 import 'package:ygo_collection_manager/domain/usecases/fetch_all_cards.dart';
 import 'package:ygo_collection_manager/domain/usecases/fetch_owned_cards.dart';
-import 'package:ygo_collection_manager/presentation/blocs/cards_bloc.dart';
+import 'package:ygo_collection_manager/presentation/blocs/cards/cards_bloc.dart';
 import 'package:ygo_collection_manager/presentation/browse_view/browse_view.dart';
 
 import '../../utils/widgets.dart';

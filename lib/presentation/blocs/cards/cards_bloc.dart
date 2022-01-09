@@ -1,23 +1,28 @@
 import 'dart:async';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../core/extensions/extensions.dart';
-import '../../domain/entities/card_owned.dart';
-import '../../domain/entities/ygo_card.dart';
-import '../../domain/entities/ygo_set.dart';
-import '../../domain/usecases/fetch_all_cards.dart';
-import '../../domain/usecases/fetch_owned_cards.dart';
-import 'bloc.dart';
+import '../../../core/extensions/extensions.dart';
+import '../../../domain/entities/card_owned.dart';
+import '../../../domain/entities/ygo_card.dart';
+import '../../../domain/entities/ygo_set.dart';
+import '../../../domain/usecases/fetch_all_cards.dart';
+import '../../../domain/usecases/fetch_owned_cards.dart';
+import '../state.dart';
 
-class CardsBloc implements BlocBase {
+part 'cards_state.dart';
+
+class CardsBloc extends Cubit<CardsState> {
   final FetchAllCards fetchCards;
   final FetchOwnedCards fetchOwnedCards;
 
   CardsBloc({
     required this.fetchCards,
     required this.fetchOwnedCards,
-  });
+  }) : super(const CardsInitial()) {
+    _cardsSubscription = _cardsController.listen(_cardsListener);
+  }
 
   final _cardsController = BehaviorSubject<List<YgoCard>?>.seeded(null);
   Stream<List<YgoCard>?> get onCardsChanged => _cardsController.stream;
@@ -55,17 +60,13 @@ class CardsBloc implements BlocBase {
   }
 
   @override
-  void initState() {
-    _cardsSubscription = _cardsController.listen(_cardsListener);
-  }
-
-  @override
-  void dispose() {
+  Future<void> close() {
     _cardsSubscription.cancel();
 
     _cardsController.close();
     _filteredCardsController.close();
     _fullCollectionCompletionController.close();
+    return super.close();
   }
 
   Future<void> fetchAllCards({required bool shouldReload}) async {

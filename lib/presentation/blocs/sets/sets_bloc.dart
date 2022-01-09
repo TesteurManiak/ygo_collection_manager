@@ -1,15 +1,20 @@
 import 'dart:async';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../domain/entities/ygo_set.dart';
-import '../../domain/usecases/fetch_all_sets.dart';
-import 'bloc.dart';
+import '../../../domain/entities/ygo_set.dart';
+import '../../../domain/usecases/fetch_all_sets.dart';
+import '../state.dart';
 
-class SetsBloc implements BlocBase {
+part 'sets_state.dart';
+
+class SetsBloc extends Cubit {
   final FetchAllSets fetchSets;
 
-  SetsBloc({required this.fetchSets});
+  SetsBloc({required this.fetchSets}) : super(const SetsInitial()) {
+    _setsControllerSubscription = _setsController.listen(_setsFilterListener);
+  }
 
   final _setsController = BehaviorSubject<List<YgoSet>?>.seeded(null);
   Stream<List<YgoSet>?> get onSetsChanged => _setsController.stream;
@@ -24,16 +29,12 @@ class SetsBloc implements BlocBase {
       _filteredSetsController.sink.add(value);
 
   @override
-  void initState() {
-    _setsControllerSubscription = _setsController.listen(_setsFilterListener);
-  }
-
-  @override
-  void dispose() {
+  Future<void> close() {
     _setsControllerSubscription.cancel();
 
     _setsController.close();
     _filteredSetsController.close();
+    return super.close();
   }
 
   void filter(String search) {

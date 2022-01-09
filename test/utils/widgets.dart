@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ygo_collection_manager/presentation/blocs/bloc.dart';
-import 'package:ygo_collection_manager/presentation/blocs/bloc_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ygo_collection_manager/presentation/constants/themes.dart';
 
 /// Return a `MaterialApp` nested inside a `BlocProvider` providing instances of
@@ -10,9 +9,10 @@ Widget createApp({
   required Widget child,
   ThemeData? theme,
 }) {
-  return BlocProvider(
+  return MultiBlocProvider(
     key: GlobalKey(),
-    blocs: blocs,
+    providers:
+        blocs.map<BlocProvider>((e) => BlocProvider(create: (_) => e)).toList(),
     child: MaterialApp(
       theme: theme ?? MyThemes.light,
       debugShowCheckedModeBanner: false,

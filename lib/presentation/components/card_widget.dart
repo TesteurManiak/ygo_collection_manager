@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/consts/consts.dart';
 import '../../core/consts/my_edge_insets.dart';
@@ -7,9 +8,8 @@ import '../../data/datasources/local/ygopro_local_datasource.dart';
 import '../../domain/entities/card_edition_enum.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../service_locator.dart';
-import '../blocs/bloc_provider.dart';
-import '../blocs/cards_bloc.dart';
-import '../blocs/expansion_collection_bloc.dart';
+import '../blocs/cards/cards_bloc.dart';
+import '../blocs/expansion_collection/expansion_collection_bloc.dart';
 import '../constants/colors.dart';
 import '../constants/text_styles.dart';
 import 'cards_overlay.dart';

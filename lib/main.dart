@@ -1,14 +1,13 @@
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'data/datasources/local/ygopro_local_datasource.dart';
-import 'presentation/blocs/bloc.dart';
-import 'presentation/blocs/bloc_provider.dart';
-import 'presentation/blocs/cards_bloc.dart';
-import 'presentation/blocs/db_version_bloc.dart';
-import 'presentation/blocs/expansion_collection_bloc.dart';
-import 'presentation/blocs/sets_bloc.dart';
+import 'presentation/blocs/cards/cards_bloc.dart';
+import 'presentation/blocs/db_version/db_version_bloc.dart';
+import 'presentation/blocs/expansion_collection/expansion_collection_bloc.dart';
+import 'presentation/blocs/sets/sets_bloc.dart';
 import 'presentation/card_view/card_view.dart';
 import 'presentation/constants/themes.dart';
 import 'presentation/expansion_view/expansion_view.dart';
@@ -23,16 +22,23 @@ Future<void> main() async {
   setupLocator();
   await sl<YgoProLocalDataSource>().initDb();
 
+  final cardsBloc = CardsBloc(fetchCards: sl(), fetchOwnedCards: sl());
+
   runApp(
-    BlocProvider(
+    MultiBlocProvider(
       key: GlobalKey(),
-      blocs: <BlocBase>[
-        SetsBloc(fetchSets: sl()),
-        CardsBloc(fetchCards: sl(), fetchOwnedCards: sl()),
-        DBVersionBloc(shouldReloadDb: sl()),
-        ExpansionCollectionBloc(
-          getCopiesOfCardOwned: sl(),
-          updateCardOwned: sl(),
+      providers: [
+        BlocProvider(create: (_) => SetsBloc(fetchSets: sl())),
+        BlocProvider(create: (_) => cardsBloc),
+        BlocProvider(
+          create: (_) => ExpansionCollectionBloc(
+            getCopiesOfCardOwned: sl(),
+            updateCardOwned: sl(),
+            cardsBloc: cardsBloc,
+          ),
+        ),
+        BlocProvider(
+          create: (_) => DBVersionBloc(shouldReloadDb: sl()),
         ),
       ],
       child: const MyApp(),
