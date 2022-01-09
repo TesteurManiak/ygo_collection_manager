@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'app.dart';
 import 'data/datasources/local/ygopro_local_datasource.dart';
 import 'presentation/blocs/cards/cards_bloc.dart';
-import 'presentation/blocs/db_version/db_version_bloc.dart';
 import 'presentation/blocs/expansion_collection/expansion_collection_bloc.dart';
 import 'presentation/blocs/sets/sets_bloc.dart';
 import 'service_locator.dart';
@@ -29,9 +28,6 @@ Future<void> main() async {
             updateCardOwned: sl(),
             cardsBloc: cardsBloc,
           ),
-        ),
-        BlocProvider(
-          create: (_) => DBVersionBloc(shouldReloadDb: sl()),
         ),
       ],
       child: const MyApp(),

@@ -61,4 +61,8 @@ class SetsBloc extends Cubit {
       _setsController.addError(e);
     }
   }
+
+  YgoSet findSetFromCode(String setCode) {
+    return sets.firstWhere((e) => e.setCode == setCode);
+  }
 }

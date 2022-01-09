@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import 'core/error/exceptions.dart';
 import 'presentation/blocs/cards/cards_bloc.dart';
+import 'presentation/blocs/db_version/db_version_bloc.dart';
 import 'presentation/blocs/sets/sets_bloc.dart';
 import 'presentation/card_view/card_view.dart';
 import 'presentation/constants/themes.dart';
@@ -11,6 +13,7 @@ import 'presentation/expansion_view/expansion_view.dart';
 import 'presentation/loading_view/loading_state_info.dart';
 import 'presentation/loading_view/loading_view.dart';
 import 'presentation/root_view/root_view.dart';
+import 'service_locator.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -26,9 +29,12 @@ class _MyAppState extends State<MyApp> {
     BuildContext builderContext,
     GoRouterState state,
   ) {
-    final card = BlocProvider.of<CardsBloc>(builderContext).cards!.firstWhere(
-          (e) => e.id == int.parse(state.params[CardView.routeParam]!),
-        );
+    final cardId = state.params[CardView.routeParam];
+    if (cardId == null) {
+      throw const MissingRouteParamException('No card id');
+    }
+    final card =
+        BlocProvider.of<CardsBloc>(builderContext).findCardFromParam(cardId);
     return CardView(card: card);
   }
 
@@ -54,11 +60,12 @@ class _MyAppState extends State<MyApp> {
             name: ExpansionView.routeName,
             path: ExpansionView.routePath,
             builder: (context, state) {
+              final setCode = state.params[ExpansionView.routeParam];
+              if (setCode == null) {
+                throw const MissingRouteParamException('No set code');
+              }
               final cardSet =
-                  BlocProvider.of<SetsBloc>(context).sets.firstWhere(
-                        (e) =>
-                            e.setCode == state.params[ExpansionView.routeParam],
-                      );
+                  BlocProvider.of<SetsBloc>(context).findSetFromCode(setCode);
               return ExpansionView(cardSet: cardSet);
             },
             routes: [
@@ -79,7 +86,10 @@ class _MyAppState extends State<MyApp> {
       GoRoute(
         name: LoadingView.routeName,
         path: LoadingView.routePath,
-        builder: (_, __) => LoadingView(state: _loadingState),
+        builder: (_, __) => BlocProvider(
+          create: (_) => DBVersionBloc(shouldReloadDb: sl()),
+          child: LoadingView(state: _loadingState),
+        ),
       ),
     ],
     errorBuilder: (_, state) => Scaffold(

@@ -115,4 +115,8 @@ class CardsBloc extends Cubit<CardsState> {
       );
     }
   }
+
+  YgoCard findCardFromParam(String paramId) {
+    return cards!.firstWhere((e) => e.id == int.parse(paramId));
+  }
 }

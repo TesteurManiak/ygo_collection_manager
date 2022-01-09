@@ -32,6 +32,12 @@ class _LoadingViewState extends State<LoadingView> {
   }
 
   @override
+  void dispose() {
+    _dbVersionBloc.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
