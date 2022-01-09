@@ -1,6 +1,7 @@
 import 'dart:ui' as ui;
 
 import 'package:device_sizes/device_sizes.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mockito/annotations.dart';
@@ -36,9 +37,9 @@ void main() {
 
       // act
       await tester.pumpWidget(
-        createApp(
-          blocs: [cardsBloc],
-          child: const BrowseView(),
+        BlocProvider(
+          create: (_) => cardsBloc,
+          child: createApp(child: const BrowseView()),
         ),
       );
 
