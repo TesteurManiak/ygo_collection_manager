@@ -29,10 +29,6 @@ class CardsBloc extends Cubit<CardsState> {
   List<YgoCard> get cards => _cardsController.value;
   late final StreamSubscription<List<YgoCard>> _cardsSubscription;
 
-  final _filteredCardsController = BehaviorSubject<List<YgoCard>?>.seeded(null);
-  Stream<List<YgoCard>?> get onFilteredCardsChanged =>
-      _filteredCardsController.stream;
-
   final _fullCollectionCompletionController =
       BehaviorSubject<double>.seeded(0.0);
   Stream<double> get onFullCollectionCompletionChanged =>
@@ -58,7 +54,6 @@ class CardsBloc extends Cubit<CardsState> {
   void _cardsListener(List<YgoCard> _cards) {
     updateCompletion(initialCards: _cards);
     emit(CardsLoaded(cards: _cards));
-    _filteredCardsController.sink.add(_cards);
   }
 
   @override
@@ -66,7 +61,6 @@ class CardsBloc extends Cubit<CardsState> {
     _cardsSubscription.cancel();
 
     _cardsController.close();
-    _filteredCardsController.close();
     _fullCollectionCompletionController.close();
     return super.close();
   }
@@ -112,7 +106,6 @@ class CardsBloc extends Cubit<CardsState> {
   void filter(String search) {
     if (search.isEmpty) {
       emit(CardsLoaded(cards: _cardsController.value));
-      _filteredCardsController.sink.add(_cardsController.value);
     } else {
       final filteredResult = _cardsController.value
           .where((e) => e.name.toLowerCase().contains(search.toLowerCase()))
@@ -123,7 +116,6 @@ class CardsBloc extends Cubit<CardsState> {
           filteredCards: filteredResult,
         ),
       );
-      _filteredCardsController.sink.add(filteredResult);
     }
   }
 
