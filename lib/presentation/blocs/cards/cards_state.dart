@@ -37,13 +37,11 @@ class CardsFiltered extends CardsState {
   final status = CardsStatus.filtered;
 
   final List<YgoCard> cards;
-  final List<YgoCard> filteredCards;
 
-  const CardsFiltered({required this.cards, List<YgoCard>? filteredCards})
-      : filteredCards = filteredCards ?? cards;
+  const CardsFiltered(this.cards);
 
   @override
-  List<Object?> get props => [status, cards, filteredCards];
+  List<Object?> get props => [status, cards];
 }
 
 class CardsError extends CardsState {

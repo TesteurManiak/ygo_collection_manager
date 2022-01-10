@@ -94,12 +94,12 @@ class CardsBloc extends Cubit<CardsState> {
 
   void filter(String search) {
     if (search.isEmpty) {
-      emit(CardsFiltered(cards: _cards));
+      emit(CardsFiltered(_cards));
     } else {
       final filteredResult = _cards
           .where((e) => e.name.toLowerCase().contains(search.toLowerCase()))
           .toList();
-      emit(CardsFiltered(cards: _cards, filteredCards: filteredResult));
+      emit(CardsFiltered(filteredResult));
     }
   }
 

@@ -69,7 +69,7 @@ class _BrowseViewState extends State<BrowseView>
                   break;
                 case CardsStatus.filtered:
                   final _state = state as CardsFiltered;
-                  cards = _state.filteredCards;
+                  cards = _state.cards;
                   break;
                 case CardsStatus.error:
                   final _state = state as CardsError;
