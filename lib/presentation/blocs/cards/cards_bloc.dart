@@ -22,6 +22,7 @@ class CardsBloc extends Cubit<CardsState> {
     required this.fetchOwnedCards,
   }) : super(const CardsInitial());
 
+  /// Used to keep a reference to the initial cards' data fetched.
   List<YgoCard> _cards = [];
   List<YgoCard> get cards => _cards;
 
