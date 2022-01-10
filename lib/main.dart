@@ -18,7 +18,6 @@ Future<void> main() async {
 
   runApp(
     MultiBlocProvider(
-      key: GlobalKey(),
       providers: [
         BlocProvider(create: (_) => SetsBloc(fetchSets: sl())),
         BlocProvider(create: (_) => cardsBloc),

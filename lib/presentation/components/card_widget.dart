@@ -51,7 +51,7 @@ class CardWidget extends StatelessWidget {
           Positioned(
             bottom: 2,
             left: 2,
-            child: StreamBuilder<Object>(
+            child: StreamBuilder<double>(
               stream: _cardsBloc.onFullCollectionCompletionChanged,
               builder: (streamContext, __) {
                 final localRepo = sl<YgoProLocalDataSource>();
