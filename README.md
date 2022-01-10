@@ -60,7 +60,7 @@ flutter test --update-goldens --tags=golden
 
 ### State Management
 
-* [rxdart](https://pub.dev/packages/rxdart) (Might migrate to [flutter_bloc](https://pub.dev/packages/flutter_bloc))
+* [flutter_bloc](https://pub.dev/packages/flutter_bloc)
 
 ### Navigation
 
