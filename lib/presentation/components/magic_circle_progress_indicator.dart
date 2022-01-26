@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import '../../core/consts/durations.dart';
 
 class MagicCircleProgressIndicator extends ProgressIndicator {
+  final double? size;
+
   const MagicCircleProgressIndicator({
     Key? key,
     double? value,
     Color? color,
     Animation<Color?>? valueColor,
+    this.size,
   }) : super(
           key: key,
           value: value,
@@ -37,7 +40,7 @@ class _MagicCircleProgressIndicatorState
 
   @override
   Widget build(BuildContext context) {
-    return RotationTransition(
+    final progressIndicator = RotationTransition(
       turns: _rotationTween.animate(_controller),
       child: Image.asset(
         'assets/magic_circle.png',
@@ -46,5 +49,12 @@ class _MagicCircleProgressIndicatorState
             Theme.of(context).colorScheme.secondary,
       ),
     );
+    return widget.size != null
+        ? SizedBox(
+            width: widget.size,
+            height: widget.size,
+            child: progressIndicator,
+          )
+        : progressIndicator;
   }
 }

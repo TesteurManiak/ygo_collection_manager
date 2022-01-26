@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../blocs/bloc_provider.dart';
-import '../blocs/db_version_bloc.dart';
+import '../blocs/db_version/db_version_bloc.dart';
 import '../components/magic_circle_progress_indicator.dart';
 import 'loading_state_info.dart';
 
@@ -29,6 +29,12 @@ class _LoadingViewState extends State<LoadingView> {
             (_) => widget.state.finishedLoading(),
           );
     }
+  }
+
+  @override
+  void dispose() {
+    _dbVersionBloc.close();
+    super.dispose();
   }
 
   @override
