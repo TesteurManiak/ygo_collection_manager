@@ -16,6 +16,7 @@ class NoGlowCustomScrollView extends StatelessWidget {
     return ScrollConfiguration(
       behavior: const NoGlowScrollBehavior(),
       child: CustomScrollView(
+        primary: false,
         slivers: slivers,
       ),
     );

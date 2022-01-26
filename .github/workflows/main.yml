@@ -15,8 +15,6 @@ jobs:
       with:
         flutter-version: '2.8.1'
     - run: flutter pub get
-    - name: Update Goldens
-      run: flutter test --update-goldens --tags=golden
     - name: Test
       run: flutter test --coverage
     - name: Exclude generated files from coverage

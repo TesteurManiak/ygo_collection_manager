@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/consts/my_edge_insets.dart';
 import '../../../domain/entities/ygo_card.dart';
-import '../../blocs/bloc_provider.dart';
-import '../../blocs/expansion_collection_bloc.dart';
+import '../../blocs/expansion_collection/expansion_collection_bloc.dart';
 import '../../constants/colors.dart';
 
 class CardEditingWidget extends StatelessWidget {

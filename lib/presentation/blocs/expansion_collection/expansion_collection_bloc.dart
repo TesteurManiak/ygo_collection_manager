@@ -1,26 +1,38 @@
 import 'dart:async';
 
 import 'package:flutter/animation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../domain/entities/card_edition_enum.dart';
-import '../../domain/entities/card_owned.dart';
-import '../../domain/entities/ygo_card.dart';
-import '../../domain/entities/ygo_set.dart';
-import '../../domain/usecases/get_copies_of_card_owned.dart';
-import '../../domain/usecases/update_card_owned.dart';
-import 'bloc.dart';
-import 'bloc_provider.dart';
-import 'cards_bloc.dart';
+import '../../../domain/entities/card_edition_enum.dart';
+import '../../../domain/entities/card_owned.dart';
+import '../../../domain/entities/ygo_card.dart';
+import '../../../domain/entities/ygo_set.dart';
+import '../../../domain/usecases/get_copies_of_card_owned.dart';
+import '../../../domain/usecases/update_card_owned.dart';
+import '../cards/cards_bloc.dart';
+import '../state.dart';
 
-class ExpansionCollectionBloc implements BlocBase {
+part 'expansion_collection_state.dart';
+
+class ExpansionCollectionBloc extends Cubit<ExpansionCollectionState> {
   final GetCopiesOfCardOwned getCopiesOfCardOwned;
   final UpdateCardOwned updateCardOwned;
+  final CardsBloc cardsBloc;
 
   ExpansionCollectionBloc({
     required this.getCopiesOfCardOwned,
     required this.updateCardOwned,
-  });
+    required this.cardsBloc,
+  }) : super(const ExpansionCollectionInitial()) {
+    _selectedIndexSubscription =
+        _selectedCardIndexController.listen(_cardIndexListener);
+
+    _firstEditionQtySubscription =
+        _firstEditionQtyController.listen(_updateCompletionListener);
+    _unlimitedQtySubscription =
+        _unlimitedQtyController.listen(_updateCompletionListener);
+  }
 
   final _editionStateController = BehaviorSubject<bool>.seeded(false);
   Stream<bool> get onEditionStateChanged => _editionStateController.stream;
@@ -73,21 +85,10 @@ class ExpansionCollectionBloc implements BlocBase {
     }
   }
 
-  void _updateCompletionListener(_) =>
-      BlocProvider.master<CardsBloc>().updateCompletion();
+  void _updateCompletionListener(_) => cardsBloc.updateCompletion();
 
   @override
-  void initState() {
-    _selectedIndexSubscription =
-        _selectedCardIndexController.listen(_cardIndexListener);
-    _firstEditionQtySubscription =
-        _firstEditionQtyController.listen(_updateCompletionListener);
-    _unlimitedQtySubscription =
-        _unlimitedQtyController.listen(_updateCompletionListener);
-  }
-
-  @override
-  void dispose() {
+  Future<void> close() {
     _selectedIndexSubscription.cancel();
     _firstEditionQtySubscription.cancel();
     _unlimitedQtySubscription.cancel();
@@ -98,6 +99,7 @@ class ExpansionCollectionBloc implements BlocBase {
     _firstEditionQtyController.close();
     _unlimitedQtyController.close();
     _cardSetController.close();
+    return super.close();
   }
 
   void initializeSet(YgoSet set) {

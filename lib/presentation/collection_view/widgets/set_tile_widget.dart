@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/consts/consts.dart';
 import '../../../core/consts/my_edge_insets.dart';
 import '../../../domain/entities/ygo_set.dart';
-import '../../blocs/bloc_provider.dart';
-import '../../blocs/cards_bloc.dart';
+import '../../blocs/cards/cards_bloc.dart';
 import '../../constants/colors.dart';
 import '../../expansion_view/expansion_view.dart';
 

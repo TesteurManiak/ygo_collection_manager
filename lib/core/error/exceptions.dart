@@ -9,3 +9,9 @@ class CacheException implements Exception {
 
   const CacheException({this.message});
 }
+
+class MissingRouteParamException implements Exception {
+  final String message;
+
+  const MissingRouteParamException(this.message);
+}
