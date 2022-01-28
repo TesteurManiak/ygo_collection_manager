@@ -7,7 +7,6 @@ import 'loading_state_info.dart';
 
 class LoadingView extends StatefulWidget {
   static const routeName = 'loading';
-  static const routePath = '/';
 
   final LoadingStateInfo state;
 

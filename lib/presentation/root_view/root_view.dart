@@ -8,7 +8,6 @@ import '../settings_view/settings_view.dart';
 
 class RootView extends StatefulWidget {
   static const routeName = 'home';
-  static const routePath = '/$routeName';
 
   const RootView({Key? key}) : super(key: key);
 

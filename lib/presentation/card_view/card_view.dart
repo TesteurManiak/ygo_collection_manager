@@ -4,27 +4,22 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/consts/my_edge_insets.dart';
 import '../../domain/entities/ygo_card.dart';
+import '../../router.dart';
 import '../blocs/cards/cards_bloc.dart';
 import '../components/rounded_scaffold_box.dart';
-import '../expansion_view/expansion_view.dart';
 import 'widgets/set_rarity_widget.dart';
 
 class CardView extends StatelessWidget {
   static const routeName = 'details';
   static const altRouteName = 'alt-details';
 
-  static const routeParam = 'cardId';
-
-  static const routePath = '$routeName/:$routeParam';
-  static const altRoutePath = '$altRouteName/:$routeParam';
-
   static Map<String, String> routeParams({
     required YgoCard card,
     required String? setId,
   }) =>
       {
-        if (setId != null) ExpansionView.routeParam: setId,
-        routeParam: '${card.id}',
+        if (setId != null) RouteParams.setCode: setId,
+        RouteParams.cardId: '${card.id}',
       };
 
   final String cardId;

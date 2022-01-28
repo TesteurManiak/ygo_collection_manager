@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -15,7 +16,7 @@ Widget _cardDetailsViewBuilder(
   BuildContext builderContext,
   GoRouterState state,
 ) {
-  final cardId = state.params[CardView.routeParam];
+  final cardId = state.params[RouteParams.cardId];
   if (cardId == null) {
     throw const MissingRouteParamException('No card id');
   }
@@ -23,32 +24,32 @@ Widget _cardDetailsViewBuilder(
 }
 
 GoRouter routerGenerator({
-  String initialLocation = RootView.routePath,
+  String? initialLocation,
   required LoadingStateInfo loadingState,
 }) =>
     GoRouter(
-      initialLocation: initialLocation,
+      initialLocation: initialLocation ?? Routes.root,
       debugLogDiagnostics: true,
       redirect: (state) {
-        final isLoading = state.location == LoadingView.routePath;
+        final isLoading = state.location == Routes.loading;
         final hasLoaded = loadingState.hasLoaded;
 
-        if (!hasLoaded && !isLoading) return LoadingView.routePath;
-        if (hasLoaded && isLoading) return RootView.routePath;
+        if (!hasLoaded && !isLoading) return Routes.loading;
+        if (hasLoaded && isLoading) return Routes.root;
         return null;
       },
       refreshListenable: loadingState,
       routes: [
         GoRoute(
           name: RootView.routeName,
-          path: RootView.routePath,
+          path: Routes.root,
           builder: (_, __) => const RootView(),
           routes: [
             GoRoute(
               name: ExpansionView.routeName,
-              path: ExpansionView.routePath,
-              builder: (context, state) {
-                final setCode = state.params[ExpansionView.routeParam];
+              path: Routes.expansion,
+              builder: (_, state) {
+                final setCode = state.params[RouteParams.setCode];
                 if (setCode == null) {
                   throw const MissingRouteParamException('No set code');
                 }
@@ -57,21 +58,21 @@ GoRouter routerGenerator({
               routes: [
                 GoRoute(
                   name: CardView.routeName,
-                  path: CardView.routePath,
+                  path: Routes.card,
                   builder: _cardDetailsViewBuilder,
                 ),
               ],
             ),
             GoRoute(
               name: CardView.altRouteName,
-              path: CardView.altRoutePath,
+              path: Routes.cardAlt,
               builder: _cardDetailsViewBuilder,
             ),
           ],
         ),
         GoRoute(
           name: LoadingView.routeName,
-          path: LoadingView.routePath,
+          path: Routes.loading,
           builder: (_, __) => BlocProvider(
             create: (_) => DBVersionBloc(shouldReloadDb: sl()),
             child: LoadingView(state: loadingState),
@@ -84,3 +85,19 @@ GoRouter routerGenerator({
         ),
       ),
     );
+
+class Routes extends Equatable {
+  static const loading = '/';
+  static const root = '/home';
+  static const expansion = 'set/:${RouteParams.setCode}';
+  static const card = 'details/:${RouteParams.cardId}';
+  static const cardAlt = 'alt-details/:${RouteParams.cardId}';
+
+  @override
+  List<Object?> get props => [root, loading, expansion, card, cardAlt];
+}
+
+abstract class RouteParams {
+  static const setCode = 'setId';
+  static const cardId = 'cardId';
+}

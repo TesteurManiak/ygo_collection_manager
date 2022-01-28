@@ -8,6 +8,7 @@ import '../../core/consts/durations.dart';
 import '../../core/consts/my_edge_insets.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
+import '../../router.dart';
 import '../blocs/cards/cards_bloc.dart';
 import '../blocs/expansion_collection/expansion_collection_bloc.dart';
 import '../blocs/sets/sets_bloc.dart';
@@ -20,12 +21,8 @@ import 'widgets/collection_app_bar_bottom.dart';
 class ExpansionView extends StatefulWidget {
   static const routeName = 'set';
 
-  static const routeParam = 'setId';
-
-  static const routePath = '$routeName/:$routeParam';
-
   static Map<String, String> routeParams(YgoSet ygoSet) => {
-        routeParam: ygoSet.setCode,
+        RouteParams.setCode: ygoSet.setCode,
       };
 
   final String setCode;
