@@ -10,6 +10,7 @@ import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
 import '../blocs/cards/cards_bloc.dart';
 import '../blocs/expansion_collection/expansion_collection_bloc.dart';
+import '../blocs/sets/sets_bloc.dart';
 import '../components/card_widget.dart';
 import '../constants/colors.dart';
 import 'widgets/card_editing_widget.dart';
@@ -27,9 +28,9 @@ class ExpansionView extends StatefulWidget {
         routeParam: ygoSet.setCode,
       };
 
-  final YgoSet cardSet;
+  final String setCode;
 
-  const ExpansionView({Key? key, required this.cardSet}) : super(key: key);
+  const ExpansionView({Key? key, required this.setCode}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ExpansionViewState();
@@ -37,11 +38,12 @@ class ExpansionView extends StatefulWidget {
 
 class _ExpansionViewState extends State<ExpansionView>
     with SingleTickerProviderStateMixin {
+  late final cardSet =
+      BlocProvider.of<SetsBloc>(context).findSetFromCode(widget.setCode);
   late final _expansionCollectionBloc =
-      BlocProvider.of<ExpansionCollectionBloc>(context)
-        ..initializeSet(widget.cardSet);
+      BlocProvider.of<ExpansionCollectionBloc>(context)..initializeSet(cardSet);
   late final CardsBloc _cardsBloc = BlocProvider.of<CardsBloc>(context);
-  late final _cards = _cardsBloc.getCardsInSet(widget.cardSet)!;
+  late final _cards = _cardsBloc.getCardsInSet(cardSet)!;
 
   late final _animationController = AnimationController(
     vsync: this,
@@ -79,7 +81,7 @@ class _ExpansionViewState extends State<ExpansionView>
             stream: _expansionCollectionBloc.onTitleChanged,
             builder: (_, snapshot) {
               final data = snapshot.data;
-              String title = widget.cardSet.setName;
+              String title = cardSet.setName;
               if (snapshot.hasData && data != null) title = data;
               return Text(title);
             },
@@ -88,7 +90,7 @@ class _ExpansionViewState extends State<ExpansionView>
             preferredSize: Size.fromHeight(value),
             child: CollectionAppBarBottom(
               animationDuration: _animationController.duration,
-              currentSet: widget.cardSet,
+              currentSet: cardSet,
             ),
           ),
           animation: listenable as Animation<double>,
@@ -110,7 +112,7 @@ class _ExpansionViewState extends State<ExpansionView>
                 cards: _cards,
                 isEditing: isEditing,
                 controller: _animationController,
-                setId: widget.cardSet.setCode,
+                setId: cardSet.setCode,
               );
             },
           ),
