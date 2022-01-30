@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ygo_collection_manager/presentation/blocs/cards/cards_bloc.dart';
 import 'package:ygo_collection_manager/presentation/blocs/sets/sets_bloc.dart';
 import 'package:ygo_collection_manager/presentation/loading_view/loading_state_info.dart';
@@ -33,6 +34,37 @@ extension PumpApp on WidgetTester {
         ),
       ),
       const Duration(milliseconds: 3000),
+    );
+  }
+
+  String getRouterKey(String route) => 'key_$route';
+
+  Future<void> pumpRouterApp(Widget child) {
+    const initialLocation = '/_initial';
+
+    final _router = GoRouter(
+      initialLocation: initialLocation,
+      routes: [
+        GoRoute(
+          path: initialLocation,
+          builder: (_, __) => child,
+        ),
+        ...Routes()
+            .props
+            .map(
+              (e) => GoRoute(
+                path: e as String,
+                builder: (_, __) => Container(key: Key(getRouterKey(e))),
+              ),
+            )
+            .toList(),
+      ],
+    );
+    return pumpWidget(
+      MaterialApp.router(
+        routeInformationParser: _router.routeInformationParser,
+        routerDelegate: _router.routerDelegate,
+      ),
     );
   }
 }
