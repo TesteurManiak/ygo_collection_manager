@@ -24,12 +24,13 @@ class CardStats extends StatelessWidget {
               label: 'Atk',
               value: atk.toString(),
             ),
-          if (def != null) const SizedBox(width: Consts.px32),
-          if (def != null)
+          if (def != null) ...[
+            const SizedBox(width: Consts.px32),
             CardDetailWidget(
               label: 'Def',
               value: def.toString(),
             ),
+          ],
         ],
       ),
     );
