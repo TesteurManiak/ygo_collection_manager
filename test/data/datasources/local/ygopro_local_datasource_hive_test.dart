@@ -235,7 +235,7 @@ void main() {
   });
 
   group('getCopiesOfCardOwned', () {
-    final tCardOwned = CardOwned(
+    const tCardOwned = CardOwned(
       edition: CardEditionEnum.first,
       id: 1,
       quantity: 1,
@@ -257,7 +257,7 @@ void main() {
   });
 
   group('getCopiesOfCardOwnedById', () {
-    final tCardOwned = CardOwned(
+    const tCardOwned = CardOwned(
       edition: CardEditionEnum.first,
       id: 1,
       quantity: 1,
@@ -282,7 +282,7 @@ void main() {
   group('updateCardOwned', () {
     const tKeyIndex = 0;
 
-    final tCardOwned = CardOwned(
+    const tCardOwned = CardOwned(
       edition: CardEditionEnum.first,
       id: 1,
       quantity: 1,
@@ -323,7 +323,7 @@ void main() {
   });
 
   group('removeCard', () {
-    final tCardOwned = CardOwned(
+    const tCardOwned = CardOwned(
       edition: CardEditionEnum.first,
       id: 1,
       quantity: 1,
