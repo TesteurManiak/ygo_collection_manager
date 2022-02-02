@@ -228,7 +228,7 @@ void main() {
   });
 
   group('getOwnedCards', () {
-    final tOwnedCards = <CardOwned>[
+    const tOwnedCards = <CardOwned>[
       CardOwned(
         quantity: 1,
         setCode: '',
@@ -337,22 +337,20 @@ void main() {
   });
 
   group('updateCardOwned', () {
+    const tOwnedCard = CardOwned(
+      quantity: 1,
+      setCode: '',
+      edition: CardEditionEnum.first,
+      setName: '',
+      id: 1,
+    );
+
     test('should call updateCard from local datasource', () async {
       // arrange
-      when(mockLocalDataSource.updateCardOwned(any)).thenAnswer(
-        (_) async => true,
-      );
+      when(mockLocalDataSource.updateCardOwned(any)).thenAnswer((_) async {});
 
       // act
-      await repository.updateCardOwned(
-        CardOwned(
-          quantity: 1,
-          setCode: '',
-          edition: CardEditionEnum.first,
-          setName: '',
-          id: 1,
-        ),
-      );
+      await repository.updateCardOwned(tOwnedCard);
 
       // assert
       verify(mockLocalDataSource.updateCardOwned(any));

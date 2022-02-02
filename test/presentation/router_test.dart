@@ -5,6 +5,7 @@ import 'package:ygo_collection_manager/domain/usecases/fetch_all_cards.dart';
 import 'package:ygo_collection_manager/domain/usecases/fetch_all_sets.dart';
 import 'package:ygo_collection_manager/domain/usecases/fetch_owned_cards.dart';
 import 'package:ygo_collection_manager/domain/usecases/should_reload_db.dart';
+import 'package:ygo_collection_manager/presentation/collection_view/collection_view.dart';
 import 'package:ygo_collection_manager/presentation/loading_view/loading_state_info.dart';
 import 'package:ygo_collection_manager/presentation/loading_view/loading_view.dart';
 import 'package:ygo_collection_manager/presentation/root_view/root_view.dart';
@@ -43,6 +44,7 @@ void main() {
 
     // assert
     expect(find.byType(RootView), findsOneWidget);
+    expect(find.byType(CollectionView), findsOneWidget);
 
     loadingState.dispose();
   });
@@ -65,4 +67,8 @@ void main() {
 
     loadingState.dispose();
   });
+
+  // testWidgets("redirect to ExpansionView", (tester) async {
+  //   await tester.pumpRouterApp(const RootView());
+  // });
 }

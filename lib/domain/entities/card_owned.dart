@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:hive_flutter/adapters.dart';
 
 import 'card_edition_enum.dart';
@@ -5,7 +6,7 @@ import 'card_edition_enum.dart';
 part 'card_owned.g.dart';
 
 @HiveType(typeId: 8)
-class CardOwned {
+class CardOwned extends Equatable {
   /// Quantity of cards owned.
   @HiveField(1)
   final int quantity;
@@ -26,11 +27,20 @@ class CardOwned {
 
   String get key => '$setCode-${edition.string}';
 
-  CardOwned({
+  const CardOwned({
     required this.quantity,
     required this.setCode,
     required this.edition,
     required this.setName,
     required this.id,
   });
+
+  @override
+  List<Object?> get props => [
+        quantity,
+        setCode,
+        edition,
+        setName,
+        id,
+      ];
 }
