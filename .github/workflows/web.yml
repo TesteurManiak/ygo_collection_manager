@@ -8,6 +8,7 @@ on:
 
 jobs:
   build_web:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: Build Web
     env:
       my_secret: ${{secrets.commit_secret}}
