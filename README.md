@@ -1,6 +1,6 @@
 # ygo_collection_manager
 
-[![Main](https://github.com/TesteurManiak/ygo_collection_manager/actions/workflows/main.yml/badge.svg)](https://github.com/TesteurManiak/ygo_collection_manager/actions/workflows/main.yml)
+[![Test workflow](https://github.com/TesteurManiak/ygo_collection_manager/actions/workflows/tests.yml/badge.svg)](https://github.com/TesteurManiak/ygo_collection_manager/actions/workflows/tests.yml)
 [![Coverage Status](https://coveralls.io/repos/github/TesteurManiak/ygo_collection_manager/badge.svg?branch=main)](https://coveralls.io/github/TesteurManiak/ygo_collection_manager?branch=main)
 
 ## Getting Started
@@ -30,6 +30,7 @@ flutter test --update-goldens --tags=golden
 ## TODO
 
 * Write tests (ongoing)
+* Shimmer loading effect
 * Dedicated Web layout
 * Add filters for expansions
 * Add filters for cards
