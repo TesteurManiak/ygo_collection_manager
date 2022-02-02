@@ -68,4 +68,33 @@ void main() {
     // assert
     expect(result, true);
   });
+
+  test('should return true if ConnectivityResult.mobile is returned', () async {
+    // arrange
+    when(mockConnectivity.checkConnectivity()).thenAnswer(
+      (_) async => ConnectivityResult.mobile,
+    );
+
+    // act
+    final result = await networkInfo.isConnected;
+
+    // assert
+    expect(result, true);
+  });
+
+  test(
+    'should return true if ConnectivityResult.ethernet is returned',
+    () async {
+      // arrange
+      when(mockConnectivity.checkConnectivity()).thenAnswer(
+        (_) async => ConnectivityResult.ethernet,
+      );
+
+      // act
+      final result = await networkInfo.isConnected;
+
+      // assert
+      expect(result, true);
+    },
+  );
 }
