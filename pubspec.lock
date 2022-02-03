@@ -266,8 +266,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "issue_#63"
-      resolved-ref: "7118eda723e8a523514f4bd4c60bd491032e49c6"
+      ref: "2.0.0"
+      resolved-ref: "94b9acc2b11f58fefb56cef8db3303ae86d5c2e3"
       url: "https://github.com/TesteurManiak/dynamic_theme.git"
     source: git
     version: "2.0.0"

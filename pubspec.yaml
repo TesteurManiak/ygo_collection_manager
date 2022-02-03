@@ -14,7 +14,7 @@ dependencies:
   dynamic_theme:
     git:
       url: https://github.com/TesteurManiak/dynamic_theme.git
-      ref: issue_#63
+      ref: "2.0.0"
   equatable: ^2.0.3
   flutter:
     sdk: flutter
