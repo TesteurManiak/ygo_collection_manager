@@ -32,7 +32,7 @@ void main() {
                   viewsWeek: 152,
                   upvotes: 11,
                   downvotes: 0,
-                  formats: const [],
+                  formats: const ['OCG', 'TCG'],
                   betaId: null,
                   tcgDate: tTcgDate,
                   ocgDate: tOcgDate,
