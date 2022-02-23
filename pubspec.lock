@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "34.0.0"
+  alchemist:
+    dependency: "direct dev"
+    description:
+      name: alchemist
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.1"
   analyzer:
     dependency: transitive
     description:
@@ -377,13 +384,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
-  golden_toolkit:
-    dependency: "direct dev"
-    description:
-      name: golden_toolkit
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.13.0"
   graphs:
     dependency: transitive
     description:
@@ -916,4 +916,4 @@ packages:
     version: "3.1.0"
 sdks:
   dart: ">=2.15.0 <3.0.0"
-  flutter: ">=2.5.0"
+  flutter: ">=2.8.1"
