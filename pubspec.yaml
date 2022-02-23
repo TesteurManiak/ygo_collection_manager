@@ -14,7 +14,7 @@ dependencies:
   dynamic_theme:
     git:
       url: https://github.com/TesteurManiak/dynamic_theme.git
-      ref: issue_#63
+      ref: "2.0.0"
   equatable: ^2.0.3
   flutter:
     sdk: flutter
@@ -35,7 +35,7 @@ dev_dependencies:
   flutter_lints: ^1.0.4
   flutter_test:
     sdk: flutter
-  golden_toolkit: ^0.12.0
+  golden_toolkit: ^0.13.0
   hive_generator: ^1.1.1
   http_mock_adapter: ^0.3.2
   mockito: ^5.0.17
