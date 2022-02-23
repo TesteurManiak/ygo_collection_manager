@@ -21,10 +21,14 @@ class CardArchetypeAndFormats extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: Consts.px28),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (_archetype != null)
             Padding(
-              padding: const EdgeInsets.only(bottom: Consts.px32),
+              padding: const EdgeInsets.only(
+                bottom: Consts.px32,
+                right: Consts.px16,
+              ),
               child: CardDetailWidget(
                 label: 'Archetype',
                 value: _archetype,
