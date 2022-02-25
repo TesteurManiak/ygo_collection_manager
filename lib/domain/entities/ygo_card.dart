@@ -93,7 +93,7 @@ class YgoCard extends Equatable {
       );
 
   String get levelAsset =>
-      'assets/level/${type.contains("XYZ") ? "rank.png" : "level.png"}';
+      'assets/level/${type.contains(RegExp("XYZ", caseSensitive: false)) ? "rank.png" : "level.png"}';
 
   String getDbKey(YgoSet set, CardEditionEnum edition) {
     final cardSet = getCardSetsFromSet(set)!;

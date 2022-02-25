@@ -23,12 +23,16 @@ void main() {
   final mockFetchOwnedCards = MockFetchOwnedCards();
   final mockShouldReloadDb = MockShouldReloadDb();
 
-  setUpAll(() {
-    // setup the service locator
+  setUp(() {
+    // setup the locator
     sl.registerLazySingleton<FetchAllSets>(() => mockFetchAllSets);
     sl.registerLazySingleton<FetchAllCards>(() => mockFetchAllCards);
     sl.registerLazySingleton<FetchOwnedCards>(() => mockFetchOwnedCards);
     sl.registerLazySingleton<ShouldReloadDb>(() => mockShouldReloadDb);
+  });
+
+  tearDown(() async {
+    await sl.reset();
   });
 
   testWidgets('render RootView via Router', (tester) async {
