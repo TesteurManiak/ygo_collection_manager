@@ -49,11 +49,28 @@
             ],
             "card_prices": [
                 {
-                    "cardmarket_price": "0.06",
-                    "tcgplayer_price": "0.14",
-                    "ebay_price": "4.99",
-                    "amazon_price": "1.80",
+                    "cardmarket_price": "0.10",
+                    "tcgplayer_price": "0.19",
+                    "ebay_price": "0.99",
+                    "amazon_price": "1.28",
                     "coolstuffinc_price": "0.79"
+                }
+            ],
+            "misc_info": [
+                {
+                    "views": 1124187,
+                    "viewsweek": 12358,
+                    "upvotes": 23,
+                    "downvotes": 4,
+                    "formats": [
+                        "Duel Links",
+                        "TCG",
+                        "OCG"
+                    ],
+                    "tcg_date": "2017-05-04",
+                    "ocg_date": "2017-09-09",
+                    "konami_id": 13019,
+                    "has_effect": 1
                 }
             ]
         }
