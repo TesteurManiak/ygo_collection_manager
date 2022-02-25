@@ -20,9 +20,6 @@ import 'domain/usecases/update_card_owned.dart';
 final sl = GetIt.instance;
 
 void setupLocator() {
-  //! Bloc
-  // sl.registerFactory();
-
   _configDomain();
   _configData();
 
