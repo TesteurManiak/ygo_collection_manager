@@ -55,17 +55,10 @@ GoRouter routerGenerator({
                 }
                 return ExpansionView(setCode: setCode);
               },
-              routes: [
-                GoRoute(
-                  name: CardView.routeName,
-                  path: Routes.card,
-                  builder: _cardDetailsViewBuilder,
-                ),
-              ],
             ),
             GoRoute(
-              name: CardView.altRouteName,
-              path: Routes.cardAlt,
+              name: CardView.routeName,
+              path: Routes.card,
               builder: _cardDetailsViewBuilder,
             ),
           ],
@@ -91,10 +84,9 @@ class Routes extends Equatable {
   static const root = '/home';
   static const expansion = 'set/:${RouteParams.setCode}';
   static const card = 'details/:${RouteParams.cardId}';
-  static const cardAlt = 'alt-details/:${RouteParams.cardId}';
 
   @override
-  List<Object?> get props => [root, loading, expansion, card, cardAlt];
+  List<Object?> get props => [root, loading, expansion, card];
 }
 
 abstract class RouteParams {

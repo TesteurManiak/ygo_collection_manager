@@ -11,14 +11,8 @@ import 'widgets/set_rarity_widget.dart';
 
 class CardView extends StatelessWidget {
   static const routeName = 'details';
-  static const altRouteName = 'alt-details';
 
-  static Map<String, String> routeParams({
-    required YgoCard card,
-    required String? setId,
-  }) =>
-      {
-        if (setId != null) RouteParams.setCode: setId,
+  static Map<String, String> routeParams(YgoCard card) => {
         RouteParams.cardId: '${card.id}',
       };
 

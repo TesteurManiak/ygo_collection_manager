@@ -26,13 +26,17 @@ class CardViewButton extends StatelessWidget {
       ),
       onPressed: () {
         final _setId = setId;
-        context.goNamed(
-          _setId != null ? CardView.routeName : CardView.altRouteName,
-          params: CardView.routeParams(
-            card: card,
-            setId: setId,
-          ),
-        );
+        if (_setId != null) {
+          context.pushNamed(
+            CardView.routeName,
+            params: CardView.routeParams(card),
+          );
+        } else {
+          context.goNamed(
+            CardView.routeName,
+            params: CardView.routeParams(card),
+          );
+        }
       },
       child: const Text(
         'VIEW',
