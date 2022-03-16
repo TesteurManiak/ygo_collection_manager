@@ -10,7 +10,7 @@ void main() {
     goldenTest(
       'renders correctly',
       fileName: 'card_description',
-      widget: GoldenTestGroup(
+      builder: () => GoldenTestGroup(
         children: [
           GoldenTestScenario(
             name: 'tornado dragon desc',
