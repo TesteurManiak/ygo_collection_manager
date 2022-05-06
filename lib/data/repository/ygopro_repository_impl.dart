@@ -1,4 +1,3 @@
-import '../../core/platform/network_info.dart';
 import '../../domain/entities/card_owned.dart';
 import '../../domain/entities/ygo_card.dart';
 import '../../domain/entities/ygo_set.dart';
@@ -6,6 +5,7 @@ import '../../domain/repository/ygopro_repository.dart';
 import '../datasources/local/ygopro_local_datasource.dart';
 import '../datasources/remote/ygopro_remote_data_source.dart';
 import '../models/request/get_card_info_request.dart';
+import '../platform/network_info.dart';
 
 class YgoProRepositoryImpl implements YgoProRepository {
   final YgoProRemoteDataSource remoteDataSource;

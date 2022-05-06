@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../core/animated_scaffold/animated_app_bar.dart';
-import '../../core/animated_scaffold/animated_scaffold.dart';
 import '../../core/consts/consts.dart';
 import '../../core/consts/durations.dart';
 import '../../core/consts/my_edge_insets.dart';
@@ -12,6 +10,8 @@ import '../../router.dart';
 import '../blocs/cards/cards_bloc.dart';
 import '../blocs/expansion_collection/expansion_collection_bloc.dart';
 import '../blocs/sets/sets_bloc.dart';
+import '../common/animated_scaffold/animated_app_bar.dart';
+import '../common/animated_scaffold/animated_scaffold.dart';
 import '../components/card_widget.dart';
 import '../constants/colors.dart';
 import 'widgets/card_editing_widget.dart';

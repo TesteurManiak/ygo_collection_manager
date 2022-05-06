@@ -1,13 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:ygo_collection_manager/core/platform/network_info.dart';
 import 'package:ygo_collection_manager/data/datasources/local/ygopro_local_datasource.dart';
 import 'package:ygo_collection_manager/data/datasources/remote/ygopro_remote_data_source.dart';
 import 'package:ygo_collection_manager/data/models/request/get_card_info_request.dart';
 import 'package:ygo_collection_manager/data/models/response/db_version_model.dart';
 import 'package:ygo_collection_manager/data/models/response/ygo_card_model.dart';
 import 'package:ygo_collection_manager/data/models/response/ygo_set_model.dart';
+import 'package:ygo_collection_manager/data/platform/network_info.dart';
 import 'package:ygo_collection_manager/data/repository/ygopro_repository_impl.dart';
 import 'package:ygo_collection_manager/domain/entities/card_edition_enum.dart';
 import 'package:ygo_collection_manager/domain/entities/card_owned.dart';
