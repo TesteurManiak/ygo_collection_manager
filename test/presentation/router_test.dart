@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:ygo_collection_manager/domain/usecases/fetch_all_cards.dart';
 import 'package:ygo_collection_manager/domain/usecases/fetch_all_sets.dart';
 import 'package:ygo_collection_manager/domain/usecases/fetch_owned_cards.dart';
@@ -12,11 +11,9 @@ import 'package:ygo_collection_manager/presentation/root_view/root_view.dart';
 import 'package:ygo_collection_manager/router.dart';
 import 'package:ygo_collection_manager/service_locator.dart';
 
+import '../utils/mocks.dart';
 import '../utils/pump_real_router.dart';
 
-import 'router_test.mocks.dart';
-
-@GenerateMocks([FetchAllSets, FetchAllCards, FetchOwnedCards, ShouldReloadDb])
 void main() {
   final mockFetchAllSets = MockFetchAllSets();
   final mockFetchAllCards = MockFetchAllCards();
@@ -41,7 +38,7 @@ void main() {
 
     // act
     await tester.pumpRealRouterApp(
-      Routes.root,
+      AppRoutePath.home,
       (child) => child,
       loadingState,
     );
@@ -55,18 +52,18 @@ void main() {
 
   testWidgets("render LoadingView via Router", (tester) async {
     // arrange
-    when(mockShouldReloadDb.call()).thenAnswer((_) async => false);
+    when(mockShouldReloadDb).thenAnswer((_) async => false);
     final loadingState = LoadingStateInfo();
 
     // act
     await tester.pumpRealRouterApp(
-      Routes.loading,
+      AppRoutePath.loading,
       (child) => child,
       loadingState,
     );
 
     // assert
-    verify(mockShouldReloadDb.call());
+    verify(mockShouldReloadDb);
     expect(find.byType(LoadingView), findsOneWidget);
 
     loadingState.dispose();

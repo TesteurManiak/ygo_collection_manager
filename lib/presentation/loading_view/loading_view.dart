@@ -6,8 +6,6 @@ import '../components/magic_circle_progress_indicator.dart';
 import 'loading_state_info.dart';
 
 class LoadingView extends StatefulWidget {
-  static const routeName = 'loading';
-
   final LoadingStateInfo state;
 
   const LoadingView({Key? key, required this.state}) : super(key: key);

@@ -49,7 +49,7 @@ extension PumpApp on WidgetTester {
           path: initialLocation,
           builder: (_, __) => child,
         ),
-        ...Routes()
+        ...AppRoutePath()
             .props
             .map(
               (e) => GoRoute(

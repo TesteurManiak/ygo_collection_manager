@@ -10,16 +10,8 @@ import '../components/rounded_scaffold_box.dart';
 import 'widgets/set_rarity_widget.dart';
 
 class CardView extends StatelessWidget {
-  static const routeName = 'details';
-  static const altRouteName = 'alt-details';
-
-  static Map<String, String> routeParams({
-    required YgoCard card,
-    required String? setId,
-  }) =>
-      {
-        if (setId != null) RouteParams.setCode: setId,
-        RouteParams.cardId: '${card.id}',
+  static Map<String, String> routeParams(YgoCard card) => {
+        AppRouteParams.cardId: '${card.id}',
       };
 
   final String cardId;

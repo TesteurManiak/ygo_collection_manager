@@ -3,11 +3,11 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart' show Hive;
 
-import 'core/platform/network_info.dart';
 import 'data/api/api.dart';
 import 'data/datasources/local/hive/ygopro_local_datasource_hive.dart';
 import 'data/datasources/local/ygopro_local_datasource.dart';
 import 'data/datasources/remote/ygopro_remote_data_source.dart';
+import 'data/platform/network_info.dart';
 import 'data/repository/ygopro_repository_impl.dart';
 import 'domain/repository/ygopro_repository.dart';
 import 'domain/usecases/fetch_all_cards.dart';

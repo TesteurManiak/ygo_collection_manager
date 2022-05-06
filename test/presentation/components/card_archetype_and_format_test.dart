@@ -11,7 +11,7 @@ void main() {
     goldenTest(
       'renders correctly',
       fileName: 'card_archetype_and_formats',
-      widget: GoldenTestGroup(
+      builder: () => GoldenTestGroup(
         children: [
           GoldenTestScenario(
             name: 'with archetype',

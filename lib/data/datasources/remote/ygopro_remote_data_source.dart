@@ -151,12 +151,11 @@ class YgoProRemoteDataSourceImpl implements YgoProRemoteDataSource {
     Map<String, Object> queryParameters = const {},
   }) async {
     try {
-      final response = await httpClient.get(
-        baseUrl.replace(
-          pathSegments: <String>[...baseUrl.pathSegments, ...pathSegments],
-          queryParameters: queryParameters,
-        ).toString(),
-      );
+      final url = baseUrl.replace(
+        pathSegments: <String>[...baseUrl.pathSegments, ...pathSegments],
+        queryParameters: queryParameters,
+      ).toString();
+      final response = await httpClient.get(url);
       return response as T;
     } on SocketException catch (e) {
       debugPrint(e.toString());

@@ -35,18 +35,18 @@ class YgoProLocalDataSourceHive implements YgoProLocalDataSource {
     await hiveInstance.initFlutter();
 
     // Register Adapters.
-    hiveInstance.registerAdapter(DbVersionAdapter());
+    hiveInstance.registerAdapter<DbVersion>(DbVersionAdapter());
 
-    hiveInstance.registerAdapter(YgoCardAdapter());
-    hiveInstance.registerAdapter(CardImagesAdapter());
-    hiveInstance.registerAdapter(CardSetAdapter());
-    hiveInstance.registerAdapter(CardPriceAdapter());
-    hiveInstance.registerAdapter(CardBanlistInfoAdapter());
-    hiveInstance.registerAdapter(CardMiscInfoAdapter());
+    hiveInstance.registerAdapter<YgoCard>(YgoCardAdapter());
+    hiveInstance.registerAdapter<CardImages>(CardImagesAdapter());
+    hiveInstance.registerAdapter<CardSet>(CardSetAdapter());
+    hiveInstance.registerAdapter<CardPrice>(CardPriceAdapter());
+    hiveInstance.registerAdapter<CardBanlistInfo>(CardBanlistInfoAdapter());
+    hiveInstance.registerAdapter<CardMiscInfo>(CardMiscInfoAdapter());
 
-    hiveInstance.registerAdapter(YgoSetAdapter());
-    hiveInstance.registerAdapter(CardOwnedAdapter());
-    hiveInstance.registerAdapter(CardEditionEnumAdapter());
+    hiveInstance.registerAdapter<YgoSet>(YgoSetAdapter());
+    hiveInstance.registerAdapter<CardOwned>(CardOwnedAdapter());
+    hiveInstance.registerAdapter<CardEditionEnum>(CardEditionEnumAdapter());
 
     _cardsBox = await hiveInstance.openBox<YgoCard>(tableCards);
     _setsBox = await hiveInstance.openBox<YgoSet>(tableSets);
