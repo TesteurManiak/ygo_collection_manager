@@ -21,7 +21,7 @@ class YgoProRepositoryImpl implements YgoProRepository {
   @override
   Future<List<YgoSet>> getAllSets({required bool shouldReload}) async {
     final isConnected = await networkInfo.isConnected;
-    late final List<YgoSet> sets;
+    final List<YgoSet> sets;
     if (isConnected && shouldReload) {
       // Fetch sets from remote and update the database.
       sets = await remoteDataSource.getAllSets();

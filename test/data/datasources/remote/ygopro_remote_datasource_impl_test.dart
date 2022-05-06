@@ -21,8 +21,13 @@ import '../../../utils/fixture_reader.dart';
 import '../../../utils/mocks.dart';
 
 void main() {
-  final mockHttpClient = MockRemoteClient();
-  final dataSource = YgoProRemoteDataSourceImpl(httpClient: mockHttpClient);
+  late MockRemoteClient mockHttpClient;
+  late YgoProRemoteDataSourceImpl dataSource;
+
+  setUp(() {
+    mockHttpClient = MockRemoteClient();
+    dataSource = YgoProRemoteDataSourceImpl(httpClient: mockHttpClient);
+  });
 
   group('getAllCardArchetypes', () {
     final tFixture = jsonDecode(fixture('archetypes.json')) as Iterable;

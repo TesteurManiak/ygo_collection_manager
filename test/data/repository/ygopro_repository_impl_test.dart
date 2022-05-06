@@ -1,21 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-import 'package:ygo_collection_manager/data/datasources/local/ygopro_local_datasource.dart';
-import 'package:ygo_collection_manager/data/datasources/remote/ygopro_remote_data_source.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:ygo_collection_manager/data/models/request/get_card_info_request.dart';
 import 'package:ygo_collection_manager/data/models/response/db_version_model.dart';
 import 'package:ygo_collection_manager/data/models/response/ygo_card_model.dart';
 import 'package:ygo_collection_manager/data/models/response/ygo_set_model.dart';
-import 'package:ygo_collection_manager/data/platform/network_info.dart';
 import 'package:ygo_collection_manager/data/repository/ygopro_repository_impl.dart';
 import 'package:ygo_collection_manager/domain/entities/card_edition_enum.dart';
 import 'package:ygo_collection_manager/domain/entities/card_owned.dart';
 import 'package:ygo_collection_manager/domain/entities/ygo_card.dart';
 
-import 'ygopro_repository_impl_test.mocks.dart';
+import '../../utils/mocks.dart';
 
-@GenerateMocks([YgoProRemoteDataSource, YgoProLocalDataSource, NetworkInfo])
 void main() {
   final mockRemoteDataSource = MockYgoProRemoteDataSource();
   final mockLocalDataSource = MockYgoProLocalDataSource();
@@ -63,39 +58,41 @@ void main() {
 
     test('should check if device is online', () async {
       // arrange
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
-      when(mockLocalDataSource.getSets()).thenAnswer((_) async => []);
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      when(mockLocalDataSource.getSets).thenAnswer((_) async => []);
 
       // act
       await repository.getAllSets(shouldReload: false);
 
       // assert
-      verify(mockNetworkInfo.isConnected);
+      verify(() => mockNetworkInfo.isConnected);
     });
 
-    test('if offline fetch from local datasource', () async {
+    test('if offline, fetch from local datasource', () async {
       // arrange
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
-      when(mockLocalDataSource.getSets()).thenAnswer((_) async => tSets);
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      when(mockLocalDataSource.getSets).thenAnswer((_) async => tSets);
 
       // act
       final sets = await repository.getAllSets(shouldReload: false);
 
       // assert
-      verify(mockLocalDataSource.getSets());
+      verify(mockLocalDataSource.getSets);
       expect(sets, tSets);
     });
 
-    test('if online fetch from remote datasource', () async {
+    test('if online, fetch from remote datasource', () async {
       // arrange
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockRemoteDataSource.getAllSets()).thenAnswer((_) async => tSets);
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockRemoteDataSource.getAllSets).thenAnswer((_) async => tSets);
+      when(() => mockLocalDataSource.updateSets(tSets))
+          .thenAnswer((_) async {});
 
       // act
       final sets = await repository.getAllSets(shouldReload: true);
 
       // assert
-      verify(mockRemoteDataSource.getAllSets());
+      verify(mockRemoteDataSource.getAllSets);
       expect(sets, tSets);
     });
   });
@@ -128,40 +125,42 @@ void main() {
 
     test('should check if device is online', () async {
       // arrange
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
-      when(mockLocalDataSource.getCards()).thenAnswer((_) async => []);
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      when(mockLocalDataSource.getCards).thenAnswer((_) async => []);
 
       // act
       await repository.getAllCards(shouldReload: false);
 
       // assert
-      verify(mockNetworkInfo.isConnected);
+      verify(() => mockNetworkInfo.isConnected);
     });
 
-    test('if offline fetch from local datasource', () async {
+    test('if offline, fetch from local datasource', () async {
       // arrange
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
-      when(mockLocalDataSource.getCards()).thenAnswer((_) async => tCards);
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      when(mockLocalDataSource.getCards).thenAnswer((_) async => tCards);
 
       // act
       final cards = await repository.getAllCards(shouldReload: false);
 
       // assert
-      verify(mockLocalDataSource.getCards());
+      verify(mockLocalDataSource.getCards);
       expect(cards, tCards);
     });
 
-    test('if online fetch from remote datasource', () async {
+    test('if online, fetch from remote datasource', () async {
       // arrange
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockRemoteDataSource.getCardInfo(tInfoRequest))
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(() => mockRemoteDataSource.getCardInfo(tInfoRequest))
           .thenAnswer((_) async => tCards);
+      when(() => mockLocalDataSource.updateCards(tCards))
+          .thenAnswer((_) async {});
 
       // act
       final cards = await repository.getAllCards(shouldReload: true);
 
       // assert
-      verify(mockRemoteDataSource.getCardInfo(tInfoRequest));
+      verify(() => mockRemoteDataSource.getCardInfo(tInfoRequest));
       expect(cards, tCards);
     });
   });
@@ -190,39 +189,39 @@ void main() {
 
     test('should check if device is online', () async {
       // arrange
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockRemoteDataSource.getRandomCard()).thenAnswer((_) async => tCard);
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockRemoteDataSource.getRandomCard).thenAnswer((_) async => tCard);
 
       // act
       await repository.getRandomCard();
 
       // assert
-      verify(mockNetworkInfo.isConnected);
+      verify(() => mockNetworkInfo.isConnected);
     });
 
     test('if online fetch from remote datasource', () async {
       // arrange
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockRemoteDataSource.getRandomCard()).thenAnswer((_) async => tCard);
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockRemoteDataSource.getRandomCard).thenAnswer((_) async => tCard);
 
       // act
       final randomCard = await repository.getRandomCard();
 
       // assert
-      verify(mockRemoteDataSource.getRandomCard());
+      verify(mockRemoteDataSource.getRandomCard);
       expect(randomCard, tCard);
     });
 
     test('if offline fetch a random card from local datasource', () async {
       // arrange
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
-      when(mockLocalDataSource.getCards()).thenAnswer((_) async => tCards);
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      when(mockLocalDataSource.getCards).thenAnswer((_) async => tCards);
 
       // act
       final randomCard = await repository.getRandomCard();
 
       // assert
-      verify(mockLocalDataSource.getCards());
+      verify(mockLocalDataSource.getCards);
       expect(tCards.contains(randomCard), true);
     });
   });
@@ -240,7 +239,7 @@ void main() {
 
     test('fetch owned cards from local datasource', () async {
       // arrange
-      when(mockLocalDataSource.getCardsOwned()).thenAnswer(
+      when(mockLocalDataSource.getCardsOwned).thenAnswer(
         (_) async => tOwnedCards,
       );
 
@@ -248,7 +247,7 @@ void main() {
       final cards = await repository.getOwnedCards();
 
       // assert
-      verify(mockLocalDataSource.getCardsOwned());
+      verify(mockLocalDataSource.getCardsOwned);
       expect(cards, tOwnedCards);
     });
   });
@@ -265,22 +264,22 @@ void main() {
 
     test('should check if device is online', () async {
       // arrange
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => false);
 
       // act
       await repository.shouldReloadDb();
 
       // assert
-      verify(mockNetworkInfo.isConnected);
+      verify(() => mockNetworkInfo.isConnected);
     });
 
     test('if same version do not update and return false', () async {
       // arrange
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockRemoteDataSource.checkDatabaseVersion()).thenAnswer(
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockRemoteDataSource.checkDatabaseVersion).thenAnswer(
         (_) async => tDbVersion,
       );
-      when(mockLocalDataSource.getDatabaseVersion()).thenAnswer(
+      when(mockLocalDataSource.getDatabaseVersion).thenAnswer(
         (_) async => tDbVersion,
       );
 
@@ -288,21 +287,21 @@ void main() {
       final shouldReload = await repository.shouldReloadDb();
 
       // assert
-      verify(mockRemoteDataSource.checkDatabaseVersion());
-      verify(mockLocalDataSource.getDatabaseVersion());
+      verify(mockRemoteDataSource.checkDatabaseVersion);
+      verify(mockLocalDataSource.getDatabaseVersion);
       expect(shouldReload, false);
     });
 
     test('if different version update and return true', () async {
       // arrange
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockRemoteDataSource.checkDatabaseVersion()).thenAnswer(
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockRemoteDataSource.checkDatabaseVersion).thenAnswer(
         (_) async => tDbVersion2,
       );
-      when(mockLocalDataSource.getDatabaseVersion()).thenAnswer(
+      when(mockLocalDataSource.getDatabaseVersion).thenAnswer(
         (_) async => tDbVersion,
       );
-      when(mockLocalDataSource.updateDbVersion(tDbVersion2)).thenAnswer(
+      when(() => mockLocalDataSource.updateDbVersion(tDbVersion2)).thenAnswer(
         (_) async => true,
       );
 
@@ -310,9 +309,9 @@ void main() {
       final shouldReload = await repository.shouldReloadDb();
 
       // assert
-      verify(mockRemoteDataSource.checkDatabaseVersion());
-      verify(mockLocalDataSource.getDatabaseVersion());
-      verify(mockLocalDataSource.updateDbVersion(tDbVersion2));
+      verify(mockRemoteDataSource.checkDatabaseVersion);
+      verify(mockLocalDataSource.getDatabaseVersion);
+      verify(() => mockLocalDataSource.updateDbVersion(tDbVersion2));
       expect(shouldReload, true);
     });
   });
@@ -323,7 +322,7 @@ void main() {
 
     test('should call getCopiesOfCardOwned from local datasource', () async {
       // arrange
-      when(mockLocalDataSource.getCopiesOfCardOwned(tKey)).thenAnswer(
+      when(() => mockLocalDataSource.getCopiesOfCardOwned(tKey)).thenAnswer(
         (_) async => tQuantity,
       );
 
@@ -331,7 +330,7 @@ void main() {
       final copies = await repository.getCopiesOfCardOwned(tKey);
 
       // assert
-      verify(mockLocalDataSource.getCopiesOfCardOwned(tKey));
+      verify(() => mockLocalDataSource.getCopiesOfCardOwned(tKey));
       expect(copies, tQuantity);
     });
   });
@@ -347,13 +346,14 @@ void main() {
 
     test('should call updateCard from local datasource', () async {
       // arrange
-      when(mockLocalDataSource.updateCardOwned(any)).thenAnswer((_) async {});
+      when(() => mockLocalDataSource.updateCardOwned(tOwnedCard))
+          .thenAnswer((_) async {});
 
       // act
       await repository.updateCardOwned(tOwnedCard);
 
       // assert
-      verify(mockLocalDataSource.updateCardOwned(any));
+      verify(() => mockLocalDataSource.updateCardOwned(tOwnedCard));
     });
   });
 }

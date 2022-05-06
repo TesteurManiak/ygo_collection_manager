@@ -2,6 +2,9 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:ygo_collection_manager/data/api/api.dart';
+import 'package:ygo_collection_manager/data/datasources/local/ygopro_local_datasource.dart';
+import 'package:ygo_collection_manager/data/datasources/remote/ygopro_remote_data_source.dart';
+import 'package:ygo_collection_manager/data/platform/network_info.dart';
 import 'package:ygo_collection_manager/domain/entities/card_owned.dart';
 import 'package:ygo_collection_manager/domain/entities/db_version.dart';
 import 'package:ygo_collection_manager/domain/entities/ygo_card.dart';
@@ -20,3 +23,10 @@ class MockCardOwnedBox extends Mock implements Box<CardOwned> {}
 class MockHiveInterface extends Mock implements HiveInterface {}
 
 class MockRemoteClient extends Mock implements RemoteClient {}
+
+class MockYgoProRemoteDataSource extends Mock
+    implements YgoProRemoteDataSource {}
+
+class MockYgoProLocalDataSource extends Mock implements YgoProLocalDataSource {}
+
+class MockNetworkInfo extends Mock implements NetworkInfo {}
