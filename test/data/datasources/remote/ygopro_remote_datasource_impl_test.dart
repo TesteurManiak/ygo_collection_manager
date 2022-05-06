@@ -535,8 +535,10 @@ void main() {
   });
 }
 
-String _createUrl(Iterable<String> pathSegments,
-    {Map<String, String> queryParameters = const {}}) {
+String _createUrl(
+  Iterable<String> pathSegments, {
+  Map<String, String> queryParameters = const {},
+}) {
   return YgoProRemoteDataSourceImpl.baseUrl.replace(
     pathSegments: [
       ...YgoProRemoteDataSourceImpl.baseUrl.pathSegments,
