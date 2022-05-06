@@ -1,51 +1,46 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:ygo_collection_manager/data/datasources/local/hive/ygopro_local_datasource_hive.dart';
 import 'package:ygo_collection_manager/data/models/response/db_version_model.dart';
+import 'package:ygo_collection_manager/domain/entities/card_banlist_info.dart';
 import 'package:ygo_collection_manager/domain/entities/card_edition_enum.dart';
+import 'package:ygo_collection_manager/domain/entities/card_images.dart';
+import 'package:ygo_collection_manager/domain/entities/card_misc_info.dart';
 import 'package:ygo_collection_manager/domain/entities/card_owned.dart';
+import 'package:ygo_collection_manager/domain/entities/card_price.dart';
+import 'package:ygo_collection_manager/domain/entities/card_set.dart';
 import 'package:ygo_collection_manager/domain/entities/db_version.dart';
 import 'package:ygo_collection_manager/domain/entities/ygo_card.dart';
 import 'package:ygo_collection_manager/domain/entities/ygo_set.dart';
 
-import 'ygopro_local_datasource_hive_test.mocks.dart';
+import '../../../utils/mocks.dart';
 
-class MockYgoCardBox extends MockBox<YgoCard> {}
-
-class MockYgoSetBox extends MockBox<YgoSet> {}
-
-class MockDbVersionBox extends MockBox<DbVersion> {}
-
-class MockCardOwnedBox extends MockBox<CardOwned> {}
-
-@GenerateMocks([HiveInterface, Box])
 void main() {
   final mockHiveInterface = MockHiveInterface();
   final mockYgoCardBox = MockYgoCardBox();
   final mockYgoSetBox = MockYgoSetBox();
   final mockDbVersionBox = MockDbVersionBox();
   final mockCardOwnedBox = MockCardOwnedBox();
-
   final dataSource = YgoProLocalDataSourceHive(hive: mockHiveInterface);
 
   group('initDb', () {
     test('should register adapters and open the boxes', () async {
       // arrange
-      when(mockHiveInterface.registerAdapter(any)).thenAnswer((_) {});
+      whenRegisterBoxes(mockHiveInterface);
       when(
-        mockHiveInterface
+        () => mockHiveInterface
             .openBox<YgoCard>(YgoProLocalDataSourceHive.tableCards),
       ).thenAnswer((_) async => mockYgoCardBox);
       when(
-        mockHiveInterface.openBox<YgoSet>(YgoProLocalDataSourceHive.tableSets),
+        () => mockHiveInterface
+            .openBox<YgoSet>(YgoProLocalDataSourceHive.tableSets),
       ).thenAnswer((_) async => mockYgoSetBox);
       when(
-        mockHiveInterface.openBox<DbVersion>(YgoProLocalDataSourceHive.tableDB),
+        () => mockHiveInterface
+            .openBox<DbVersion>(YgoProLocalDataSourceHive.tableDB),
       ).thenAnswer((_) async => mockDbVersionBox);
       when(
-        mockHiveInterface
+        () => mockHiveInterface
             .openBox<CardOwned>(YgoProLocalDataSourceHive.tableCardsOwned),
       ).thenAnswer((_) async => mockCardOwnedBox);
 
@@ -53,19 +48,21 @@ void main() {
       await dataSource.initDb();
 
       // assert
-      verify(mockHiveInterface.registerAdapter(any));
+      verifyBoxes(mockHiveInterface);
       verify(
-        mockHiveInterface
+        () => mockHiveInterface
             .openBox<YgoCard>(YgoProLocalDataSourceHive.tableCards),
       );
       verify(
-        mockHiveInterface.openBox<YgoSet>(YgoProLocalDataSourceHive.tableSets),
+        () => mockHiveInterface
+            .openBox<YgoSet>(YgoProLocalDataSourceHive.tableSets),
       );
       verify(
-        mockHiveInterface.openBox<DbVersion>(YgoProLocalDataSourceHive.tableDB),
+        () => mockHiveInterface
+            .openBox<DbVersion>(YgoProLocalDataSourceHive.tableDB),
       );
       verify(
-        mockHiveInterface
+        () => mockHiveInterface
             .openBox<CardOwned>(YgoProLocalDataSourceHive.tableCardsOwned),
       );
     });
@@ -74,13 +71,13 @@ void main() {
   group('closeDb', () {
     test('should call close from the hive instance', () async {
       // arrange
-      when(mockHiveInterface.close()).thenAnswer((_) async => true);
+      when(mockHiveInterface.close).thenAnswer((_) async => true);
 
       // act
       await dataSource.closeDb();
 
       // assert
-      verify(mockHiveInterface.close());
+      verify(mockHiveInterface.close);
     });
   });
 
@@ -89,13 +86,13 @@ void main() {
 
     test('should return the local values', () async {
       // arrange
-      when(mockYgoCardBox.values).thenAnswer((_) => tCards);
+      when(() => mockYgoCardBox.values).thenReturn(tCards);
 
       // act
       final cards = await dataSource.getCards();
 
       // assert
-      verify(mockYgoCardBox.values);
+      verify(() => mockYgoCardBox.values);
       expect(cards, tCards);
     });
   });
@@ -108,27 +105,27 @@ void main() {
 
     test('should check if box is empty and return null if true', () async {
       // arrange
-      when(mockDbVersionBox.isEmpty).thenAnswer((_) => true);
+      when(() => mockDbVersionBox.isEmpty).thenReturn(true);
 
       // act
       final version = await dataSource.getDatabaseVersion();
 
       // assert
-      verify(mockDbVersionBox.isEmpty);
+      verify(() => mockDbVersionBox.isEmpty);
       expect(version, null);
     });
 
     test('should return local data if box is not empty', () async {
       // arrange
-      when(mockDbVersionBox.isEmpty).thenAnswer((_) => false);
-      when(mockDbVersionBox.values).thenAnswer((_) => [tDbVersion]);
+      when(() => mockDbVersionBox.isEmpty).thenReturn(false);
+      when(() => mockDbVersionBox.values).thenReturn([tDbVersion]);
 
       // act
       final version = await dataSource.getDatabaseVersion();
 
       // assert
-      verify(mockDbVersionBox.isEmpty);
-      verify(mockDbVersionBox.values);
+      verify(() => mockDbVersionBox.isEmpty);
+      verify(() => mockDbVersionBox.values);
       expect(version, tDbVersion);
     });
   });
@@ -138,29 +135,31 @@ void main() {
 
     test('should return the local values', () async {
       // arrange
-      when(mockYgoSetBox.values).thenAnswer((_) => tSets);
+      when(() => mockYgoSetBox.values).thenReturn(tSets);
 
       // act
       final sets = await dataSource.getSets();
 
       // assert
-      verify(mockYgoSetBox.values);
+      verify(() => mockYgoSetBox.values);
       expect(sets, tSets);
     });
   });
 
   group('updateCards', () {
+    final tCardsMap = <dynamic, YgoCard>{};
     final tCards = <YgoCard>[];
 
     test('should call putAll from the cardsBox', () async {
       // arrange
-      when(mockYgoCardBox.putAll(any)).thenAnswer((_) async => true);
+      when(() => mockYgoCardBox.putAll(tCardsMap))
+          .thenAnswer((_) async => true);
 
       // act
       await dataSource.updateCards(tCards);
 
       // assert
-      verify(mockYgoCardBox.putAll(any));
+      verify(() => mockYgoCardBox.putAll(tCardsMap));
     });
   });
 
@@ -174,15 +173,16 @@ void main() {
       'should call put on key 0 if no previous version is recorded',
       () async {
         // arrange
-        when(mockDbVersionBox.isEmpty).thenAnswer((_) => true);
-        when(mockDbVersionBox.put(0, any)).thenAnswer((_) async => true);
+        when(() => mockDbVersionBox.isEmpty).thenReturn(true);
+        when(() => mockDbVersionBox.put(0, tDbVersion))
+            .thenAnswer((_) async => true);
 
         // act
         await dataSource.updateDbVersion(tDbVersion);
 
         // assert
-        verify(mockDbVersionBox.isEmpty);
-        verify(mockDbVersionBox.put(0, any));
+        verify(() => mockDbVersionBox.isEmpty);
+        verify(() => mockDbVersionBox.put(0, tDbVersion));
       },
     );
 
@@ -190,31 +190,33 @@ void main() {
       'should call putAt on key 0 if previous version is recorded',
       () async {
         // arrange
-        when(mockDbVersionBox.isEmpty).thenAnswer((_) => false);
-        when(mockDbVersionBox.putAt(0, any)).thenAnswer((_) async => true);
+        when(() => mockDbVersionBox.isEmpty).thenReturn(false);
+        when(() => mockDbVersionBox.putAt(0, tDbVersion))
+            .thenAnswer((_) async => true);
 
         // act
         await dataSource.updateDbVersion(tDbVersion);
 
         // assert
-        verify(mockDbVersionBox.isEmpty);
-        verify(mockDbVersionBox.putAt(0, any));
+        verify(() => mockDbVersionBox.isEmpty);
+        verify(() => mockDbVersionBox.putAt(0, tDbVersion));
       },
     );
   });
 
   group('updateSets', () {
     final tSets = <YgoSet>[];
+    final tSetsMap = <dynamic, YgoSet>{};
 
     test('should call putAll from the setsBox', () async {
       // arrange
-      when(mockYgoSetBox.putAll(any)).thenAnswer((_) async => true);
+      when(() => mockYgoSetBox.putAll(tSetsMap)).thenAnswer((_) async => true);
 
       // act
       await dataSource.updateSets(tSets);
 
       // assert
-      verify(mockYgoSetBox.putAll(any));
+      verify(() => mockYgoSetBox.putAll(tSetsMap));
     });
   });
 
@@ -223,13 +225,13 @@ void main() {
 
     test('should return the local values', () async {
       // arrange
-      when(mockCardOwnedBox.values).thenAnswer((_) => tCardsOwned);
+      when(() => mockCardOwnedBox.values).thenReturn(tCardsOwned);
 
       // act
       final cardsOwned = await dataSource.getCardsOwned();
 
       // assert
-      verify(mockCardOwnedBox.values);
+      verify(() => mockCardOwnedBox.values);
       expect(cardsOwned, tCardsOwned);
     });
   });
@@ -245,13 +247,13 @@ void main() {
 
     test('should return the number of copies owned', () async {
       // arrange
-      when(mockCardOwnedBox.get(tCardOwned.key)).thenAnswer((_) => tCardOwned);
+      when(() => mockCardOwnedBox.get(tCardOwned.key)).thenReturn(tCardOwned);
 
       // act
       final copiesOwned = await dataSource.getCopiesOfCardOwned(tCardOwned.key);
 
       // assert
-      verify(mockCardOwnedBox.get(tCardOwned.key));
+      verify(() => mockCardOwnedBox.get(tCardOwned.key));
       expect(copiesOwned, tCardOwned.quantity);
     });
   });
@@ -267,14 +269,14 @@ void main() {
 
     test('should return the number of copies owned', () async {
       // arrange
-      when(mockCardOwnedBox.values).thenAnswer((_) => [tCardOwned]);
+      when(() => mockCardOwnedBox.values).thenReturn([tCardOwned]);
 
       // act
       final copiesOwned =
           await dataSource.getCopiesOfCardOwnedById(tCardOwned.id);
 
       // assert
-      verify(mockCardOwnedBox.values);
+      verify(() => mockCardOwnedBox.values);
       expect(copiesOwned, tCardOwned.quantity);
     });
   });
@@ -294,31 +296,31 @@ void main() {
       'should call put on the cardOwnedBox if card does not exists',
       () async {
         // arrange
-        when(mockCardOwnedBox.keys).thenAnswer((_) => []);
-        when(mockCardOwnedBox.put(tCardOwned.key, any))
+        when(() => mockCardOwnedBox.keys).thenReturn([]);
+        when(() => mockCardOwnedBox.put(tCardOwned.key, tCardOwned))
             .thenAnswer((_) async => true);
 
         // act
         await dataSource.updateCardOwned(tCardOwned);
 
         // assert
-        verify(mockCardOwnedBox.keys);
-        verify(mockCardOwnedBox.put(tCardOwned.key, any));
+        verify(() => mockCardOwnedBox.keys);
+        verify(() => mockCardOwnedBox.put(tCardOwned.key, tCardOwned));
       },
     );
 
     test('should call putAt on the cardOwnedBox if card exists', () async {
       // arrange
-      when(mockCardOwnedBox.keys).thenAnswer((_) => [tCardOwned.key]);
-      when(mockCardOwnedBox.putAt(tKeyIndex, any))
+      when(() => mockCardOwnedBox.keys).thenReturn([tCardOwned.key]);
+      when(() => mockCardOwnedBox.putAt(tKeyIndex, tCardOwned))
           .thenAnswer((_) async => true);
 
       // act
       await dataSource.updateCardOwned(tCardOwned);
 
       // assert
-      verify(mockCardOwnedBox.keys);
-      verify(mockCardOwnedBox.putAt(tKeyIndex, any));
+      verify(() => mockCardOwnedBox.keys);
+      verify(() => mockCardOwnedBox.putAt(tKeyIndex, tCardOwned));
     });
   });
 
@@ -333,14 +335,83 @@ void main() {
 
     test('should call delete from the cardOwnedBox', () async {
       // arrange
-      when(mockCardOwnedBox.delete(tCardOwned.key))
+      when(() => mockCardOwnedBox.delete(tCardOwned.key))
           .thenAnswer((_) async => true);
 
       // act
       await dataSource.removeCard(tCardOwned);
 
       // assert
-      verify(mockCardOwnedBox.delete(tCardOwned.key));
+      verify(() => mockCardOwnedBox.delete(tCardOwned.key));
     });
   });
+}
+
+void whenRegisterBoxes(MockHiveInterface mockHiveInterface) {
+  when(
+    () => mockHiveInterface.registerAdapter<DbVersion>(DbVersionAdapter()),
+  ).thenAnswer((_) {});
+
+  when(() => mockHiveInterface.registerAdapter<YgoCard>(YgoCardAdapter()))
+      .thenAnswer((_) {});
+  when(
+    () => mockHiveInterface.registerAdapter<CardImages>(CardImagesAdapter()),
+  ).thenAnswer((_) {});
+  when(() => mockHiveInterface.registerAdapter<CardSet>(CardSetAdapter()))
+      .thenAnswer((_) {});
+  when(() => mockHiveInterface.registerAdapter<CardPrice>(CardPriceAdapter()))
+      .thenAnswer((_) {});
+  when(
+    () => mockHiveInterface.registerAdapter<CardBanlistInfo>(
+      CardBanlistInfoAdapter(),
+    ),
+  ).thenAnswer((_) {});
+  when(
+    () => mockHiveInterface.registerAdapter<CardMiscInfo>(
+      CardMiscInfoAdapter(),
+    ),
+  ).thenAnswer((_) {});
+
+  when(() => mockHiveInterface.registerAdapter<YgoSet>(YgoSetAdapter()))
+      .thenAnswer((_) {});
+  when(() => mockHiveInterface.registerAdapter<CardOwned>(CardOwnedAdapter()))
+      .thenAnswer((_) {});
+  when(
+    () => mockHiveInterface.registerAdapter<CardEditionEnum>(
+      CardEditionEnumAdapter(),
+    ),
+  ).thenAnswer((_) {});
+}
+
+void verifyBoxes(MockHiveInterface mockHiveInterface) {
+  verify(
+    () => mockHiveInterface.registerAdapter<DbVersion>(DbVersionAdapter()),
+  );
+  verify(() => mockHiveInterface.registerAdapter<YgoCard>(YgoCardAdapter()));
+  verify(
+    () => mockHiveInterface.registerAdapter<CardImages>(CardImagesAdapter()),
+  );
+  verify(() => mockHiveInterface.registerAdapter<CardSet>(CardSetAdapter()));
+  verify(
+    () => mockHiveInterface.registerAdapter<CardPrice>(CardPriceAdapter()),
+  );
+  verify(
+    () => mockHiveInterface.registerAdapter<CardBanlistInfo>(
+      CardBanlistInfoAdapter(),
+    ),
+  );
+  verify(
+    () => mockHiveInterface.registerAdapter<CardMiscInfo>(
+      CardMiscInfoAdapter(),
+    ),
+  );
+  verify(() => mockHiveInterface.registerAdapter<YgoSet>(YgoSetAdapter()));
+  verify(
+    () => mockHiveInterface.registerAdapter<CardOwned>(CardOwnedAdapter()),
+  );
+  verify(
+    () => mockHiveInterface.registerAdapter<CardEditionEnum>(
+      CardEditionEnumAdapter(),
+    ),
+  );
 }

@@ -1,18 +1,19 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:ygo_collection_manager/domain/entities/card_edition_enum.dart';
 import 'package:ygo_collection_manager/domain/entities/card_owned.dart';
-import 'package:ygo_collection_manager/domain/repository/ygopro_repository.dart';
 import 'package:ygo_collection_manager/domain/usecases/update_card_owned.dart';
 
-import 'update_card_owned_test.mocks.dart';
+import '../../utils/mocks.dart';
 
-@GenerateMocks([YgoProRepository])
 void main() {
-  final mockRepository = MockYgoProRepository();
+  late MockYgoProRepository mockRepository;
+  late UpdateCardOwned useCase;
 
-  final useCase = UpdateCardOwned(mockRepository);
+  setUp(() {
+    mockRepository = MockYgoProRepository();
+    useCase = UpdateCardOwned(mockRepository);
+  });
 
   group('UpdateCardOwned', () {
     const tCard = CardOwned(
@@ -25,13 +26,14 @@ void main() {
 
     test('Should call updateCardOwned from the repository', () async {
       // arrange
-      when(mockRepository.updateCardOwned(any)).thenAnswer((_) async {});
+      when(() => mockRepository.updateCardOwned(tCard))
+          .thenAnswer((_) async {});
 
       // act
       await useCase(tCard);
 
       // assert
-      verify(mockRepository.updateCardOwned(tCard));
+      verify(() => mockRepository.updateCardOwned(tCard));
     });
   });
 }
