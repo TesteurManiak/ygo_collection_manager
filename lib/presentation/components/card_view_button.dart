@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/consts/consts.dart';
 import '../../domain/entities/ygo_card.dart';
+import '../../router.dart';
 import '../card_view/card_view.dart';
 import '../constants/colors.dart';
 
@@ -28,12 +29,12 @@ class CardViewButton extends StatelessWidget {
         final _setId = setId;
         if (_setId != null) {
           context.pushNamed(
-            CardView.routeName,
+            AppRouteName.details.name,
             params: CardView.routeParams(card),
           );
         } else {
           context.goNamed(
-            CardView.routeName,
+            AppRouteName.details.name,
             params: CardView.routeParams(card),
           );
         }

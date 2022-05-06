@@ -41,7 +41,7 @@ void main() {
 
     // act
     await tester.pumpRealRouterApp(
-      Routes.root,
+      AppRoutePath.home,
       (child) => child,
       loadingState,
     );
@@ -60,7 +60,7 @@ void main() {
 
     // act
     await tester.pumpRealRouterApp(
-      Routes.loading,
+      AppRoutePath.loading,
       (child) => child,
       loadingState,
     );

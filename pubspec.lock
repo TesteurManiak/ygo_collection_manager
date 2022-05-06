@@ -14,7 +14,7 @@ packages:
       name: alchemist
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.1"
+    version: "0.3.3"
   analyzer:
     dependency: transitive
     description:
@@ -70,7 +70,7 @@ packages:
       name: build_daemon
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "3.1.0"
   build_resolvers:
     dependency: transitive
     description:
@@ -84,7 +84,7 @@ packages:
       name: build_runner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.7"
+    version: "2.1.10"
   build_runner_core:
     dependency: transitive
     description:
@@ -182,21 +182,21 @@ packages:
       name: connectivity_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.0"
+    version: "2.3.0"
   connectivity_plus_linux:
     dependency: transitive
     description:
       name: connectivity_plus_linux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "1.3.0"
   connectivity_plus_macos:
     dependency: transitive
     description:
       name: connectivity_plus_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.1"
+    version: "1.2.2"
   connectivity_plus_platform_interface:
     dependency: transitive
     description:
@@ -252,7 +252,7 @@ packages:
       name: dbus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.8"
+    version: "0.7.3"
   device_sizes:
     dependency: "direct dev"
     description:
@@ -268,7 +268,7 @@ packages:
       name: dio
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.4"
+    version: "4.0.6"
   dynamic_theme:
     dependency: "direct main"
     description:
@@ -383,7 +383,7 @@ packages:
       name: go_router
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "3.1.0"
   graphs:
     dependency: transitive
     description:
@@ -397,7 +397,7 @@ packages:
       name: hive
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.5"
+    version: "2.1.0"
   hive_flutter:
     dependency: "direct main"
     description:
@@ -509,7 +509,7 @@ packages:
       name: mockito
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.17"
+    version: "5.1.0"
   nested:
     dependency: transitive
     description:
@@ -523,7 +523,7 @@ packages:
       name: nm
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.3"
+    version: "0.5.0"
   octo_image:
     dependency: transitive
     description:
@@ -594,13 +594,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
-  path_to_regexp:
-    dependency: transitive
-    description:
-      name: path_to_regexp
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.4.0"
   pedantic:
     dependency: transitive
     description:
@@ -915,5 +908,5 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.15.0 <3.0.0"
-  flutter: ">=2.8.1"
+  dart: ">=2.16.2 <3.0.0"
+  flutter: ">=2.10.4"

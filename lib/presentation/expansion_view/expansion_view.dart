@@ -19,10 +19,8 @@ import 'widgets/cards_grid.dart';
 import 'widgets/collection_app_bar_bottom.dart';
 
 class ExpansionView extends StatefulWidget {
-  static const routeName = 'set';
-
   static Map<String, String> routeParams(YgoSet ygoSet) => {
-        RouteParams.setCode: ygoSet.setCode,
+        AppRouteParams.setCode: ygoSet.setCode,
       };
 
   final String setCode;

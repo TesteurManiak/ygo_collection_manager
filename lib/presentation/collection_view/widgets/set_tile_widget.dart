@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/consts/consts.dart';
 import '../../../core/consts/my_edge_insets.dart';
 import '../../../domain/entities/ygo_set.dart';
+import '../../../router.dart';
 import '../../blocs/cards/cards_bloc.dart';
 import '../../constants/colors.dart';
 import '../../expansion_view/expansion_view.dart';
@@ -29,7 +30,7 @@ class SetTileWidget extends StatelessWidget {
           onTap: () {
             FocusScope.of(context).unfocus();
             context.goNamed(
-              ExpansionView.routeName,
+              AppRouteName.set.name,
               params: ExpansionView.routeParams(cardSet),
             );
           },
