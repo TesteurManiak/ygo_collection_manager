@@ -7,15 +7,18 @@ import '../components/fixed_bottom_navigation_bar.dart';
 import '../settings_view/settings_view.dart';
 
 class RootView extends StatefulWidget {
-  const RootView({Key? key}) : super(key: key);
+  final int initialIndex;
+
+  const RootView({Key? key, this.initialIndex = 0}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _RootViewState();
 }
 
 class _RootViewState extends State<RootView> {
-  final _pageController = PageController();
   final _selectedIndex = ValueNotifier<int>(0);
+
+  late final _pageController = PageController(initialPage: widget.initialIndex);
 
   void _onItemTapped(int index) {
     _selectedIndex.value = index;

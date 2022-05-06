@@ -26,7 +26,8 @@ class SettingsView extends StatefulWidget {
   State<StatefulWidget> createState() => _SettingsViewState();
 }
 
-class _SettingsViewState extends State<SettingsView> {
+class _SettingsViewState extends State<SettingsView>
+    with AutomaticKeepAliveClientMixin {
   late _ThemeChoice _themeChoice = _themeItems
       .firstWhere((item) => item.mode == DynamicTheme.of(context).themeMode);
 
@@ -41,6 +42,7 @@ class _SettingsViewState extends State<SettingsView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
@@ -77,4 +79,7 @@ class _SettingsViewState extends State<SettingsView> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

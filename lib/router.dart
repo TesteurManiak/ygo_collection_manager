@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,6 +9,7 @@ import 'presentation/card_view/card_view.dart';
 import 'presentation/expansion_view/expansion_view.dart';
 import 'presentation/loading_view/loading_state_info.dart';
 import 'presentation/loading_view/loading_view.dart';
+import 'presentation/not_found_view/not_found_view.dart';
 import 'presentation/root_view/root_view.dart';
 import 'service_locator.dart';
 
@@ -49,7 +49,13 @@ GoRouter routerGenerator({
           GoRoute(
             path: AppRoutePath.details,
             name: AppRouteName.details.name,
-            builder: _cardDetailsViewBuilder,
+            builder: (_, state) {
+              final cardId = state.params[AppRouteParams.cardId];
+              if (cardId == null) {
+                throw const MissingRouteParamException('No card id');
+              }
+              return CardView(cardId: cardId);
+            },
           ),
         ],
       ),
@@ -62,23 +68,8 @@ GoRouter routerGenerator({
         ),
       ),
     ],
-    errorBuilder: (_, state) => Scaffold(
-      body: Center(
-        child: Text(state.error.toString(), textAlign: TextAlign.center),
-      ),
-    ),
+    errorBuilder: (_, __) => const NotFoundView(),
   );
-}
-
-Widget _cardDetailsViewBuilder(
-  BuildContext context,
-  GoRouterState state,
-) {
-  final cardId = state.params[AppRouteParams.cardId];
-  if (cardId == null) {
-    throw const MissingRouteParamException('No card id');
-  }
-  return CardView(cardId: cardId);
 }
 
 enum AppRouteName { loading, home, set, details }
