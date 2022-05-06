@@ -16,8 +16,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: subosito/flutter-action@v1.5.3
-      with:
-        flutter-version: '2.10.2'
     - run: flutter config --enable-web
     - run: flutter pub get
     - run: flutter build web --release --base-href "/ygo_collection_manager/"
